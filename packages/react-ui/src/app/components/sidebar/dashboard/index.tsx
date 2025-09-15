@@ -1,3 +1,4 @@
+import { isNil, Permission } from '@activepieces/shared';
 import { t } from 'i18next';
 import {
   GitBranch,
@@ -11,6 +12,13 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import { HelpAndFeedback } from '../../help-and-feedback';
+import { SidebarGeneralItemType } from '../ap-sidebar-group';
+import { ApSidebarItem, SidebarItemType } from '../ap-sidebar-item';
+import { AppSidebarHeader } from '../sidebar-header';
+import { SidebarUser } from '../sidebar-user';
+import SidebarUsageLimits from '../sidebare-usage-limits';
 
 import { McpSvg } from '@/assets/img/custom/mcp';
 import { useEmbedding } from '@/components/embed-provider';
@@ -36,14 +44,6 @@ import { platformHooks } from '@/hooks/platform-hooks';
 import { projectHooks } from '@/hooks/project-hooks';
 import { authenticationSession } from '@/lib/authentication-session';
 import { cn } from '@/lib/utils';
-import { isNil, Permission } from '@activepieces/shared';
-
-import { HelpAndFeedback } from '../../help-and-feedback';
-import { SidebarGeneralItemType } from '../ap-sidebar-group';
-import { ApSidebarItem, SidebarItemType } from '../ap-sidebar-item';
-import { AppSidebarHeader } from '../sidebar-header';
-import { SidebarUser } from '../sidebar-user';
-import SidebarUsageLimits from '../sidebare-usage-limits';
 
 export function ProjectDashboardSidebar() {
   const { platform } = platformHooks.useCurrentPlatform();
@@ -150,8 +150,12 @@ export function ProjectDashboardSidebar() {
     },
   ];
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const hideSidebarFromUrl = urlParams.get('hideSidebar') === 'true';
+  const shouldHideSidebar = embedState.hideSideNav || hideSidebarFromUrl;
+
   return (
-    !embedState.hideSideNav && (
+    !shouldHideSidebar && (
       <Sidebar variant="inset">
         <AppSidebarHeader />
 

@@ -3,8 +3,8 @@
   "theme": "mint",
   "name": "Activepieces",
   "colors": {
-    "primary": "#6e41e2",
-    "light": "#c5b3f3",
+    "primary": "#fdc500",
+    "light": "#fdc500",
     "dark": "#6838e0"
   },
   "favicon": "/favicon.svg",

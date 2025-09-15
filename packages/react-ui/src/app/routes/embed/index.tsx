@@ -1,4 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
+import {
+  ActivepiecesClientAuthenticationFailed,
+  ActivepiecesClientAuthenticationSuccess,
+  ActivepiecesClientConfigurationFinished,
+  ActivepiecesClientEventName,
+  ActivepiecesClientInit,
+  ActivepiecesVendorEventName,
+  ActivepiecesVendorInit,
+  ActivepiecesVendorRouteChanged,
+} from 'ee-embed-sdk';
 import React from 'react';
 import { flushSync } from 'react-dom';
 import { useTranslation } from 'react-i18next';
@@ -11,16 +21,6 @@ import { LoadingScreen } from '@/components/ui/loading-screen';
 import { authenticationSession } from '@/lib/authentication-session';
 import { managedAuthApi } from '@/lib/managed-auth-api';
 import { combinePaths, parentWindow } from '@/lib/utils';
-import {
-  ActivepiecesClientAuthenticationFailed,
-  ActivepiecesClientAuthenticationSuccess,
-  ActivepiecesClientConfigurationFinished,
-  ActivepiecesClientEventName,
-  ActivepiecesClientInit,
-  ActivepiecesVendorEventName,
-  ActivepiecesVendorInit,
-  ActivepiecesVendorRouteChanged,
-} from 'ee-embed-sdk';
 
 const notifyVendorPostAuthentication = () => {
   const authenticationSuccessEvent: ActivepiecesClientAuthenticationSuccess = {
@@ -100,6 +100,9 @@ const EmbedPage = React.memo(() => {
   });
   const { setTheme } = useTheme();
   const { i18n } = useTranslation();
+  // Helper to parse boolean-like query params
+  const parseBool = (value: string | null | undefined) =>
+    value === 'true' || value === '1' || value === 'yes';
   const initState = (event: MessageEvent<ActivepiecesVendorInit>) => {
     if (
       event.source === parentWindow &&
@@ -171,6 +174,161 @@ const EmbedPage = React.memo(() => {
   };
 
   useEffectOnce(() => {
+    // If query params are provided, allow embedding without the SDK
+    const search = new URLSearchParams(window.location.search);
+    const externalToken = search.get('externalToken');
+    const apToken = search.get('apToken');
+    const locale = search.get('locale') ?? 'en';
+    const initialRoute = search.get('route') ?? '/flows';
+    const mode = search.get('mode');
+    const hideSidebar = parseBool(search.get('hideSidebar'));
+    const hideFlowsPageNavbar = parseBool(search.get('hideFlowsPageNavbar'));
+    const hideFolders = parseBool(search.get('hideFolders'));
+    const hideExportAndImportFlow = parseBool(
+      search.get('hideExportAndImportFlow'),
+    );
+    const hideDuplicateFlow = parseBool(search.get('hideDuplicateFlow'));
+    const hideProjectSettings = parseBool(search.get('hideProjectSettings'));
+    const hideFlowNameInBuilder = parseBool(
+      search.get('hideFlowNameInBuilder'),
+    );
+    const disableNavigationInBuilderRaw = search.get(
+      'disableNavigationInBuilder',
+    );
+    const disableNavigationInBuilder =
+      disableNavigationInBuilderRaw === 'keep_home_button_only'
+        ? ('keep_home_button_only' as const)
+        : parseBool(disableNavigationInBuilderRaw ?? '') || undefined;
+    const emitHomeButtonClickedEvent = parseBool(
+      search.get('emitHomeButtonClickedEvent'),
+    );
+    const homeButtonIcon =
+      (search.get('homeButtonIcon') as 'back' | 'logo' | null) ?? 'logo';
+    const fontUrl = search.get('fontUrl') ?? undefined;
+    const fontFamily = search.get('fontFamily') ?? undefined;
+    const primaryColor = search.get('primaryColor') ?? undefined;
+    const primaryColorLight = search.get('primaryColorLight') ?? undefined;
+    const primaryColorDark = search.get('primaryColorDark') ?? undefined;
+
+    // If either externalToken or apToken provided, use URL-based init
+    if (externalToken || apToken) {
+      if (mode) {
+        setTheme(mode as 'light' | 'dark');
+      }
+      const applyEmbedFlags = () => {
+        //must use it to ensure that the correct router in RouterProvider is used before navigation
+        flushSync(() => {
+          setEmbedState({
+            hideSideNav: hideSidebar,
+            isEmbedded: true,
+            hideFlowNameInBuilder: hideFlowNameInBuilder ?? false,
+            disableNavigationInBuilder:
+              disableNavigationInBuilder === 'keep_home_button_only'
+                ? (false as unknown as boolean)
+                : (disableNavigationInBuilder as boolean) ?? true,
+            hideFolders: hideFolders ?? false,
+            sdkVersion: undefined,
+            fontUrl,
+            fontFamily,
+            useDarkBackground: initialRoute.startsWith('/embed/connections'),
+            hideExportAndImportFlow: hideExportAndImportFlow ?? false,
+            hideHomeButtonInBuilder:
+              disableNavigationInBuilder === 'keep_home_button_only'
+                ? false
+                : (disableNavigationInBuilder as boolean) ?? true,
+            emitHomeButtonClickedEvent: emitHomeButtonClickedEvent ?? false,
+            homeButtonIcon: homeButtonIcon ?? 'logo',
+            hideDuplicateFlow: hideDuplicateFlow ?? false,
+            hideFlowsPageNavbar: hideFlowsPageNavbar ?? false,
+            hideProjectSettings: hideProjectSettings ?? false,
+          });
+        });
+      };
+      const finish = () => {
+        // Preserve query params (e.g., hideSidebar) after navigating
+        memoryRouter.navigate(`${initialRoute}${window.location.search}`);
+        handleClientNavigation();
+      };
+
+      // Apply primary color overrides if provided
+      if (primaryColor) {
+        try {
+          const root = document.documentElement;
+          const hexToHslString = (hex: string) => {
+            let h = hex.replace(/^#/, '');
+            if (h.length === 3)
+              h = h
+                .split('')
+                .map((c) => c + c)
+                .join('');
+            const r = parseInt(h.substring(0, 2), 16) / 255;
+            const g = parseInt(h.substring(2, 4), 16) / 255;
+            const b = parseInt(h.substring(4, 6), 16) / 255;
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            const l = (max + min) / 2;
+            let hDeg = 0;
+            let s = 0;
+            if (max !== min) {
+              const d = max - min;
+              s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+              switch (max) {
+                case r:
+                  hDeg = (g - b) / d + (g < b ? 6 : 0);
+                  break;
+                case g:
+                  hDeg = (b - r) / d + 2;
+                  break;
+                default:
+                  hDeg = (r - g) / d + 4;
+              }
+              hDeg /= 6;
+            }
+            hDeg = hDeg * 360;
+            return `${hDeg.toFixed(1)} ${(s * 100).toFixed(1)}% ${(
+              l * 100
+            ).toFixed(1)}%`;
+          };
+          const normalize = (value: string) =>
+            value.startsWith('#')
+              ? hexToHslString(value)
+              : value.replace(/^hsl\(|\)$/g, '');
+          const setVar = (name: string, value?: string) => {
+            if (value)
+              root.style.setProperty(name, normalize(value), 'important');
+          };
+          setVar('--primary', primaryColor);
+          setVar('--primary-100', primaryColorLight ?? primaryColor);
+          setVar('--primary-300', primaryColorDark ?? primaryColor);
+        } catch (e) {
+          console.warn('Failed to apply primaryColor overrides', e);
+        }
+      }
+
+      if (externalToken) {
+        mutateAsync(
+          { externalAccessToken: externalToken, locale },
+          {
+            onSuccess: (data) => {
+              authenticationSession.saveResponse(data, true);
+              applyEmbedFlags();
+              finish();
+            },
+          },
+        );
+      } else if (apToken) {
+        // Direct AP token provided; store it and proceed
+        authenticationSession.saveResponse(
+          { token: apToken, projectId: '' } as unknown as any,
+          true,
+        );
+        applyEmbedFlags();
+        finish();
+      }
+      return;
+    }
+
+    // Fallback to SDK-based initialization via postMessage
     const event: ActivepiecesClientInit = {
       type: ActivepiecesClientEventName.CLIENT_INIT,
       data: {},
