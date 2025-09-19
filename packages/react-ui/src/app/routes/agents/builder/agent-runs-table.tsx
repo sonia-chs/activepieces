@@ -1,17 +1,17 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { Play } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { Play } from "lucide-react";
+import { useMemo, useState } from "react";
 
-import { DataTable, RowDataWithActions } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
-import { agentRunHooks } from '@/features/agents/lib/agent-hooks';
-import { agentRunUtils } from '@/features/agents/lib/agent-run-utils';
-import { formatUtils } from '@/lib/utils';
-import { AgentRun } from '@activepieces/shared';
+import { DataTable, RowDataWithActions } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
+import { agentRunHooks } from "@/features/agents/lib/agent-hooks";
+import { agentRunUtils } from "@/features/agents/lib/agent-run-utils";
+import { formatUtils } from "@/lib/utils";
+import { AgentRun } from "@activepieces/shared";
 
-import { AgentRunDrawer } from './agent-run-drawer';
+import { AgentRunDrawer } from "./agent-run-drawer";
 
 interface AgentRunsTableProps {
   agentId: string;
@@ -20,16 +20,16 @@ interface AgentRunsTableProps {
 export function AgentRunsTable({ agentId }: AgentRunsTableProps) {
   const { data, isLoading } = agentRunHooks.useList({ agentId });
   const [selectedAgentRunId, setSelectedAgentRunId] = useState<string | null>(
-    null,
+    null
   );
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const columns: ColumnDef<RowDataWithActions<AgentRun>, unknown>[] = useMemo(
     () => [
       {
-        accessorKey: 'prompt',
+        accessorKey: "prompt",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t('Prompt')} />
+          <DataTableColumnHeader column={column} title={t("Prompt")} />
         ),
         cell: ({ row }) => (
           <div
@@ -41,9 +41,9 @@ export function AgentRunsTable({ agentId }: AgentRunsTableProps) {
         ),
       },
       {
-        accessorKey: 'created',
+        accessorKey: "created",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t('Started At')} />
+          <DataTableColumnHeader column={column} title={t("Started At")} />
         ),
         cell: ({ row }) => (
           <div className="text-left">
@@ -52,9 +52,9 @@ export function AgentRunsTable({ agentId }: AgentRunsTableProps) {
         ),
       },
       {
-        accessorKey: 'status',
+        accessorKey: "status",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t('Status')} />
+          <DataTableColumnHeader column={column} title={t("Status")} />
         ),
         cell: ({ row }) => {
           const status = row.original.status;
@@ -71,13 +71,13 @@ export function AgentRunsTable({ agentId }: AgentRunsTableProps) {
         },
       },
       {
-        accessorKey: 'duration',
+        accessorKey: "duration",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t('Duration')} />
+          <DataTableColumnHeader column={column} title={t("Duration")} />
         ),
         cell: ({ row }) => {
           const { startTime, finishTime } = row.original;
-          let durationStr = '-';
+          let durationStr = "-";
           if (startTime && finishTime) {
             const diff =
               new Date(finishTime).getTime() - new Date(startTime).getTime();
@@ -89,7 +89,7 @@ export function AgentRunsTable({ agentId }: AgentRunsTableProps) {
         },
       },
     ],
-    [],
+    []
   );
 
   const handleRowClick = (agentRun: AgentRun) => {
@@ -103,9 +103,9 @@ export function AgentRunsTable({ agentId }: AgentRunsTableProps) {
         <span className="font-bold text-lg">All Runs</span>
       </div>
       <DataTable
-        emptyStateTextTitle={t('No runs found')}
+        emptyStateTextTitle={t("No runs found")}
         emptyStateTextDescription={t(
-          'This agent has not been run yet. Try running it to see results here.',
+          "This agent has not been run yet. Try running it to see results here."
         )}
         emptyStateIcon={<Play className="size-14" />}
         columns={columns}

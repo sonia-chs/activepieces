@@ -1,22 +1,22 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link, Navigate } from 'react-router-dom';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link, Navigate } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { HttpError, api } from '@/lib/api';
-import { authenticationApi } from '@/lib/authentication-api';
-import { authenticationSession } from '@/lib/authentication-session';
-import { useRedirectAfterLogin } from '@/lib/navigation-utils';
-import { formatUtils } from '@/lib/utils';
-import { OtpType } from '@activepieces/ee-shared';
+import { Button } from "@/components/ui/button";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { HttpError, api } from "@/lib/api";
+import { authenticationApi } from "@/lib/authentication-api";
+import { authenticationSession } from "@/lib/authentication-session";
+import { useRedirectAfterLogin } from "@/lib/navigation-utils";
+import { formatUtils } from "@/lib/utils";
+import { OtpType } from "@activepieces/ee-shared";
 import {
   ApEdition,
   ApFlagId,
@@ -24,18 +24,18 @@ import {
   ErrorCode,
   isNil,
   SignInRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { CheckEmailNote } from './check-email-note';
+import { CheckEmailNote } from "./check-email-note";
 
 const SignInSchema = Type.Object({
   email: Type.String({
     pattern: formatUtils.emailRegex.source,
-    errorMessage: t('Email is invalid'),
+    errorMessage: t("Email is invalid"),
   }),
   password: Type.String({
     minLength: 1,
-    errorMessage: t('Password is required'),
+    errorMessage: t("Password is required"),
   }),
 });
 
@@ -46,10 +46,10 @@ const SignInForm: React.FC = () => {
   const form = useForm<SignInSchema>({
     resolver: typeboxResolver(SignInSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const { data: edition } = flagsHooks.useFlag(ApFlagId.EDITION);
@@ -73,21 +73,21 @@ const SignInForm: React.FC = () => {
           error.response?.data as { code: ErrorCode }
         )?.code;
         if (isNil(errorCode)) {
-          form.setError('root.serverError', {
-            message: t('Something went wrong, please try again later'),
+          form.setError("root.serverError", {
+            message: t("Something went wrong, please try again later"),
           });
           return;
         }
         switch (errorCode) {
           case ErrorCode.INVALID_CREDENTIALS: {
-            form.setError('root.serverError', {
-              message: t('Invalid email or password'),
+            form.setError("root.serverError", {
+              message: t("Invalid email or password"),
             });
             break;
           }
           case ErrorCode.USER_IS_INACTIVE: {
-            form.setError('root.serverError', {
-              message: t('User has been deactivated'),
+            form.setError("root.serverError", {
+              message: t("User has been deactivated"),
             });
             break;
           }
@@ -96,20 +96,20 @@ const SignInForm: React.FC = () => {
             break;
           }
           case ErrorCode.DOMAIN_NOT_ALLOWED: {
-            form.setError('root.serverError', {
+            form.setError("root.serverError", {
               message: t(`Email domain is disallowed`),
             });
             break;
           }
           case ErrorCode.EMAIL_AUTH_DISABLED: {
-            form.setError('root.serverError', {
+            form.setError("root.serverError", {
               message: t(`Email authentication has been disabled`),
             });
             break;
           }
           default: {
-            form.setError('root.serverError', {
-              message: t('Something went wrong, please try again later'),
+            form.setError("root.serverError", {
+              message: t("Something went wrong, please try again later"),
             });
           }
         }
@@ -118,7 +118,7 @@ const SignInForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<SignInRequest> = (data) => {
-    form.setError('root.serverError', {
+    form.setError("root.serverError", {
       message: undefined,
     });
     mutate(data);
@@ -137,13 +137,13 @@ const SignInForm: React.FC = () => {
             name="email"
             render={({ field }) => (
               <FormItem className="grid space-y-2">
-                <Label htmlFor="email">{t('Email')}</Label>
+                <Label htmlFor="email">{t("Email")}</Label>
                 <Input
                   {...field}
                   required
                   id="email"
                   type="text"
-                  placeholder={'email@example.com'}
+                  placeholder={"email@example.com"}
                   className="rounded-sm"
                   tabIndex={1}
                   onChange={(e) => {
@@ -161,13 +161,13 @@ const SignInForm: React.FC = () => {
             render={({ field }) => (
               <FormItem className="grid space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password">{t('Password')}</Label>
+                  <Label htmlFor="password">{t("Password")}</Label>
                   {edition !== ApEdition.COMMUNITY && (
                     <Link
                       to="/forget-password"
                       className="text-muted-foreground text-sm hover:text-primary transition-all duration-200"
                     >
-                      {t('Forgot your password?')}
+                      {t("Forgot your password?")}
                     </Link>
                   )}
                 </div>
@@ -176,7 +176,7 @@ const SignInForm: React.FC = () => {
                   required
                   id="password"
                   type="password"
-                  placeholder={'********'}
+                  placeholder={"********"}
                   className="rounded-sm"
                   tabIndex={2}
                 />
@@ -194,7 +194,7 @@ const SignInForm: React.FC = () => {
             onClick={(e) => form.handleSubmit(onSubmit)(e)}
             tabIndex={3}
           >
-            {t('Sign in')}
+            {t("Sign in")}
           </Button>
         </form>
       </Form>
@@ -211,6 +211,6 @@ const SignInForm: React.FC = () => {
   );
 };
 
-SignInForm.displayName = 'SignIn';
+SignInForm.displayName = "SignIn";
 
 export { SignInForm };

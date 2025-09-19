@@ -1,29 +1,29 @@
-import { t } from 'i18next';
-import { ArrowLeft, Settings, Play } from 'lucide-react';
-import { ReactNode, useState } from 'react';
+import { t } from "i18next";
+import { ArrowLeft, Settings, Play } from "lucide-react";
+import { ReactNode, useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-} from '@/components/ui/drawer';
-import { LoadingScreen } from '@/components/ui/loading-screen';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/drawer";
+import { LoadingScreen } from "@/components/ui/loading-screen";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   AgentBuilderProvider,
   useBuilderAgentState,
-} from '@/features/agents/lib/store/builder-agent-state-provider';
-import { Agent, isNil } from '@activepieces/shared';
+} from "@/features/agents/lib/store/builder-agent-state-provider";
+import { Agent, isNil } from "@activepieces/shared";
 
-import { AgentLeftSection } from './agent-left-section';
-import { AgentPreviewSection } from './agent-preview-section';
-import { AgentRunsTable } from './agent-runs-table';
-import { AgentSavingIndicator } from './agent-saving-indicator';
-import { AgentStructuredOutput } from './agent-structured-output';
-import { AgentToolSection } from './agent-tool-section';
-import { LinkedFlowsSection } from './linked-flows-section';
+import { AgentLeftSection } from "./agent-left-section";
+import { AgentPreviewSection } from "./agent-preview-section";
+import { AgentRunsTable } from "./agent-runs-table";
+import { AgentSavingIndicator } from "./agent-saving-indicator";
+import { AgentStructuredOutput } from "./agent-structured-output";
+import { AgentToolSection } from "./agent-tool-section";
+import { LinkedFlowsSection } from "./linked-flows-section";
 
 type AgentBuilderProps = {
   isOpen: boolean;
@@ -34,8 +34,8 @@ type AgentBuilderProps = {
 };
 
 enum AgentBuilderTabs {
-  CONFIGURE = 'configure',
-  RUNS = 'runs',
+  CONFIGURE = "configure",
+  RUNS = "runs",
 }
 
 export const AgentBuilder = ({
@@ -85,7 +85,7 @@ const AgentBuilderContent = ({
   ]);
 
   const [activeTab, setActiveTab] = useState<AgentBuilderTabs>(
-    AgentBuilderTabs.CONFIGURE,
+    AgentBuilderTabs.CONFIGURE
   );
 
   return (
@@ -95,7 +95,7 @@ const AgentBuilderContent = ({
           <div className="flex items-center gap-1 min-w-0">
             <Button
               variant="basic"
-              size={'icon'}
+              size={"icon"}
               className="text-foreground"
               onClick={() => {
                 openChange(false, agent);
@@ -105,7 +105,7 @@ const AgentBuilderContent = ({
             </Button>
             <div className="flex items-center gap-4 min-w-0">
               <DrawerTitle className="truncate">
-                {`${t('Edit')} ${initialAgent?.displayName}`}
+                {`${t("Edit")} ${initialAgent?.displayName}`}
               </DrawerTitle>
               <AgentSavingIndicator isSaving={isSaving} hasSaved={!isSaving} />
             </div>
@@ -124,7 +124,7 @@ const AgentBuilderContent = ({
                   className="flex items-center gap-2 px-3"
                 >
                   <Settings className="h-4 w-4" />
-                  {t('Configure')}
+                  {t("Configure")}
                 </TabsTrigger>
                 <TabsTrigger
                   value={AgentBuilderTabs.RUNS}
@@ -132,7 +132,7 @@ const AgentBuilderContent = ({
                   className="flex items-center gap-2 px-3"
                 >
                   <Play className="h-4 w-4" />
-                  {t('Runs')}
+                  {t("Runs")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>

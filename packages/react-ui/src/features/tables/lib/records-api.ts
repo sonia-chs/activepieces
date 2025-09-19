@@ -1,4 +1,4 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   CreateRecordsRequest,
   DeleteRecordsRequest,
@@ -6,17 +6,17 @@ import {
   PopulatedRecord,
   SeekPage,
   UpdateRecordRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { FieldsMapping } from './utils';
+import { FieldsMapping } from "./utils";
 
 export const recordsApi = {
   list(request: ListRecordsRequest): Promise<SeekPage<PopulatedRecord>> {
-    return api.get<SeekPage<PopulatedRecord>>('/v1/records', request);
+    return api.get<SeekPage<PopulatedRecord>>("/v1/records", request);
   },
 
   create(request: CreateRecordsRequest): Promise<PopulatedRecord[]> {
-    return api.post<PopulatedRecord[]>('/v1/records', request);
+    return api.post<PopulatedRecord[]>("/v1/records", request);
   },
 
   getById(id: string): Promise<PopulatedRecord> {
@@ -42,7 +42,7 @@ export const recordsApi = {
     fieldsMapping: FieldsMapping;
     maxRecordsLimit: number;
   }) {
-    const records: CreateRecordsRequest['records'] = csvRecords.map(
+    const records: CreateRecordsRequest["records"] = csvRecords.map(
       (recordCells) => {
         return recordCells
           .map((value, index) => {
@@ -56,7 +56,7 @@ export const recordsApi = {
             };
           })
           .filter((cell) => cell !== null);
-      },
+      }
     );
     return await recordsApi.create({
       tableId,

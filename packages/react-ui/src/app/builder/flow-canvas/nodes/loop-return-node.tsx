@@ -1,6 +1,6 @@
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position } from "@xyflow/react";
 
-import { flowUtilConsts } from '../utils/consts';
+import { flowUtilConsts } from "../utils/consts";
 
 //used purely to help calculate the loop graph width
 const ApLoopReturnCanvasNode = () => {
@@ -26,5 +26,5 @@ const ApLoopReturnCanvasNode = () => {
   );
 };
 
-ApLoopReturnCanvasNode.displayName = 'EmptyLoopReturnCanvasNode';
+ApLoopReturnCanvasNode.displayName = "EmptyLoopReturnCanvasNode";
 export default ApLoopReturnCanvasNode;

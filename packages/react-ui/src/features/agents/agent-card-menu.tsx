@@ -1,14 +1,14 @@
-import { MoreVertical, Trash2 } from 'lucide-react';
-import React from 'react';
+import { MoreVertical, Trash2 } from "lucide-react";
+import React from "react";
 
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 interface AgentCardMenuProps {
   onDelete: () => Promise<void>;

@@ -1,7 +1,7 @@
-import { CreateTrialLicenseKeyRequestBody } from '@activepieces/shared';
+import { CreateTrialLicenseKeyRequestBody } from "@activepieces/shared";
 
-import { api } from './api';
-import { flagsApi } from './flags-api';
+import { api } from "./api";
+import { flagsApi } from "./flags-api";
 
 export const requestTrialApi = {
   createKey(params: CreateTrialLicenseKeyRequestBody): Promise<void> {
@@ -14,7 +14,7 @@ export const requestTrialApi = {
       {
         ...params,
         flags: flags,
-      },
+      }
     );
   },
 };

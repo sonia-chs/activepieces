@@ -1,19 +1,19 @@
-import { t } from 'i18next';
-import { Workflow } from 'lucide-react';
-import { useMemo } from 'react';
-import { useDebounce } from 'use-debounce';
+import { t } from "i18next";
+import { Workflow } from "lucide-react";
+import { useMemo } from "react";
+import { useDebounce } from "use-debounce";
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { PopulatedFlow } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { PopulatedFlow } from "@activepieces/shared";
 
-import { CreateMcpFlowButton } from './create-mcp-flow-button';
-import { mcpFlowDialogUtils } from './mcp-flow-dialog-utils';
+import { CreateMcpFlowButton } from "./create-mcp-flow-button";
+import { mcpFlowDialogUtils } from "./mcp-flow-dialog-utils";
 
 interface McpFlowDialogContentProps {
   flows: PopulatedFlow[];
@@ -35,7 +35,7 @@ export const McpFlowDialogContent = ({
 
     const query = debouncedQuery.toLowerCase();
     return flows.filter((flow) =>
-      flow.version.displayName.toLowerCase().includes(query),
+      flow.version.displayName.toLowerCase().includes(query)
     );
   }, [flows, debouncedQuery]);
 
@@ -62,8 +62,8 @@ export const McpFlowDialogContent = ({
               <TooltipTrigger asChild>
                 <div
                   className={`border p-2 h-[150px] w-[150px] flex flex-col items-center justify-center hover:bg-accent hover:text-accent-foreground cursor-pointer rounded-lg relative ${
-                    !isSelectable ? 'opacity-50' : ''
-                  } ${selectedFlows.includes(flow.id) ? 'bg-accent' : ''}`}
+                    !isSelectable ? "opacity-50" : ""
+                  } ${selectedFlows.includes(flow.id) ? "bg-accent" : ""}`}
                   onClick={() => isSelectable && handleSelectFlow(flow.id)}
                 >
                   <Checkbox
@@ -94,7 +94,7 @@ export const McpFlowDialogContent = ({
 
       {filteredFlows.length === 0 && (
         <div className="text-center text-muted-foreground py-8">
-          {searchQuery ? t('No flows found') : t('No flows available')}
+          {searchQuery ? t("No flows found") : t("No flows available")}
         </div>
       )}
     </ScrollArea>

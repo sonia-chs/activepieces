@@ -1,20 +1,20 @@
-import { t } from 'i18next';
-import { useContext } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { t } from "i18next";
+import { useContext } from "react";
+import { FieldErrors, useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import { FieldHeaderContext } from '../lib/utils';
+import { FieldHeaderContext } from "../lib/utils";
 
-import { useTableState } from './ap-table-state-provider';
+import { useTableState } from "./ap-table-state-provider";
 
 const RenameFieldPopoverContent = ({ name }: { name: string }) => {
   const [fields, renameField] = useTableState((state) => [
@@ -22,7 +22,7 @@ const RenameFieldPopoverContent = ({ name }: { name: string }) => {
     state.renameField,
   ]);
   const form = useForm<{ name: string }>({
-    reValidateMode: 'onChange',
+    reValidateMode: "onChange",
     defaultValues: {
       name: name,
     },
@@ -30,20 +30,20 @@ const RenameFieldPopoverContent = ({ name }: { name: string }) => {
       const errors: FieldErrors<{ name: string }> = {};
       if (values.name.length === 0) {
         errors.name = {
-          message: t('Name is required'),
-          type: 'required',
+          message: t("Name is required"),
+          type: "required",
         };
       }
       if (
         fields.find(
           (field) =>
             field.name.toLowerCase() === values.name.toLowerCase() &&
-            field.name.toLowerCase() !== name.toLowerCase(),
+            field.name.toLowerCase() !== name.toLowerCase()
         )
       ) {
         errors.name = {
-          message: t('Name is already taken'),
-          type: 'unique',
+          message: t("Name is already taken"),
+          type: "unique",
         };
       }
 
@@ -55,7 +55,7 @@ const RenameFieldPopoverContent = ({ name }: { name: string }) => {
   });
   const fieldHeaderContext = useContext(FieldHeaderContext);
   if (!fieldHeaderContext) {
-    console.error('FieldHeaderContext not found');
+    console.error("FieldHeaderContext not found");
     return null;
   }
 
@@ -84,7 +84,7 @@ const RenameFieldPopoverContent = ({ name }: { name: string }) => {
         />
         <div className="flex justify-end">
           <Button type="submit" size="sm">
-            {t('Rename')}
+            {t("Rename")}
           </Button>
         </div>
       </form>
@@ -92,5 +92,5 @@ const RenameFieldPopoverContent = ({ name }: { name: string }) => {
   );
 };
 
-RenameFieldPopoverContent.displayName = 'RenameFieldPopoverContent';
+RenameFieldPopoverContent.displayName = "RenameFieldPopoverContent";
 export default RenameFieldPopoverContent;

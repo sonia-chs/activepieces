@@ -1,11 +1,11 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import { PackageOpen } from 'lucide-react';
-import React, { forwardRef } from 'react';
+import { cva, type VariantProps } from "class-variance-authority";
+import { PackageOpen } from "lucide-react";
+import React, { forwardRef } from "react";
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from "../ui/skeleton";
 
 const CardList = forwardRef<
   HTMLDivElement,
@@ -17,7 +17,7 @@ const CardList = forwardRef<
   >
     <div
       ref={ref}
-      className={cn('flex flex-col h-full w-full', listClassName)}
+      className={cn("flex flex-col h-full w-full", listClassName)}
       {...props}
     >
       {children}
@@ -25,18 +25,18 @@ const CardList = forwardRef<
     <ScrollBar orientation="horizontal" />
   </ScrollArea>
 ));
-CardList.displayName = 'CardList';
+CardList.displayName = "CardList";
 export { CardList };
 
-const cardItemListVariants = cva('flex items-center gap-4 w-full py-4 px-2 ', {
+const cardItemListVariants = cva("flex items-center gap-4 w-full py-4 px-2 ", {
   variants: {
     interactive: {
-      true: 'cursor-pointer transition-all hover:bg-accent hover:text-accent-foreground',
-      false: 'cursor-default text-accent-foreground/50 font-semibold',
+      true: "cursor-pointer transition-all hover:bg-accent hover:text-accent-foreground",
+      false: "cursor-default text-accent-foreground/50 font-semibold",
     },
     selected: {
-      true: 'bg-accent text-accent-foreground',
-      false: '',
+      true: "bg-accent text-accent-foreground",
+      false: "",
     },
   },
   defaultVariants: {
@@ -58,17 +58,17 @@ const CardListItem = React.forwardRef<HTMLDivElement, CardListItemProps>(
         ref={ref}
         className={cn(
           cardItemListVariants({ interactive, selected }),
-          className,
+          className
         )}
         {...props}
       >
         {children}
       </div>
     );
-  },
+  }
 );
 
-CardListItem.displayName = 'CardListItem';
+CardListItem.displayName = "CardListItem";
 export { CardListItem };
 
 type CardListItemSkeletonProps = {
@@ -91,10 +91,10 @@ const CardListItemSkeleton: React.FC<CardListItemSkeletonProps> = React.memo(
         ))}
       </>
     );
-  },
+  }
 );
 
-CardListItemSkeleton.displayName = 'CardListItemSkeleton';
+CardListItemSkeleton.displayName = "CardListItemSkeleton";
 export { CardListItemSkeleton };
 
 type CardListEmptyProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -109,5 +109,5 @@ const CardListEmpty = React.memo(({ message }: CardListEmptyProps) => {
   );
 });
 
-CardListEmpty.displayName = 'CardListEmpty';
+CardListEmpty.displayName = "CardListEmpty";
 export { CardListEmpty };

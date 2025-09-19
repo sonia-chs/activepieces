@@ -1,25 +1,25 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { DialogDescription, DialogTrigger } from '@radix-ui/react-dialog';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { DialogDescription, DialogTrigger } from "@radix-ui/react-dialog";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { templatesApi } from '@/features/templates/lib/templates-api';
-import { useNewWindow } from '@/lib/navigation-utils';
-import { FlowTemplate, TemplateType } from '@activepieces/shared';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { templatesApi } from "@/features/templates/lib/templates-api";
+import { useNewWindow } from "@/lib/navigation-utils";
+import { FlowTemplate, TemplateType } from "@activepieces/shared";
 
 const ShareTemplateSchema = Type.Object({
   description: Type.String(),
@@ -82,16 +82,16 @@ const ShareTemplateDialog: React.FC<{
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Share Template')}</DialogTitle>
+          <DialogTitle>{t("Share Template")}</DialogTitle>
           <DialogDescription className="flex flex-col gap-2">
             <span>
               {t(
-                'Generate or update a template link for the current flow to easily share it with others.',
+                "Generate or update a template link for the current flow to easily share it with others."
               )}
             </span>
             <span>
               {t(
-                'The template will not have any credentials in connection fields, keeping sensitive information secure.',
+                "The template will not have any credentials in connection fields, keeping sensitive information secure."
               )}
             </span>
           </DialogDescription>
@@ -106,12 +106,12 @@ const ShareTemplateDialog: React.FC<{
               name="description"
               render={({ field }) => (
                 <FormItem className="grid space-y-2">
-                  <Label htmlFor="description">{t('Description')}</Label>
+                  <Label htmlFor="description">{t("Description")}</Label>
                   <Input
                     {...field}
                     required
                     id="description"
-                    placeholder={t('A short description of the template')}
+                    placeholder={t("A short description of the template")}
                     className="rounded-sm"
                   />
                   <FormMessage />
@@ -123,7 +123,7 @@ const ShareTemplateDialog: React.FC<{
                 {shareTemplateForm.formState.errors.root.serverError.message}
               </FormMessage>
             )}
-            <Button loading={isPending}>{t('Confirm')}</Button>
+            <Button loading={isPending}>{t("Confirm")}</Button>
           </form>
         </Form>
       </DialogContent>

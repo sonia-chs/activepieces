@@ -1,12 +1,12 @@
-import { t } from 'i18next';
-import { Search, X } from 'lucide-react';
-import * as React from 'react';
+import { t } from "i18next";
+import { Search, X } from "lucide-react";
+import * as React from "react";
 
-import { SelectUtilButton } from '../custom/select-util-button';
+import { SelectUtilButton } from "../custom/select-util-button";
 
 export type SearchInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  'onChange'
+  "onChange"
 > & {
   onChange: (value: string) => void;
 };
@@ -23,21 +23,21 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           {...props}
           onChange={(e) => props.onChange(e.target.value)}
         />
-        {props.value !== '' && (
+        {props.value !== "" && (
           <SelectUtilButton
-            tooltipText={t('Clear')}
+            tooltipText={t("Clear")}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              props.onChange('');
+              props.onChange("");
             }}
             Icon={X}
           ></SelectUtilButton>
         )}
       </div>
     );
-  },
+  }
 );
-SearchInput.displayName = 'SearchInput';
+SearchInput.displayName = "SearchInput";
 
 export { SearchInput };

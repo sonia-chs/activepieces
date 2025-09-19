@@ -2,24 +2,24 @@ import {
   QueryClient,
   useMutation,
   useSuspenseQuery,
-} from '@tanstack/react-query';
-import { t } from 'i18next';
+} from "@tanstack/react-query";
+import { t } from "i18next";
 
-import { toast } from '@/components/ui/use-toast';
-import { authenticationSession } from '@/lib/authentication-session';
+import { toast } from "@/components/ui/use-toast";
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   METRIC_TO_LIMIT_MAPPING,
   METRIC_TO_USAGE_MAPPING,
-} from '@activepieces/ee-shared';
+} from "@activepieces/ee-shared";
 import {
   isNil,
   PlatformUsageMetric,
   PlatformWithoutSensitiveData,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { platformApi } from '../lib/platforms-api';
+import { platformApi } from "../lib/platforms-api";
 
-import { flagsHooks } from './flags-hooks';
+import { flagsHooks } from "./flags-hooks";
 
 export const platformHooks = {
   isCopilotEnabled: () => {
@@ -29,7 +29,7 @@ export const platformHooks = {
   useCurrentPlatform: () => {
     const currentPlatformId = authenticationSession.getPlatformId();
     const query = useSuspenseQuery({
-      queryKey: ['platform', currentPlatformId],
+      queryKey: ["platform", currentPlatformId],
       queryFn: platformApi.getCurrentPlatform,
       staleTime: Infinity,
     });
@@ -40,9 +40,9 @@ export const platformHooks = {
       },
       setCurrentPlatform: (
         queryClient: QueryClient,
-        platform: PlatformWithoutSensitiveData,
+        platform: PlatformWithoutSensitiveData
       ) => {
-        queryClient.setQueryData(['platform', currentPlatformId], platform);
+        queryClient.setQueryData(["platform", currentPlatformId], platform);
       },
     };
   },
@@ -51,26 +51,26 @@ export const platformHooks = {
 
     return useMutation({
       mutationFn: async (tempLicenseKey: string) => {
-        if (tempLicenseKey.trim() === '') return;
+        if (tempLicenseKey.trim() === "") return;
         await platformApi.verifyLicenseKey(tempLicenseKey.trim());
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['platform', currentPlatformId],
+          queryKey: ["platform", currentPlatformId],
         });
         queryClient.invalidateQueries({
           queryKey: flagsHooks.queryKey,
         });
         toast({
-          title: t('Success'),
-          description: t('License activated successfully!'),
+          title: t("Success"),
+          description: t("License activated successfully!"),
         });
       },
       onError: () => {
         toast({
-          title: t('Error'),
-          description: t('Activation failed, invalid license key'),
-          variant: 'destructive',
+          title: t("Error"),
+          description: t("Activation failed, invalid license key"),
+          variant: "destructive",
         });
       },
     });
@@ -79,7 +79,7 @@ export const platformHooks = {
     resource: Exclude<
       PlatformUsageMetric,
       PlatformUsageMetric.AI_CREDITS | PlatformUsageMetric.TASKS
-    >,
+    >
   ): boolean => {
     const { platform } = platformHooks.useCurrentPlatform();
 

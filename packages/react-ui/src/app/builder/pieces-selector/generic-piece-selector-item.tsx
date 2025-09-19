@@ -1,9 +1,9 @@
-import { CardListItem } from '@/components/custom/card-list';
-import { PieceIcon } from '@/features/pieces/components/piece-icon';
-import { PIECE_SELECTOR_ELEMENTS_HEIGHTS } from '@/features/pieces/lib/piece-selector-utils';
-import { PieceSelectorItem, StepMetadataWithSuggestions } from '@/lib/types';
-import { cn } from '@/lib/utils';
-import { FlowActionType, FlowTriggerType } from '@activepieces/shared';
+import { CardListItem } from "@/components/custom/card-list";
+import { PieceIcon } from "@/features/pieces/components/piece-icon";
+import { PIECE_SELECTOR_ELEMENTS_HEIGHTS } from "@/features/pieces/lib/piece-selector-utils";
+import { PieceSelectorItem, StepMetadataWithSuggestions } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import { FlowActionType, FlowTriggerType } from "@activepieces/shared";
 type GenericActionOrTriggerItemProps = {
   item: PieceSelectorItem;
   hidePieceIconAndDescription: boolean;
@@ -40,11 +40,11 @@ const GenericActionOrTriggerItem = ({
         maxHeight: `${PIECE_SELECTOR_ELEMENTS_HEIGHTS.ACTION_OR_TRIGGER_ITEM_HEIGHT}px`,
       }
     : {
-        minHeight: '54px',
+        minHeight: "54px",
       };
   return (
     <CardListItem
-      className={cn('p-2 w-full ', {
+      className={cn("p-2 w-full ", {
         truncate: hidePieceIconAndDescription,
       })}
       onClick={onClick}
@@ -53,14 +53,14 @@ const GenericActionOrTriggerItem = ({
       <div className="flex gap-3 items-center">
         <div
           className={cn({
-            'opacity-0': hidePieceIconAndDescription,
+            "opacity-0": hidePieceIconAndDescription,
           })}
         >
           <PieceIcon
             logoUrl={stepMetadataWithSuggestions.logoUrl}
             displayName={stepMetadataWithSuggestions.displayName}
             showTooltip={false}
-            size={'sm'}
+            size={"sm"}
           />
         </div>
         <div className="flex flex-col gap-0.5">
@@ -78,5 +78,5 @@ const GenericActionOrTriggerItem = ({
   );
 };
 
-GenericActionOrTriggerItem.displayName = 'GenericActionOrTriggerItem';
+GenericActionOrTriggerItem.displayName = "GenericActionOrTriggerItem";
 export default GenericActionOrTriggerItem;

@@ -1,31 +1,31 @@
-import { DragHandleDots2Icon } from '@radix-ui/react-icons';
-import { t } from 'i18next';
-import { Trash, CopyPlus, Pencil } from 'lucide-react';
-import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import { t } from "i18next";
+import { Trash, CopyPlus, Pencil } from "lucide-react";
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 import {
   Sortable,
   SortableDragHandle,
   SortableItem,
-} from '@/components/ui/sortable';
+} from "@/components/ui/sortable";
 import {
   RouterAction,
   BranchExecutionType,
   isNil,
   RouterActionSettings,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { InvalidStepIcon } from '../../../../components/custom/alert-icon';
-import { Button } from '../../../../components/ui/button';
-import EditableText from '../../../../components/ui/editable-text';
-import { Separator } from '../../../../components/ui/separator';
+import { InvalidStepIcon } from "../../../../components/custom/alert-icon";
+import { Button } from "../../../../components/ui/button";
+import EditableText from "../../../../components/ui/editable-text";
+import { Separator } from "../../../../components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '../../../../components/ui/tooltip';
-import { cn } from '../../../../lib/utils';
+} from "../../../../components/ui/tooltip";
+import { cn } from "../../../../lib/utils";
 
 type BranchListProps = {
   step: RouterAction;
@@ -106,14 +106,14 @@ export const BranchesList = ({
               )}
             </div>
           </SortableItem>
-        ),
+        )
       )}
     </Sortable>
   );
 };
 
 type BranchListItemProps = {
-  branch: RouterActionSettings['branches'][number];
+  branch: RouterActionSettings["branches"][number];
   branchIndex: number;
   readonly: boolean;
   onClick: () => void;
@@ -142,7 +142,7 @@ export const BranchListItem = ({
   return (
     <div
       className={
-        'flex items-center gap-2 hover:transition-colors   has-[div.button-group:hover]:bg-background  text-sm hover:bg-gray-100 dark:hover:bg-accent px-2 cursor-pointer'
+        "flex items-center gap-2 hover:transition-colors   has-[div.button-group:hover]:bg-background  text-sm hover:bg-gray-100 dark:hover:bg-accent px-2 cursor-pointer"
       }
       onClick={() => {
         onClick();
@@ -173,24 +173,24 @@ export const BranchListItem = ({
               ></InvalidStepIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">
-              {t('Incomplete settings')}
+              {t("Incomplete settings")}
             </TooltipContent>
           </Tooltip>
         </div>
       )}
       <div className="grow"></div>
       <div
-        className={cn('flex gap-2 py-3 items-center button-group', {
-          'pointer-events-none': readonly,
-          'opacity-0': readonly,
+        className={cn("flex gap-2 py-3 items-center button-group", {
+          "pointer-events-none": readonly,
+          "opacity-0": readonly,
         })}
       >
         {showDeleteButton && (
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant={'ghost'}
-                size={'icon'}
+                variant={"ghost"}
+                size={"icon"}
                 onClick={(e) => {
                   e.stopPropagation();
                   deleteBranch();
@@ -199,14 +199,14 @@ export const BranchListItem = ({
                 <Trash className="w-4 h-4 stroke-destructive"></Trash>
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="bottom">{t('Delete')}</TooltipContent>
+            <TooltipContent side="bottom">{t("Delete")}</TooltipContent>
           </Tooltip>
         )}
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant={'ghost'}
-              size={'icon'}
+              variant={"ghost"}
+              size={"icon"}
               onClick={(e) => {
                 e.stopPropagation();
                 setIsEditingBranchName(true);
@@ -215,14 +215,14 @@ export const BranchListItem = ({
               <Pencil className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="bottom">{t('Rename')}</TooltipContent>
+          <TooltipContent side="bottom">{t("Rename")}</TooltipContent>
         </Tooltip>
 
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant={'ghost'}
-              size={'icon'}
+              variant={"ghost"}
+              size={"icon"}
               onClick={(e) => {
                 e.stopPropagation();
                 duplicateBranch();
@@ -231,7 +231,7 @@ export const BranchListItem = ({
               <CopyPlus className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="bottom">{t('Duplicate')}</TooltipContent>
+          <TooltipContent side="bottom">{t("Duplicate")}</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -239,12 +239,12 @@ export const BranchListItem = ({
               variant="ghost"
               size="icon"
               disabled={readonly}
-              className={'shrink-0 size-7'}
+              className={"shrink-0 size-7"}
             >
               <DragHandleDots2Icon className="size-4" aria-hidden="true" />
             </SortableDragHandle>
           </TooltipTrigger>
-          <TooltipContent side="bottom">{t('Move')}</TooltipContent>
+          <TooltipContent side="bottom">{t("Move")}</TooltipContent>
         </Tooltip>
       </div>
     </div>

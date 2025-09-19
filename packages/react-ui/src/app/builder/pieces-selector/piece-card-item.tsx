@@ -1,18 +1,18 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
-import { CardListItem } from '@/components/custom/card-list';
-import { PieceIcon } from '@/features/pieces/components/piece-icon';
-import { PIECE_SELECTOR_ELEMENTS_HEIGHTS } from '@/features/pieces/lib/piece-selector-utils';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { CardListItem } from "@/components/custom/card-list";
+import { PieceIcon } from "@/features/pieces/components/piece-icon";
+import { PIECE_SELECTOR_ELEMENTS_HEIGHTS } from "@/features/pieces/lib/piece-selector-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   PieceSelectorOperation,
   StepMetadataWithSuggestions,
-} from '@/lib/types';
-import { cn, wait } from '@/lib/utils';
+} from "@/lib/types";
+import { cn, wait } from "@/lib/utils";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
-import { PieceActionsOrTriggersList } from './piece-actions-or-triggers-list';
+import { PieceActionsOrTriggersList } from "./piece-actions-or-triggers-list";
 
 type PieceCardListItemProps = {
   pieceMetadata: StepMetadataWithSuggestions;
@@ -51,8 +51,8 @@ const PieceCardListItem = ({
   return (
     <>
       <CardListItem
-        className={cn('flex-col p-3 gap-1 items-start truncate', {
-          'hover:!bg-transparent': isTemporaryDisabledUntilNextCursorMove,
+        className={cn("flex-col p-3 gap-1 items-start truncate", {
+          "hover:!bg-transparent": isTemporaryDisabledUntilNextCursorMove,
         })}
         style={{ height: `${itemHeight}px`, maxHeight: `${itemHeight}px` }}
         selected={
@@ -77,7 +77,7 @@ const PieceCardListItem = ({
             logoUrl={pieceMetadata.logoUrl}
             displayName={pieceMetadata.displayName}
             showTooltip={false}
-            size={'sm'}
+            size={"sm"}
           />
           <div className="flex-grow h-full flex items-center justify-left text-sm">
             {pieceMetadata.displayName}
@@ -98,5 +98,5 @@ const PieceCardListItem = ({
   );
 };
 
-PieceCardListItem.displayName = 'PieceCardListItem';
+PieceCardListItem.displayName = "PieceCardListItem";
 export { PieceCardListItem };

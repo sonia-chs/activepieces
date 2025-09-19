@@ -1,16 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { RefreshCcw } from 'lucide-react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { RefreshCcw } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
-import { piecesApi } from '@/features/pieces/lib/pieces-api';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { ApFlagId, PieceSyncMode } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { piecesApi } from "@/features/pieces/lib/pieces-api";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { ApFlagId, PieceSyncMode } from "@activepieces/shared";
 
 const SyncPiecesButton = () => {
   const { data: piecesSyncMode } = flagsHooks.useFlag<string>(
-    ApFlagId.PIECES_SYNC_MODE,
+    ApFlagId.PIECES_SYNC_MODE
   );
   const { mutate: syncPieces, isPending } = useMutation({
     mutationFn: async () => {
@@ -18,8 +18,8 @@ const SyncPiecesButton = () => {
     },
     onSuccess: () => {
       toast({
-        title: t('Pieces synced'),
-        description: t('Pieces have been synced from the activepieces cloud.'),
+        title: t("Pieces synced"),
+        description: t("Pieces have been synced from the activepieces cloud."),
       });
     },
   });
@@ -28,10 +28,10 @@ const SyncPiecesButton = () => {
     <>
       {piecesSyncMode === PieceSyncMode.OFFICIAL_AUTO && (
         <Button
-          variant={'outline'}
+          variant={"outline"}
           onClick={() => syncPieces()}
           loading={isPending}
-          size={'sm'}
+          size={"sm"}
         >
           <RefreshCcw className="w-4 h-4 mr-2" /> Sync from Cloud
         </Button>
@@ -40,5 +40,5 @@ const SyncPiecesButton = () => {
   );
 };
 
-SyncPiecesButton.displayName = 'SyncPiecesButton';
+SyncPiecesButton.displayName = "SyncPiecesButton";
 export { SyncPiecesButton };

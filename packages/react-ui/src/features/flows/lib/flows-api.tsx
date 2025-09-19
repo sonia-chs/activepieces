@@ -1,8 +1,8 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { Button } from '@/components/ui/button';
-import { toast, UNSAVED_CHANGES_TOAST } from '@/components/ui/use-toast';
-import { api } from '@/lib/api';
+import { Button } from "@/components/ui/button";
+import { toast, UNSAVED_CHANGES_TOAST } from "@/components/ui/use-toast";
+import { api } from "@/lib/api";
 import {
   CreateFlowRequest,
   ErrorCode,
@@ -16,19 +16,19 @@ import {
   ListFlowsRequest,
   PopulatedFlow,
   SeekPage,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const flowsApi = {
   list(request: ListFlowsRequest): Promise<SeekPage<PopulatedFlow>> {
-    return api.get<SeekPage<PopulatedFlow>>('/v1/flows', request);
+    return api.get<SeekPage<PopulatedFlow>>("/v1/flows", request);
   },
   create(request: CreateFlowRequest) {
-    return api.post<PopulatedFlow>('/v1/flows', request);
+    return api.post<PopulatedFlow>("/v1/flows", request);
   },
   update(
     flowId: string,
     request: FlowOperationRequest,
-    showErrorToast = false,
+    showErrorToast = false
   ) {
     return api
       .post<PopulatedFlow>(`/v1/flows/${flowId}`, request)
@@ -39,18 +39,18 @@ export const flowsApi = {
           )?.code;
           if (errorCode === ErrorCode.FLOW_IN_USE) {
             toast({
-              title: t('Flow Is In Use'),
+              title: t("Flow Is In Use"),
               description: t(
-                'Flow is being used by another user, please try again later.',
+                "Flow is being used by another user, please try again later."
               ),
               duration: Infinity,
               action: (
                 <Button
                   onClick={() => window.location.reload()}
-                  size={'sm'}
-                  variant={'outline'}
+                  size={"sm"}
+                  variant={"outline"}
                 >
-                  {t('Refresh')}
+                  {t("Refresh")}
                 </Button>
               ),
             });
@@ -68,23 +68,23 @@ export const flowsApi = {
   },
   get(
     flowId: string,
-    request?: GetFlowQueryParamsRequest,
+    request?: GetFlowQueryParamsRequest
   ): Promise<PopulatedFlow> {
     return api.get<PopulatedFlow>(`/v1/flows/${flowId}`, request);
   },
   listVersions(
     flowId: string,
-    request: ListFlowVersionRequest,
+    request: ListFlowVersionRequest
   ): Promise<SeekPage<FlowVersionMetadata>> {
     return api.get<SeekPage<FlowVersion>>(
       `/v1/flows/${flowId}/versions`,
-      request,
+      request
     );
   },
   delete(flowId: string) {
     return api.delete<void>(`/v1/flows/${flowId}`);
   },
   count() {
-    return api.get<number>('/v1/flows/count');
+    return api.get<number>("/v1/flows/count");
   },
 };

@@ -1,22 +1,22 @@
-import { t } from 'i18next';
-import { CircleHelp, LayoutDashboard } from 'lucide-react';
+import { t } from "i18next";
+import { CircleHelp, LayoutDashboard } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   TooltipContent,
   TooltipProvider,
   Tooltip,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 import {
   BillingCycle,
   PRICE_PER_EXTRA_PROJECT_MAP,
-} from '@activepieces/ee-shared';
-import { PlatformBillingInformation } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { PlatformBillingInformation } from "@activepieces/shared";
 
-import { useManagePlanDialogStore } from './upgrade-dialog/store';
+import { useManagePlanDialogStore } from "./upgrade-dialog/store";
 
 type BusinessProjectsProps = {
   platformSubscription: PlatformBillingInformation;
@@ -43,21 +43,21 @@ export function ProjectAddon({ platformSubscription }: BusinessProjectsProps) {
               <LayoutDashboard className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{t('Projects')}</h3>
+              <h3 className="text-lg font-semibold">{t("Projects")}</h3>
               <p className="text-sm text-muted-foreground">
-                {t('Monitor your projects usage')}
+                {t("Monitor your projects usage")}
               </p>
             </div>
           </div>
           <Button variant="link" onClick={() => openDialog({ step: 2 })}>
-            {t('Extra Projects?')}
+            {t("Extra Projects?")}
           </Button>
         </div>
       </CardHeader>
       <CardContent className="p-6">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <h4 className="text-base font-medium">{t('Projects Usage')}</h4>
+            <h4 className="text-base font-medium">{t("Projects Usage")}</h4>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -65,7 +65,7 @@ export function ProjectAddon({ platformSubscription }: BusinessProjectsProps) {
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   {t(
-                    `Count of projects $${PRICE_PER_EXTRA_PROJECT} for extra 1 project`,
+                    `Count of projects $${PRICE_PER_EXTRA_PROJECT} for extra 1 project`
                   )}
                 </TooltipContent>
               </Tooltip>
@@ -74,11 +74,11 @@ export function ProjectAddon({ platformSubscription }: BusinessProjectsProps) {
           <div className="rounded-lg space-y-3">
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">
-                {currentProjects.toLocaleString()}{' '}
+                {currentProjects.toLocaleString()}{" "}
                 {`/ ${projectsLimit.toLocaleString()}`}
               </span>
               <span className="text-xs font-medium text-muted-foreground">
-                {t('Plan Limit')}
+                {t("Plan Limit")}
               </span>
             </div>
             <Progress value={usagePercentage} className="w-full" />
@@ -88,7 +88,7 @@ export function ProjectAddon({ platformSubscription }: BusinessProjectsProps) {
               </span>
               {usagePercentage > 80 && (
                 <span className="text-destructive font-medium">
-                  {t('Approaching limit')}
+                  {t("Approaching limit")}
                 </span>
               )}
             </div>

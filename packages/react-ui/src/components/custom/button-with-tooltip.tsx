@@ -1,22 +1,22 @@
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { Button } from '@/components/ui/button';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
 type ButtonWithTooltipProps = {
   tooltip: string;
   onClick: (e?: React.MouseEvent) => void;
   variant?:
-    | 'ghost'
-    | 'outline'
-    | 'default'
-    | 'destructive'
-    | 'secondary'
-    | 'link';
+    | "ghost"
+    | "outline"
+    | "default"
+    | "destructive"
+    | "secondary"
+    | "link";
   icon: React.ReactNode;
   className?: string;
   disabled?: boolean;
@@ -26,9 +26,9 @@ type ButtonWithTooltipProps = {
 export const ButtonWithTooltip = ({
   tooltip,
   onClick,
-  variant = 'ghost',
+  variant = "ghost",
   icon,
-  className = 'h-7 w-7',
+  className = "h-7 w-7",
   disabled = false,
   hasPermission = true,
 }: ButtonWithTooltipProps) => (

@@ -1,8 +1,8 @@
-import { t } from 'i18next';
-import React from 'react';
+import { t } from "i18next";
+import React from "react";
 
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { PieceStepMetadataWithSuggestions } from '@/lib/types';
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { PieceStepMetadataWithSuggestions } from "@/lib/types";
 
 interface McpPiecesContentProps {
   isPiecesLoading: boolean;
@@ -26,7 +26,7 @@ export const McpPiecesContent: React.FC<McpPiecesContentProps> = ({
   if (!isPiecesLoading && pieceMetadata && pieceMetadata.length === 0) {
     return (
       <div className="text-center h-full flex items-center justify-center">
-        {t('No pieces found')}
+        {t("No pieces found")}
       </div>
     );
   }

@@ -1,11 +1,11 @@
-import { t } from 'i18next';
-import React from 'react';
+import { t } from "i18next";
+import React from "react";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
 export const MessageTooltip = React.forwardRef<
   HTMLButtonElement,
@@ -23,4 +23,4 @@ export const MessageTooltip = React.forwardRef<
   );
 });
 
-MessageTooltip.displayName = 'MessageTooltip';
+MessageTooltip.displayName = "MessageTooltip";

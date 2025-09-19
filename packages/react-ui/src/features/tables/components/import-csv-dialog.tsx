@@ -1,13 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { LogInIcon } from 'lucide-react';
-import { parse } from 'papaparse';
-import { useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { LogInIcon } from "lucide-react";
+import { parse } from "papaparse";
+import { useState } from "react";
+import { FieldErrors, useForm } from "react-hook-form";
 
-import { CopyButton } from '@/components/custom/clipboard/copy-button';
-import { ApMarkdown } from '@/components/custom/markdown';
-import { Button } from '@/components/ui/button';
+import { CopyButton } from "@/components/custom/clipboard/copy-button";
+import { ApMarkdown } from "@/components/custom/markdown";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -24,18 +24,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { api } from '@/lib/api';
-import { ApFlagId } from '@activepieces/shared';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { api } from "@/lib/api";
+import { ApFlagId } from "@activepieces/shared";
 
-import { recordsApi } from '../lib/records-api';
-import { FieldsMapping } from '../lib/utils';
+import { recordsApi } from "../lib/records-api";
+import { FieldsMapping } from "../lib/utils";
 
-import { useTableState } from './ap-table-state-provider';
-import { FieldsMappingControl } from './fields-mapping';
+import { useTableState } from "./ap-table-state-provider";
+import { FieldsMappingControl } from "./fields-mapping";
 
 type ImportCsvDialogProps = {
   open: boolean;
@@ -54,10 +54,10 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
   const [csvColumns, setCsvColumns] = useState<string[]>([]);
   const [csvRecords, setCsvRecords] = useState<string[][]>([]);
   const { data: maxFileSize } = flagsHooks.useFlag<number>(
-    ApFlagId.MAX_FILE_SIZE_MB,
+    ApFlagId.MAX_FILE_SIZE_MB
   );
   const { data: maxRecords } = flagsHooks.useFlag<number>(
-    ApFlagId.MAX_RECORDS_PER_TABLE,
+    ApFlagId.MAX_RECORDS_PER_TABLE
   );
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<{
@@ -74,16 +74,16 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
       }> = {};
       if (!values.file) {
         errors.file = {
-          message: t('Please select a csv file'),
-          type: 'required',
+          message: t("Please select a csv file"),
+          type: "required",
         };
       }
       if (maxFileSize && values.file.size > maxFileSize * 1024 * 1024) {
         errors.file = {
-          message: `${t('Max file size is {maxFileSize}MB', {
+          message: `${t("Max file size is {maxFileSize}MB", {
             maxFileSize: maxFileSize,
           })}`,
-          type: 'maxSize',
+          type: "maxSize",
         };
       }
       return {
@@ -128,12 +128,12 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
       <DialogTrigger>
         <Button variant="outline" size="sm" className="flex gap-2 items-center">
           <LogInIcon className="w-4 h-4 shrink-0" />
-          {t('Import')}
+          {t("Import")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Import CSV')}</DialogTitle>
+          <DialogTitle>{t("Import CSV")}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -144,11 +144,11 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
             <ApMarkdown
               markdown={`
                 ${t(
-                  'Imported records will be added to the bottom of the table',
+                  "Imported records will be added to the bottom of the table"
                 )} \n           
                 ${t(
-                  'Any records after the limit ({maxRecords} records) will be ignored',
-                  { maxRecords: maxRecords ?? 0 },
+                  "Any records after the limit ({maxRecords} records) will be ignored",
+                  { maxRecords: maxRecords ?? 0 }
                 )}
                     `}
             />
@@ -157,7 +157,7 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
               name="file"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('CSV File')}</FormLabel>
+                  <FormLabel>{t("CSV File")}</FormLabel>
                   <FormControl>
                     <Input
                       type="file"
@@ -170,13 +170,13 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
                             if (!e.target.files || !e.target.files[0]) return;
                             parse(e.target.files[0], {
                               header: false,
-                              skipEmptyLines: 'greedy',
+                              skipEmptyLines: "greedy",
                               worker: true,
                               complete: (results) => {
                                 resolve(results.data as string[][]);
                               },
                             });
-                          },
+                          }
                         );
                         setCsvColumns(csvRecords[0] ?? []);
                         setCsvRecords(csvRecords.slice(1));
@@ -193,7 +193,7 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
                 <FormField
                   control={form.control}
                   name="fieldsMapping"
-                  key={form.watch('file')?.name}
+                  key={form.watch("file")?.name}
                   render={({ field }) => (
                     <FormItem>
                       <FieldsMappingControl
@@ -209,10 +209,10 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
 
             {serverError && (
               <div className=" flex items-center justify-between">
-                {' '}
+                {" "}
                 <div className="text-red-500">
                   {t(
-                    'An unexpected error occurred while importing the csv file, please hit the copy error and send it to support',
+                    "An unexpected error occurred while importing the csv file, please hit the copy error and send it to support"
                   )}
                 </div>
                 <div className="min-w-4">
@@ -227,11 +227,11 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline" size="sm" disabled={isLoading}>
-                  {t('Cancel')}
+                  {t("Cancel")}
                 </Button>
               </DialogClose>
               <Button type="submit" size="sm" loading={isLoading}>
-                {t('Import')}
+                {t("Import")}
               </Button>
             </DialogFooter>
           </form>
@@ -241,5 +241,5 @@ const ImportCsvDialog = ({ open, setIsOpen }: ImportCsvDialogProps) => {
   );
 };
 
-ImportCsvDialog.displayName = 'ImportCsvDialog';
+ImportCsvDialog.displayName = "ImportCsvDialog";
 export { ImportCsvDialog };

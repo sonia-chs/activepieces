@@ -1,37 +1,37 @@
-import { t } from 'i18next';
-import { InfoIcon } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { InfoIcon } from "lucide-react";
+import { useState } from "react";
 
-import ActivepiecesCreateTodoGuide from '@/assets/img/custom/ActivepiecesCreateTodoGuide.png';
-import ActivepiecesTodo from '@/assets/img/custom/ActivepiecesTodo.png';
-import ExternalChannelTodo from '@/assets/img/custom/External_Channel_Todo.png';
-import { CardListItem } from '@/components/custom/card-list';
-import { Button } from '@/components/ui/button';
+import ActivepiecesCreateTodoGuide from "@/assets/img/custom/ActivepiecesCreateTodoGuide.png";
+import ActivepiecesTodo from "@/assets/img/custom/ActivepiecesTodo.png";
+import ExternalChannelTodo from "@/assets/img/custom/External_Channel_Todo.png";
+import { CardListItem } from "@/components/custom/card-list";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useNewWindow } from '@/lib/navigation-utils';
-import { PieceSelectorOperation, PieceSelectorPieceItem } from '@/lib/types';
-import { cn } from '@/lib/utils';
-import { isNil, TodoType } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { useNewWindow } from "@/lib/navigation-utils";
+import { PieceSelectorOperation, PieceSelectorPieceItem } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import { isNil, TodoType } from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
 import {
   createRouterStep,
   createTodoStep,
   createWaitForApprovalStep,
-} from './custom-piece-selector-items-utils';
-import GenericActionOrTriggerItem from './generic-piece-selector-item';
+} from "./custom-piece-selector-items-utils";
+import GenericActionOrTriggerItem from "./generic-piece-selector-item";
 
 type AddTodoStepDialogProps = {
   pieceSelectorItem: PieceSelectorPieceItem;
@@ -99,14 +99,14 @@ const AddTodoStepDialog = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-6xl max-h-[80vh] overflow-hidden flex flex-col">
           <DialogHeader className="shrink-0">
-            <DialogTitle className="text-xl">{t('Create Todo')}</DialogTitle>
+            <DialogTitle className="text-xl">{t("Create Todo")}</DialogTitle>
           </DialogHeader>
 
           <div className="flex-1 overflow-y-auto pr-1">
             <div className="flex flex-col md:flex-row gap-6">
               <div className="md:w-1/2 space-y-6">
                 <h3 className="text-lg font-medium">
-                  {t('Where would you like the todo to be reviewed?')}
+                  {t("Where would you like the todo to be reviewed?")}
                 </h3>
                 <div className="space-y-4">
                   <TodoTypeOption
@@ -135,10 +135,10 @@ const AddTodoStepDialog = ({
               onClick={() => setOpen(false)}
               className="mr-2"
             >
-              {t('Cancel')}
+              {t("Cancel")}
             </Button>
             <Button onClick={handleAddCreateTodoAction}>
-              {t('Add Steps')}
+              {t("Add Steps")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -147,7 +147,7 @@ const AddTodoStepDialog = ({
   );
 };
 
-AddTodoStepDialog.displayName = 'CreateTodoDialog';
+AddTodoStepDialog.displayName = "CreateTodoDialog";
 export { AddTodoStepDialog as CreateTodoDialog };
 const PreviewImage = ({ todoType }: { todoType: TodoType }) => {
   const image =
@@ -155,16 +155,16 @@ const PreviewImage = ({ todoType }: { todoType: TodoType }) => {
       ? ActivepiecesCreateTodoGuide
       : ExternalChannelTodo;
   const alt =
-    todoType === TodoType.INTERNAL ? 'Todos flow' : 'External channel flow';
+    todoType === TodoType.INTERNAL ? "Todos flow" : "External channel flow";
   const title =
     todoType === TodoType.INTERNAL
-      ? t('Preview (Activepieces Todos)')
-      : t('Preview (External channel)');
+      ? t("Preview (Activepieces Todos)")
+      : t("Preview (External channel)");
   const description =
     todoType === TodoType.INTERNAL
-      ? t('Users will manage tasks directly in our interface')
+      ? t("Users will manage tasks directly in our interface")
       : t(
-          'Send notifications with approval links via external channels like Slack, Teams or Email. Best for collaborating with external stakeholders.',
+          "Send notifications with approval links via external channels like Slack, Teams or Email. Best for collaborating with external stakeholders."
         );
   return (
     <div className="overflow-hidden p-3 w-full h-full">
@@ -198,20 +198,20 @@ const TodoTypeOption = ({
   const selected = todoType === selectedTodoType;
   const title =
     todoType === TodoType.INTERNAL
-      ? t('Internal Todos')
-      : t('External Channel (Slack, Teams, Email, ...)');
+      ? t("Internal Todos")
+      : t("External Channel (Slack, Teams, Email, ...)");
   const description =
     todoType === TodoType.INTERNAL
-      ? t('Users will manage tasks directly in our interface')
+      ? t("Users will manage tasks directly in our interface")
       : t(
-          'Send notifications with approval links via external channels like Slack, Teams or Email. Best for collaborating with external stakeholders.',
+          "Send notifications with approval links via external channels like Slack, Teams or Email. Best for collaborating with external stakeholders."
         );
   const openNewWindow = useNewWindow();
   return (
     <CardListItem
       className={cn(
         `p-4 rounded-lg border  block hover:border-primary/50 hover:bg-muted/50`,
-        selected && 'border-primary bg-primary/5',
+        selected && "border-primary bg-primary/5"
       )}
       onClick={() => setTodoType(todoType)}
       interactive={true}
@@ -230,13 +230,13 @@ const TodoTypeOption = ({
                 <div className="space-y-2">
                   <div>
                     <span className="text-sm select-none">
-                      {t('Users will manage tasks directly in our interface')}
-                    </span>{' '}
+                      {t("Users will manage tasks directly in our interface")}
+                    </span>{" "}
                     <span
                       className="text-sm text-primary underline cursor-pointer"
-                      onClick={() => openNewWindow('/todos')}
+                      onClick={() => openNewWindow("/todos")}
                     >
-                      {t('here')}
+                      {t("here")}
                     </span>
                   </div>
 
@@ -256,7 +256,7 @@ const TodoTypeOption = ({
           <div
             className={cn(
               `w-5 h-5 rounded-full grid place-items-center border border-muted-foreground`,
-              selected && 'border-primary',
+              selected && "border-primary"
             )}
           >
             {selected && (

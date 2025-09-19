@@ -1,9 +1,9 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -21,22 +21,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { INTERNAL_ERROR_MESSAGE, toast } from '@/components/ui/use-toast';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { api } from '@/lib/api';
-import { authenticationSession } from '@/lib/authentication-session';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { INTERNAL_ERROR_MESSAGE, toast } from "@/components/ui/use-toast";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { api } from "@/lib/api";
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   ConfigureRepoRequest,
   GitBranchType,
   GitRepo,
-} from '@activepieces/ee-shared';
-import { ApErrorParams, ErrorCode } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { ApErrorParams, ErrorCode } from "@activepieces/shared";
 
-import { gitSyncApi } from '../lib/git-sync-api';
-import { gitSyncHooks } from '../lib/git-sync-hooks';
+import { gitSyncApi } from "../lib/git-sync-api";
+import { gitSyncHooks } from "../lib/git-sync-hooks";
 
 type ConnectGitProps = {
   open?: boolean;
@@ -50,19 +50,19 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
 
   const form = useForm<ConfigureRepoRequest>({
     defaultValues: {
-      remoteUrl: '',
+      remoteUrl: "",
       projectId,
       branchType: GitBranchType.DEVELOPMENT,
-      sshPrivateKey: '',
-      slug: '',
-      branch: '',
+      sshPrivateKey: "",
+      slug: "",
+      branch: "",
     },
     resolver: typeboxResolver(ConfigureRepoRequest),
   });
 
   const { refetch } = gitSyncHooks.useGitSync(
     projectId,
-    platform.plan.environmentsEnabled,
+    platform.plan.environmentsEnabled
   );
 
   const { mutate, isPending } = useMutation({
@@ -72,8 +72,8 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
     onSuccess: (repo) => {
       refetch();
       toast({
-        title: t('Success'),
-        description: t('Connected successfully'),
+        title: t("Success"),
+        description: t("Connected successfully"),
         duration: 3000,
       });
     },
@@ -86,7 +86,7 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
           message = `Invalid git credentials, please check the credentials, \n ${responseData.params.message}`;
         }
       }
-      form.setError('root.serverError', {
+      form.setError("root.serverError", {
         message: message,
       });
       return;
@@ -97,8 +97,8 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
     <Dialog open={open} onOpenChange={setOpen} modal={true}>
       {showButton && (
         <DialogTrigger asChild>
-          <Button size={'sm'} className="w-32">
-            {t('Connect Git')}
+          <Button size={"sm"} className="w-32">
+            {t("Connect Git")}
           </Button>
         </DialogTrigger>
       )}
@@ -109,7 +109,7 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
             onSubmit={form.handleSubmit((data) => mutate(data))}
           >
             <DialogHeader>
-              <DialogTitle>{t('Connect Git')}</DialogTitle>
+              <DialogTitle>{t("Connect Git")}</DialogTitle>
             </DialogHeader>
 
             <div className="grid gap-4">
@@ -118,7 +118,7 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
                 name="remoteUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('Remote URL')}</FormLabel>
+                    <FormLabel>{t("Remote URL")}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="git@github.com:activepieces/activepieces.git"
@@ -133,7 +133,7 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
                 name="branch"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('Branch')}</FormLabel>
+                    <FormLabel>{t("Branch")}</FormLabel>
                     <FormControl>
                       <Input placeholder="main" {...field} />
                     </FormControl>
@@ -145,13 +145,13 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
                 name="slug"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('Folder')}</FormLabel>
+                    <FormLabel>{t("Folder")}</FormLabel>
                     <FormControl>
                       <Input placeholder="activepieces" {...field} />
                     </FormControl>
                     <FormDescription>
                       {t(
-                        'Folder name is the name of the folder where the project will be stored or fetched.',
+                        "Folder name is the name of the folder where the project will be stored or fetched."
                       )}
                     </FormDescription>
                   </FormItem>
@@ -162,7 +162,7 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
                 name="sshPrivateKey"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('SSH Private Key')}</FormLabel>
+                    <FormLabel>{t("SSH Private Key")}</FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="-----BEGIN OPENSSH PRIVATE KEY-----"
@@ -170,7 +170,7 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
                       />
                     </FormControl>
                     <FormDescription>
-                      {t('The SSH private key to use for authentication.')}
+                      {t("The SSH private key to use for authentication.")}
                     </FormDescription>
                   </FormItem>
                 )}
@@ -184,8 +184,8 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
 
             <DialogFooter>
               <DialogClose>
-                <Button type="button" variant={'outline'} loading={isPending}>
-                  {t('Cancel')}
+                <Button type="button" variant={"outline"} loading={isPending}>
+                  {t("Cancel")}
                 </Button>
               </DialogClose>
               <Button
@@ -193,7 +193,7 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
                 onClick={form.handleSubmit((data) => mutate(data))}
                 loading={isPending}
               >
-                {t('Connect')}
+                {t("Connect")}
               </Button>
             </DialogFooter>
           </form>
@@ -203,5 +203,5 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
   );
 };
 
-ConnectGitDialog.displayName = 'ConnectGitDialog';
+ConnectGitDialog.displayName = "ConnectGitDialog";
 export { ConnectGitDialog };

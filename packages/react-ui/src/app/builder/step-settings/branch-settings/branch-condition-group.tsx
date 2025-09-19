@@ -1,11 +1,11 @@
-import { t } from 'i18next';
-import React from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import React from "react";
+import { useFieldArray, useFormContext } from "react-hook-form";
 
-import { BranchConditionToolbar } from '@/app/builder/step-settings/branch-settings/branch-condition-toolbar';
-import { BranchSingleCondition } from '@/app/builder/step-settings/branch-settings/branch-single-condition';
-import { HorizontalSeparatorWithText } from '@/components/ui/separator';
-import { RouterAction } from '@activepieces/shared';
+import { BranchConditionToolbar } from "@/app/builder/step-settings/branch-settings/branch-condition-toolbar";
+import { BranchSingleCondition } from "@/app/builder/step-settings/branch-settings/branch-single-condition";
+import { HorizontalSeparatorWithText } from "@/components/ui/separator";
+import { RouterAction } from "@activepieces/shared";
 
 type BranchConditionGroupProps = {
   readonly: boolean;
@@ -36,7 +36,7 @@ const BranchConditionGroup = React.memo(
       <div className="flex flex-col gap-4">
         {groupIndex > 0 && (
           <HorizontalSeparatorWithText className="my-2">
-            {t('OR')}
+            {t("OR")}
           </HorizontalSeparatorWithText>
         )}
         {fields.length === 0 && (
@@ -51,7 +51,7 @@ const BranchConditionGroup = React.memo(
         )}
         {fields.map((condition, conditionIndex) => (
           <React.Fragment key={condition.id}>
-            {conditionIndex > 0 && <div>{t('And If')}</div>}
+            {conditionIndex > 0 && <div>{t("And If")}</div>}
             <BranchSingleCondition
               groupIndex={groupIndex}
               readonly={readonly}
@@ -71,9 +71,9 @@ const BranchConditionGroup = React.memo(
         />
       </div>
     );
-  },
+  }
 );
 
-BranchConditionGroup.displayName = 'ConditionGroup';
+BranchConditionGroup.displayName = "ConditionGroup";
 
 export { BranchConditionGroup };

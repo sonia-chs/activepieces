@@ -1,18 +1,18 @@
-import { LockKeyhole } from 'lucide-react';
-import { ComponentType, SVGProps } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { LockKeyhole } from "lucide-react";
+import { ComponentType, SVGProps } from "react";
+import { Link, useLocation } from "react-router-dom";
 
-import { BetaBadge } from '@/components/custom/beta-badge';
-import { Dot } from '@/components/ui/dot';
+import { BetaBadge } from "@/components/custom/beta-badge";
+import { Dot } from "@/components/ui/dot";
 import {
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar-shadcn';
+} from "@/components/ui/sidebar-shadcn";
 
 export type SidebarItemType = {
   to: string;
   label: string;
-  type: 'link';
+  type: "link";
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
   notification?: boolean;
   locked?: boolean;
@@ -34,13 +34,13 @@ export const ApSidebarItem = (item: SidebarItemType) => {
       <SidebarMenuButton
         asChild
         className={`${
-          isLinkActive && '!bg-primary/10 !text-primary'
+          isLinkActive && "!bg-primary/10 !text-primary"
         } px-2 py-5`}
       >
         <Link
           to={item.to}
-          target={item.newWindow ? '_blank' : ''}
-          rel={item.newWindow ? 'noopener noreferrer' : undefined}
+          target={item.newWindow ? "_blank" : ""}
+          rel={item.newWindow ? "noopener noreferrer" : undefined}
         >
           <div className="w-full flex items-center justify-between gap-2">
             <div className="flex items-center gap-2  w-full">

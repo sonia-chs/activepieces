@@ -1,11 +1,11 @@
-import { t } from 'i18next';
-import { Pencil, Trash } from 'lucide-react';
+import { t } from "i18next";
+import { Pencil, Trash } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { SupportedAIProvider } from '@activepieces/common-ai';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { SupportedAIProvider } from "@activepieces/common-ai";
 
-import { UpsertAIProviderDialog } from './upsert-provider-dialog';
+import { UpsertAIProviderDialog } from "./upsert-provider-dialog";
 
 type AIProviderCardProps = {
   providerMetadata: SupportedAIProvider;
@@ -33,7 +33,7 @@ const AIProviderCard = ({
           <img
             src={
               showAzureOpenAI
-                ? 'https://cdn.activepieces.com/pieces/azure-openai.png'
+                ? "https://cdn.activepieces.com/pieces/azure-openai.png"
                 : providerMetadata.logoUrl
             }
             alt="icon"
@@ -49,7 +49,7 @@ const AIProviderCard = ({
           </div>
           {allowWrite && (
             <div className="text-sm text-muted-foreground">
-              {t('Configure credentials for {providerName} AI provider.', {
+              {t("Configure credentials for {providerName} AI provider.", {
                 providerName: providerMetadata.displayName,
               })}
             </div>
@@ -64,15 +64,15 @@ const AIProviderCard = ({
               onSave={onSave}
               showAzureOpenAI={showAzureOpenAI}
             >
-              <Button variant={isConfigured ? 'ghost' : 'basic'} size={'sm'}>
-                {isConfigured ? <Pencil className="size-4" /> : t('Enable')}
+              <Button variant={isConfigured ? "ghost" : "basic"} size={"sm"}>
+                {isConfigured ? <Pencil className="size-4" /> : t("Enable")}
               </Button>
             </UpsertAIProviderDialog>
             {isConfigured && (
               <div className="gap-2 flex">
                 <Button
-                  variant={'ghost'}
-                  size={'sm'}
+                  variant={"ghost"}
+                  size={"sm"}
                   onClick={onDelete}
                   loading={isDeleting}
                   disabled={isDeleting}
@@ -88,5 +88,5 @@ const AIProviderCard = ({
   );
 };
 
-AIProviderCard.displayName = 'AIProviderCard';
+AIProviderCard.displayName = "AIProviderCard";
 export { AIProviderCard };

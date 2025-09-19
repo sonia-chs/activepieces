@@ -1,9 +1,9 @@
-import { CheckIcon, ListFilterIcon } from 'lucide-react';
+import { CheckIcon, ListFilterIcon } from "lucide-react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import { Badge } from '../badge';
-import { Button } from '../button';
+import { Badge } from "../badge";
+import { Button } from "../button";
 import {
   Command,
   CommandEmpty,
@@ -12,10 +12,10 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '../command';
-import { Popover, PopoverContent, PopoverTrigger } from '../popover';
-import { ScrollArea } from '../scroll-area';
-import { Separator } from '../separator';
+} from "../command";
+import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import { ScrollArea } from "../scroll-area";
+import { Separator } from "../separator";
 
 type DataTableSelectPopoverProps = {
   title?: string;
@@ -105,15 +105,15 @@ const DataTableSelectPopover = ({
                     >
                       <div
                         className={cn(
-                          'mr-2 flex h-4 w-4 items-center justify-center rounded border border-primary',
+                          "mr-2 flex h-4 w-4 items-center justify-center rounded border border-primary",
                           isSelected
-                            ? 'bg-primary text-primary-foreground'
-                            : 'opacity-50 [&_svg]:invisible',
+                            ? "bg-primary text-primary-foreground"
+                            : "opacity-50 [&_svg]:invisible"
                         )}
                       >
-                        <CheckIcon className={cn('h-4 w-4')} />
+                        <CheckIcon className={cn("h-4 w-4")} />
                       </div>
-                      {typeof option.icon === 'string' ? (
+                      {typeof option.icon === "string" ? (
                         <img
                           src={option.icon}
                           alt={option.label}

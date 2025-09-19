@@ -1,20 +1,20 @@
-import { DragHandleDots2Icon } from '@radix-ui/react-icons';
-import { t } from 'i18next';
-import { Plus, TrashIcon } from 'lucide-react';
-import { nanoid } from 'nanoid';
-import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import { t } from "i18next";
+import { Plus, TrashIcon } from "lucide-react";
+import { nanoid } from "nanoid";
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Sortable,
   SortableDragHandle,
   SortableItem,
-} from '@/components/ui/sortable';
-import { TextWithIcon } from '@/components/ui/text-with-icon';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/sortable";
+import { TextWithIcon } from "@/components/ui/text-with-icon";
+import { cn } from "@/lib/utils";
 
 type ArrayInputProps = {
   inputName: string;
@@ -23,7 +23,7 @@ type ArrayInputProps = {
   customInputNode?: (
     onChange: (value: string) => void,
     value: string,
-    disabled: boolean,
+    disabled: boolean
   ) => React.ReactNode;
   thinInputs?: boolean;
 };
@@ -58,7 +58,7 @@ const ArrayInput = React.memo(
       form.setValue(
         inputName,
         newFields.map((f) => f.value),
-        { shouldValidate: true },
+        { shouldValidate: true }
       );
     };
 
@@ -69,7 +69,7 @@ const ArrayInput = React.memo(
           id: nanoid(),
           value,
         })),
-        { id: nanoid(), value: '' },
+        { id: nanoid(), value: "" },
       ];
 
       setFields(newFields);
@@ -98,7 +98,7 @@ const ArrayInput = React.memo(
 
     const updateFieldValue = (index: number, newValue: string) => {
       const newFields = fields.map((field, i) =>
-        i === index ? { ...field, value: newValue } : field,
+        i === index ? { ...field, value: newValue } : field
       );
       setFields(newFields);
       updateFormValue(newFields);
@@ -121,7 +121,7 @@ const ArrayInput = React.memo(
                     variant="outline"
                     size="icon"
                     disabled={disabled}
-                    className={cn('shrink-0 size-8', thinInputs && 'size-7')}
+                    className={cn("shrink-0 size-8", thinInputs && "size-7")}
                   >
                     <DragHandleDots2Icon
                       className="size-4"
@@ -139,7 +139,7 @@ const ArrayInput = React.memo(
                             customInputNode(
                               (value) => updateFieldValue(index, value),
                               field.value as string,
-                              disabled,
+                              disabled
                             )
                           ) : (
                             <Input
@@ -163,7 +163,7 @@ const ArrayInput = React.memo(
                       variant="outline"
                       size="icon"
                       disabled={disabled}
-                      className={cn('shrink-0 size-8', thinInputs && 'size-7')}
+                      className={cn("shrink-0 size-8", thinInputs && "size-7")}
                       onClick={() => {
                         remove(index);
                       }}
@@ -172,7 +172,7 @@ const ArrayInput = React.memo(
                         className="size-4 text-destructive"
                         aria-hidden="true"
                       />
-                      <span className="sr-only">{t('Remove')}</span>
+                      <span className="sr-only">{t("Remove")}</span>
                     </Button>
                   )}
                 </div>
@@ -190,13 +190,13 @@ const ArrayInput = React.memo(
             }}
             type="button"
           >
-            <TextWithIcon icon={<Plus size={18} />} text={t('Add Item')} />
+            <TextWithIcon icon={<Plus size={18} />} text={t("Add Item")} />
           </Button>
         )}
       </>
     );
-  },
+  }
 );
 
-ArrayInput.displayName = 'ArrayInput';
+ArrayInput.displayName = "ArrayInput";
 export { ArrayInput };

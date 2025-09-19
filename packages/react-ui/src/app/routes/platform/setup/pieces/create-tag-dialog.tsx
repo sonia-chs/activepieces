@@ -1,8 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,12 +10,12 @@ import {
   DialogTitle,
   DialogFooter,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { piecesTagsApi } from '@/features/platform-admin/lib/pieces-tags';
-import { Tag } from '@activepieces/shared';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
+import { piecesTagsApi } from "@/features/platform-admin/lib/pieces-tags";
+import { Tag } from "@activepieces/shared";
 
 type CreateTagDialogProps = {
   onTagCreated: (tag: Tag) => void;
@@ -30,13 +30,13 @@ export function CreateTagDialog({
   isOpen,
   setIsOpen,
 }: CreateTagDialogProps) {
-  const [tagName, setTagName] = useState('');
+  const [tagName, setTagName] = useState("");
 
   const { mutate, isPending } = useMutation({
     mutationFn: (name: string) => piecesTagsApi.upsert({ name }),
     onSuccess: (data) => {
       toast({
-        title: t('Tag created'),
+        title: t("Tag created"),
         description: t(`Tag "${data.name}" has been created successfully.`),
       });
       onTagCreated(data);
@@ -60,7 +60,7 @@ export function CreateTagDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
-            <Label htmlFor="tagName">{t('Tag')}</Label>
+            <Label htmlFor="tagName">{t("Tag")}</Label>
             <Input
               id="tagName"
               value={tagName}
@@ -70,7 +70,7 @@ export function CreateTagDialog({
           </div>
           <DialogFooter>
             <Button type="submit" loading={isPending}>
-              {t('Create')}
+              {t("Create")}
             </Button>
           </DialogFooter>
         </form>

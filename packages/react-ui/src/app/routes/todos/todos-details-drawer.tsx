@@ -1,13 +1,13 @@
-import { Drawer, DrawerContent } from '@/components/ui/drawer';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { PopulatedTodo, Todo } from '@activepieces/shared';
+import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { PopulatedTodo, Todo } from "@activepieces/shared";
 
-import { TodoDetails } from './todo-details';
+import { TodoDetails } from "./todo-details";
 
 type TodoDetailsProps = {
   open: boolean;
   currentTodo: PopulatedTodo | null;
-  onStatusChange: (status: Todo['status']) => void;
+  onStatusChange: (status: Todo["status"]) => void;
   onOpenChange: (open: boolean) => void;
   onClose: () => void;
 };

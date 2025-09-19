@@ -1,14 +1,14 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { toast } from '@/components/ui/use-toast';
-import { api } from '@/lib/api';
+import { toast } from "@/components/ui/use-toast";
+import { api } from "@/lib/api";
 import {
   PieceMetadataModel,
   PieceMetadataModelSummary,
   PropertyType,
   ExecutePropsResult,
   InputPropertyMap,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   AddPieceRequestBody,
   GetPieceRequestParams,
@@ -16,14 +16,14 @@ import {
   ListPiecesRequestQuery,
   PackageType,
   PieceOptionRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const piecesApi = {
   list(request: ListPiecesRequestQuery): Promise<PieceMetadataModelSummary[]> {
-    return api.get<PieceMetadataModelSummary[]>('/v1/pieces', request);
+    return api.get<PieceMetadataModelSummary[]>("/v1/pieces", request);
   },
   get(
-    request: GetPieceRequestParams & GetPieceRequestQuery,
+    request: GetPieceRequestParams & GetPieceRequestQuery
   ): Promise<PieceMetadataModel> {
     return api.get<PieceMetadataModel>(`/v1/pieces/${request.name}`, {
       version: request.version ?? undefined,
@@ -35,21 +35,21 @@ export const piecesApi = {
     T extends
       | PropertyType.DROPDOWN
       | PropertyType.MULTI_SELECT_DROPDOWN
-      | PropertyType.DYNAMIC,
+      | PropertyType.DYNAMIC
   >(
     request: PieceOptionRequest,
-    propertyType: T,
+    propertyType: T
   ): Promise<ExecutePropsResult<T>> {
     return api
       .post<ExecutePropsResult<T>>(`/v1/pieces/options`, request)
       .catch((error) => {
         console.error(error);
         toast({
-          title: t('Error'),
+          title: t("Error"),
           description: t(
-            'An internal error occurred while fetching data, please contact support',
+            "An internal error occurred while fetching data, please contact support"
           ),
-          variant: 'destructive',
+          variant: "destructive",
         });
         const defaultStateForDynamicProperty: ExecutePropsResult<PropertyType.DYNAMIC> =
           {
@@ -62,7 +62,7 @@ export const piecesApi = {
               options: [],
               disabled: true,
               placeholder: t(
-                'An internal error occurred, please contact support',
+                "An internal error occurred, please contact support"
               ),
             },
             type: PropertyType.DROPDOWN,
@@ -79,19 +79,19 @@ export const piecesApi = {
   },
   async install(params: AddPieceRequestBody) {
     const formData = new FormData();
-    formData.set('packageType', params.packageType);
-    formData.set('pieceName', params.pieceName);
-    formData.set('pieceVersion', params.pieceVersion);
-    formData.set('scope', params.scope);
+    formData.set("packageType", params.packageType);
+    formData.set("pieceName", params.pieceName);
+    formData.set("pieceVersion", params.pieceVersion);
+    formData.set("scope", params.scope);
     if (params.packageType === PackageType.ARCHIVE) {
       const buffer = await (
         params.pieceArchive as unknown as File
       ).arrayBuffer();
-      formData.append('pieceArchive', new Blob([buffer]));
+      formData.append("pieceArchive", new Blob([buffer]));
     }
 
-    return api.post<PieceMetadataModel>('/v1/pieces', formData, undefined, {
-      'Content-Type': 'multipart/form-data',
+    return api.post<PieceMetadataModel>("/v1/pieces", formData, undefined, {
+      "Content-Type": "multipart/form-data",
     });
   },
   delete(id: string) {

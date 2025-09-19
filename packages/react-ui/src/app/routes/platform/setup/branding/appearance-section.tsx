@@ -1,23 +1,23 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
-import { ColorPicker } from '@/components/ui/color-picker';
+import { Button } from "@/components/ui/button";
+import { ColorPicker } from "@/components/ui/color-picker";
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/components/ui/use-toast';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { platformApi } from '@/lib/platforms-api';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { platformApi } from "@/lib/platforms-api";
 
 const FromSchema = Type.Object({
   name: Type.String(),
@@ -54,14 +54,14 @@ export const AppearanceSection = () => {
           favIconUrl: form.getValues().faviconUrl,
           primaryColor: form.getValues().color,
         },
-        platform.id,
+        platform.id
       );
       window.location.reload();
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Your changes have been saved.'),
+        title: t("Success"),
+        description: t("Your changes have been saved."),
         duration: 3000,
       });
       form.reset(form.getValues());
@@ -71,7 +71,7 @@ export const AppearanceSection = () => {
   return (
     <>
       <Separator className="my-2" />
-      <div className="text-lg font-bold">{t('Appearance')}</div>
+      <div className="text-lg font-bold">{t("Appearance")}</div>
 
       <div className="grid gap-4">
         <Form {...form}>
@@ -84,12 +84,12 @@ export const AppearanceSection = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
-                    <FormLabel htmlFor="name">{t('Platform Name')}</FormLabel>
+                    <FormLabel htmlFor="name">{t("Platform Name")}</FormLabel>
                     <Input
                       {...field}
                       required
                       id="name"
-                      placeholder={t('Platform Name')}
+                      placeholder={t("Platform Name")}
                       className="rounded-sm"
                     />
                     <FormMessage />
@@ -101,7 +101,7 @@ export const AppearanceSection = () => {
                 name="logoUrl"
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
-                    <FormLabel htmlFor="logoUrl">{t('Logo URL')}</FormLabel>
+                    <FormLabel htmlFor="logoUrl">{t("Logo URL")}</FormLabel>
                     <Input
                       {...field}
                       required
@@ -118,7 +118,7 @@ export const AppearanceSection = () => {
                 name="iconUrl"
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
-                    <FormLabel htmlFor="iconUrl">{t('Icon URL')}</FormLabel>
+                    <FormLabel htmlFor="iconUrl">{t("Icon URL")}</FormLabel>
                     <Input
                       {...field}
                       required
@@ -135,7 +135,7 @@ export const AppearanceSection = () => {
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
                     <FormLabel htmlFor="faviconUrl">
-                      {t('Favicon URL')}
+                      {t("Favicon URL")}
                     </FormLabel>
                     <Input
                       {...field}
@@ -153,7 +153,7 @@ export const AppearanceSection = () => {
                 name="color"
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
-                    <FormLabel htmlFor="color">{t('Primary Color')}</FormLabel>
+                    <FormLabel htmlFor="color">{t("Primary Color")}</FormLabel>
                     <div className="flex flex-row gap-2 items-center">
                       <ColorPicker
                         value={field.value as string}
@@ -178,7 +178,7 @@ export const AppearanceSection = () => {
                 loading={isPending}
                 disabled={!form.formState.isValid}
               >
-                {t('Save')}
+                {t("Save")}
               </Button>
             </div>
           </form>

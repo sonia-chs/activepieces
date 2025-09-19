@@ -1,12 +1,12 @@
-import { Value } from '@sinclair/typebox/value';
-import { useRef } from 'react';
+import { Value } from "@sinclair/typebox/value";
+import { useRef } from "react";
 
 import {
   PieceSelectorItem,
   PieceSelectorPieceItem,
   PieceStepMetadataWithSuggestions,
-} from '@/lib/types';
-import { PiecePropertyMap, PropertyType } from '@activepieces/pieces-framework';
+} from "@/lib/types";
+import { PiecePropertyMap, PropertyType } from "@activepieces/pieces-framework";
 import {
   FlowAction,
   FlowActionType,
@@ -26,9 +26,9 @@ import {
   FlowTriggerType,
   PropertyExecutionType,
   DEFAULT_SAMPLE_DATA_SETTINGS,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { formUtils } from './form-utils';
+import { formUtils } from "./form-utils";
 const defaultCode = `export const code = async (inputs) => {
   return true;
 };`;
@@ -36,17 +36,17 @@ const defaultCode = `export const code = async (inputs) => {
 //can't remove this from search results, because it is used to add actions to the flow, check todo-dialog for more details
 const hiddenActions = [
   {
-    pieceName: '@activepieces/piece-todos',
-    actionName: 'wait_for_approval',
+    pieceName: "@activepieces/piece-todos",
+    actionName: "wait_for_approval",
   },
   {
-    pieceName: '@activepieces/piece-todos',
-    actionName: 'createTodoAndWait',
+    pieceName: "@activepieces/piece-todos",
+    actionName: "createTodoAndWait",
   },
 ];
 
 const removeHiddenActions = (
-  pieceMetadata: PieceStepMetadataWithSuggestions,
+  pieceMetadata: PieceStepMetadataWithSuggestions
 ) => {
   const actions = Object.values(pieceMetadata.suggestedActions ?? {});
   const actionsWithoutHidden = Object.values(actions).filter(
@@ -54,14 +54,14 @@ const removeHiddenActions = (
       !hiddenActions.some(
         (hidden) =>
           hidden.actionName === action.name &&
-          hidden.pieceName === pieceMetadata.pieceName,
-      ),
+          hidden.pieceName === pieceMetadata.pieceName
+      )
   );
   return actionsWithoutHidden;
 };
 
 const isPieceActionOrTrigger = (
-  pieceSelectorItem: PieceSelectorItem,
+  pieceSelectorItem: PieceSelectorItem
 ): pieceSelectorItem is PieceSelectorPieceItem => {
   return (
     pieceSelectorItem.type === FlowActionType.PIECE ||
@@ -72,7 +72,7 @@ const isPieceActionOrTrigger = (
 
 const isStepInitiallyValid = (
   pieceSelectorItem: PieceSelectorItem,
-  overrideDefaultSettings?: StepSettings,
+  overrideDefaultSettings?: StepSettings
 ) => {
   switch (pieceSelectorItem.type) {
     case FlowActionType.CODE:
@@ -80,12 +80,12 @@ const isStepInitiallyValid = (
     case FlowActionType.PIECE:
     case FlowTriggerType.PIECE: {
       const overridingInput =
-        overrideDefaultSettings && 'input' in overrideDefaultSettings
+        overrideDefaultSettings && "input" in overrideDefaultSettings
           ? overrideDefaultSettings.input
           : undefined;
       const inputValidity = checkPieceInputValidity(
         overridingInput ?? getInitalStepInput(pieceSelectorItem),
-        pieceSelectorItem.actionOrTrigger.props,
+        pieceSelectorItem.actionOrTrigger.props
       );
       const needsAuth = pieceSelectorItem.actionOrTrigger.requireAuth;
       const hasAuth = !isNil(pieceSelectorItem.pieceMetadata.auth);
@@ -94,7 +94,7 @@ const isStepInitiallyValid = (
     case FlowActionType.LOOP_ON_ITEMS: {
       if (
         overrideDefaultSettings &&
-        'input' in overrideDefaultSettings &&
+        "input" in overrideDefaultSettings &&
         overrideDefaultSettings.input.items
       ) {
         return true;
@@ -109,8 +109,8 @@ const isStepInitiallyValid = (
         const errors = Array.from(
           Value.Errors(
             RouterActionSettingsWithValidation,
-            overrideDefaultSettings,
-          ),
+            overrideDefaultSettings
+          )
         );
         return errors.length === 0;
       }
@@ -125,7 +125,7 @@ const getInitalStepInput = (pieceSelectorItem: PieceSelectorItem) => {
   }
   return formUtils.getDefaultValueForStep({
     props: {
-      ...spreadIfDefined('auth', pieceSelectorItem.pieceMetadata.auth),
+      ...spreadIfDefined("auth", pieceSelectorItem.pieceMetadata.auth),
       ...pieceSelectorItem.actionOrTrigger.props,
     },
     existingInput: {},
@@ -143,7 +143,7 @@ const getDefaultStepValues = ({
   overrideDefaultSettings?: StepSettings;
   customLogoUrl?: string;
 }): FlowAction | FlowTrigger => {
-  const errorHandlingOptions: CodeAction['settings']['errorHandlingOptions'] = {
+  const errorHandlingOptions: CodeAction["settings"]["errorHandlingOptions"] = {
     continueOnFailure: {
       value: false,
     },
@@ -155,7 +155,7 @@ const getDefaultStepValues = ({
   const input = getInitalStepInput(pieceSelectorItem);
   const isValid = isStepInitiallyValid(
     pieceSelectorItem,
-    overrideDefaultSettings,
+    overrideDefaultSettings
   );
   const common = {
     name: stepName,
@@ -178,23 +178,23 @@ const getDefaultStepValues = ({
           settings: overrideDefaultSettings ?? {
             sourceCode: {
               code: defaultCode,
-              packageJson: '{}',
+              packageJson: "{}",
             },
             input,
             errorHandlingOptions,
           },
         },
-        common,
+        common
       );
     case FlowActionType.LOOP_ON_ITEMS:
       return deepMergeAndCast<FlowAction>(
         {
           type: FlowActionType.LOOP_ON_ITEMS,
           settings: overrideDefaultSettings ?? {
-            items: '',
+            items: "",
           },
         },
-        common,
+        common
       );
     case FlowActionType.ROUTER:
       return deepMergeAndCast<FlowAction>(
@@ -208,29 +208,29 @@ const getDefaultStepValues = ({
                   [
                     {
                       operator: BranchOperator.TEXT_EXACTLY_MATCHES,
-                      firstValue: '',
-                      secondValue: '',
+                      firstValue: "",
+                      secondValue: "",
                       caseSensitive: false,
                     },
                   ],
                 ],
                 branchType: BranchExecutionType.CONDITION,
-                branchName: 'Branch 1',
+                branchName: "Branch 1",
               },
               {
                 branchType: BranchExecutionType.FALLBACK,
-                branchName: 'Otherwise',
+                branchName: "Otherwise",
               },
             ],
           },
           children: [null, null],
         },
-        common,
+        common
       );
     case FlowActionType.PIECE: {
       if (!isPieceActionOrTrigger(pieceSelectorItem)) {
         throw new Error(
-          `Invalid piece selector item ${JSON.stringify(pieceSelectorItem)}`,
+          `Invalid piece selector item ${JSON.stringify(pieceSelectorItem)}`
         );
       }
       return deepMergeAndCast<PieceAction>(
@@ -249,17 +249,17 @@ const getDefaultStepValues = ({
                   type: PropertyExecutionType.MANUAL,
                   schema: undefined,
                 },
-              ]),
+              ])
             ),
           },
         },
-        common,
+        common
       );
     }
     case FlowTriggerType.PIECE: {
       if (!isPieceActionOrTrigger(pieceSelectorItem)) {
         throw new Error(
-          `Invalid piece selector item ${JSON.stringify(pieceSelectorItem)}`,
+          `Invalid piece selector item ${JSON.stringify(pieceSelectorItem)}`
         );
       }
       return deepMergeAndCast<PieceTrigger>(
@@ -276,21 +276,21 @@ const getDefaultStepValues = ({
                 {
                   type: PropertyExecutionType.MANUAL,
                 },
-              ]),
+              ])
             ),
           },
         },
-        common,
+        common
       );
     }
     default:
-      throw new Error('Unsupported type: ' + pieceSelectorItem.type);
+      throw new Error("Unsupported type: " + pieceSelectorItem.type);
   }
 };
 
 const checkPieceInputValidity = (
   input: Record<string, unknown>,
-  props: PiecePropertyMap,
+  props: PiecePropertyMap
 ) => {
   return Object.entries(props).reduce((acc, [key, property]) => {
     if (
@@ -328,14 +328,14 @@ const useAdjustPieceListHeightToAvailableSpace = () => {
       viewportHeight - popOverTriggerRect.bottom - SEARCH_INPUT_DIV_HEIGHT;
     listHeightRef.current = Math.max(
       MIN_PIECE_SELECTOR_LIST_HEIGHT,
-      availableSpaceBelow,
+      availableSpaceBelow
     );
   } else {
     const availableSpaceAbove =
       popOverTriggerRect.top - SEARCH_INPUT_DIV_HEIGHT;
     listHeightRef.current = Math.max(
       MIN_PIECE_SELECTOR_LIST_HEIGHT,
-      availableSpaceAbove,
+      availableSpaceAbove
     );
   }
 
@@ -360,13 +360,13 @@ export const PIECE_SELECTOR_ELEMENTS_HEIGHTS = {
 };
 
 const isMcpToolTrigger = (pieceName: string, triggerName: string) => {
-  return pieceName === '@activepieces/piece-mcp' && triggerName === 'mcp_tool';
+  return pieceName === "@activepieces/piece-mcp" && triggerName === "mcp_tool";
 };
 
 const isChatTrigger = (pieceName: string, triggerName: string) => {
   return (
-    pieceName === '@activepieces/piece-forms' &&
-    triggerName === 'chat_submission'
+    pieceName === "@activepieces/piece-forms" &&
+    triggerName === "chat_submission"
   );
 };
 export const pieceSelectorUtils = {

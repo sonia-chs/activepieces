@@ -1,18 +1,18 @@
-import React from 'react';
-import { Navigate, useParams, useSearchParams } from 'react-router-dom';
+import React from "react";
+import { Navigate, useParams, useSearchParams } from "react-router-dom";
 
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
 import {
   FROM_QUERY_PARAM,
   useDefaultRedirectPath,
-} from '@/lib/navigation-utils';
-import { determineDefaultRoute } from '@/lib/utils';
-import { isNil } from '@activepieces/shared';
+} from "@/lib/navigation-utils";
+import { determineDefaultRoute } from "@/lib/utils";
+import { isNil } from "@activepieces/shared";
 
-import { LoadingScreen } from '../../components/ui/loading-screen';
-import { authenticationSession } from '../../lib/authentication-session';
-import { AllowOnlyLoggedInUserOnlyGuard } from '../components/allow-logged-in-user-only-guard';
+import { LoadingScreen } from "../../components/ui/loading-screen";
+import { authenticationSession } from "../../lib/authentication-session";
+import { AllowOnlyLoggedInUserOnlyGuard } from "../components/allow-logged-in-user-only-guard";
 
 export const TokenCheckerWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -69,14 +69,14 @@ const RedirectToCurrentProjectRoute: React.FC<
     );
   }
 
-  const pathWithParams = `${path.startsWith('/') ? path : `/${path}`}`.replace(
+  const pathWithParams = `${path.startsWith("/") ? path : `/${path}`}`.replace(
     /:(\w+)/g,
-    (_, param) => params[param] ?? '',
+    (_, param) => params[param] ?? ""
   );
 
   const searchParamsString = searchParams.toString();
   const pathWithParamsAndSearchParams = `${pathWithParams}${
-    searchParamsString ? `?${searchParamsString}` : ''
+    searchParamsString ? `?${searchParamsString}` : ""
   }`;
 
   return (
@@ -97,7 +97,7 @@ export const ProjectRouterWrapper = ({
   path,
 }: ProjectRouterWrapperProps) => [
   {
-    path: `/projects/:projectId${path.startsWith('/') ? path : `/${path}`}`,
+    path: `/projects/:projectId${path.startsWith("/") ? path : `/${path}`}`,
     element: (
       <AllowOnlyLoggedInUserOnlyGuard>
         <TokenCheckerWrapper>{element}</TokenCheckerWrapper>
@@ -117,6 +117,6 @@ export const ProjectRouterWrapper = ({
 ];
 
 export const projectSettingsRoutes = {
-  pieces: '/settings/pieces',
-  environments: '/settings/environments',
+  pieces: "/settings/pieces",
+  environments: "/settings/environments",
 } as const;

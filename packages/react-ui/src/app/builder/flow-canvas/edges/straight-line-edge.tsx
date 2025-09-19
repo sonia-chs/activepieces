@@ -1,11 +1,11 @@
-import { BaseEdge, EdgeProps } from '@xyflow/react';
+import { BaseEdge, EdgeProps } from "@xyflow/react";
 
-import { StepLocationRelativeToParent } from '@activepieces/shared';
+import { StepLocationRelativeToParent } from "@activepieces/shared";
 
-import { flowUtilConsts } from '../utils/consts';
-import { ApStraightLineEdge } from '../utils/types';
+import { flowUtilConsts } from "../utils/consts";
+import { ApStraightLineEdge } from "../utils/types";
 
-import { ApAddButton } from './add-button';
+import { ApAddButton } from "./add-button";
 
 export const ApStraightLineCanvasEdge = ({
   sourceX,
@@ -21,7 +21,7 @@ export const ApStraightLineCanvasEdge = ({
   const lineLength =
     targetY - sourceY - 2 * flowUtilConsts.VERTICAL_SPACE_BETWEEN_STEP_AND_LINE;
   const path = `M ${lineStartX} ${lineStartY} v${lineLength}
-   ${data.drawArrowHead ? flowUtilConsts.ARROW_DOWN : ''}`;
+   ${data.drawArrowHead ? flowUtilConsts.ARROW_DOWN : ""}`;
   const showDebugForLineEndPoint = false;
 
   return (

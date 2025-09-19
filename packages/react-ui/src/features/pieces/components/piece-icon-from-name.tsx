@@ -1,10 +1,10 @@
-import { piecesHooks } from '../lib/pieces-hooks';
+import { piecesHooks } from "../lib/pieces-hooks";
 
-import { PieceIcon } from './piece-icon';
+import { PieceIcon } from "./piece-icon";
 
 type PieceIconWithPieceNameProps = {
   pieceName: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   border?: boolean;
   circle?: boolean;
   showTooltip?: boolean;
@@ -12,7 +12,7 @@ type PieceIconWithPieceNameProps = {
 
 const PieceIconWithPieceName = ({
   pieceName,
-  size = 'md',
+  size = "md",
   border = true,
   circle = true,
   showTooltip = true,

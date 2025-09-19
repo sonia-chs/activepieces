@@ -1,30 +1,30 @@
-import { t } from 'i18next';
-import { Calendar, SquareFunction, File } from 'lucide-react';
-import { ControllerRenderProps, useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import { Calendar, SquareFunction, File } from "lucide-react";
+import { ControllerRenderProps, useFormContext } from "react-hook-form";
 
-import { FormItem, FormLabel } from '@/components/ui/form';
-import { ReadMoreDescription } from '@/components/ui/read-more-description';
-import { Toggle } from '@/components/ui/toggle';
+import { FormItem, FormLabel } from "@/components/ui/form";
+import { ReadMoreDescription } from "@/components/ui/read-more-description";
+import { Toggle } from "@/components/ui/toggle";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
-import { PieceProperty, PropertyType } from '@activepieces/pieces-framework';
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { PieceProperty, PropertyType } from "@activepieces/pieces-framework";
 import {
   FlowAction,
   FlowTrigger,
   PropertyExecutionType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { ArrayPiecePropertyInInlineItemMode } from './array-property-in-inline-item-mode';
-import { TextInputWithMentions } from './text-input-with-mentions';
+import { ArrayPiecePropertyInInlineItemMode } from "./array-property-in-inline-item-mode";
+import { TextInputWithMentions } from "./text-input-with-mentions";
 
 type inputNameLiteral = `settings.input.${string}`;
 
 const isInputNameLiteral = (
-  inputName: string,
+  inputName: string
 ): inputName is inputNameLiteral => {
   return inputName.match(/settings\.input\./) !== null;
 };
@@ -43,12 +43,12 @@ type AutoFormFieldWrapperProps = {
 
 const getDefaultValueForDynamicValue = (
   property: PieceProperty,
-  currentValue: unknown,
+  currentValue: unknown
 ) => {
   if (property.type === PropertyType.ARRAY) {
     return null;
   }
-  return typeof currentValue === 'string' || typeof currentValue === 'number'
+  return typeof currentValue === "string" || typeof currentValue === "number"
     ? currentValue
     : JSON.stringify(currentValue);
 };
@@ -78,7 +78,7 @@ const AutoFormFieldWrapper = ({
       propertySettingsForSingleProperty,
       {
         shouldValidate: true,
-      },
+      }
     );
     if (isInputNameLiteral(inputName)) {
       const currentValue = form.getValues(inputName);
@@ -91,7 +91,7 @@ const AutoFormFieldWrapper = ({
       });
     } else {
       throw new Error(
-        'inputName is not a member of step settings input, you might be using dynamic properties where you should not',
+        "inputName is not a member of step settings input, you might be using dynamic properties where you should not"
       );
     }
   }
@@ -115,14 +115,14 @@ const AutoFormFieldWrapper = ({
             </TooltipTrigger>
             <TooltipContent side="bottom">
               <>
-                {property.type === PropertyType.FILE && t('File Input')}
-                {property.type === PropertyType.DATE_TIME && t('Date Input')}
+                {property.type === PropertyType.FILE && t("File Input")}
+                {property.type === PropertyType.DATE_TIME && t("Date Input")}
               </>
             </TooltipContent>
           </Tooltip>
         )}
         <div className="pt-1">
-          <span>{t(property.displayName)}</span>{' '}
+          <span>{t(property.displayName)}</span>{" "}
           {property.required && <span className="text-destructive">*</span>}
         </div>
 
@@ -137,21 +137,21 @@ const AutoFormFieldWrapper = ({
                     handleDynamicValueToggleChange(
                       e
                         ? PropertyExecutionType.DYNAMIC
-                        : PropertyExecutionType.MANUAL,
+                        : PropertyExecutionType.MANUAL
                     )
                   }
                   disabled={disabled}
                 >
                   <SquareFunction
-                    className={cn('size-5', {
-                      'text-foreground': dynamicInputModeToggled,
-                      'text-muted-foreground': !dynamicInputModeToggled,
+                    className={cn("size-5", {
+                      "text-foreground": dynamicInputModeToggled,
+                      "text-muted-foreground": !dynamicInputModeToggled,
                     })}
                   />
                 </Toggle>
               </TooltipTrigger>
               <TooltipContent side="top" className="bg-background">
-                {t('Dynamic value')}
+                {t("Dynamic value")}
               </TooltipContent>
             </Tooltip>
           </div>
@@ -186,6 +186,6 @@ const AutoFormFieldWrapper = ({
   );
 };
 
-AutoFormFieldWrapper.displayName = 'AutoFormFieldWrapper';
+AutoFormFieldWrapper.displayName = "AutoFormFieldWrapper";
 
 export { AutoFormFieldWrapper };

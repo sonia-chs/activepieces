@@ -1,15 +1,15 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { ArrowUp, LoaderCircle } from 'lucide-react';
-import { nanoid } from 'nanoid';
-import { useState, useRef, useEffect } from 'react';
-import { Socket } from 'socket.io-client';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { ArrowUp, LoaderCircle } from "lucide-react";
+import { nanoid } from "nanoid";
+import { useState, useRef, useEffect } from "react";
+import { Socket } from "socket.io-client";
 
-import { CardList } from '@/components/custom/card-list';
-import { useSocket } from '@/components/socket-provider';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { toast } from '@/components/ui/use-toast';
-import { CORE_STEP_METADATA } from '@/features/pieces/lib/step-utils';
+import { CardList } from "@/components/custom/card-list";
+import { useSocket } from "@/components/socket-provider";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { toast } from "@/components/ui/use-toast";
+import { CORE_STEP_METADATA } from "@/features/pieces/lib/step-utils";
 import {
   CodeAction,
   FlowOperationType,
@@ -20,15 +20,15 @@ import {
   WebsocketServerEvent,
   AskCopilotTool,
   FlowActionType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { Textarea } from '../../../components/ui/textarea';
-import { pieceSelectorUtils } from '../../../features/pieces/lib/piece-selector-utils';
-import { LeftSideBarType, useBuilderStateContext } from '../builder-hooks';
-import { SidebarHeader } from '../sidebar-header';
+import { Textarea } from "../../../components/ui/textarea";
+import { pieceSelectorUtils } from "../../../features/pieces/lib/piece-selector-utils";
+import { LeftSideBarType, useBuilderStateContext } from "../builder-hooks";
+import { SidebarHeader } from "../sidebar-header";
 
-import { ChatMessage, CopilotMessage } from './chat-message';
-import { LoadingMessage } from './loading-message';
+import { ChatMessage, CopilotMessage } from "./chat-message";
+import { LoadingMessage } from "./loading-message";
 
 interface DefaultEventsMap {
   [event: string]: (...args: any[]) => void;
@@ -36,15 +36,15 @@ interface DefaultEventsMap {
 
 const COPILOT_WELCOME_MESSAGES: CopilotMessage[] = [
   {
-    messageType: 'text',
-    content: 'welcome',
-    userType: 'bot',
+    messageType: "text",
+    content: "welcome",
+    userType: "bot",
   },
 ];
 
 async function getCodeResponse(
   socket: Socket<DefaultEventsMap, DefaultEventsMap>,
-  request: AskCopilotRequest,
+  request: AskCopilotRequest
 ): Promise<AskCopilotCodeResponse> {
   const id = nanoid();
 
@@ -57,9 +57,9 @@ async function getCodeResponse(
       WebsocketClientEvent.ASK_COPILOT_FINISHED,
       (response: AskCopilotCodeResponse) => {
         resolve(response);
-      },
+      }
     );
-    socket.on('error', (error: any) => {
+    socket.on("error", (error: any) => {
       reject(error);
     });
   });
@@ -67,9 +67,9 @@ async function getCodeResponse(
 
 export const CopilotSidebar = () => {
   const [messages, setMessages] = useState<CopilotMessage[]>(
-    COPILOT_WELCOME_MESSAGES,
+    COPILOT_WELCOME_MESSAGES
   );
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [
     flowVersion,
     refreshSettings,
@@ -94,7 +94,7 @@ export const CopilotSidebar = () => {
   const scrollToLastMessage = () => {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }, 1);
   };
@@ -110,18 +110,18 @@ export const CopilotSidebar = () => {
             code: response.code,
             packages: response.packageJson,
             inputs: response.inputs,
-            icon: response.icon ?? '',
+            icon: response.icon ?? "",
             title: response.title,
           },
-          messageType: 'code',
-          userType: 'bot',
+          messageType: "code",
+          userType: "bot",
         },
       ]);
       scrollToLastMessage();
     },
     onError: (error: any) => {
       toast({
-        title: t('Error generating code'),
+        title: t("Error generating code"),
         description: error.message,
       });
     },
@@ -129,13 +129,13 @@ export const CopilotSidebar = () => {
 
   const handleSendMessage = () => {
     const trimmedInputMessage = inputMessage.trim();
-    if (trimmedInputMessage === '') {
+    if (trimmedInputMessage === "") {
       return;
     }
     mutate({
       prompt: inputMessage,
       context: messages.map((message) => ({
-        role: message.userType === 'user' ? 'user' : 'assistant',
+        role: message.userType === "user" ? "user" : "assistant",
         content: JSON.stringify(message.content),
       })),
       tools: [AskCopilotTool.GENERATE_CODE],
@@ -146,9 +146,9 @@ export const CopilotSidebar = () => {
 
     setMessages([
       ...messages,
-      { content: inputMessage, userType: 'user', messageType: 'text' },
+      { content: inputMessage, userType: "user", messageType: "text" },
     ]);
-    setInputMessage('');
+    setInputMessage("");
     scrollToLastMessage();
   };
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -156,7 +156,7 @@ export const CopilotSidebar = () => {
     if (!askAiButtonProps) {
       return;
     }
-    if (message.messageType !== 'code') {
+    if (message.messageType !== "code") {
       return;
     }
     if (askAiButtonProps) {
@@ -194,7 +194,7 @@ export const CopilotSidebar = () => {
       } else {
         const step = flowStructureUtil.getStep(
           askAiButtonProps.stepName,
-          flowVersion.trigger,
+          flowVersion.trigger
         );
         if (step) {
           const errorHandlingOptions =
@@ -232,7 +232,7 @@ export const CopilotSidebar = () => {
   return (
     <div className="flex flex-col h-full">
       <SidebarHeader onClose={() => setLeftSidebar(LeftSideBarType.NONE)}>
-        {t('AI Copilot')}
+        {t("AI Copilot")}
       </SidebarHeader>
       <div className="flex flex-col flex-grow overflow-hidden ">
         <ScrollArea className="flex-grow overflow-auto">
@@ -257,10 +257,10 @@ export const CopilotSidebar = () => {
             minRows={1}
             autoFocus={true}
             maxRows={4}
-            placeholder={t('i.e Calculate the sum of a list...')}
+            placeholder={t("i.e Calculate the sum of a list...")}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey && !isPending) {
+              if (e.key === "Enter" && !e.shiftKey && !isPending) {
                 handleSendMessage();
                 e.preventDefault();
               }
@@ -269,7 +269,7 @@ export const CopilotSidebar = () => {
           <button
             onClick={handleSendMessage}
             className="transform  w-8 h-8 rounded-full flex items-center justify-center border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-md hover:bg-gray-100 dark:hover:bg-gray-600"
-            aria-label={t('Send')}
+            aria-label={t("Send")}
             disabled={isPending}
           >
             {isPending ? (
@@ -284,4 +284,4 @@ export const CopilotSidebar = () => {
   );
 };
 
-CopilotSidebar.displayName = 'ChatSidebar';
+CopilotSidebar.displayName = "ChatSidebar";

@@ -1,33 +1,33 @@
-import { t } from 'i18next';
-import { ChevronLeft, Info } from 'lucide-react';
-import React, { useMemo } from 'react';
+import { t } from "i18next";
+import { ChevronLeft, Info } from "lucide-react";
+import React, { useMemo } from "react";
 
 import {
   LeftSideBarType,
   useBuilderStateContext,
-} from '@/app/builder/builder-hooks';
-import { CardList } from '@/components/custom/card-list';
-import { Button } from '@/components/ui/button';
+} from "@/app/builder/builder-hooks";
+import { CardList } from "@/components/custom/card-list";
+import { Button } from "@/components/ui/button";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from '@/components/ui/resizable-panel';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { flagsHooks } from '@/hooks/flags-hooks';
+} from "@/components/ui/resizable-panel";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { flagsHooks } from "@/hooks/flags-hooks";
 import {
   ApFlagId,
   FlowRun,
   FlowRunStatus,
   isNil,
   RunEnvironment,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { flowRunUtils } from '../../../features/flow-runs/lib/flow-run-utils';
-import { SidebarHeader } from '../sidebar-header';
+import { flowRunUtils } from "../../../features/flow-runs/lib/flow-run-utils";
+import { SidebarHeader } from "../sidebar-header";
 
-import { FlowStepIO } from './flow-step-io';
-import { FlowStepDetailsCardItem } from './run-step-card-item';
+import { FlowStepIO } from "./flow-step-io";
+import { FlowStepDetailsCardItem } from "./run-step-card-item";
 
 function getMessage(run: FlowRun | null, retentionDays: number | null) {
   if (
@@ -40,19 +40,19 @@ function getMessage(run: FlowRun | null, retentionDays: number | null) {
   )
     return null;
   if ([FlowRunStatus.INTERNAL_ERROR].includes(run.status)) {
-    return t('There are no logs captured for this run.');
+    return t("There are no logs captured for this run.");
   }
   if (isNil(run.logsFileId)) {
     return t(
-      'Logs are kept for {days} days after execution and then deleted.',
-      { days: retentionDays },
+      "Logs are kept for {days} days after execution and then deleted.",
+      { days: retentionDays }
     );
   }
   return null;
 }
 const FlowRunDetails = React.memo(() => {
   const { data: rententionDays } = flagsHooks.useFlag<number>(
-    ApFlagId.EXECUTION_DATA_RETENTION_DAYS,
+    ApFlagId.EXECUTION_DATA_RETENTION_DAYS
   );
 
   const [setLeftSidebar, run, steps, loopsIndexes, flowVersion, selectedStep] =
@@ -75,7 +75,7 @@ const FlowRunDetails = React.memo(() => {
           selectedStep,
           loopsIndexes,
           run.steps,
-          flowVersion.trigger,
+          flowVersion.trigger
         )
       : null;
   }, [run, selectedStep, loopsIndexes, flowVersion.trigger]);
@@ -99,13 +99,13 @@ const FlowRunDetails = React.memo(() => {
           {run && run.environment !== RunEnvironment.TESTING && (
             <Button
               variant="ghost"
-              size={'sm'}
+              size={"sm"}
               onClick={() => setLeftSidebar(LeftSideBarType.RUNS)}
             >
               <ChevronLeft size={16} />
             </Button>
           )}
-          <span>{t('Run Details')}</span>
+          <span>{t("Run Details")}</span>
         </div>
       </SidebarHeader>
       <ResizablePanel className="h-full">
@@ -139,5 +139,5 @@ const FlowRunDetails = React.memo(() => {
   );
 });
 
-FlowRunDetails.displayName = 'FlowRunDetails';
+FlowRunDetails.displayName = "FlowRunDetails";
 export { FlowRunDetails };

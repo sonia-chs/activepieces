@@ -1,16 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Eye, EyeOff, Pin, PinOff } from 'lucide-react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Eye, EyeOff, Pin, PinOff } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { toast } from '@/components/ui/use-toast';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { platformApi } from '@/lib/platforms-api';
+} from "@/components/ui/tooltip";
+import { toast } from "@/components/ui/use-toast";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { platformApi } from "@/lib/platforms-api";
 
 type PieceActionsProps = {
   pieceName: string;
@@ -23,7 +23,7 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
   const { mutate: togglePiece, isPending: isTogglePending } = useMutation({
     mutationFn: async (piecename: string) => {
       const newFilteredPieceNames = platform.filteredPieceNames.includes(
-        piecename,
+        piecename
       )
         ? platform.filteredPieceNames.filter((name) => name !== piecename)
         : [...platform.filteredPieceNames, piecename];
@@ -32,14 +32,14 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
         {
           filteredPieceNames: newFilteredPieceNames,
         },
-        platform.id,
+        platform.id
       );
       await refetch();
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Your changes have been saved.'),
+        title: t("Success"),
+        description: t("Your changes have been saved."),
         duration: 3000,
       });
     },
@@ -55,14 +55,14 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
         {
           pinnedPieces: newPinnedPieces,
         },
-        platform.id,
+        platform.id
       );
       await refetch();
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Your changes have been saved.'),
+        title: t("Success"),
+        description: t("Your changes have been saved."),
         duration: 3000,
       });
     },
@@ -77,7 +77,7 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
         <TooltipTrigger asChild>
           <Button
             variant="ghost"
-            size={'sm'}
+            size={"sm"}
             loading={isTogglePending}
             disabled={!isEnabled}
             onClick={(e) => {
@@ -97,8 +97,8 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
         </TooltipTrigger>
         <TooltipContent>
           {filtered
-            ? t('Hide this piece from all projects')
-            : t('Show this piece for all projects')}
+            ? t("Hide this piece from all projects")
+            : t("Show this piece for all projects")}
         </TooltipContent>
       </Tooltip>
 
@@ -106,7 +106,7 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
         <TooltipTrigger asChild>
           <Button
             variant="ghost"
-            size={'sm'}
+            size={"sm"}
             loading={isPinPending}
             disabled={!isEnabled}
             onClick={(e) => {
@@ -125,13 +125,13 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          {pinned ? t('Unpin this piece') : t('Pin this piece')}
+          {pinned ? t("Unpin this piece") : t("Pin this piece")}
         </TooltipContent>
       </Tooltip>
     </div>
   );
 };
 
-PieceActions.displayName = 'PieceActions';
+PieceActions.displayName = "PieceActions";
 
 export { PieceActions };

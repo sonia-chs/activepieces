@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useVirtualizer } from '@tanstack/react-virtual';
-import * as React from 'react';
+import { useVirtualizer } from "@tanstack/react-virtual";
+import * as React from "react";
 
-import { isNil } from '@activepieces/shared';
+import { isNil } from "@activepieces/shared";
 
-import { ScrollArea } from './scroll-area';
+import { ScrollArea } from "./scroll-area";
 
 interface VirtualizedScrollAreaProps<T> {
   items: T[];
@@ -25,9 +25,9 @@ export interface VirtualizedScrollAreaRef {
   scrollToIndex: (
     index: number,
     options?: {
-      align?: 'start' | 'center' | 'end';
-      behavior?: 'auto' | 'smooth';
-    },
+      align?: "start" | "center" | "end";
+      behavior?: "auto" | "smooth";
+    }
   ) => void;
 }
 
@@ -59,14 +59,14 @@ const VirtualizedScrollArea = ({
     }
     if (initialScroll.index > -1) {
       rowVirtualizer.scrollToIndex(initialScroll.index, {
-        align: 'start',
-        behavior: 'auto',
+        align: "start",
+        behavior: "auto",
       });
       if (initialScroll?.clickAfterScroll) {
         //need to wait for the scroll to be completed
         setTimeout(() => {
           const targetElement = parentRef.current?.querySelector(
-            `[data-virtual-index="${initialScroll.index}"]`,
+            `[data-virtual-index="${initialScroll.index}"]`
           );
           const renderedElement = targetElement?.children[0];
           if (renderedElement instanceof HTMLElement) {
@@ -85,8 +85,8 @@ const VirtualizedScrollArea = ({
       <div
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,
-          width: '100%',
-          position: 'relative',
+          width: "100%",
+          position: "relative",
         }}
       >
         {virtualItems.map((virtualItem) => (
@@ -94,10 +94,10 @@ const VirtualizedScrollArea = ({
             key={virtualItem.key}
             data-virtual-index={virtualItem.index}
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               left: 0,
-              width: '100%',
+              width: "100%",
               height: `${virtualItem.size}px`,
               transform: `translateY(${virtualItem.start}px)`,
             }}
@@ -110,6 +110,6 @@ const VirtualizedScrollArea = ({
   );
 };
 
-VirtualizedScrollArea.displayName = 'VirtualizedScrollArea';
+VirtualizedScrollArea.displayName = "VirtualizedScrollArea";
 
 export { VirtualizedScrollArea };

@@ -1,24 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { authenticationApi } from '@/lib/authentication-api';
-import { authenticationSession } from '@/lib/authentication-session';
-import { platformApi } from '@/lib/platforms-api';
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { authenticationApi } from "@/lib/authentication-api";
+import { authenticationSession } from "@/lib/authentication-session";
+import { platformApi } from "@/lib/platforms-api";
 import {
   ApEdition,
   ApFlagId,
   isNil,
   Permission,
   PlatformRole,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const useAuthorization = () => {
   const { data: edition } = flagsHooks.useFlag(ApFlagId.EDITION);
 
   const platformId = authenticationSession.getPlatformId();
   const { data: projectRole, isLoading } = useQuery({
-    queryKey: ['project-role', authenticationSession.getProjectId()],
+    queryKey: ["project-role", authenticationSession.getProjectId()],
     queryFn: async () => {
       const platform = await platformApi.getCurrentPlatform();
       if (platform.plan.projectRolesEnabled) {

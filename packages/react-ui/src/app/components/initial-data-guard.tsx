@@ -1,8 +1,8 @@
-import { Suspense } from 'react';
+import { Suspense } from "react";
 
-import { useEmbedding } from '@/components/embed-provider';
+import { useEmbedding } from "@/components/embed-provider";
 
-import { LoadingScreen } from '../../components/ui/loading-screen';
+import { LoadingScreen } from "../../components/ui/loading-screen";
 
 type InitialDataGuardProps = {
   children: React.ReactNode;

@@ -1,13 +1,13 @@
-import dayjs from 'dayjs';
-import { t } from 'i18next';
-import React, { useContext, useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import dayjs from "dayjs";
+import { t } from "i18next";
+import React, { useContext, useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
-import { useSocket } from '@/components/socket-provider';
-import { Button } from '@/components/ui/button';
-import { Dot } from '@/components/ui/dot';
-import { stepUtils } from '@/features/pieces/lib/step-utils';
-import { todosHooks } from '@/features/todos/lib/todo-hook';
+import { useSocket } from "@/components/socket-provider";
+import { Button } from "@/components/ui/button";
+import { Dot } from "@/components/ui/dot";
+import { stepUtils } from "@/features/pieces/lib/step-utils";
+import { todosHooks } from "@/features/todos/lib/todo-hook";
 import {
   FlowAction,
   FlowActionType,
@@ -17,18 +17,18 @@ import {
   flowStructureUtil,
   isNil,
   StepRunResponse,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { AgentRunDialog } from '../../../features/agents/agent-run-dialog';
-import { flowRunsApi } from '../../../features/flow-runs/lib/flow-runs-api';
-import { useBuilderStateContext } from '../builder-hooks';
-import { DynamicPropertiesContext } from '../piece-properties/dynamic-properties-context';
+import { AgentRunDialog } from "../../../features/agents/agent-run-dialog";
+import { flowRunsApi } from "../../../features/flow-runs/lib/flow-runs-api";
+import { useBuilderStateContext } from "../builder-hooks";
+import { DynamicPropertiesContext } from "../piece-properties/dynamic-properties-context";
 
-import { TodoTestingDialog } from './custom-test-step/test-todo-dialog';
-import TestWebhookDialog from './custom-test-step/test-webhook-dialog';
-import { TestSampleDataViewer } from './test-sample-data-viewer';
-import { testStepHooks } from './test-step-hooks';
-import { TestButtonTooltip } from './test-step-tooltip';
+import { TodoTestingDialog } from "./custom-test-step/test-todo-dialog";
+import TestWebhookDialog from "./custom-test-step/test-webhook-dialog";
+import { TestSampleDataViewer } from "./test-sample-data-viewer";
+import { testStepHooks } from "./test-step-hooks";
+import { TestButtonTooltip } from "./test-step-tooltip";
 
 type TestActionComponentProps = {
   isSaving: boolean;
@@ -36,35 +36,35 @@ type TestActionComponentProps = {
   projectId: string;
 };
 
-type ActionWithoutNext = Omit<FlowAction, 'nextAction'>;
+type ActionWithoutNext = Omit<FlowAction, "nextAction">;
 enum DialogType {
-  NONE = 'NONE',
-  TODO_CREATE_TASK = 'TODO_CREATE_TASK',
-  AGENT = 'AGENT',
-  WEBHOOK = 'WEBHOOK',
+  NONE = "NONE",
+  TODO_CREATE_TASK = "TODO_CREATE_TASK",
+  AGENT = "AGENT",
+  WEBHOOK = "WEBHOOK",
 }
 
 const isTodoCreateTask = (step: FlowAction) => {
   return (
     step.type === FlowActionType.PIECE &&
-    step.settings.pieceName === '@activepieces/piece-todos' &&
-    step.settings.actionName === 'createTodoAndWait'
+    step.settings.pieceName === "@activepieces/piece-todos" &&
+    step.settings.actionName === "createTodoAndWait"
   );
 };
 
 const isRunAgent = (step: FlowAction) => {
   return (
     step.type === FlowActionType.PIECE &&
-    step.settings.pieceName === '@activepieces/piece-agent' &&
-    step.settings.actionName === 'run_agent'
+    step.settings.pieceName === "@activepieces/piece-agent" &&
+    step.settings.actionName === "run_agent"
   );
 };
 
 const isReturnResponseAndWaitForWebhook = (step: FlowAction) => {
   return (
     step.type === FlowActionType.PIECE &&
-    step.settings.pieceName === '@activepieces/piece-webhook' &&
-    step.settings.actionName === 'return_response_and_wait_for_next_webhook'
+    step.settings.pieceName === "@activepieces/piece-webhook" &&
+    step.settings.actionName === "return_response_and_wait_for_next_webhook"
   );
 };
 
@@ -75,16 +75,16 @@ const TestStepSectionImplementation = React.memo(
     currentStep,
   }: TestActionComponentProps & { currentStep: FlowAction }) => {
     const [errorMessage, setErrorMessage] = useState<string | undefined>(
-      undefined,
+      undefined
     );
     const [consoleLogs, setConsoleLogs] = useState<null | string>(null);
     const [activeDialog, setActiveDialog] = useState<DialogType>(
-      DialogType.NONE,
+      DialogType.NONE
     );
     const socket = useSocket();
     const [todoId, setTodoId] = useState<string | null>(null);
     const [agentProgress, setAgentProgress] = useState<StepRunResponse | null>(
-      null,
+      null
     );
     const agentRunId = stepUtils.getAgentRunId(agentProgress);
     const { sampleData, sampleDataInput } = useBuilderStateContext((state) => {
@@ -105,7 +105,7 @@ const TestStepSectionImplementation = React.memo(
         onSuccess: () => {
           form.setValue(
             `settings.sampleData.lastTestDate`,
-            dayjs().toISOString(),
+            dayjs().toISOString()
           );
         },
         onProgress: (progress: any) => {
@@ -186,8 +186,8 @@ const TestStepSectionImplementation = React.memo(
                 loading={isTesting || isSaving}
                 disabled={!currentStep.valid || isLoadingDynamicProperties}
               >
-                <Dot animation={true} variant={'primary'}></Dot>
-                {t('Test Step')}
+                <Dot animation={true} variant={"primary"}></Dot>
+                {t("Test Step")}
               </Button>
             </TestButtonTooltip>
           </div>
@@ -217,7 +217,7 @@ const TestStepSectionImplementation = React.memo(
               currentStep={currentStep}
               setErrorMessage={setErrorMessage}
               type={
-                currentStep.settings.actionName === 'createTodoAndWait'
+                currentStep.settings.actionName === "createTodoAndWait"
                   ? TodoType.INTERNAL
                   : TodoType.EXTERNAL
               }
@@ -241,7 +241,7 @@ const TestStepSectionImplementation = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 
 const isAction = (step: Step): step is FlowAction => {
@@ -251,7 +251,7 @@ const TestActionSection = React.memo((props: TestActionComponentProps) => {
   const currentStep = useBuilderStateContext((state) =>
     state.selectedStep
       ? flowStructureUtil.getStep(state.selectedStep, state.flowVersion.trigger)
-      : null,
+      : null
   );
   if (isNil(currentStep) || !isAction(currentStep)) {
     return null;
@@ -260,7 +260,7 @@ const TestActionSection = React.memo((props: TestActionComponentProps) => {
   return <TestStepSectionImplementation {...props} currentStep={currentStep} />;
 });
 
-TestStepSectionImplementation.displayName = 'TestStepSectionImplementation';
-TestActionSection.displayName = 'TestActionSection';
+TestStepSectionImplementation.displayName = "TestStepSectionImplementation";
+TestActionSection.displayName = "TestActionSection";
 
 export { TestActionSection };

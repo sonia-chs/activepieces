@@ -1,25 +1,25 @@
-import { ArrowRight } from 'lucide-react';
-import { useRef } from 'react';
+import { ArrowRight } from "lucide-react";
+import { useRef } from "react";
 
 import {
   ChatDrawerSource,
   useBuilderStateContext,
-} from '@/app/builder/builder-hooks';
-import { useSocket } from '@/components/socket-provider';
-import { Button } from '@/components/ui/button';
+} from "@/app/builder/builder-hooks";
+import { useSocket } from "@/components/socket-provider";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-} from '@/components/ui/drawer';
+} from "@/components/ui/drawer";
 import {
   FlowRun,
   RunEnvironment,
   WebsocketClientEvent,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { FlowChat } from './flow-chat';
+import { FlowChat } from "./flow-chat";
 
 export const ChatDrawer = () => {
   const [
@@ -56,7 +56,7 @@ export const ChatDrawer = () => {
         isListening.current = false;
         socket.off(
           WebsocketClientEvent.TEST_FLOW_RUN_STARTED,
-          onTestFlowRunStarted,
+          onTestFlowRunStarted
         );
       }
     };
@@ -76,7 +76,7 @@ export const ChatDrawer = () => {
             <div className="flex items-center gap-1">
               <Button
                 variant="basic"
-                size={'icon'}
+                size={"icon"}
                 className="text-foreground"
                 onClick={() => setChatDrawerOpenSource(null)}
               >

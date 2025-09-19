@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import {
   ListAgentsQueryParams,
@@ -7,21 +7,21 @@ import {
   AgentRun,
   RunAgentRequestBody,
   EnhaceAgentPrompt,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { agentsApi, agentRunsApi } from './agents-api';
+import { agentsApi, agentRunsApi } from "./agents-api";
 
 export const agentHooks = {
   useList: (params?: ListAgentsQueryParams) => {
     return useQuery({
-      queryKey: ['agents', params],
+      queryKey: ["agents", params],
       queryFn: () => agentsApi.list(params),
     });
   },
 
   useGet: (id: string | null | undefined) => {
     return useQuery({
-      queryKey: ['agents', id],
+      queryKey: ["agents", id],
       queryFn: () => agentsApi.get(id!),
       enabled: !!id,
     });
@@ -29,7 +29,7 @@ export const agentHooks = {
 
   useGetByExternalId: (externalId: string | null | undefined) => {
     return useQuery({
-      queryKey: ['agents', externalId],
+      queryKey: ["agents", externalId],
       queryFn: () => agentsApi.findByExteranlId(externalId!),
       enabled: !!externalId,
     });
@@ -58,13 +58,13 @@ export const agentHooks = {
 export const agentRunHooks = {
   useList: (params: ListAgentRunsQueryParams) => {
     return useQuery({
-      queryKey: ['agent-runs', params],
+      queryKey: ["agent-runs", params],
       queryFn: () => agentRunsApi.list(params),
     });
   },
   useGet: (id: string | null | undefined) => {
     return useQuery<AgentRun>({
-      queryKey: ['agent-run', id],
+      queryKey: ["agent-run", id],
       queryFn: () => agentRunsApi.get(id!),
       enabled: !!id,
       refetchInterval: 2000,

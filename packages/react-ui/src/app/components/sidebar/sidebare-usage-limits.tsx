@@ -1,52 +1,52 @@
-import dayjs from 'dayjs';
-import { t } from 'i18next';
-import { Clock, Rocket } from 'lucide-react';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import dayjs from "dayjs";
+import { t } from "i18next";
+import { Clock, Rocket } from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useManagePlanDialogStore } from '@/features/billing/components/upgrade-dialog/store';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { cn, formatUtils } from '@/lib/utils';
-import { ApSubscriptionStatus } from '@activepieces/ee-shared';
-import { ApEdition, ApFlagId, isNil } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useManagePlanDialogStore } from "@/features/billing/components/upgrade-dialog/store";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { cn, formatUtils } from "@/lib/utils";
+import { ApSubscriptionStatus } from "@activepieces/ee-shared";
+import { ApEdition, ApFlagId, isNil } from "@activepieces/shared";
 
-import { FlagGuard } from '../flag-guard';
+import { FlagGuard } from "../flag-guard";
 
 const getTimeUntilNextReset = (nextResetDate: number) => {
   const now = dayjs();
   const nextReset = dayjs.unix(nextResetDate);
 
   if (nextReset.isBefore(now)) {
-    return t('Today');
+    return t("Today");
   }
 
-  const diffInMonths = nextReset.diff(now, 'months');
+  const diffInMonths = nextReset.diff(now, "months");
   if (diffInMonths > 0) {
-    return `${diffInMonths} ${t('months')}`;
+    return `${diffInMonths} ${t("months")}`;
   }
 
-  const diffInDays = nextReset.diff(now, 'days');
+  const diffInDays = nextReset.diff(now, "days");
   if (diffInDays > 0) {
-    return `${diffInDays} ${t('days')}`;
+    return `${diffInDays} ${t("days")}`;
   }
 
-  const diffInHours = nextReset.diff(now, 'hours');
+  const diffInHours = nextReset.diff(now, "hours");
   if (diffInHours > 0) {
-    return `${diffInHours} ${t('hours')}`;
+    return `${diffInHours} ${t("hours")}`;
   }
 
-  const diffInMinutes = nextReset.diff(now, 'minutes');
+  const diffInMinutes = nextReset.diff(now, "minutes");
   if (diffInMinutes > 0) {
-    return `${diffInMinutes} ${t('minutes')}`;
+    return `${diffInMinutes} ${t("minutes")}`;
   }
 
-  return t('Today');
+  return t("Today");
 };
 
 const getTrialProgress = (trialStartDate: number, trialEndDate: number) => {
@@ -54,8 +54,8 @@ const getTrialProgress = (trialStartDate: number, trialEndDate: number) => {
   const trialStart = dayjs.unix(trialStartDate);
   const trialEnd = dayjs.unix(trialEndDate);
 
-  const totalDays = trialEnd.diff(trialStart, 'days');
-  const elapsedDays = now.diff(trialStart, 'days');
+  const totalDays = trialEnd.diff(trialStart, "days");
+  const elapsedDays = now.diff(trialStart, "days");
 
   return Math.min(100, Math.max(0, (elapsedDays / totalDays) * 100));
 };
@@ -117,16 +117,16 @@ const SidebarUsageLimits = React.memo(() => {
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-4">
           <UsageProgress
-            name={t('Tasks')}
+            name={t("Tasks")}
             value={project.usage.tasks}
             max={project.plan.tasks}
-            variant={'primary'}
+            variant={"primary"}
           />
           <UsageProgress
-            name={t('AI Credits')}
+            name={t("AI Credits")}
             value={project.usage.aiCredits}
             max={project.plan.aiCredits}
-            variant={'success'}
+            variant={"success"}
           />
           {isTrial &&
             platform.plan.stripeSubscriptionEndDate &&
@@ -141,20 +141,20 @@ const SidebarUsageLimits = React.memo(() => {
           <div className="flex flex-col gap-3">
             <Button size="sm" className="w-full" onClick={() => openDialog()}>
               <Rocket className="w-4 h-4 mr-2" />
-              {t('Upgrade Plan')}
+              {t("Upgrade Plan")}
             </Button>
           </div>
         )}
         {!isTrial && (
           <div className="text-xs text-muted-foreground flex justify-between w-full">
             <span>
-              {t('Usage resets in')}{' '}
-              {getTimeUntilNextReset(project.usage.nextLimitResetDate)}{' '}
+              {t("Usage resets in")}{" "}
+              {getTimeUntilNextReset(project.usage.nextLimitResetDate)}{" "}
             </span>
             <FlagGuard flag={ApFlagId.SHOW_BILLING}>
-              <Link to={'/platform/setup/billing'} className="w-fit">
+              <Link to={"/platform/setup/billing"} className="w-fit">
                 <span className="text-xs text-primary underline">
-                  {t('Manage')}
+                  {t("Manage")}
                 </span>
               </Link>
             </FlagGuard>
@@ -179,7 +179,7 @@ const TrialProgress = ({
       <div className="w-full flex text-xs justify-between">
         <span className="text-muted-foreground flex items-center gap-1">
           <Clock className="w-4 h-4 mr-1" />
-          {t('Trial Ends in')}
+          {t("Trial Ends in")}
         </span>
         <div className="text-xs">
           <span className="text-orange-600 font-medium">
@@ -196,7 +196,7 @@ type UsageProgressProps = {
   value: number;
   max: number | undefined | null;
   name: string;
-  variant: 'success' | 'primary';
+  variant: "success" | "primary";
 };
 
 const UsageProgress = ({ value, max, name, variant }: UsageProgressProps) => {
@@ -212,23 +212,23 @@ const UsageProgress = ({ value, max, name, variant }: UsageProgressProps) => {
         <div className="text-xs">
           <span>
             {formatUtils.formatNumber(value)}
-            {' / '}
+            {" / "}
           </span>
           <span>
-            {!isNil(max) ? formatUtils.formatNumber(max) : t('Unlimited')}
+            {!isNil(max) ? formatUtils.formatNumber(max) : t("Unlimited")}
           </span>
         </div>
       </div>
 
       <Progress
         value={usagePercentage}
-        className={cn('w-full h-[6px]', {
-          'bg-primary/40': isUnlimited,
+        className={cn("w-full h-[6px]", {
+          "bg-primary/40": isUnlimited,
         })}
       />
     </div>
   );
 };
 
-SidebarUsageLimits.displayName = 'UsageLimitsButton';
+SidebarUsageLimits.displayName = "UsageLimitsButton";
 export default SidebarUsageLimits;

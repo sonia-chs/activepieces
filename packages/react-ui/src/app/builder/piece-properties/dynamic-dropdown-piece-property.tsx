@@ -1,18 +1,18 @@
-import deepEqual from 'deep-equal';
-import { t } from 'i18next';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import deepEqual from "deep-equal";
+import { t } from "i18next";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 
-import { useBuilderStateContext } from '@/app/builder/builder-hooks';
-import { SearchableSelect } from '@/components/custom/searchable-select';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { DropdownState, PropertyType } from '@activepieces/pieces-framework';
-import { FlowAction, isNil, FlowTrigger } from '@activepieces/shared';
+import { useBuilderStateContext } from "@/app/builder/builder-hooks";
+import { SearchableSelect } from "@/components/custom/searchable-select";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { DropdownState, PropertyType } from "@activepieces/pieces-framework";
+import { FlowAction, isNil, FlowTrigger } from "@activepieces/shared";
 
-import { MultiSelectPieceProperty } from '../../../components/custom/multi-select-piece-property';
+import { MultiSelectPieceProperty } from "../../../components/custom/multi-select-piece-property";
 
-import { DynamicPropertiesErrorBoundary } from './dynamic-piece-properties-error-boundary';
-import { DynamicPropertiesContext } from './dynamic-properties-context';
+import { DynamicPropertiesErrorBoundary } from "./dynamic-piece-properties-error-boundary";
+import { DynamicPropertiesContext } from "./dynamic-properties-context";
 
 type SelectPiecePropertyProps = {
   refreshers: string[];
@@ -34,16 +34,16 @@ const DynamicDropdownPiecePropertyImplementation = React.memo(
     const isFirstRender = useRef(true);
     const previousValues = useRef<undefined | unknown[]>(undefined);
     const firstDropdownState = useRef<DropdownState<unknown> | undefined>(
-      undefined,
+      undefined
     );
-    const newRefreshers = [...props.refreshers, 'auth'];
+    const newRefreshers = [...props.refreshers, "auth"];
     const [dropdownState, setDropdownState] = useState<DropdownState<unknown>>({
       disabled: false,
-      placeholder: t('Select an option'),
+      placeholder: t("Select an option"),
       options: [],
     });
     const { propertyLoadingFinished, propertyLoadingStarted } = useContext(
-      DynamicPropertiesContext,
+      DynamicPropertiesContext
     );
     const { mutate, isPending, error } = piecesHooks.usePieceOptions<
       PropertyType.DROPDOWN | PropertyType.MULTI_SELECT_DROPDOWN
@@ -68,7 +68,7 @@ const DynamicDropdownPiecePropertyImplementation = React.memo(
       useWatch({
         name: `settings.input.${refresher}` as const,
         control: form.control,
-      }),
+      })
     );
     /* eslint-enable react-hooks/rules-of-hooks */
     const refresh = (term?: string) => {
@@ -100,7 +100,7 @@ const DynamicDropdownPiecePropertyImplementation = React.memo(
             }
             setDropdownState(response.options);
           },
-        },
+        }
       );
     };
 
@@ -124,7 +124,7 @@ const DynamicDropdownPiecePropertyImplementation = React.memo(
     const isDisabled = dropdownState.disabled || props.disabled;
     return props.multiple ? (
       <MultiSelectPieceProperty
-        placeholder={dropdownState.placeholder ?? t('Select an option')}
+        placeholder={dropdownState.placeholder ?? t("Select an option")}
         options={selectOptions}
         loading={isPending}
         onChange={(value) => props.onChange(value)}
@@ -147,7 +147,7 @@ const DynamicDropdownPiecePropertyImplementation = React.memo(
         options={selectOptions}
         disabled={dropdownState.disabled || props.disabled}
         loading={isPending}
-        placeholder={dropdownState.placeholder ?? t('Select an option')}
+        placeholder={dropdownState.placeholder ?? t("Select an option")}
         value={props.value}
         onChange={(value) => props.onChange(value)}
         showDeselect={
@@ -159,7 +159,7 @@ const DynamicDropdownPiecePropertyImplementation = React.memo(
         cachedOptions={firstDropdownState.current?.options ?? []}
       />
     );
-  },
+  }
 );
 
 const DynamicDropdownPieceProperty = React.memo(
@@ -169,9 +169,9 @@ const DynamicDropdownPieceProperty = React.memo(
         <DynamicDropdownPiecePropertyImplementation {...props} />
       </DynamicPropertiesErrorBoundary>
     );
-  },
+  }
 );
-DynamicDropdownPieceProperty.displayName = 'DynamicDropdownPieceProperty';
+DynamicDropdownPieceProperty.displayName = "DynamicDropdownPieceProperty";
 DynamicDropdownPiecePropertyImplementation.displayName =
-  'DynamicDropdownPiecePropertyImplementation';
+  "DynamicDropdownPiecePropertyImplementation";
 export { DynamicDropdownPieceProperty };

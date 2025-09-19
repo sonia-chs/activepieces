@@ -1,17 +1,17 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 
-import { TodoDetails } from '@/app/routes/todos/todo-details';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { todosApi } from '@/features/todos/lib/todos-api';
+import { TodoDetails } from "@/app/routes/todos/todo-details";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { todosApi } from "@/features/todos/lib/todos-api";
 import {
   PopulatedTodo,
   TodoType,
   FlowAction,
   CreateTodoResult,
   CreateAndWaitTodoResult,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { testStepHooks } from '../test-step-hooks';
+import { testStepHooks } from "../test-step-hooks";
 
 type TodoTestingDialogProps = {
   open: boolean;
@@ -31,18 +31,18 @@ function TodoTestingDialog({
   setErrorMessage,
 }: TodoTestingDialogProps) {
   const { mutate: updateSampleData } = testStepHooks.useUpdateSampleData(
-    currentStep.name,
+    currentStep.name
   );
 
   const formatTodoResult = (
-    response: PopulatedTodo,
+    response: PopulatedTodo
   ): CreateTodoResult | CreateAndWaitTodoResult => {
     if (type === TodoType.INTERNAL) {
       return {
         status: response.status.name,
       };
     }
-    const publicUrl = response.resolveUrl?.split('/flow-runs/')[0];
+    const publicUrl = response.resolveUrl?.split("/flow-runs/")[0];
     const links = response.statusOptions.map((option) => ({
       name: option.name,
       url: `${publicUrl}/todos/${response.id}/resolve?status=${option.name}&isTest=true`,
@@ -54,7 +54,7 @@ function TodoTestingDialog({
   };
 
   const { mutate: resolveTodo } = useMutation({
-    mutationFn: async (status: PopulatedTodo['status']) => {
+    mutationFn: async (status: PopulatedTodo["status"]) => {
       return await todosApi.update(todo.id, {
         status: status,
         isTest: true,
@@ -70,7 +70,7 @@ function TodoTestingDialog({
     },
   });
 
-  const handleStatusChange = (status: PopulatedTodo['status']) => {
+  const handleStatusChange = (status: PopulatedTodo["status"]) => {
     resolveTodo(status);
   };
 

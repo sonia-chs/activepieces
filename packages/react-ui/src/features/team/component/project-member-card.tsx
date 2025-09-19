@@ -1,19 +1,19 @@
-import { t } from 'i18next';
-import { Trash } from 'lucide-react';
+import { t } from "i18next";
+import { Trash } from "lucide-react";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { UserAvatar } from '@/components/ui/user-avatar';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { ProjectMemberWithUser } from '@activepieces/ee-shared';
-import { Permission } from '@activepieces/shared';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { ProjectMemberWithUser } from "@activepieces/ee-shared";
+import { Permission } from "@activepieces/shared";
 
-import { ConfirmationDeleteDialog } from '../../../components/delete-dialog';
-import { Button } from '../../../components/ui/button';
-import { projectMembersApi } from '../lib/project-members-api';
-import { projectMembersHooks } from '../lib/project-members-hooks';
+import { ConfirmationDeleteDialog } from "../../../components/delete-dialog";
+import { Button } from "../../../components/ui/button";
+import { projectMembersApi } from "../lib/project-members-api";
+import { projectMembersHooks } from "../lib/project-members-hooks";
 
-import { EditRoleDialog } from './edit-role-dialog';
+import { EditRoleDialog } from "./edit-role-dialog";
 
 type ProjectMemberCardProps = {
   member: ProjectMemberWithUser;
@@ -27,7 +27,7 @@ export function ProjectMemberCard({
   const { refetch } = projectMembersHooks.useProjectMembers();
   const { checkAccess } = useAuthorization();
   const userHasPermissionToRemoveMember = checkAccess(
-    Permission.WRITE_PROJECT_MEMBER,
+    Permission.WRITE_PROJECT_MEMBER
   );
   const { project } = projectHooks.useCurrentProject();
   const deleteMember = async () => {
@@ -43,7 +43,7 @@ export function ProjectMemberCard({
     >
       <div className="flex items-center space-x-4">
         <UserAvatar
-          name={member.user.firstName + ' ' + member.user.lastName}
+          name={member.user.firstName + " " + member.user.lastName}
           email={member.user.email}
           size={32}
           disableTooltip={true}
@@ -69,10 +69,10 @@ export function ProjectMemberCard({
               disabled={!userHasPermissionToRemoveMember}
             />
             <ConfirmationDeleteDialog
-              title={`${t('Remove')} ${member.user.firstName} ${
+              title={`${t("Remove")} ${member.user.firstName} ${
                 member.user.lastName
               }`}
-              message={t('Are you sure you want to remove this member?')}
+              message={t("Are you sure you want to remove this member?")}
               mutationFn={() => deleteMember()}
               entityName={`${member.user.firstName} ${member.user.lastName}`}
             >

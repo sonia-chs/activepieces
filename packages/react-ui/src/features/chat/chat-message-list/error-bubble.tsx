@@ -1,25 +1,25 @@
-import { BotIcon, CircleX, RotateCcw } from 'lucide-react';
-import React from 'react';
+import { BotIcon, CircleX, RotateCcw } from "lucide-react";
+import React from "react";
 
 import {
   ChatBubble,
   ChatBubbleAction,
   ChatBubbleAvatar,
   ChatBubbleMessage,
-} from '@/components/ui/chat/chat-bubble';
-import { ApErrorParams, ChatUIResponse, ErrorCode } from '@activepieces/shared';
+} from "@/components/ui/chat/chat-bubble";
+import { ApErrorParams, ChatUIResponse, ErrorCode } from "@activepieces/shared";
 
 const formatError = (
   projectId: string | undefined | null,
   flowId: string,
-  error: ApErrorParams,
+  error: ApErrorParams
 ) => {
   switch (error.code) {
     case ErrorCode.NO_CHAT_RESPONSE:
       return projectId ? (
         <span>
-          No response from the chatbot. Ensure that{' '}
-          <strong>Respond on UI</strong> is in{' '}
+          No response from the chatbot. Ensure that{" "}
+          <strong>Respond on UI</strong> is in{" "}
           <a
             href={`/projects/${projectId}/flows/${flowId}`}
             className="text-primary underline"
@@ -87,4 +87,4 @@ export const ErrorBubble = ({
   </ChatBubble>
 );
 
-ErrorBubble.displayName = 'ErrorBubble';
+ErrorBubble.displayName = "ErrorBubble";

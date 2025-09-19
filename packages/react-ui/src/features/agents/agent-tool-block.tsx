@@ -1,24 +1,24 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { ApMarkdown } from '@/components/custom/markdown';
-import { DataList } from '@/components/data-list';
-import { SimpleJsonViewer } from '@/components/simple-json-viewer';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { DataList } from "@/components/data-list";
+import { SimpleJsonViewer } from "@/components/simple-json-viewer";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from '@/components/ui/accordion';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { mcpHooks } from '@/features/mcp/lib/mcp-hooks';
+} from "@/components/ui/accordion";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { mcpHooks } from "@/features/mcp/lib/mcp-hooks";
 import {
   isNil,
   MarkdownVariant,
   ToolCallContentBlock,
   ToolCallStatus,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { AgentToolBlockHeader } from './agent-tool-block-header';
+import { AgentToolBlockHeader } from "./agent-tool-block-header";
 
 interface AgentToolBlockProps {
   block: ToolCallContentBlock;
@@ -42,7 +42,7 @@ function parseJsonOrReturnOriginal(json: unknown) {
   }
 }
 
-const internalTools = ['markAsComplete'];
+const internalTools = ["markAsComplete"];
 
 export const AgentToolBlock = ({ block, index }: AgentToolBlockProps) => {
   const { data: metadata, isLoading } = mcpHooks.useMcpToolMetadata(block);
@@ -61,7 +61,7 @@ export const AgentToolBlock = ({ block, index }: AgentToolBlockProps) => {
     ? outputAsToolCallOutput.success
     : true;
 
-  const defaultTab = !isNil(resolvedFields) ? 'resolvedFields' : 'result';
+  const defaultTab = !isNil(resolvedFields) ? "resolvedFields" : "result";
 
   const toolName = block.toolName;
   const isInternalTool =
@@ -98,7 +98,7 @@ export const AgentToolBlock = ({ block, index }: AgentToolBlockProps) => {
                 <div className="border-t border-muted-foreground/20 my-2" />
                 <div className="flex flex-col gap-1 mt-4">
                   <div className="text-xs font-semibold text-muted-foreground tracking-wide">
-                    {t('Instructions')}
+                    {t("Instructions")}
                   </div>
                   <ApMarkdown
                     variant={MarkdownVariant.BORDERLESS}
@@ -111,10 +111,10 @@ export const AgentToolBlock = ({ block, index }: AgentToolBlockProps) => {
               <Tabs defaultValue={defaultTab} className="w-full">
                 <TabsList variant="outline" className="mb-0">
                   <TabsTrigger value="resolvedFields" variant="outline">
-                    {t('Parameters')}
+                    {t("Parameters")}
                   </TabsTrigger>
                   <TabsTrigger value="result" variant="outline">
-                    {t('Output')}
+                    {t("Output")}
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent
@@ -125,7 +125,7 @@ export const AgentToolBlock = ({ block, index }: AgentToolBlockProps) => {
                     <DataList data={resolvedFields} />
                   ) : (
                     <div className="text-muted-foreground text-sm">
-                      {t('No resolved fields')}
+                      {t("No resolved fields")}
                     </div>
                   )}
                 </TabsContent>
@@ -138,7 +138,7 @@ export const AgentToolBlock = ({ block, index }: AgentToolBlockProps) => {
                     />
                   ) : (
                     <div className="text-muted-foreground text-sm">
-                      {t('No result')}
+                      {t("No result")}
                     </div>
                   )}
                 </TabsContent>

@@ -1,7 +1,7 @@
-import { t } from 'i18next';
-import { Check } from 'lucide-react';
+import { t } from "i18next";
+import { Check } from "lucide-react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 import {
   Command,
@@ -9,9 +9,9 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-} from './command';
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import { ScrollArea } from './scroll-area';
+} from "./command";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { ScrollArea } from "./scroll-area";
 
 type Props<T extends string> = {
   selectedValue: T;
@@ -55,7 +55,7 @@ export function AutoComplete<T extends string>({
           onInteractOutside={(e) => {
             if (
               e.target instanceof Element &&
-              e.target.hasAttribute('cmdk-input')
+              e.target.hasAttribute("cmdk-input")
             ) {
               e.preventDefault();
             }
@@ -65,12 +65,12 @@ export function AutoComplete<T extends string>({
           <Command className={className} ref={listRef}>
             <CommandList className="bg-background">
               <ScrollArea
-                className={cn('', {
-                  'h-[12.5rem]': items.length >= 5,
-                  'h-[2.5rem]': items.length === 1,
-                  'h-[5rem]': items.length === 2,
-                  'h-[7.5rem]': items.length === 3,
-                  'h-[10rem]': items.length === 4,
+                className={cn("", {
+                  "h-[12.5rem]": items.length >= 5,
+                  "h-[2.5rem]": items.length === 1,
+                  "h-[5rem]": items.length === 2,
+                  "h-[7.5rem]": items.length === 3,
+                  "h-[10rem]": items.length === 4,
                 })}
               >
                 {items.length > 0 ? (
@@ -84,10 +84,10 @@ export function AutoComplete<T extends string>({
                       >
                         <Check
                           className={cn(
-                            'h-4 w-4',
+                            "h-4 w-4",
                             selectedValue === option.value
-                              ? 'opacity-100'
-                              : 'opacity-0',
+                              ? "opacity-100"
+                              : "opacity-0"
                           )}
                         />
                         {option.label}
@@ -95,7 +95,7 @@ export function AutoComplete<T extends string>({
                     ))}
                   </CommandGroup>
                 ) : (
-                  <CommandEmpty>{t('No items')}</CommandEmpty>
+                  <CommandEmpty>{t("No items")}</CommandEmpty>
                 )}
               </ScrollArea>
             </CommandList>

@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { FormField, FormItem, FormMessage } from '@/components/ui/form';
+} from "@/components/ui/dialog";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -22,16 +22,16 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { toast } from '@/components/ui/use-toast';
-import { foldersHooks } from '@/features/folders/lib/folders-hooks';
-import { Flow, FlowOperationType, PopulatedFlow } from '@activepieces/shared';
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+import { foldersHooks } from "@/features/folders/lib/folders-hooks";
+import { Flow, FlowOperationType, PopulatedFlow } from "@activepieces/shared";
 
-import { flowsApi } from '../lib/flows-api';
+import { flowsApi } from "../lib/flows-api";
 
 const MoveFlowFormSchema = Type.Object({
   folder: Type.String({
-    errorMessage: t('Please select a folder'),
+    errorMessage: t("Please select a folder"),
   }),
 });
 
@@ -62,7 +62,7 @@ const MoveFlowDialog = ({ children, flows, onMoveTo }: MoveFlowDialogProps) => {
           request: {
             folderId: data.folder,
           },
-        }),
+        })
       );
       return await Promise.all(updatePromises);
     },
@@ -70,7 +70,7 @@ const MoveFlowDialog = ({ children, flows, onMoveTo }: MoveFlowDialogProps) => {
       onMoveTo(form.getValues().folder);
       setIsDialogOpened(false);
       toast({
-        title: t('Moved flows successfully'),
+        title: t("Moved flows successfully"),
       });
     },
   });
@@ -80,7 +80,7 @@ const MoveFlowDialog = ({ children, flows, onMoveTo }: MoveFlowDialogProps) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Move Selected Flows')}</DialogTitle>
+          <DialogTitle>{t("Move Selected Flows")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit((data) => mutate(data))}>
@@ -94,13 +94,13 @@ const MoveFlowDialog = ({ children, flows, onMoveTo }: MoveFlowDialogProps) => {
                     disabled={isLoading || folders?.length === 0}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder={t('Select Folder')} />
+                      <SelectValue placeholder={t("Select Folder")} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         {folders && folders.length === 0 && (
                           <SelectItem value="NULL">
-                            {t('No Folders')}
+                            {t("No Folders")}
                           </SelectItem>
                         )}
                         {folders &&
@@ -122,7 +122,7 @@ const MoveFlowDialog = ({ children, flows, onMoveTo }: MoveFlowDialogProps) => {
             )}
             <DialogFooter>
               <Button type="submit" loading={isPending}>
-                {t('Confirm')}
+                {t("Confirm")}
               </Button>
             </DialogFooter>
           </form>

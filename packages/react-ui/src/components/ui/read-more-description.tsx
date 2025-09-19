@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface ReadMoreProps {
   text: string;
@@ -15,7 +15,7 @@ export const ReadMoreDescription = ({
   const endText = text.slice(amountOfCharacters);
 
   const handleKeyboard = (e: { code: string }) => {
-    if (e.code === 'Space' || e.code === 'Enter') {
+    if (e.code === "Space" || e.code === "Enter") {
       setIsExpanded(!isExpanded);
     }
   };
@@ -27,7 +27,7 @@ export const ReadMoreDescription = ({
         <>
           {!isExpanded && <span>... </span>}
           <span
-            className={`${!isExpanded && 'hidden'} whitespace-pre-wrap`}
+            className={`${!isExpanded && "hidden"} whitespace-pre-wrap`}
             aria-hidden={!isExpanded}
           >
             {endText}
@@ -40,7 +40,7 @@ export const ReadMoreDescription = ({
             onKeyDown={handleKeyboard}
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            {isExpanded ? 'show less' : 'show more'}
+            {isExpanded ? "show less" : "show more"}
           </span>
         </>
       )}

@@ -1,11 +1,11 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
 
-import { toast } from '@/components/ui/use-toast';
-import { UpsertOAuth2AppRequest } from '@activepieces/ee-shared';
-import { ApEdition, AppConnectionType } from '@activepieces/shared';
+import { toast } from "@/components/ui/use-toast";
+import { UpsertOAuth2AppRequest } from "@activepieces/ee-shared";
+import { ApEdition, AppConnectionType } from "@activepieces/shared";
 
-import { oauthAppsApi } from './api/oauth-apps';
+import { oauthAppsApi } from "./api/oauth-apps";
 
 export type PieceToClientIdMap = {
   //key is set like this, to avoid issues reconnecting to a cloud oauth2 app after setting a platform oauth2 app
@@ -28,8 +28,8 @@ export const oauthAppsMutations = {
       },
       onSuccess: () => {
         toast({
-          title: t('Success'),
-          description: t('OAuth2 Credentials Deleted'),
+          title: t("Success"),
+          description: t("OAuth2 Credentials Deleted"),
           duration: 3000,
         });
         setOpen(false);
@@ -39,7 +39,7 @@ export const oauthAppsMutations = {
   useUpsertOAuthApp: (
     refetch: () => void,
     setOpen: (open: boolean) => void,
-    onConfigurationDone: () => void,
+    onConfigurationDone: () => void
   ) =>
     useMutation({
       mutationFn: async (request: UpsertOAuth2AppRequest) => {
@@ -48,8 +48,8 @@ export const oauthAppsMutations = {
       },
       onSuccess: () => {
         toast({
-          title: t('Success'),
-          description: t('OAuth2 Credentials Updated'),
+          title: t("Success"),
+          description: t("OAuth2 Credentials Updated"),
           duration: 3000,
         });
         onConfigurationDone();
@@ -61,7 +61,7 @@ export const oauthAppsMutations = {
 export const oauthAppsQueries = {
   useOAuthAppConfigured(pieceId: string) {
     const query = useQuery({
-      queryKey: ['oauth2-apps-configured'],
+      queryKey: ["oauth2-apps-configured"],
       queryFn: async () => {
         const response = await oauthAppsApi.listOAuthAppsCredentials({
           limit: 1000000,
@@ -80,7 +80,7 @@ export const oauthAppsQueries = {
   },
   usePieceToClientIdMap(cloudAuthEnabled: boolean, edition: ApEdition) {
     return useQuery<PieceToClientIdMap, Error>({
-      queryKey: ['oauth-apps'],
+      queryKey: ["oauth-apps"],
       queryFn: async () => {
         const apps =
           edition === ApEdition.COMMUNITY

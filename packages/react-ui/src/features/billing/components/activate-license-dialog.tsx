@@ -1,10 +1,10 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,15 +12,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { platformHooks } from '@/hooks/platform-hooks';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { platformHooks } from "@/hooks/platform-hooks";
 
 const LicenseKeySchema = Type.Object({
   tempLicenseKey: Type.String({
-    errorMessage: t('License key is invalid'),
+    errorMessage: t("License key is invalid"),
   }),
 });
 
@@ -40,9 +40,9 @@ export const ActivateLicenseDialog = ({
   const form = useForm<LicenseKeySchema>({
     resolver: typeboxResolver(LicenseKeySchema),
     defaultValues: {
-      tempLicenseKey: '',
+      tempLicenseKey: "",
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const { mutate: activateLicenseKey, isPending } =
@@ -65,7 +65,7 @@ export const ActivateLicenseDialog = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Activate License Key')}</DialogTitle>
+          <DialogTitle>{t("Activate License Key")}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -79,7 +79,7 @@ export const ActivateLicenseDialog = ({
                     {...field}
                     required
                     type="text"
-                    placeholder={t('Enter your license key')}
+                    placeholder={t("Enter your license key")}
                     disabled={isPending}
                   />
                   <FormMessage />
@@ -101,15 +101,15 @@ export const ActivateLicenseDialog = ({
               onClick={handleClose}
               disabled={isPending}
             >
-              {t('Cancel')}
+              {t("Cancel")}
             </Button>
           </DialogClose>
           <Button
             onClick={form.handleSubmit(handleSubmit)}
-            disabled={isPending || !form.watch('tempLicenseKey')?.trim()}
+            disabled={isPending || !form.watch("tempLicenseKey")?.trim()}
             className="min-w-20"
           >
-            {isPending ? <LoadingSpinner className="size-4" /> : t('Activate')}
+            {isPending ? <LoadingSpinner className="size-4" /> : t("Activate")}
           </Button>
         </DialogFooter>
       </DialogContent>

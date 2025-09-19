@@ -1,12 +1,12 @@
-import { t } from 'i18next';
-import { Plus, TrashIcon } from 'lucide-react';
-import { useRef } from 'react';
+import { t } from "i18next";
+import { Plus, TrashIcon } from "lucide-react";
+import { useRef } from "react";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { TextWithIcon } from '@/components/ui/text-with-icon';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { TextWithIcon } from "@/components/ui/text-with-icon";
 
-import { TextInputWithMentions } from './text-input-with-mentions';
+import { TextInputWithMentions } from "./text-input-with-mentions";
 
 type DictionaryInputItem = {
   key: string;
@@ -41,7 +41,7 @@ export const DictionaryProperty = ({
   const valuesArrayRefUnique = valuesArrayRef.current
     .toReversed()
     .filter(
-      (el, index, self) => self.findIndex((t) => t.key === el.key) === index,
+      (el, index, self) => self.findIndex((t) => t.key === el.key) === index
     )
     .toReversed();
   const haveValuesChangedFromOutside =
@@ -67,7 +67,7 @@ export const DictionaryProperty = ({
     id.current++;
     const newValues = [
       ...valuesArrayRef.current,
-      { key: '', value: '', id: `${id.current}` },
+      { key: "", value: "", id: `${id.current}` },
     ];
     valuesArrayRef.current = newValues;
     updateValue(newValues);
@@ -76,7 +76,7 @@ export const DictionaryProperty = ({
   const onChangeValue = (
     index: number,
     value: string | undefined,
-    key: string | undefined,
+    key: string | undefined
   ) => {
     const newValues = [...valuesArrayRef.current];
     if (value !== undefined) {
@@ -93,14 +93,14 @@ export const DictionaryProperty = ({
     onChange(
       items.reduce((acc, current) => {
         return { ...acc, [current.key]: current.value };
-      }, {}),
+      }, {})
     );
   };
   return (
     <div className="flex w-full flex-col gap-4">
       {valuesArrayRef.current.map(({ key, value, id }, index) => (
         <div
-          key={'dictionary-input-' + id}
+          key={"dictionary-input-" + id}
           className="flex items-center gap-3 items-center"
         >
           <Input
@@ -137,7 +137,7 @@ export const DictionaryProperty = ({
             onClick={() => remove(index)}
           >
             <TrashIcon className="size-4 text-destructive" aria-hidden="true" />
-            <span className="sr-only">{t('Remove')}</span>
+            <span className="sr-only">{t("Remove")}</span>
           </Button>
         </div>
       ))}
@@ -148,7 +148,7 @@ export const DictionaryProperty = ({
         type="button"
         disabled={disabled}
       >
-        <TextWithIcon icon={<Plus size={18} />} text={t('Add Item')} />
+        <TextWithIcon icon={<Plus size={18} />} text={t("Add Item")} />
       </Button>
     </div>
   );

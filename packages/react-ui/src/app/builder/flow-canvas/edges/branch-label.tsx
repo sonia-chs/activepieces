@@ -1,8 +1,8 @@
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { useReactFlow } from '@xyflow/react';
-import { t } from 'i18next';
-import { CopyPlus, EllipsisVertical, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { useReactFlow } from "@xyflow/react";
+import { t } from "i18next";
+import { CopyPlus, EllipsisVertical, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 import {
   FlowActionType,
@@ -11,18 +11,18 @@ import {
   flowStructureUtil,
   isNil,
   StepLocationRelativeToParent,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from '../../../../components/ui/dropdown-menu';
-import { cn } from '../../../../lib/utils';
-import { useBuilderStateContext } from '../../builder-hooks';
-import { flowUtilConsts } from '../utils/consts';
-import { flowCanvasUtils } from '../utils/flow-canvas-utils';
+} from "../../../../components/ui/dropdown-menu";
+import { cn } from "../../../../lib/utils";
+import { useBuilderStateContext } from "../../builder-hooks";
+import { flowUtilConsts } from "../utils/consts";
+import { flowCanvasUtils } from "../utils/flow-canvas-utils";
 
 type BaseBranchLabel = {
   label: string;
@@ -85,22 +85,22 @@ const BranchLabel = (props: BaseBranchLabel) => {
       <div
         className="bg-background"
         style={{
-          paddingTop: flowUtilConsts.LABEL_VERTICAL_PADDING / 2 + 'px',
-          paddingBottom: flowUtilConsts.LABEL_VERTICAL_PADDING / 2 + 'px',
+          paddingTop: flowUtilConsts.LABEL_VERTICAL_PADDING / 2 + "px",
+          paddingBottom: flowUtilConsts.LABEL_VERTICAL_PADDING / 2 + "px",
         }}
       >
         <div
           className={cn(
-            'flex items-center justify-center gap-0.5 select-none transition-all rounded-full  text-sm border  border-solid bg-primary-100/30 dark:bg-primary-100/15  border-primary/50   px-2 text-primary/80 dark:text-primary/90   hover:text-primary hover:border-primary',
+            "flex items-center justify-center gap-0.5 select-none transition-all rounded-full  text-sm border  border-solid bg-primary-100/30 dark:bg-primary-100/15  border-primary/50   px-2 text-primary/80 dark:text-primary/90   hover:text-primary hover:border-primary",
             {
-              'border-primary text-primary': isBranchSelected,
-              'bg-accent dark:bg-accent text-foreground/70 dark:text-foreground/70  border-accent hover:text-foreground/70 hover:bg-accent hover:border-accent cursor-default':
+              "border-primary text-primary": isBranchSelected,
+              "bg-accent dark:bg-accent text-foreground/70 dark:text-foreground/70  border-accent hover:text-foreground/70 hover:bg-accent hover:border-accent cursor-default":
                 isBranchNonInteractive,
-            },
+            }
           )}
           style={{
-            height: flowUtilConsts.LABEL_HEIGHT + 'px',
-            maxWidth: flowUtilConsts.AP_NODE_SIZE.STEP.width - 10 + 'px',
+            height: flowUtilConsts.LABEL_HEIGHT + "px",
+            maxWidth: flowUtilConsts.AP_NODE_SIZE.STEP.width - 10 + "px",
           }}
           onClick={() => {
             if (
@@ -112,14 +112,14 @@ const BranchLabel = (props: BaseBranchLabel) => {
               setSelectedBranchIndex(props.branchIndex);
               fitView(
                 flowCanvasUtils.createFocusStepInGraphParams(
-                  props.targetNodeName,
-                ),
+                  props.targetNodeName
+                )
               );
             }
           }}
         >
           <div className="truncate">
-            {props.label === 'Otherwise' ? t('Otherwise') : props.label}
+            {props.label === "Otherwise" ? t("Otherwise") : props.label}
           </div>
 
           {!isBranchNonInteractive &&
@@ -160,7 +160,7 @@ const BranchLabel = (props: BaseBranchLabel) => {
                   >
                     <div className="flex cursor-pointer  flex-row gap-2 items-center">
                       <CopyPlus className="h-4 w-4" />
-                      <span>{t('Duplicate Branch')}</span>
+                      <span>{t("Duplicate Branch")}</span>
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -183,7 +183,7 @@ const BranchLabel = (props: BaseBranchLabel) => {
                     <div className="flex cursor-pointer  flex-row gap-2 items-center">
                       <Trash2 className="h-4 w-4 text-destructive" />
                       <span className="text-destructive">
-                        {t('Delete Branch')}
+                        {t("Delete Branch")}
                       </span>
                     </div>
                   </DropdownMenuItem>

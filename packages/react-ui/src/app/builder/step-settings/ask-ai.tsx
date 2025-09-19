@@ -1,11 +1,11 @@
-import { t } from 'i18next';
-import { Sparkle } from 'lucide-react';
+import { t } from "i18next";
+import { Sparkle } from "lucide-react";
 
-import { platformHooks } from '@/hooks/platform-hooks';
+import { platformHooks } from "@/hooks/platform-hooks";
 
-import { Button, ButtonProps } from '../../../components/ui/button';
-import { AskAiButtonOperations } from '../../../lib/types';
-import { useBuilderStateContext } from '../builder-hooks';
+import { Button, ButtonProps } from "../../../components/ui/button";
+import { AskAiButtonOperations } from "../../../lib/types";
+import { useBuilderStateContext } from "../builder-hooks";
 
 const AskAiButton = ({
   onClick,
@@ -14,12 +14,12 @@ const AskAiButton = ({
 }: {
   onClick: () => void;
   operation: AskAiButtonOperations;
-  varitant: ButtonProps['variant'];
+  varitant: ButtonProps["variant"];
 }) => {
   const isCopilotEnabled = platformHooks.isCopilotEnabled();
 
   const setAskAiButtonProps = useBuilderStateContext(
-    (state) => state.setAskAiButtonProps,
+    (state) => state.setAskAiButtonProps
   );
   if (!isCopilotEnabled) {
     return <></>;
@@ -34,11 +34,11 @@ const AskAiButton = ({
       }}
     >
       <div className="flex gap-2 items-center ">
-        <Sparkle className="w-4 h-4 "></Sparkle> {t('Ask AI')}
+        <Sparkle className="w-4 h-4 "></Sparkle> {t("Ask AI")}
       </div>
     </Button>
   );
 };
 
-AskAiButton.displayName = 'AskAiButton';
+AskAiButton.displayName = "AskAiButton";
 export { AskAiButton };

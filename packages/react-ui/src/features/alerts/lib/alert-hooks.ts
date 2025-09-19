@@ -1,21 +1,21 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { HttpStatusCode } from 'axios';
-import { t } from 'i18next';
-import { UseFormReturn } from 'react-hook-form';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
+import { t } from "i18next";
+import { UseFormReturn } from "react-hook-form";
 
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
-import { api } from '@/lib/api';
-import { authenticationSession } from '@/lib/authentication-session';
-import { Alert, AlertChannel } from '@activepieces/ee-shared';
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
+import { api } from "@/lib/api";
+import { authenticationSession } from "@/lib/authentication-session";
+import { Alert, AlertChannel } from "@activepieces/ee-shared";
 
-import { alertsApi } from './api';
+import { alertsApi } from "./api";
 
 type Params = {
   email: string;
 };
 
 export const alertsKeys = {
-  all: ['alerts-email-list'] as const,
+  all: ["alerts-email-list"] as const,
 };
 
 type Options = {
@@ -37,8 +37,8 @@ export const alertMutations = {
       onSuccess: (data) => {
         queryClient.invalidateQueries({ queryKey: alertsKeys.all });
         toast({
-          title: t('Success'),
-          description: t('Your changes have been saved.'),
+          title: t("Success"),
+          description: t("Your changes have been saved."),
           duration: 3000,
         });
         setOpen(false);
@@ -47,8 +47,8 @@ export const alertMutations = {
         if (api.isError(error)) {
           switch (error.response?.status) {
             case HttpStatusCode.Conflict:
-              form.setError('root.serverError', {
-                message: t('The email is already added.'),
+              form.setError("root.serverError", {
+                message: t("The email is already added."),
               });
               break;
             default: {
@@ -67,8 +67,8 @@ export const alertMutations = {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: alertsKeys.all });
         toast({
-          title: t('Success'),
-          description: t('Your changes have been saved.'),
+          title: t("Success"),
+          description: t("Your changes have been saved."),
           duration: 3000,
         });
       },

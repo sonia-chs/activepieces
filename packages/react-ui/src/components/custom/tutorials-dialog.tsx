@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 import {
   Bot,
   GraduationCap,
@@ -8,20 +8,20 @@ import {
   VideoIcon,
   Workflow,
   X,
-} from 'lucide-react';
-import { useState } from 'react';
+} from "lucide-react";
+import { useState } from "react";
 
-import { McpSvg } from '@/assets/img/custom/mcp';
-import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
-import { flagsHooks } from '@/hooks/flags-hooks';
+import { McpSvg } from "@/assets/img/custom/mcp";
+import { Tabs, TabsTrigger, TabsList } from "@/components/ui/tabs";
+import { flagsHooks } from "@/hooks/flags-hooks";
 import {
   ApFlagId,
   ClickedTutorialTelemetryParams,
   TelemetryEventName,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { useTelemetry } from '../telemetry-provider';
-import { Button } from '../ui/button';
+import { useTelemetry } from "../telemetry-provider";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogClose,
@@ -29,11 +29,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog';
-import { Separator } from '../ui/separator';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+} from "../ui/dialog";
+import { Separator } from "../ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export type TabType = ClickedTutorialTelemetryParams['tab'];
+export type TabType = ClickedTutorialTelemetryParams["tab"];
 const TutorialsDialog = ({
   initialTab,
   children,
@@ -43,14 +43,14 @@ const TutorialsDialog = ({
   initialTab?: TabType;
   children?: React.ReactNode;
   showTooltip?: boolean;
-  location: ClickedTutorialTelemetryParams['location'];
+  location: ClickedTutorialTelemetryParams["location"];
 }) => {
   const [selectedTab, setSelectedTab] = useState<TabType>(
-    initialTab ?? 'gettingStarted',
+    initialTab ?? "gettingStarted"
   );
   const { capture } = useTelemetry();
   const { data: showTutorials } = flagsHooks.useFlag<boolean>(
-    ApFlagId.SHOW_TUTORIALS,
+    ApFlagId.SHOW_TUTORIALS
   );
   const tabs: Record<
     TabType,
@@ -58,39 +58,39 @@ const TutorialsDialog = ({
   > = {
     gettingStarted: {
       icon: <Star className="size-4"></Star>,
-      name: t('Intro'),
-      description: t('Get started with Activepieces'),
+      name: t("Intro"),
+      description: t("Get started with Activepieces"),
       link: `https://www.youtube.com/embed/b97bgcOigIs?si=Zlly9_WkP1oOnJ-K`,
     },
     flows: {
       icon: <Workflow className="size-4"></Workflow>,
-      name: t('Flows'),
-      description: t('Automate repetitive tasks to save your time'),
+      name: t("Flows"),
+      description: t("Automate repetitive tasks to save your time"),
       link: `https://www.youtube.com/embed/BWKrqmdNlzY?si=fjKiHx9GJe9eN2_x`,
     },
     agents: {
       icon: <Bot className="size-4"></Bot>,
-      name: t('Agents'),
-      description: t('Add a touch of AI to your workflows'),
+      name: t("Agents"),
+      description: t("Add a touch of AI to your workflows"),
       link: `https://www.youtube.com/embed/9qhhhfKmpoo?si=Ik8FmAmrWxDOggJP`,
     },
     tables: {
       icon: <Table2 className="size-4"></Table2>,
-      name: t('Tables'),
-      description: t('Store and automate your data'),
+      name: t("Tables"),
+      description: t("Store and automate your data"),
       link: `https://www.youtube.com/embed/vj8aGGee6E0?si=6gvulHNgk1rWVWHX"`,
     },
     mcpServers: {
       icon: <McpSvg className="size-4" />,
-      name: t('MCPs'),
-      description: t('Connect AI tools to external apps'),
+      name: t("MCPs"),
+      description: t("Connect AI tools to external apps"),
       link: `https://www.youtube.com/embed/q1UdLIBZ3Ps?si=Ey8N8oNX9ihJen76`,
     },
 
     todos: {
       icon: <ListTodo className="size-4"></ListTodo>,
-      name: t('Todos'),
-      description: t('Manage tasks that require human approval'),
+      name: t("Todos"),
+      description: t("Manage tasks that require human approval"),
       link: `https://www.youtube.com/embed/csKkXa71eoo?si=EMpJGMsVqzzrF__8`,
     },
   } as const;
@@ -106,7 +106,7 @@ const TutorialsDialog = ({
               onClick={() => {
                 capture({
                   name: TelemetryEventName.CLICKED_TUTORIAL,
-                  payload: { tab: initialTab ?? 'gettingStarted', location },
+                  payload: { tab: initialTab ?? "gettingStarted", location },
                 });
               }}
             >
@@ -120,7 +120,7 @@ const TutorialsDialog = ({
             </div>
           </DialogTrigger>
         </TooltipTrigger>
-        {showTooltip && <TooltipContent>{t('Tutorial')}</TooltipContent>}
+        {showTooltip && <TooltipContent>{t("Tutorial")}</TooltipContent>}
       </Tooltip>
       <DialogContent
         withCloseButton={false}
@@ -131,8 +131,8 @@ const TutorialsDialog = ({
             <DialogTitle>
               <div className="p-6 bg-gradient-to-br from-primary/10 via-primary/5 to-primary/20 dark:from-primary/20 dark:via-primary/10 dark:to-primary/30 p-6 border-b border-gray-100 dark:border-gray-800">
                 <div className="text-2xl font-bold mb-2 flex items-center gap-2 relative">
-                  <GraduationCap className="size-6"></GraduationCap>{' '}
-                  {t('Activepieces Crash Course')}
+                  <GraduationCap className="size-6"></GraduationCap>{" "}
+                  {t("Activepieces Crash Course")}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {tabs[selectedTab].description}
@@ -140,7 +140,7 @@ const TutorialsDialog = ({
                 <DialogClose asChild>
                   <Button
                     variant="outline"
-                    size={'icon'}
+                    size={"icon"}
                     className="rounded-full absolute top-2 right-2"
                   >
                     <X className="size-4"></X>
@@ -190,6 +190,6 @@ const TutorialsDialog = ({
   );
 };
 
-TutorialsDialog.displayName = 'TutorialsDialog';
+TutorialsDialog.displayName = "TutorialsDialog";
 
 export default TutorialsDialog;

@@ -1,6 +1,6 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { flagsHooks } from '@/hooks/flags-hooks';
+import { flagsHooks } from "@/hooks/flags-hooks";
 
 const FullLogo = () => {
   const branding = flagsHooks.useWebsiteBranding();
@@ -10,10 +10,10 @@ const FullLogo = () => {
       <img
         className="h-full"
         src={branding.logos.fullLogoUrl}
-        alt={t('logo')}
+        alt={t("logo")}
       />
     </div>
   );
 };
-FullLogo.displayName = 'FullLogo';
+FullLogo.displayName = "FullLogo";
 export { FullLogo };

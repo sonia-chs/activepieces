@@ -1,8 +1,8 @@
-import { useReactFlow } from '@xyflow/react';
-import { t } from 'i18next';
-import { Split } from 'lucide-react';
-import { memo, useEffect } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useReactFlow } from "@xyflow/react";
+import { t } from "i18next";
+import { Split } from "lucide-react";
+import { memo, useEffect } from "react";
+import { useFieldArray, useFormContext } from "react-hook-form";
 
 import {
   FlowActionType,
@@ -13,23 +13,23 @@ import {
   isNil,
   RouterAction,
   RouterExecutionType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { FormField, FormItem } from '../../../../components/ui/form';
-import { Label } from '../../../../components/ui/label';
+import { FormField, FormItem } from "../../../../components/ui/form";
+import { Label } from "../../../../components/ui/label";
 import {
   Select,
   SelectValue,
   SelectTrigger,
   SelectContent,
   SelectItem,
-} from '../../../../components/ui/select';
-import { useBuilderStateContext } from '../../builder-hooks';
-import { flowCanvasUtils } from '../../flow-canvas/utils/flow-canvas-utils';
-import { BranchSettings } from '../branch-settings';
+} from "../../../../components/ui/select";
+import { useBuilderStateContext } from "../../builder-hooks";
+import { flowCanvasUtils } from "../../flow-canvas/utils/flow-canvas-utils";
+import { BranchSettings } from "../branch-settings";
 
-import { BranchesList } from './branches-list';
-import BranchesToolbar from './branches-toolbar';
+import { BranchesList } from "./branches-list";
+import BranchesToolbar from "./branches-toolbar";
 
 export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
   const [
@@ -42,7 +42,7 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
   ] = useBuilderStateContext((state) => [
     flowStructureUtil.getActionOrThrow(
       state.selectedStep!,
-      state.flowVersion.trigger,
+      state.flowVersion.trigger
     ) as RouterAction,
     state.applyOperation,
     state.setSelectedBranchIndex,
@@ -53,14 +53,14 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
   const { fitView } = useReactFlow();
 
   const { control, setValue, formState } =
-    useFormContext<Omit<RouterAction, 'children' | 'nextAction'>>();
+    useFormContext<Omit<RouterAction, "children" | "nextAction">>();
 
   //To validate array items we need to use form.trigger()
   const { insert, remove, move } = useFieldArray({
     control,
-    name: 'settings.branches',
+    name: "settings.branches",
   });
-  const form = useFormContext<Omit<RouterAction, 'children' | 'nextAction'>>();
+  const form = useFormContext<Omit<RouterAction, "children" | "nextAction">>();
   const deleteBranch = (index: number) => {
     applyOperation({
       type: FlowOperationType.DELETE_BRANCH,
@@ -77,7 +77,7 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
   useEffect(() => {
     const operationListener = (
       flowVersion: FlowVersion,
-      operation: FlowOperationRequest,
+      operation: FlowOperationRequest
     ) => {
       switch (operation.type) {
         case FlowOperationType.DELETE_BRANCH: {
@@ -92,11 +92,11 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
           if (operation.request.stepName !== step.name) return;
           const updatedStep = flowStructureUtil.getActionOrThrow(
             operation.request.stepName,
-            flowVersion.trigger,
+            flowVersion.trigger
           );
           if (updatedStep.type !== FlowActionType.ROUTER) {
             console.error(
-              `Trying to duplicate a branch on a none router step! ${operation.request.stepName}`,
+              `Trying to duplicate a branch on a none router step! ${operation.request.stepName}`
             );
             return;
           }
@@ -112,8 +112,8 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
               updatedStep.settings.branches.length - 1,
               flowStructureUtil.createBranch(
                 `Branch ${updatedStep.settings.branches.length}`,
-                undefined,
-              ),
+                undefined
+              )
             );
           }
           form.trigger();
@@ -123,7 +123,7 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
           if (operation.request.stepName !== step.name) return;
           move(
             operation.request.sourceBranchIndex,
-            operation.request.targetBranchIndex,
+            operation.request.targetBranchIndex
           );
           break;
         }
@@ -142,26 +142,26 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
           name="settings.executionType"
           render={({ field }) => (
             <FormItem>
-              <Label>{t('Execute')}</Label>
+              <Label>{t("Execute")}</Label>
               <Select
                 disabled={field.disabled}
                 onValueChange={field.onChange}
                 value={field.value}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder={t('Execute')} />
+                  <SelectValue placeholder={t("Execute")} />
                 </SelectTrigger>
 
                 <SelectContent>
                   <SelectItem
                     value={`${RouterExecutionType.EXECUTE_FIRST_MATCH}`}
                   >
-                    {t('Only the first (left) matching branch')}
+                    {t("Only the first (left) matching branch")}
                   </SelectItem>
                   <SelectItem
                     value={`${RouterExecutionType.EXECUTE_ALL_MATCH}`}
                   >
-                    {t('All matching paths from left to right')}
+                    {t("All matching paths from left to right")}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -174,7 +174,7 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
         <div className="mt-4">
           <div className="flex gap-2 mb-2 items-center">
             <Split className="w-4 h-4 rotate-180"></Split>
-            <Label>{t('Branches')}</Label>
+            <Label>{t("Branches")}</Label>
           </div>
 
           <BranchesList
@@ -212,14 +212,14 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
               if (step.children[index]) {
                 fitView(
                   flowCanvasUtils.createFocusStepInGraphParams(
-                    step.children[index].name,
-                  ),
+                    step.children[index].name
+                  )
                 );
               } else {
                 fitView(
                   flowCanvasUtils.createFocusStepInGraphParams(
-                    `${step.name}-big-add-button-${step.name}-branch-${index}-start-edge`,
-                  ),
+                    `${step.name}-big-add-button-${step.name}-branch-${index}-start-edge`
+                  )
                 );
               }
             }}
@@ -256,4 +256,4 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
   );
 });
 
-RouterSettings.displayName = 'RouterSettings';
+RouterSettings.displayName = "RouterSettings";

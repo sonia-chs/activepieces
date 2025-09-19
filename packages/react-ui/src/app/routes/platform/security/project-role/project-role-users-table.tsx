@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { Ellipsis, User } from 'lucide-react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { Ellipsis, User } from "lucide-react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import { LockedFeatureGuard } from '@/app/components/locked-feature-guard';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
+import { LockedFeatureGuard } from "@/app/components/locked-feature-guard";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -13,13 +13,13 @@ import {
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { DataTable, RowDataWithActions } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { projectRoleApi } from '@/features/platform-admin/lib/project-role-api';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { ProjectMemberWithUser } from '@activepieces/ee-shared';
-import { assertNotNullOrUndefined, isNil } from '@activepieces/shared';
+} from "@/components/ui/breadcrumb";
+import { DataTable, RowDataWithActions } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import { projectRoleApi } from "@/features/platform-admin/lib/project-role-api";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { ProjectMemberWithUser } from "@activepieces/ee-shared";
+import { assertNotNullOrUndefined, isNil } from "@activepieces/shared";
 
 export const ProjectRoleUsersTable = () => {
   const { platform } = platformHooks.useCurrentPlatform();
@@ -28,20 +28,20 @@ export const ProjectRoleUsersTable = () => {
   const navigate = useNavigate();
 
   const { data: projectRole, isLoading: isProjectRoleLoading } = useQuery({
-    queryKey: ['project-role', projectRoleId],
+    queryKey: ["project-role", projectRoleId],
     queryFn: () => {
-      assertNotNullOrUndefined(projectRoleId, 'projectRoleId is required');
+      assertNotNullOrUndefined(projectRoleId, "projectRoleId is required");
       return projectRoleApi.get(projectRoleId);
     },
     enabled: platform.plan.projectRolesEnabled && !isNil(projectRoleId),
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ['users-with-project-roles', projectRoleId],
+    queryKey: ["users-with-project-roles", projectRoleId],
     queryFn: () => {
-      const cursor = searchParams.get('cursor');
-      const limit = searchParams.get('limit')
-        ? parseInt(searchParams.get('limit')!)
+      const cursor = searchParams.get("cursor");
+      const limit = searchParams.get("limit")
+        ? parseInt(searchParams.get("limit")!)
         : 10;
       return projectRoleApi.listProjectMembers(projectRoleId!, {
         cursor: cursor ?? undefined,
@@ -53,20 +53,20 @@ export const ProjectRoleUsersTable = () => {
 
   const columns: ColumnDef<RowDataWithActions<ProjectMemberWithUser>>[] = [
     {
-      accessorKey: 'email',
+      accessorKey: "email",
       accessorFn: (row) => row.user.email,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Email')} />
+        <DataTableColumnHeader column={column} title={t("Email")} />
       ),
       cell: ({ row }) => (
         <div className="text-left">{row.original.user.email}</div>
       ),
     },
     {
-      accessorKey: 'project',
+      accessorKey: "project",
       accessorFn: (row) => row.project.displayName,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Project')} />
+        <DataTableColumnHeader column={column} title={t("Project")} />
       ),
       cell: ({ row }) => (
         <div
@@ -80,12 +80,12 @@ export const ProjectRoleUsersTable = () => {
       ),
     },
     {
-      accessorKey: 'projectRole',
+      accessorKey: "projectRole",
       accessorFn: (row) => row.projectRole.name,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('First Name')}
+          title={t("First Name")}
           className="text-center"
         />
       ),
@@ -94,10 +94,10 @@ export const ProjectRoleUsersTable = () => {
       ),
     },
     {
-      accessorKey: 'lastName',
+      accessorKey: "lastName",
       accessorFn: (row) => row.user.lastName,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Last Name')} />
+        <DataTableColumnHeader column={column} title={t("Last Name")} />
       ),
       cell: ({ row }) => (
         <div className="text-left">{row.original.user.lastName}</div>
@@ -109,25 +109,25 @@ export const ProjectRoleUsersTable = () => {
     <LockedFeatureGuard
       featureKey="TEAM"
       locked={!platform.plan.projectRolesEnabled}
-      lockTitle={t('Project Role Management')}
+      lockTitle={t("Project Role Management")}
       lockDescription={t(
-        'Define custom roles and permissions to control what your team members can access and modify',
+        "Define custom roles and permissions to control what your team members can access and modify"
       )}
       lockVideoUrl="https://cdn.activepieces.com/videos/showcase/roles.mp4"
     >
       <div className="flex-colw-full">
         <DashboardPageHeader
-          title={`${projectRole?.name} ${t('Role')} ${t('Users')}`}
-          description={t('View the users assigned to this role')}
+          title={`${projectRole?.name} ${t("Role")} ${t("Users")}`}
+          description={t("View the users assigned to this role")}
         />
         <Breadcrumb className="mb-4">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink
-                onClick={() => navigate('/platform/security/project-roles')}
+                onClick={() => navigate("/platform/security/project-roles")}
                 className="cursor-pointer hover:text-primary hover:underline"
               >
-                {t('Roles')}
+                {t("Roles")}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -144,9 +144,9 @@ export const ProjectRoleUsersTable = () => {
         </Breadcrumb>
 
         <DataTable
-          emptyStateTextTitle={t('No users found')}
+          emptyStateTextTitle={t("No users found")}
           emptyStateTextDescription={t(
-            'Starting by assigning users to this role',
+            "Starting by assigning users to this role"
           )}
           emptyStateIcon={<User className="size-14" />}
           columns={columns}

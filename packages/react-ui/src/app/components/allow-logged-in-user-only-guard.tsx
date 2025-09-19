@@ -1,12 +1,12 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from "react-router-dom";
 
-import { SocketProvider } from '@/components/socket-provider';
-import { useTelemetry } from '@/components/telemetry-provider';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
+import { SocketProvider } from "@/components/socket-provider";
+import { useTelemetry } from "@/components/telemetry-provider";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
 
-import { authenticationSession } from '../../lib/authentication-session';
+import { authenticationSession } from "../../lib/authentication-session";
 
 type AllowOnlyLoggedInUserOnlyGuardProps = {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export const AllowOnlyLoggedInUserOnlyGuard = ({
     authenticationSession.logOut();
     reset();
     const searchParams = new URLSearchParams();
-    searchParams.set('from', location.pathname + location.search);
+    searchParams.set("from", location.pathname + location.search);
     return <Navigate to={`/sign-in?${searchParams.toString()}`} replace />;
   }
   platformHooks.useCurrentPlatform();

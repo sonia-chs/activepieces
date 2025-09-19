@@ -1,14 +1,14 @@
-export type McpClientType = 'claude' | 'cursor' | 'windsurf' | 'url';
+export type McpClientType = "claude" | "cursor" | "windsurf" | "url";
 
 const maskToken = (url: string) => {
-  return url.replace(/\/([^/]+)\/sse$/, '/•••••••••••••••••••••/sse');
+  return url.replace(/\/([^/]+)\/sse$/, "/•••••••••••••••••••••/sse");
 };
 
 const replaceIpWithLocalhost = (url: string): string => {
   try {
     const parsed = new URL(url);
     if (/^\d{1,3}(\.\d{1,3}){3}$/.test(parsed.hostname)) {
-      parsed.hostname = 'localhost';
+      parsed.hostname = "localhost";
     }
     return parsed.toString();
   } catch {
@@ -17,21 +17,21 @@ const replaceIpWithLocalhost = (url: string): string => {
 };
 
 const constructConfig = (clientType: McpClientType, url: string) => {
-  const serverName = 'Activepieces';
+  const serverName = "Activepieces";
 
   switch (clientType) {
-    case 'claude':
+    case "claude":
       return {
         mcpServers: {
           [serverName]: {
-            command: 'npx',
-            args: ['-y', 'mcp-remote', url],
+            command: "npx",
+            args: ["-y", "mcp-remote", url],
           },
         },
       };
-    case 'cursor':
-    case 'windsurf':
-    case 'url':
+    case "cursor":
+    case "windsurf":
+    case "url":
       return {
         mcpServers: {
           [serverName]: {

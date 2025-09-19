@@ -1,33 +1,33 @@
-import { Popover } from '@radix-ui/react-popover';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useRef, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Popover } from "@radix-ui/react-popover";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { toast } from '@/components/ui/use-toast';
-import { PasswordValidator } from '@/features/authentication/components/password-validator';
-import { passwordValidation } from '@/features/authentication/lib/password-validation-utils';
-import { HttpError } from '@/lib/api';
-import { authenticationApi } from '@/lib/authentication-api';
-import { ResetPasswordRequestBody } from '@activepieces/ee-shared';
+} from "@/components/ui/card";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "@/components/ui/use-toast";
+import { PasswordValidator } from "@/features/authentication/components/password-validator";
+import { passwordValidation } from "@/features/authentication/lib/password-validation-utils";
+import { HttpError } from "@/lib/api";
+import { authenticationApi } from "@/lib/authentication-api";
+import { ResetPasswordRequestBody } from "@activepieces/ee-shared";
 
 const ChangePasswordForm = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
-  const [serverError, setServerError] = useState('');
+  const [serverError, setServerError] = useState("");
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<{
@@ -36,9 +36,9 @@ const ChangePasswordForm = () => {
     newPassword: string;
   }>({
     defaultValues: {
-      otp: queryParams.get('otpcode') || '',
-      identityId: queryParams.get('identityId') || '',
-      newPassword: '',
+      otp: queryParams.get("otpcode") || "",
+      identityId: queryParams.get("identityId") || "",
+      newPassword: "",
     },
   });
 
@@ -50,15 +50,15 @@ const ChangePasswordForm = () => {
     mutationFn: authenticationApi.resetPassword,
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Your password was changed successfully'),
+        title: t("Success"),
+        description: t("Your password was changed successfully"),
         duration: 3000,
       });
-      navigate('/sign-in');
+      navigate("/sign-in");
     },
     onError: (error) => {
       setServerError(
-        t('Your password reset request has expired, please request a new one'),
+        t("Your password reset request has expired, please request a new one")
       );
       console.error(error);
     },
@@ -71,8 +71,8 @@ const ChangePasswordForm = () => {
   return (
     <Card className="w-[28rem] rounded-sm drop-shadow-xl">
       <CardHeader>
-        <CardTitle className="text-2xl">{t('Reset Password')}</CardTitle>
-        <CardDescription>{t('Enter your new password')}</CardDescription>
+        <CardTitle className="text-2xl">{t("Reset Password")}</CardTitle>
+        <CardDescription>{t("Enter your new password")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -81,7 +81,7 @@ const ChangePasswordForm = () => {
               control={form.control}
               name="newPassword"
               rules={{
-                required: t('Password is required'),
+                required: t("Password is required"),
                 validate: passwordValidation,
               }}
               render={({ field }) => (
@@ -90,7 +90,7 @@ const ChangePasswordForm = () => {
                   onClick={() => inputRef?.current?.focus()}
                   onFocus={() => setPasswordFocused(true)}
                 >
-                  <Label htmlFor="newPassword">{t('Password')}</Label>
+                  <Label htmlFor="newPassword">{t("Password")}</Label>
                   <Popover open={isPasswordFocused}>
                     <PopoverTrigger asChild>
                       <Input
@@ -98,7 +98,7 @@ const ChangePasswordForm = () => {
                         required
                         id="newPassword"
                         type="password"
-                        placeholder={'********'}
+                        placeholder={"********"}
                         className="rounded-sm"
                         ref={inputRef}
                         onBlur={() => setPasswordFocused(false)}
@@ -121,7 +121,7 @@ const ChangePasswordForm = () => {
               loading={isPending}
               onClick={(e) => form.handleSubmit(onSubmit)(e)}
             >
-              {t('Confirm')}
+              {t("Confirm")}
             </Button>
           </form>
         </Form>

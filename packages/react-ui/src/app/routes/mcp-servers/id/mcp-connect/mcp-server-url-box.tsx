@@ -1,12 +1,12 @@
-import { ReloadIcon } from '@radix-ui/react-icons';
-import { t } from 'i18next';
-import { Eye, EyeOff, Copy, RefreshCw } from 'lucide-react';
-import { useState } from 'react';
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { t } from "i18next";
+import { Eye, EyeOff, Copy, RefreshCw } from "lucide-react";
+import { useState } from "react";
 
-import { ButtonWithTooltip } from '@/components/custom/button-with-tooltip';
-import { useToast } from '@/components/ui/use-toast';
+import { ButtonWithTooltip } from "@/components/custom/button-with-tooltip";
+import { useToast } from "@/components/ui/use-toast";
 
-import { mcpConnectUtils } from './mcp-connect-utils';
+import { mcpConnectUtils } from "./mcp-connect-utils";
 
 interface McpServerUrlBoxProps {
   mcpServerUrl: string;
@@ -34,7 +34,7 @@ export const McpServerUrlBox = ({
   return (
     <div className="space-y-3">
       <h3 className="text-lg text-foreground font-semibold">
-        {t('Server URL')}
+        {t("Server URL")}
       </h3>
 
       <div className="flex items-center gap-2">
@@ -43,7 +43,7 @@ export const McpServerUrlBox = ({
         </div>
         <div className="flex items-center gap-1">
           <ButtonWithTooltip
-            tooltip={showToken ? t('Hide') : t('Show')}
+            tooltip={showToken ? t("Hide") : t("Show")}
             onClick={toggleTokenVisibility}
             variant="outline"
             className="h-8 w-8"
@@ -56,7 +56,7 @@ export const McpServerUrlBox = ({
             }
           />
           <ButtonWithTooltip
-            tooltip={t('Rotate')}
+            tooltip={t("Rotate")}
             onClick={onRotateToken}
             variant="outline"
             className="h-8 w-8"
@@ -71,11 +71,11 @@ export const McpServerUrlBox = ({
             }
           />
           <ButtonWithTooltip
-            tooltip={t('Copy')}
+            tooltip={t("Copy")}
             onClick={() => {
               navigator.clipboard.writeText(mcpServerUrl);
               toast({
-                description: t('Copied'),
+                description: t("Copied"),
                 duration: 2000,
               });
             }}

@@ -1,15 +1,15 @@
-import { CollapsibleContent } from '@radix-ui/react-collapsible';
-import { useEffect, useState } from 'react';
+import { CollapsibleContent } from "@radix-ui/react-collapsible";
+import { useEffect, useState } from "react";
 
 import {
   Collapsible,
   CollapsibleTrigger,
-} from '../../../components/ui/collapsible';
+} from "../../../components/ui/collapsible";
 
-import { DataSelectorNodeContent } from './data-selector-node-content';
-import { TestStepSection } from './test-step-section';
-import { DataSelectorTreeNode } from './type';
-import { dataSelectorUtils } from './utils';
+import { DataSelectorNodeContent } from "./data-selector-node-content";
+import { TestStepSection } from "./test-step-section";
+import { DataSelectorTreeNode } from "./type";
+import { dataSelectorUtils } from "./utils";
 
 type DataSelectorNodeProps = {
   node: DataSelectorTreeNode;
@@ -66,5 +66,5 @@ const DataSelectorNode = ({
     </Collapsible>
   );
 };
-DataSelectorNode.displayName = 'DataSelectorNode';
+DataSelectorNode.displayName = "DataSelectorNode";
 export { DataSelectorNode };

@@ -1,8 +1,8 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { ApFlagId } from '@activepieces/shared';
+import { ApFlagId } from "@activepieces/shared";
 
-import { flagsApi, FlagsMap } from '../lib/flags-api';
+import { flagsApi, FlagsMap } from "../lib/flags-api";
 
 type WebsiteBrand = {
   websiteName: string;
@@ -19,7 +19,7 @@ type WebsiteBrand = {
     };
   };
 };
-const queryKey = ['flags'];
+const queryKey = ["flags"];
 export const flagsHooks = {
   queryKey,
   useFlags: () => {
@@ -35,7 +35,7 @@ export const flagsHooks = {
   },
   useFlag: <T>(flagId: ApFlagId) => {
     const data = useSuspenseQuery<FlagsMap, Error>({
-      queryKey: ['flags'],
+      queryKey: ["flags"],
       queryFn: flagsApi.getAll,
       staleTime: Infinity,
     }).data?.[flagId] as T | null;

@@ -1,7 +1,7 @@
 export function TextWithIcon({
   icon,
   text,
-  className = '',
+  className = "",
   children,
 }: {
   icon: React.ReactNode;

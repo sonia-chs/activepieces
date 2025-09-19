@@ -1,15 +1,15 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { HttpStatusCode } from 'axios';
-import { t } from 'i18next';
-import { Plus } from 'lucide-react';
-import pako from 'pako';
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
+import { t } from "i18next";
+import { Plus } from "lucide-react";
+import pako from "pako";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
-import { ApMarkdown } from '@/components/custom/markdown';
-import { Button } from '@/components/ui/button';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -17,14 +17,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -32,19 +32,19 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { toast } from '@/components/ui/use-toast';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { api } from '@/lib/api';
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { api } from "@/lib/api";
 import {
   AddPieceRequestBody,
   ApFlagId,
   PackageType,
   PieceScope,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { piecesApi } from '../lib/pieces-api';
+import { piecesApi } from "../lib/pieces-api";
 const FormSchema = Type.Object(
   {
     packageType: Type.Enum(PackageType),
@@ -55,9 +55,9 @@ const FormSchema = Type.Object(
   },
   {
     errorMessage: {
-      required: t('Please select a package type'),
+      required: t("Please select a package type"),
     },
-  },
+  }
 );
 
 type InstallPieceDialogProps = {
@@ -73,7 +73,7 @@ const InstallPieceDialog = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: privatePiecesEnabled } = flagsHooks.useFlag<boolean>(
-    ApFlagId.PRIVATE_PIECES_ENABLED,
+    ApFlagId.PRIVATE_PIECES_ENABLED
   );
 
   const form = useForm<Static<typeof FormSchema>>({
@@ -85,7 +85,7 @@ const InstallPieceDialog = ({
   });
 
   const handleArchiveUpload = async (file: File) => {
-    if (file && file.name.endsWith('.tgz')) {
+    if (file && file.name.endsWith(".tgz")) {
       try {
         const fileBuffer = await file.arrayBuffer();
         const decompressedData = pako.ungzip(new Uint8Array(fileBuffer));
@@ -93,25 +93,25 @@ const InstallPieceDialog = ({
 
         // Look for package.json content in the decompressed data
         const packageJsonMatch = text.match(
-          /package\.json.*?{[^}]*"name"\s*:\s*"([^"]+)".*?"version"\s*:\s*"([^"]+)"/s,
+          /package\.json.*?{[^}]*"name"\s*:\s*"([^"]+)".*?"version"\s*:\s*"([^"]+)"/s
         );
         if (packageJsonMatch) {
-          form.setValue('pieceName', packageJsonMatch[1]);
-          form.setValue('pieceVersion', packageJsonMatch[2]);
+          form.setValue("pieceName", packageJsonMatch[1]);
+          form.setValue("pieceVersion", packageJsonMatch[2]);
         } else {
-          form.setError('pieceArchive', {
-            message: t('package.json not found in archive'),
+          form.setError("pieceArchive", {
+            message: t("package.json not found in archive"),
           });
         }
       } catch (error) {
-        console.error('Error processing file:', error);
-        form.setError('pieceArchive', {
-          message: t('Error processing archive file'),
+        console.error("Error processing file:", error);
+        form.setError("pieceArchive", {
+          message: t("Error processing archive file"),
         });
       }
     } else {
-      form.setError('pieceArchive', {
-        message: t('Please upload a .tgz file'),
+      form.setError("pieceArchive", {
+        message: t("Please upload a .tgz file"),
       });
     }
   };
@@ -122,13 +122,13 @@ const InstallPieceDialog = ({
 
       if (data.packageType === PackageType.REGISTRY) {
         if (!data.pieceName) {
-          form.setError('pieceName', {
-            message: t('Piece name is required for NPM Registry'),
+          form.setError("pieceName", {
+            message: t("Piece name is required for NPM Registry"),
           });
         }
         if (!data.pieceVersion) {
-          form.setError('pieceVersion', {
-            message: t('Piece version is required for NPM Registry'),
+          form.setError("pieceVersion", {
+            message: t("Piece version is required for NPM Registry"),
           });
         }
         if (!data.pieceName || !data.pieceVersion) {
@@ -143,8 +143,8 @@ const InstallPieceDialog = ({
       form.reset();
       onInstallPiece();
       toast({
-        title: t('Success'),
-        description: t('Piece installed'),
+        title: t("Success"),
+        description: t("Piece installed"),
         duration: 3000,
       });
     },
@@ -152,15 +152,15 @@ const InstallPieceDialog = ({
       if (api.isError(error)) {
         switch (error.response?.status) {
           case HttpStatusCode.Conflict:
-            form.setError('root.serverError', {
+            form.setError("root.serverError", {
               message: t(
-                'A piece with this name and version is already installed. Please update the version number in package.json and try again.',
+                "A piece with this name and version is already installed. Please update the version number in package.json and try again."
               ),
             });
             break;
           default:
-            form.setError('root.serverError', {
-              message: t('Something went wrong, please try again later'),
+            form.setError("root.serverError", {
+              message: t("Something went wrong, please try again later"),
             });
             break;
         }
@@ -173,12 +173,12 @@ const InstallPieceDialog = ({
       <DialogTrigger asChild>
         <Button size="sm" className="flex items-center justify-center gap-2">
           <Plus className="size-4" />
-          {t('Install Piece')}
+          {t("Install Piece")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Install a piece')}</DialogTitle>
+          <DialogTitle>{t("Install a piece")}</DialogTitle>
           <DialogDescription>
             <ApMarkdown
               markdown={
@@ -191,7 +191,7 @@ const InstallPieceDialog = ({
           <form
             className="flex flex-col gap-4"
             onSubmit={form.handleSubmit((data) =>
-              mutate(data as AddPieceRequestBody),
+              mutate(data as AddPieceRequestBody)
             )}
           >
             <FormField
@@ -200,15 +200,15 @@ const InstallPieceDialog = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="packageType">
-                    {t('Package Type')}
+                    {t("Package Type")}
                   </FormLabel>
                   <Select
                     value={field.value}
                     onValueChange={(value) => {
                       field.onChange(value);
                       if (value === PackageType.ARCHIVE) {
-                        form.setValue('pieceName', undefined);
-                        form.setValue('pieceVersion', undefined);
+                        form.setValue("pieceName", undefined);
+                        form.setValue("pieceVersion", undefined);
                       }
                       form.clearErrors();
                     }}
@@ -220,13 +220,13 @@ const InstallPieceDialog = ({
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem value={PackageType.REGISTRY}>
-                          {t('NPM Registry')}
+                          {t("NPM Registry")}
                         </SelectItem>
                         <SelectItem
                           value={PackageType.ARCHIVE}
                           disabled={!isEnabled || !privatePiecesEnabled}
                         >
-                          {t('Packed Archive (.tgz)')}
+                          {t("Packed Archive (.tgz)")}
                         </SelectItem>
                       </SelectGroup>
                     </SelectContent>
@@ -236,7 +236,7 @@ const InstallPieceDialog = ({
               )}
             />
 
-            {form.watch('packageType') === PackageType.REGISTRY && (
+            {form.watch("packageType") === PackageType.REGISTRY && (
               <>
                 <FormField
                   name="pieceName"
@@ -244,11 +244,11 @@ const InstallPieceDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel htmlFor="pieceName">
-                        {t('Piece Name')}
+                        {t("Piece Name")}
                       </FormLabel>
                       <Input
                         {...field}
-                        value={field.value || ''}
+                        value={field.value || ""}
                         id="pieceName"
                         type="text"
                         placeholder="@activepieces/piece-name"
@@ -264,11 +264,11 @@ const InstallPieceDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel htmlFor="pieceVersion">
-                        {t('Piece Version')}
+                        {t("Piece Version")}
                       </FormLabel>
                       <Input
                         {...field}
-                        value={field.value || ''}
+                        value={field.value || ""}
                         id="pieceVersion"
                         type="text"
                         placeholder="0.0.1"
@@ -281,14 +281,14 @@ const InstallPieceDialog = ({
               </>
             )}
 
-            {form.watch('packageType') === PackageType.ARCHIVE && (
+            {form.watch("packageType") === PackageType.ARCHIVE && (
               <FormField
                 name="pieceArchive"
                 control={form.control}
                 render={({ field: { value, onChange, ...fieldProps } }) => (
                   <FormItem>
                     <FormLabel htmlFor="pieceArchive">
-                      {t('Package Archive')}
+                      {t("Package Archive")}
                     </FormLabel>
                     <Input
                       {...fieldProps}
@@ -301,7 +301,7 @@ const InstallPieceDialog = ({
                           handleArchiveUpload(file);
                         }
                       }}
-                      placeholder={t('Package archive')}
+                      placeholder={t("Package archive")}
                       className="rounded-sm"
                     />
                     <FormMessage />
@@ -316,7 +316,7 @@ const InstallPieceDialog = ({
               </FormMessage>
             )}
             <Button loading={isPending} type="submit">
-              {t('Install')}
+              {t("Install")}
             </Button>
           </form>
         </FormProvider>

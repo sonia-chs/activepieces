@@ -1,27 +1,27 @@
-import { t } from 'i18next';
-import { X, Check } from 'lucide-react';
+import { t } from "i18next";
+import { X, Check } from "lucide-react";
 
-import { JsonViewer } from '@/components/json-viewer';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { JsonViewer } from "@/components/json-viewer";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from '@/components/ui/sheet';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
+} from "@/components/ui/sheet";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { StepMetadataWithSuggestions } from '@/lib/types';
-import { formatUtils } from '@/lib/utils';
-import { McpRun, McpRunStatus } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { StepMetadataWithSuggestions } from "@/lib/types";
+import { formatUtils } from "@/lib/utils";
+import { McpRun, McpRunStatus } from "@activepieces/shared";
 
-import { mcpRunUtils } from './mcp-run-utils';
+import { mcpRunUtils } from "./mcp-run-utils";
 
 type McpRunDetailsProps = {
   selectedItem: McpRun;
@@ -72,12 +72,12 @@ const McpRunDetails = ({
               <StatusIconWithText
                 icon={selectedItem.status === McpRunStatus.SUCCESS ? Check : X}
                 text={formatUtils.convertEnumToHumanReadable(
-                  selectedItem.status,
+                  selectedItem.status
                 )}
                 variant={
                   selectedItem.status === McpRunStatus.SUCCESS
-                    ? 'success'
-                    : 'error'
+                    ? "success"
+                    : "error"
                 }
               />
             </div>
@@ -86,8 +86,8 @@ const McpRunDetails = ({
 
         <ScrollArea className="h-[calc(100vh-120px)] mt-6">
           <div className="space-y-6">
-            <JsonViewer json={selectedItem.input} title={t('Input')} />
-            <JsonViewer json={selectedItem.output} title={t('Output')} />
+            <JsonViewer json={selectedItem.input} title={t("Input")} />
+            <JsonViewer json={selectedItem.output} title={t("Output")} />
           </div>
         </ScrollArea>
       </SheetContent>

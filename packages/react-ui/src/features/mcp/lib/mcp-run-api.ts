@@ -1,5 +1,5 @@
-import { api } from '@/lib/api';
-import { McpRun, ListMcpRunRequest, SeekPage } from '@activepieces/shared';
+import { api } from "@/lib/api";
+import { McpRun, ListMcpRunRequest, SeekPage } from "@activepieces/shared";
 
 export const mcpRunApi = {
   async list(request: ListMcpRunRequest): Promise<SeekPage<McpRun>> {

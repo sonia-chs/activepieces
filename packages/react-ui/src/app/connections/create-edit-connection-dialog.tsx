@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { t } from 'i18next';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useEffectOnce } from 'react-use';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { t } from "i18next";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useEffectOnce } from "react-use";
 
-import { ApMarkdown } from '@/components/custom/markdown';
-import { Button } from '@/components/ui/button';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -22,12 +22,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { AssignConnectionToProjectsControl } from '@/features/connections/components/assign-global-connection-to-projects';
-import { appConnectionsMutations } from '@/features/connections/lib/app-connections-hooks';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { AssignConnectionToProjectsControl } from "@/features/connections/components/assign-global-connection-to-projects";
+import { appConnectionsMutations } from "@/features/connections/lib/app-connections-hooks";
 import {
   BasicAuthProperty,
   CustomAuthProperty,
@@ -37,27 +37,27 @@ import {
   PieceMetadataModelSummary,
   PropertyType,
   SecretTextProperty,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   AppConnectionWithoutSensitiveData,
   isNil,
   UpsertAppConnectionRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { newConnectionUtils } from '../../features/connections/lib/utils';
-import { formUtils } from '../../features/pieces/lib/form-utils';
+import { newConnectionUtils } from "../../features/connections/lib/utils";
+import { formUtils } from "../../features/pieces/lib/form-utils";
 
-import { BasicAuthConnectionSettings } from './basic-secret-connection-settings';
-import { CustomAuthConnectionSettings } from './custom-auth-connection-settings';
-import { OAuth2ConnectionSettings } from './oauth2-connection-settings';
-import { SecretTextConnectionSettings } from './secret-text-connection-settings';
+import { BasicAuthConnectionSettings } from "./basic-secret-connection-settings";
+import { CustomAuthConnectionSettings } from "./custom-auth-connection-settings";
+import { OAuth2ConnectionSettings } from "./oauth2-connection-settings";
+import { SecretTextConnectionSettings } from "./secret-text-connection-settings";
 
 type ConnectionDialogProps = {
   piece: PieceMetadataModelSummary | PieceMetadataModel;
   open: boolean;
   setOpen: (
     open: boolean,
-    connection?: AppConnectionWithoutSensitiveData,
+    connection?: AppConnectionWithoutSensitiveData
   ) => void;
   reconnectConnection: AppConnectionWithoutSensitiveData | null;
   isGlobalConnection: boolean;
@@ -71,7 +71,7 @@ type CreateOrEditConnectionDialogContentProps = {
   externalIdComingFromSdk?: string | null;
   setOpen: (
     open: boolean,
-    connection?: AppConnectionWithoutSensitiveData,
+    connection?: AppConnectionWithoutSensitiveData
   ) => void;
 };
 
@@ -88,7 +88,7 @@ const CreateOrEditConnectionDialogContent = React.memo(
     const { externalId, displayName } = newConnectionUtils.getConnectionName(
       piece,
       reconnectConnection,
-      externalIdComingFromSdk,
+      externalIdComingFromSdk
     );
     const form = useForm<{
       request: UpsertAppConnectionRequestBody & {
@@ -100,20 +100,20 @@ const CreateOrEditConnectionDialogContent = React.memo(
           ...newConnectionUtils.createDefaultValues(
             piece,
             externalId,
-            displayName,
+            displayName
           ),
           projectIds: reconnectConnection?.projectIds ?? [],
         },
       },
-      mode: 'onChange',
-      reValidateMode: 'onChange',
+      mode: "onChange",
+      reValidateMode: "onChange",
       resolver: typeboxResolver(formSchema),
     });
 
     useEffectOnce(() => {
       form.trigger();
     });
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
 
     const { mutate: upsertConnection, isPending } =
       appConnectionsMutations.useUpsertAppConnection({
@@ -130,10 +130,10 @@ const CreateOrEditConnectionDialogContent = React.memo(
         <DialogHeader className="mb-0">
           <DialogTitle className="px-5">
             {reconnectConnection
-              ? t('Reconnect {displayName} Connection', {
+              ? t("Reconnect {displayName} Connection", {
                   displayName: reconnectConnection.displayName,
                 })
-              : t('Connect to {displayName}', {
+              : t("Connect to {displayName}", {
                   displayName: piece.displayName,
                 })}
           </DialogTitle>
@@ -142,25 +142,25 @@ const CreateOrEditConnectionDialogContent = React.memo(
 
         <Form {...form}>
           <form
-            onSubmit={() => console.log('submitted')}
+            onSubmit={() => console.log("submitted")}
             className="flex flex-col gap-4"
           >
             <ScrollArea
               className="px-2"
               viewPortClassName="max-h-[calc(70vh-180px)] px-4"
             >
-              {' '}
+              {" "}
               <ApMarkdown markdown={auth?.description}></ApMarkdown>
               {auth?.description && <Separator className="my-4" />}
               {(isNil(externalIdComingFromSdk) ||
-                externalIdComingFromSdk === '') && (
+                externalIdComingFromSdk === "") && (
                 <FormField
                   name="request.displayName"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-2">
                       <FormLabel htmlFor="displayName">
-                        {t('Connection Name')}
+                        {t("Connection Name")}
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -168,7 +168,7 @@ const CreateOrEditConnectionDialogContent = React.memo(
                           required
                           id="displayName"
                           type="text"
-                          placeholder={t('Connection name')}
+                          placeholder={t("Connection name")}
                         />
                       </FormControl>
                       <FormMessage />
@@ -189,7 +189,7 @@ const CreateOrEditConnectionDialogContent = React.memo(
                         name="request.externalId"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t('External ID')}</FormLabel>
+                            <FormLabel>{t("External ID")}</FormLabel>
                             <Input {...field} />
                           </FormItem>
                         )}
@@ -240,7 +240,7 @@ const CreateOrEditConnectionDialogContent = React.memo(
                   type="submit"
                   disabled={!form.formState.isValid}
                 >
-                  {t('Save')}
+                  {t("Save")}
                 </Button>
               </div>
             </DialogFooter>
@@ -257,11 +257,11 @@ const CreateOrEditConnectionDialogContent = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 
 CreateOrEditConnectionDialogContent.displayName =
-  'CreateOrEditConnectionDialogContent';
+  "CreateOrEditConnectionDialogContent";
 
 const CreateOrEditConnectionDialog = React.memo(
   ({
@@ -292,8 +292,8 @@ const CreateOrEditConnectionDialog = React.memo(
         </DialogContent>
       </Dialog>
     );
-  },
+  }
 );
 
-CreateOrEditConnectionDialog.displayName = 'CreateOrEditConnectionDialog';
+CreateOrEditConnectionDialog.displayName = "CreateOrEditConnectionDialog";
 export { CreateOrEditConnectionDialog, CreateOrEditConnectionDialogContent };

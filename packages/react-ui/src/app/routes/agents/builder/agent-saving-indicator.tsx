@@ -1,8 +1,8 @@
-import { t } from 'i18next';
-import { Cloud } from 'lucide-react';
-import React from 'react';
+import { t } from "i18next";
+import { Cloud } from "lucide-react";
+import React from "react";
 
-import { LoadingSpinner } from '@/components/ui/spinner';
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 interface AgentSavingIndicatorProps {
   isSaving: boolean;
@@ -19,12 +19,12 @@ export const AgentSavingIndicator: React.FC<AgentSavingIndicatorProps> = ({
       {isSaving ? (
         <>
           <LoadingSpinner className="w-4 h-4" />
-          <span>{t('Saving...')}</span>
+          <span>{t("Saving...")}</span>
         </>
       ) : (
         <>
           <Cloud className="w-4 h-4" />
-          <span>{t('Saved')}</span>
+          <span>{t("Saved")}</span>
         </>
       )}
     </div>

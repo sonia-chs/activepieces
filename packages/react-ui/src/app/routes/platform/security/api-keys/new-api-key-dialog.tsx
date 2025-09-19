@@ -1,12 +1,12 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Type, Static } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Type, Static } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { CopyToClipboardInput } from '@/components/custom/clipboard/copy-to-clipboard';
-import { Button } from '@/components/ui/button';
+import { CopyToClipboardInput } from "@/components/custom/clipboard/copy-to-clipboard";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,17 +14,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { apiKeyApi } from '@/features/platform-admin/lib/api-key-api';
-import { ApiKeyResponseWithValue } from '@activepieces/ee-shared';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { apiKeyApi } from "@/features/platform-admin/lib/api-key-api";
+import { ApiKeyResponseWithValue } from "@activepieces/ee-shared";
 
 type NewApiKeyDialogProps = {
   children: React.ReactNode;
@@ -33,7 +33,7 @@ type NewApiKeyDialogProps = {
 const FormSchema = Type.Object({
   displayName: Type.String({
     minLength: 1,
-    errorMessage: t('Name is required'),
+    errorMessage: t("Name is required"),
   }),
 });
 
@@ -45,7 +45,7 @@ export const NewApiKeyDialog = ({
 }: NewApiKeyDialogProps) => {
   const [open, setOpen] = useState(false);
   const [apiKey, setApiKey] = useState<ApiKeyResponseWithValue | undefined>(
-    undefined,
+    undefined
   );
   const form = useForm<FormSchema>({
     resolver: typeboxResolver(FormSchema),
@@ -71,7 +71,7 @@ export const NewApiKeyDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {apiKey ? t('API Key Created') : t('Create API Key')}
+            {apiKey ? t("API Key Created") : t("Create API Key")}
           </DialogTitle>
         </DialogHeader>
         {apiKey && (
@@ -80,11 +80,11 @@ export const NewApiKeyDialog = ({
               <div className="flex flex-col items-start gap-2">
                 <span className="text-md">
                   {t(
-                    'Please save this secret key somewhere safe and accessible. For security reasons,',
-                  )}{' '}
+                    "Please save this secret key somewhere safe and accessible. For security reasons,"
+                  )}{" "}
                   <span className="font-semibold">
                     {t(
-                      "you won't be able to view it again after closing this dialog.",
+                      "you won't be able to view it again after closing this dialog."
                     )}
                   </span>
                 </span>
@@ -97,14 +97,14 @@ export const NewApiKeyDialog = ({
             </div>
             <DialogFooter>
               <Button
-                variant={'accent'}
+                variant={"accent"}
                 onClick={() => {
                   setApiKey(undefined);
                   setOpen(false);
                 }}
                 type="button"
               >
-                {t('Done')}
+                {t("Done")}
               </Button>
             </DialogFooter>
           </>
@@ -120,11 +120,11 @@ export const NewApiKeyDialog = ({
                 name="displayName"
                 render={({ field }) => (
                   <FormItem className="grid space-y-4">
-                    <FormLabel>{t('Name')}</FormLabel>
+                    <FormLabel>{t("Name")}</FormLabel>
                     <Input
                       {...field}
                       required
-                      placeholder={t('API Key Name')}
+                      placeholder={t("API Key Name")}
                       className="rounded-sm"
                     />
                     <FormMessage />
@@ -137,10 +137,10 @@ export const NewApiKeyDialog = ({
                   type="button"
                   onClick={() => setOpen(false)}
                 >
-                  {t('Cancel')}
+                  {t("Cancel")}
                 </Button>
                 <Button disabled={isPending} loading={isPending}>
-                  {t('Save')}
+                  {t("Save")}
                 </Button>
               </DialogFooter>
             </form>

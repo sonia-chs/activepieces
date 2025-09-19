@@ -1,12 +1,12 @@
-import { api } from '@/lib/api';
-import { authenticationSession } from '@/lib/authentication-session';
+import { api } from "@/lib/api";
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   CreateFolderRequest,
   Folder,
   FolderDto,
   ListFolderRequest,
   UpdateFolderRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const foldersApi = {
   async list(): Promise<FolderDto[]> {
@@ -16,14 +16,14 @@ export const foldersApi = {
       projectId: authenticationSession.getProjectId()!,
     };
 
-    const response = await api.get<any>('/v1/folders', request);
+    const response = await api.get<any>("/v1/folders", request);
     return response.data || [];
   },
   get(folderId: string) {
     return api.get<Folder>(`/v1/folders/${folderId}`);
   },
   create(req: CreateFolderRequest) {
-    return api.post<FolderDto>('/v1/folders', req);
+    return api.post<FolderDto>("/v1/folders", req);
   },
   delete(folderId: string) {
     return api.delete<void>(`/v1/folders/${folderId}`);

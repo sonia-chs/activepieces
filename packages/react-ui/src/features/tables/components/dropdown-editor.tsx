@@ -1,11 +1,11 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
-import { SearchableSelect } from '@/components/custom/searchable-select';
-import { cn } from '@/lib/utils';
-import { FieldType, StaticDropdownEmptyOption } from '@activepieces/shared';
+import { SearchableSelect } from "@/components/custom/searchable-select";
+import { cn } from "@/lib/utils";
+import { FieldType, StaticDropdownEmptyOption } from "@activepieces/shared";
 
-import { useTableState } from './ap-table-state-provider';
-import { useCellContext } from './cell-context';
+import { useTableState } from "./ap-table-state-provider";
+import { useCellContext } from "./cell-context";
 
 const DropdownEditor = () => {
   const {
@@ -19,22 +19,22 @@ const DropdownEditor = () => {
   const field = useTableState((state) => state.fields[columnIdx]);
   const containerRef = useRef<HTMLDivElement>(null);
   const handleChange = (newValue: string | null) => {
-    handleCellChange(newValue ?? '');
+    handleCellChange(newValue ?? "");
   };
   if (field?.type !== FieldType.STATIC_DROPDOWN) {
     console.log(field);
-    console.error('DropdownEditor can only be used for STATIC_DROPDOWN fields');
+    console.error("DropdownEditor can only be used for STATIC_DROPDOWN fields");
     return null;
   }
   return (
     <div
-      className={cn('h-full w-full', {
-        'border-primary  border-2': isEditing,
+      className={cn("h-full w-full", {
+        "border-primary  border-2": isEditing,
       })}
       ref={containerRef}
     >
       <SearchableSelect
-        triggerClassName={cn('rounded-none px-2 border-none bg-transparent')}
+        triggerClassName={cn("rounded-none px-2 border-none bg-transparent")}
         onClose={() => {
           setIsEditing(false);
         }}
@@ -48,7 +48,7 @@ const DropdownEditor = () => {
         onChange={handleChange}
         value={value}
         disabled={disabled}
-        placeholder={''}
+        placeholder={""}
         showDeselect={false}
         openState={{
           open: isEditing,
@@ -58,5 +58,5 @@ const DropdownEditor = () => {
     </div>
   );
 };
-DropdownEditor.displayName = 'DropdownEditor';
+DropdownEditor.displayName = "DropdownEditor";
 export { DropdownEditor };

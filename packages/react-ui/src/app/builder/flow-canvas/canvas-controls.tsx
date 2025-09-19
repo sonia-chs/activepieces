@@ -1,5 +1,5 @@
-import { Node, useKeyPress, useReactFlow } from '@xyflow/react';
-import { t } from 'i18next';
+import { Node, useKeyPress, useReactFlow } from "@xyflow/react";
+import { t } from "i18next";
 import {
   Fullscreen,
   Hand,
@@ -7,29 +7,29 @@ import {
   MousePointer,
   Plus,
   RotateCw,
-} from 'lucide-react';
-import { useCallback, useEffect } from 'react';
+} from "lucide-react";
+import { useCallback, useEffect } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
-import { flowUtilConsts } from './utils/consts';
-import { flowCanvasUtils } from './utils/flow-canvas-utils';
-import { ApNode } from './utils/types';
+import { flowUtilConsts } from "./utils/consts";
+import { flowCanvasUtils } from "./utils/flow-canvas-utils";
+import { ApNode } from "./utils/types";
 const verticalPaddingOnFitView = 100;
 const duration = 500;
 // Calculate the node's position in relation to the canvas
 const calculateNodePositionInCanvas = (
   canvasWidth: number,
   node: Node,
-  zoom: number,
+  zoom: number
 ) => ({
   x:
     node.position.x +
@@ -44,7 +44,7 @@ const calculateNodePositionInCanvas = (
 // Check if the node is out of view
 const isNodeOutOfView = (
   nodePosition: { x: number; y: number },
-  canvas: { width: number; height: number },
+  canvas: { width: number; height: number }
 ) =>
   nodePosition.y > canvas.height ||
   nodePosition.x > canvas.width ||
@@ -52,7 +52,7 @@ const isNodeOutOfView = (
 
 const calculateViewportDelta = (
   nodePosition: { x: number; y: number },
-  canvas: { width: number; height: number },
+  canvas: { width: number; height: number }
 ) => ({
   x:
     nodePosition.x > canvas.width
@@ -73,10 +73,10 @@ const PanningModeIndicator = ({ toggled }: { toggled: boolean }) => {
   return (
     <div
       className={cn(
-        'absolute transition-all bg-primary/15 w-full h-full top-0 left-0',
+        "absolute transition-all bg-primary/15 w-full h-full top-0 left-0",
         {
-          'opacity-0': !toggled,
-        },
+          "opacity-0": !toggled,
+        }
       )}
     ></div>
   );
@@ -128,7 +128,7 @@ const CanvasControls = ({
       }).height;
       const zoomRatio = Math.min(
         Math.max(canvasHeight / graphHeight, 0.9),
-        1.25,
+        1.25
       );
 
       setViewport(
@@ -141,10 +141,10 @@ const CanvasControls = ({
         },
         {
           duration: isInitialRenderCall ? 0 : duration,
-        },
+        }
       );
     },
-    [getNodes, canvasHeight, setViewport, canvasWidth],
+    [getNodes, canvasHeight, setViewport, canvasWidth]
   );
 
   useEffect(() => {
@@ -172,13 +172,13 @@ const CanvasControls = ({
     const nodePositionInRelationToCanvas = calculateNodePositionInCanvas(
       canvasWidth,
       node,
-      viewport.zoom,
+      viewport.zoom
     );
 
     if (isNodeOutOfView(nodePositionInRelationToCanvas, canvas)) {
       const delta = calculateViewportDelta(
         nodePositionInRelationToCanvas,
-        canvas,
+        canvas
       );
 
       setViewport({
@@ -192,10 +192,10 @@ const CanvasControls = ({
   const [setPanningMode, panningMode] = useBuilderStateContext((state) => {
     return [state.setPanningMode, state.panningMode];
   });
-  const spacePressed = useKeyPress('Space');
-  const shiftPressed = useKeyPress('Shift');
+  const spacePressed = useKeyPress("Space");
+  const shiftPressed = useKeyPress("Shift");
   const isInGrabMode =
-    (spacePressed || panningMode === 'grab') && !shiftPressed;
+    (spacePressed || panningMode === "grab") && !shiftPressed;
 
   return (
     <>
@@ -207,7 +207,7 @@ const CanvasControls = ({
               size="sm"
               onClick={() => {
                 if (!spacePressed) {
-                  setPanningMode('pan');
+                  setPanningMode("pan");
                 }
               }}
               className="relative focus:outline-0"
@@ -216,7 +216,7 @@ const CanvasControls = ({
               <MousePointer className="size-5"></MousePointer>
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="right">{t('Select Mode')}</TooltipContent>
+          <TooltipContent side="right">{t("Select Mode")}</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -226,7 +226,7 @@ const CanvasControls = ({
               size="sm"
               onClick={() => {
                 if (!spacePressed) {
-                  setPanningMode('grab');
+                  setPanningMode("grab");
                 }
               }}
               className="relative focus:outline-0"
@@ -236,7 +236,7 @@ const CanvasControls = ({
               <Hand className="size-5"></Hand>
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="right">{t('Move Mode')}</TooltipContent>
+          <TooltipContent side="right">{t("Move Mode")}</TooltipContent>
         </Tooltip>
       </div>
       <div className="bg-accent absolute left-[10px] bottom-[10px] z-50 flex flex-row shadow-md">
@@ -246,7 +246,7 @@ const CanvasControls = ({
               <RotateCw className="size-5" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top">{t('Reset Zoom')}</TooltipContent>
+          <TooltipContent side="top">{t("Reset Zoom")}</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -255,7 +255,7 @@ const CanvasControls = ({
               <Plus className="size-5" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top">{t('Zoom In')}</TooltipContent>
+          <TooltipContent side="top">{t("Zoom In")}</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -264,7 +264,7 @@ const CanvasControls = ({
               <Minus className="size-5" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top">{t('Zoom Out')}</TooltipContent>
+          <TooltipContent side="top">{t("Zoom Out")}</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -277,7 +277,7 @@ const CanvasControls = ({
               <Fullscreen className="size-5" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top">{t('Fit to View')}</TooltipContent>
+          <TooltipContent side="top">{t("Fit to View")}</TooltipContent>
         </Tooltip>
       </div>
     </>

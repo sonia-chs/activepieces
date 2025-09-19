@@ -1,7 +1,7 @@
-import { Download } from 'lucide-react';
-import React from 'react';
+import { Download } from "lucide-react";
+import React from "react";
 
-import ImageWithFallback from '@/components/ui/image-with-fallback';
+import ImageWithFallback from "@/components/ui/image-with-fallback";
 
 interface ImageMessageProps {
   content: string;
@@ -24,9 +24,9 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             link.href = content;
-            link.download = 'image';
+            link.download = "image";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

@@ -1,26 +1,26 @@
-import { t } from 'i18next';
-import { EllipsisVertical, Puzzle, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { EllipsisVertical, Puzzle, Trash2 } from "lucide-react";
+import { useState } from "react";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Card, CardContent } from '@/components/ui/card';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { PieceMetadataModelSummary } from '@activepieces/pieces-framework';
+} from "@/components/ui/dropdown-menu";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { PieceMetadataModelSummary } from "@activepieces/pieces-framework";
 import {
   McpTool,
   McpToolType,
   McpWithTools,
   Permission,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { mcpConfigUtils } from './mcp-config-utils';
+import { mcpConfigUtils } from "./mcp-config-utils";
 
 type McpPieceToolProps = {
   mcp: McpWithTools;
@@ -46,11 +46,11 @@ export const McpPieceTool = ({
 
   const getPieceInfo = (mcpTool: McpTool) => {
     if (mcpTool.type !== McpToolType.PIECE || !mcpTool.pieceMetadata) {
-      return { displayName: 'Unknown', logoUrl: undefined };
+      return { displayName: "Unknown", logoUrl: undefined };
     }
 
     const pieceMetadata = pieces?.find(
-      (p) => p.name === mcpTool.pieceMetadata?.pieceName,
+      (p) => p.name === mcpTool.pieceMetadata?.pieceName
     );
     return {
       displayName:
@@ -117,12 +117,12 @@ export const McpPieceTool = ({
             >
               <PermissionNeededTooltip hasPermission={hasPermissionToWriteMcp}>
                 <ConfirmationDeleteDialog
-                  title={`${t('Delete')} ${toolName}`}
-                  message={t('Are you sure you want to delete this tool?')}
+                  title={`${t("Delete")} ${toolName}`}
+                  message={t("Are you sure you want to delete this tool?")}
                   mutationFn={async () =>
                     await removeTool(tools.map((tool) => tool.id))
                   }
-                  entityName={t('Tool')}
+                  entityName={t("Tool")}
                 >
                   <DropdownMenuItem
                     disabled={!hasPermissionToWriteMcp}
@@ -130,7 +130,7 @@ export const McpPieceTool = ({
                   >
                     <div className="flex cursor-pointer flex-row gap-2 items-center">
                       <Trash2 className="h-4 w-4 text-destructive" />
-                      <span className="text-destructive">{t('Delete')}</span>
+                      <span className="text-destructive">{t("Delete")}</span>
                     </div>
                   </DropdownMenuItem>
                 </ConfirmationDeleteDialog>

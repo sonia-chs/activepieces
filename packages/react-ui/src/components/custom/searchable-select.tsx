@@ -1,9 +1,9 @@
-import deepEqual from 'deep-equal';
-import { t } from 'i18next';
-import { Check, ChevronsUpDown, RefreshCcw, X } from 'lucide-react';
-import React, { useState, useRef } from 'react';
+import deepEqual from "deep-equal";
+import { t } from "i18next";
+import { Check, ChevronsUpDown, RefreshCcw, X } from "lucide-react";
+import React, { useState, useRef } from "react";
 
-import { SelectUtilButton } from '@/components/custom/select-util-button';
+import { SelectUtilButton } from "@/components/custom/select-util-button";
 import {
   Command,
   CommandEmpty,
@@ -11,16 +11,16 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
-import { Button } from '../ui/button';
-import { ScrollArea } from '../ui/scroll-area';
+import { Button } from "../ui/button";
+import { ScrollArea } from "../ui/scroll-area";
 
 type SelectOption<T> = {
   value: T;
@@ -84,12 +84,12 @@ export const SearchableSelect = <T,>({
   cachedOptions = [],
 }: SearchableSelectProps<T>) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const { open, setOpen } = useOpenState(openStateInitializer);
   const triggerWidth = `${triggerRef.current?.clientWidth ?? 0}px`;
   const selectedOption =
     [...cachedOptions, ...options].find((option) =>
-      deepEqual(option.value, value),
+      deepEqual(option.value, value)
     ) ?? undefined;
   const filterOptionsIndices = options
     .map((option, index) => {
@@ -97,7 +97,7 @@ export const SearchableSelect = <T,>({
         label: option.label,
         value: option.value,
         index: index,
-        description: option.description ?? '',
+        description: option.description ?? "",
       };
     })
     .filter((option) => {
@@ -116,7 +116,7 @@ export const SearchableSelect = <T,>({
       Number.isInteger(parseInt(index)) && !Number.isNaN(parseInt(index))
         ? parseInt(index)
         : -1;
-    setSearchTerm('');
+    setSearchTerm("");
 
     if (optionIndex === -1) {
       return;
@@ -133,8 +133,8 @@ export const SearchableSelect = <T,>({
           onClose?.();
         }
         if (refreshOnSearch && searchTerm.length > 0) {
-          refreshOnSearch('');
-          setSearchTerm('');
+          refreshOnSearch("");
+          setSearchTerm("");
         }
         setOpen(open);
       }}
@@ -142,7 +142,7 @@ export const SearchableSelect = <T,>({
       <PopoverTrigger
         asChild
         className={cn({
-          'cursor-not-allowed opacity-80 ': disabled,
+          "cursor-not-allowed opacity-80 ": disabled,
         })}
         onClick={(e) => {
           if (disabled) {
@@ -159,7 +159,7 @@ export const SearchableSelect = <T,>({
             role="combobox"
             loading={loading}
             aria-expanded={open}
-            className={cn('w-full justify-between', triggerClassName)}
+            className={cn("w-full justify-between", triggerClassName)}
             onClick={(e) => {
               setOpen(!open);
               e.preventDefault();
@@ -177,7 +177,7 @@ export const SearchableSelect = <T,>({
           <div className="right-10 top-2 absolute flex gap-2  z-50 items-center">
             {showDeselect && !disabled && selectedOption && !loading && (
               <SelectUtilButton
-                tooltipText={t('Unset')}
+                tooltipText={t("Unset")}
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
@@ -188,7 +188,7 @@ export const SearchableSelect = <T,>({
             )}
             {showRefresh && !loading && (
               <SelectUtilButton
-                tooltipText={t('Refresh')}
+                tooltipText={t("Refresh")}
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
@@ -221,14 +221,14 @@ export const SearchableSelect = <T,>({
             }}
           />
           {filterOptionsIndices.length === 0 && (
-            <CommandEmpty>{t('No results found.')}</CommandEmpty>
+            <CommandEmpty>{t("No results found.")}</CommandEmpty>
           )}
 
           <CommandGroup>
             <CommandList>
               <ScrollArea
                 className="h-full"
-                viewPortClassName={'max-h-[200px]'}
+                viewPortClassName={"max-h-[200px]"}
               >
                 {filterOptionsIndices &&
                   !loading &&
@@ -248,7 +248,7 @@ export const SearchableSelect = <T,>({
                         className="flex gap-2 flex-col items-start"
                       >
                         <div className="flex gap-2 items-center justify-between w-full">
-                          {option.label === '' ? (
+                          {option.label === "" ? (
                             <span className="">&nbsp;</span>
                           ) : valuesRendering ? (
                             valuesRendering(option.value)
@@ -256,7 +256,7 @@ export const SearchableSelect = <T,>({
                             option.label
                           )}
                           <Check
-                            className={cn('flex-shrink-0 w-4 h-4', {
+                            className={cn("flex-shrink-0 w-4 h-4", {
                               hidden: selectedOption?.value !== option.value,
                             })}
                           />
@@ -270,7 +270,7 @@ export const SearchableSelect = <T,>({
                     );
                   })}
                 {loading && (
-                  <CommandItem disabled>{t('Loading...')}</CommandItem>
+                  <CommandItem disabled>{t("Loading...")}</CommandItem>
                 )}
               </ScrollArea>
             </CommandList>
@@ -281,4 +281,4 @@ export const SearchableSelect = <T,>({
   );
 };
 
-SearchableSelect.displayName = 'SearchableSelect';
+SearchableSelect.displayName = "SearchableSelect";

@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Info } from 'lucide-react';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Info } from "lucide-react";
+import React from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,32 +13,32 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { toast } from '@/components/ui/use-toast';
-import { gitSyncApi } from '@/features/git-sync/lib/git-sync-api';
-import { gitSyncHooks } from '@/features/git-sync/lib/git-sync-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
+} from "@/components/ui/tooltip";
+import { toast } from "@/components/ui/use-toast";
+import { gitSyncApi } from "@/features/git-sync/lib/git-sync-api";
+import { gitSyncHooks } from "@/features/git-sync/lib/git-sync-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   GitBranchType,
   GitPushOperationType,
   PushEverythingGitRepoRequest,
   PushGitRepoRequest,
-} from '@activepieces/ee-shared';
-import { assertNotNullOrUndefined } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { assertNotNullOrUndefined } from "@activepieces/shared";
 
 type PushEverythingDialogProps = {
   children?: React.ReactNode;
@@ -50,19 +50,19 @@ const PushEverythingDialog = (props: PushEverythingDialogProps) => {
   const { platform } = platformHooks.useCurrentPlatform();
   const { gitSync } = gitSyncHooks.useGitSync(
     authenticationSession.getProjectId()!,
-    platform.plan.environmentsEnabled,
+    platform.plan.environmentsEnabled
   );
   const form = useForm<PushGitRepoRequest>({
     defaultValues: {
       type: GitPushOperationType.PUSH_EVERYTHING,
-      commitMessage: '',
+      commitMessage: "",
     },
     resolver: typeboxResolver(PushEverythingGitRepoRequest),
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (request: PushGitRepoRequest) => {
-      assertNotNullOrUndefined(gitSync, 'gitSync');
+      assertNotNullOrUndefined(gitSync, "gitSync");
       await gitSyncApi.push(gitSync.id, {
         type: GitPushOperationType.PUSH_EVERYTHING,
         commitMessage: request.commitMessage,
@@ -70,8 +70,8 @@ const PushEverythingDialog = (props: PushEverythingDialogProps) => {
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Everything is pushed successfully'),
+        title: t("Success"),
+        description: t("Everything is pushed successfully"),
         duration: 3000,
       });
       setOpen(false);
@@ -88,7 +88,7 @@ const PushEverythingDialog = (props: PushEverythingDialogProps) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit((data) => mutate(data))}>
             <DialogHeader>
-              <DialogTitle>{t('Push Everything to Git')}</DialogTitle>
+              <DialogTitle>{t("Push Everything to Git")}</DialogTitle>
             </DialogHeader>
             <FormField
               control={form.control}
@@ -96,14 +96,14 @@ const PushEverythingDialog = (props: PushEverythingDialogProps) => {
               render={({ field }) => (
                 <FormItem className="gap-2 flex flex-col">
                   <div className="flex items-center gap-2">
-                    <FormLabel>{t('Commit Message')}</FormLabel>
+                    <FormLabel>{t("Commit Message")}</FormLabel>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                       </TooltipTrigger>
                       <TooltipContent className="max-w-xs">
                         {t(
-                          'Push all published flows, connections, and tables to the Git repository.',
+                          "Push all published flows, connections, and tables to the Git repository."
                         )}
                       </TooltipContent>
                     </Tooltip>
@@ -113,7 +113,7 @@ const PushEverythingDialog = (props: PushEverythingDialogProps) => {
                   </FormControl>
                   <div className="text-sm text-gray-500">
                     {t(
-                      'Enter a commit message to describe the changes you want to push.',
+                      "Enter a commit message to describe the changes you want to push."
                     )}
                   </div>
                 </FormItem>
@@ -128,14 +128,14 @@ const PushEverythingDialog = (props: PushEverythingDialogProps) => {
                   form.reset();
                 }}
               >
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button
                 type="submit"
                 loading={isPending}
                 onClick={form.handleSubmit((data) => mutate(data))}
               >
-                {t('Push')}
+                {t("Push")}
               </Button>
             </DialogFooter>
           </form>
@@ -145,5 +145,5 @@ const PushEverythingDialog = (props: PushEverythingDialogProps) => {
   );
 };
 
-PushEverythingDialog.displayName = 'PushEverythingDialog';
+PushEverythingDialog.displayName = "PushEverythingDialog";
 export { PushEverythingDialog };

@@ -7,7 +7,7 @@ import {
   Play,
   Timer,
   X,
-} from 'lucide-react';
+} from "lucide-react";
 
 import {
   FlowActionType,
@@ -22,7 +22,7 @@ import {
   LoopStepOutput,
   StepOutput,
   StepOutputStatus,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const flowRunUtils = {
   findLastStepWithStatus,
@@ -31,7 +31,7 @@ export const flowRunUtils = {
     stepName: string,
     loopIndexes: Record<string, number>,
     output: Record<string, StepOutput>,
-    trigger: FlowTrigger,
+    trigger: FlowTrigger
   ): StepOutput | undefined => {
     const stepOutput = output[stepName];
     if (!isNil(stepOutput)) {
@@ -42,7 +42,7 @@ export const flowRunUtils = {
       .filter(
         (p) =>
           p.type === FlowActionType.LOOP_ON_ITEMS &&
-          flowStructureUtil.isChildOf(p, stepName),
+          flowStructureUtil.isChildOf(p, stepName)
       ) as LoopOnItemsAction[];
 
     if (parents.length > 0) {
@@ -51,7 +51,7 @@ export const flowRunUtils = {
     return undefined;
   },
   getStatusIconForStep(stepOutput: StepOutputStatus): {
-    variant: 'default' | 'success' | 'error';
+    variant: "default" | "success" | "error";
     Icon:
       | typeof Timer
       | typeof CircleCheck
@@ -61,75 +61,75 @@ export const flowRunUtils = {
     switch (stepOutput) {
       case StepOutputStatus.RUNNING:
         return {
-          variant: 'default',
+          variant: "default",
           Icon: Timer,
         };
       case StepOutputStatus.PAUSED:
         return {
-          variant: 'default',
+          variant: "default",
           Icon: PauseCircleIcon,
         };
       case StepOutputStatus.STOPPED:
       case StepOutputStatus.SUCCEEDED:
         return {
-          variant: 'success',
+          variant: "success",
           Icon: CircleCheck,
         };
       case StepOutputStatus.FAILED:
         return {
-          variant: 'error',
+          variant: "error",
           Icon: CircleX,
         };
     }
   },
   getStatusIcon(status: FlowRunStatus): {
-    variant: 'default' | 'success' | 'error';
+    variant: "default" | "success" | "error";
     Icon: typeof Timer | typeof Check | typeof PauseIcon | typeof X;
   } {
     switch (status) {
       case FlowRunStatus.QUEUED:
         return {
-          variant: 'default',
+          variant: "default",
           Icon: Timer,
         };
       case FlowRunStatus.RUNNING:
         return {
-          variant: 'default',
+          variant: "default",
           Icon: Play,
         };
       case FlowRunStatus.SUCCEEDED:
         return {
-          variant: 'success',
+          variant: "success",
           Icon: Check,
         };
       case FlowRunStatus.FAILED:
         return {
-          variant: 'error',
+          variant: "error",
           Icon: X,
         };
       case FlowRunStatus.PAUSED:
         return {
-          variant: 'default',
+          variant: "default",
           Icon: PauseIcon,
         };
       case FlowRunStatus.MEMORY_LIMIT_EXCEEDED:
         return {
-          variant: 'error',
+          variant: "error",
           Icon: X,
         };
       case FlowRunStatus.QUOTA_EXCEEDED:
         return {
-          variant: 'error',
+          variant: "error",
           Icon: X,
         };
       case FlowRunStatus.INTERNAL_ERROR:
         return {
-          variant: 'error',
+          variant: "error",
           Icon: X,
         };
       case FlowRunStatus.TIMEOUT:
         return {
-          variant: 'error',
+          variant: "error",
           Icon: X,
         };
     }
@@ -139,7 +139,7 @@ export const flowRunUtils = {
 function findLoopsState(
   flowVersion: FlowVersion,
   run: FlowRun,
-  currentLoopsState: Record<string, number>,
+  currentLoopsState: Record<string, number>
 ) {
   const loops = flowStructureUtil
     .getAllSteps(flowVersion.trigger)
@@ -156,13 +156,13 @@ function findLoopsState(
           ? Number.MAX_SAFE_INTEGER
           : currentLoopsState[step.name] ?? 0,
     }),
-    currentLoopsState,
+    currentLoopsState
   );
 }
 
 function findLastStepWithStatus(
   runStatus: FlowRunStatus,
-  steps: Record<string, StepOutput> | undefined,
+  steps: Record<string, StepOutput> | undefined
 ): string | null {
   if (isNil(steps)) {
     return null;
@@ -181,7 +181,7 @@ function findLastStepWithStatus(
     ) {
       const latestStepInLoop = findLatestStepInLoop(
         step as LoopStepOutput,
-        runStatus,
+        runStatus
       );
       if (!isNil(latestStepInLoop)) {
         return latestStepInLoop;
@@ -199,7 +199,7 @@ function findLastStepWithStatus(
 
 function findLatestStepInLoop(
   loopStepResult: LoopStepOutput,
-  runStatus: FlowRunStatus,
+  runStatus: FlowRunStatus
 ): string | null {
   if (!loopStepResult.output) {
     return null;
@@ -217,7 +217,7 @@ function getLoopChildStepOutput(
   parents: LoopOnItemsAction[],
   loopIndexes: Record<string, number>,
   childName: string,
-  runOutput: Record<string, StepOutput>,
+  runOutput: Record<string, StepOutput>
 ): StepOutput | undefined {
   if (parents.length === 0) {
     return undefined;

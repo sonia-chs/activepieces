@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
 import {
   CheckIcon,
   PlayIcon,
@@ -7,42 +7,42 @@ import {
   RotateCw,
   ChevronDown,
   History,
-} from 'lucide-react';
-import { useMemo, useCallback, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+} from "lucide-react";
+import { useMemo, useCallback, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { Button } from '@/components/ui/button';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { Button } from "@/components/ui/button";
 import {
   BulkAction,
   CURSOR_QUERY_PARAM,
   LIMIT_QUERY_PARAM,
   DataTable,
-} from '@/components/ui/data-table';
+} from "@/components/ui/data-table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { MessageTooltip } from '@/components/ui/message-tooltip';
-import { toast } from '@/components/ui/use-toast';
-import { flowRunUtils } from '@/features/flow-runs/lib/flow-run-utils';
-import { flowRunsApi } from '@/features/flow-runs/lib/flow-runs-api';
-import { flowsHooks } from '@/features/flows/lib/flows-hooks';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { useNewWindow } from '@/lib/navigation-utils';
-import { formatUtils } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { MessageTooltip } from "@/components/ui/message-tooltip";
+import { toast } from "@/components/ui/use-toast";
+import { flowRunUtils } from "@/features/flow-runs/lib/flow-run-utils";
+import { flowRunsApi } from "@/features/flow-runs/lib/flow-runs-api";
+import { flowsHooks } from "@/features/flows/lib/flows-hooks";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { useNewWindow } from "@/lib/navigation-utils";
+import { formatUtils } from "@/lib/utils";
 import {
   FlowRetryStrategy,
   FlowRun,
   FlowRunStatus,
   isFailedState,
   Permission,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { runsTableColumns } from './columns';
+import { runsTableColumns } from "./columns";
 
 type SelectedRow = {
   id: string;
@@ -58,19 +58,19 @@ export const RunsTable = () => {
   const projectId = authenticationSession.getProjectId()!;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['flow-run-table', searchParams.toString(), projectId],
+    queryKey: ["flow-run-table", searchParams.toString(), projectId],
     staleTime: 0,
     gcTime: 0,
     queryFn: () => {
-      const status = searchParams.getAll('status') as FlowRunStatus[];
-      const flowId = searchParams.getAll('flowId');
+      const status = searchParams.getAll("status") as FlowRunStatus[];
+      const flowId = searchParams.getAll("flowId");
       const cursor = searchParams.get(CURSOR_QUERY_PARAM);
-      const failedStepName = searchParams.get('failedStepName') || undefined;
+      const failedStepName = searchParams.get("failedStepName") || undefined;
       const limit = searchParams.get(LIMIT_QUERY_PARAM)
         ? parseInt(searchParams.get(LIMIT_QUERY_PARAM)!)
         : 10;
-      const createdAfter = searchParams.get('createdAfter');
-      const createdBefore = searchParams.get('createdBefore');
+      const createdAfter = searchParams.get("createdAfter");
+      const createdBefore = searchParams.get("createdBefore");
 
       return flowRunsApi.list({
         status: status ?? undefined,
@@ -108,9 +108,9 @@ export const RunsTable = () => {
   const filters = useMemo(
     () => [
       {
-        type: 'select',
-        title: t('Flow name'),
-        accessorKey: 'flowId',
+        type: "select",
+        title: t("Flow name"),
+        accessorKey: "flowId",
         options:
           flows?.map((flow) => ({
             label: flow.version.displayName,
@@ -119,9 +119,9 @@ export const RunsTable = () => {
         icon: CheckIcon,
       } as const,
       {
-        type: 'select',
-        title: t('Status'),
-        accessorKey: 'status',
+        type: "select",
+        title: t("Status"),
+        accessorKey: "status",
         options: Object.values(FlowRunStatus).map((status) => {
           return {
             label: formatUtils.convertEnumToHumanReadable(status),
@@ -132,14 +132,14 @@ export const RunsTable = () => {
         icon: CheckIcon,
       } as const,
       {
-        type: 'date',
-        title: t('Created'),
-        accessorKey: 'created',
+        type: "date",
+        title: t("Created"),
+        accessorKey: "created",
         options: [],
         icon: CheckIcon,
       } as const,
     ],
-    [flows],
+    [flows]
   );
 
   const replayRun = useMutation({
@@ -147,11 +147,11 @@ export const RunsTable = () => {
       runIds: string[];
       strategy: FlowRetryStrategy;
     }) => {
-      const status = searchParams.getAll('status') as FlowRunStatus[];
-      const flowId = searchParams.getAll('flowId');
-      const createdAfter = searchParams.get('createdAfter') || undefined;
-      const createdBefore = searchParams.get('createdBefore') || undefined;
-      const failedStepName = searchParams.get('failedStepName') || undefined;
+      const status = searchParams.getAll("status") as FlowRunStatus[];
+      const flowId = searchParams.getAll("flowId");
+      const createdAfter = searchParams.get("createdAfter") || undefined;
+      const createdBefore = searchParams.get("createdBefore") || undefined;
+      const failedStepName = searchParams.get("failedStepName") || undefined;
       return flowRunsApi.bulkRetry({
         projectId: authenticationSession.getProjectId()!,
         flowRunIds: selectedAll ? undefined : retryParams.runIds,
@@ -166,8 +166,8 @@ export const RunsTable = () => {
     },
     onSuccess: () => {
       toast({
-        title: t('Runs replayed successfully'),
-        variant: 'default',
+        title: t("Runs replayed successfully"),
+        variant: "default",
       });
       navigate(window.location.pathname);
     },
@@ -178,7 +178,7 @@ export const RunsTable = () => {
       {
         render: (_, resetSelection) => {
           const allFailed = selectedRows.every((row) =>
-            isFailedState(row.status),
+            isFailedState(row.status)
           );
           const isDisabled =
             selectedRows.length === 0 || !userHasPermissionToRetryRun;
@@ -193,14 +193,14 @@ export const RunsTable = () => {
                     <Button disabled={isDisabled} className="h-9 w-full">
                       <PlayIcon className="mr-2 h-3 w-4" />
                       {selectedRows.length > 0
-                        ? `${t('Retry')} ${
+                        ? `${t("Retry")} ${
                             selectedAll
                               ? excludedRows.size > 0
-                                ? `${t('all except')} ${excludedRows.size}`
-                                : t('all')
+                                ? `${t("all except")} ${excludedRows.size}`
+                                : t("all")
                               : `(${selectedRows.length})`
                           }`
-                        : t('Retry')}
+                        : t("Retry")}
                       <ChevronDown className="h-3 w-4 ml-2" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -222,7 +222,7 @@ export const RunsTable = () => {
                       >
                         <div className="flex flex-row gap-2 items-center">
                           <RotateCw className="h-4 w-4" />
-                          <span>{t('on latest version')}</span>
+                          <span>{t("on latest version")}</span>
                         </div>
                       </DropdownMenuItem>
                     </PermissionNeededTooltip>
@@ -230,7 +230,7 @@ export const RunsTable = () => {
                     {selectedRows.some((row) => isFailedState(row.status)) && (
                       <MessageTooltip
                         message={t(
-                          'Only failed runs can be retried from failed step',
+                          "Only failed runs can be retried from failed step"
                         )}
                         isDisabled={!allFailed}
                       >
@@ -250,7 +250,7 @@ export const RunsTable = () => {
                         >
                           <div className="flex flex-row gap-2 items-center">
                             <Redo className="h-4 w-4" />
-                            <span>{t('from failed step')}</span>
+                            <span>{t("from failed step")}</span>
                           </div>
                         </DropdownMenuItem>
                       </MessageTooltip>
@@ -263,29 +263,29 @@ export const RunsTable = () => {
         },
       },
     ],
-    [replayRun, userHasPermissionToRetryRun, t, selectedRows, data],
+    [replayRun, userHasPermissionToRetryRun, t, selectedRows, data]
   );
 
   const handleRowClick = useCallback(
     (row: FlowRun, newWindow: boolean) => {
       if (newWindow) {
         openNewWindow(
-          authenticationSession.appendProjectRoutePrefix(`/runs/${row.id}`),
+          authenticationSession.appendProjectRoutePrefix(`/runs/${row.id}`)
         );
       } else {
         navigate(
-          authenticationSession.appendProjectRoutePrefix(`/runs/${row.id}`),
+          authenticationSession.appendProjectRoutePrefix(`/runs/${row.id}`)
         );
       }
     },
-    [navigate, openNewWindow],
+    [navigate, openNewWindow]
   );
 
   return (
     <DataTable
-      emptyStateTextTitle={t('No flow runs found')}
+      emptyStateTextTitle={t("No flow runs found")}
       emptyStateTextDescription={t(
-        'Come back later when your automations start running',
+        "Come back later when your automations start running"
       )}
       emptyStateIcon={<History className="size-14" />}
       columns={columns}

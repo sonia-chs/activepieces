@@ -1,23 +1,23 @@
-import { javascript } from '@codemirror/lang-javascript';
-import { json } from '@codemirror/lang-json';
-import { githubDark, githubLight } from '@uiw/codemirror-theme-github';
-import CodeMirror, { EditorState, EditorView } from '@uiw/react-codemirror';
-import { t } from 'i18next';
-import { Code, Package } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { javascript } from "@codemirror/lang-javascript";
+import { json } from "@codemirror/lang-json";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
+import CodeMirror, { EditorState, EditorView } from "@uiw/react-codemirror";
+import { t } from "i18next";
+import { Code, Package } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-import { useTheme } from '@/components/theme-provider';
-import { Button } from '@/components/ui/button';
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { cn } from '@/lib/utils';
-import { ApFlagId, SourceCode, deepMergeAndCast } from '@activepieces/shared';
+import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { cn } from "@/lib/utils";
+import { ApFlagId, SourceCode, deepMergeAndCast } from "@activepieces/shared";
 
-import { AddNpmDialog } from './add-npm-dialog';
+import { AddNpmDialog } from "./add-npm-dialog";
 
 const styleTheme = EditorView.baseTheme({
-  '&.cm-editor.cm-focused': {
-    outline: 'none',
+  "&.cm-editor.cm-focused": {
+    outline: "none",
   },
 });
 
@@ -39,48 +39,48 @@ const CodeEditor = ({
   minHeight,
 }: CodeEditorProps) => {
   const { code, packageJson } = sourceCode;
-  const [activeTab, setActiveTab] = useState<keyof SourceCode>('code');
-  const [language, setLanguage] = useState<'typescript' | 'json'>('typescript');
-  const codeApplicationEnabled = typeof applyCodeToCurrentStep === 'function';
+  const [activeTab, setActiveTab] = useState<keyof SourceCode>("code");
+  const [language, setLanguage] = useState<"typescript" | "json">("typescript");
+  const codeApplicationEnabled = typeof applyCodeToCurrentStep === "function";
   const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [borderColor, setBorderColor] = useState('border');
+  const [borderColor, setBorderColor] = useState("border");
   const isFirstRenderRef = useRef(true);
   useEffect(() => {
-    if (borderColor === 'border' && !isFirstRenderRef.current) {
-      setBorderColor('border-primary shadow-add-button');
-      setTimeout(() => setBorderColor('border'), 1000);
+    if (borderColor === "border" && !isFirstRenderRef.current) {
+      setBorderColor("border-primary shadow-add-button");
+      setTimeout(() => setBorderColor("border"), 1000);
       if (containerRef.current) {
         containerRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
+          behavior: "smooth",
+          block: "nearest",
         });
       }
     }
     isFirstRenderRef.current = false;
   }, [animateBorderColorToggle]);
 
-  const codeEditorTheme = theme === 'dark' ? githubDark : githubLight;
+  const codeEditorTheme = theme === "dark" ? githubDark : githubLight;
 
   const { data: allowNpmPackagesInCodeStep } = flagsHooks.useFlag<boolean>(
-    ApFlagId.ALLOW_NPM_PACKAGES_IN_CODE_STEP,
+    ApFlagId.ALLOW_NPM_PACKAGES_IN_CODE_STEP
   );
 
   const extensions = [
     styleTheme,
     EditorState.readOnly.of(readonly),
     EditorView.editable.of(!readonly),
-    language === 'json' ? json() : javascript({ jsx: false, typescript: true }),
+    language === "json" ? json() : javascript({ jsx: false, typescript: true }),
   ];
 
   function handlePackageClick() {
-    setActiveTab('packageJson');
-    setLanguage('json');
+    setActiveTab("packageJson");
+    setLanguage("json");
   }
 
   function handleCodeClick() {
-    setActiveTab('code');
-    setLanguage('typescript');
+    setActiveTab("code");
+    setLanguage("typescript");
   }
 
   function handleAddPackages({
@@ -96,7 +96,7 @@ const CodeEditor = ({
           [packageName]: packageVersion,
         },
       });
-      setActiveTab('packageJson');
+      setActiveTab("packageJson");
       onChange({ code, packageJson: JSON.stringify(json, null, 2) });
     } catch (e) {
       console.error(e);
@@ -107,29 +107,29 @@ const CodeEditor = ({
   return (
     <div
       className={cn(
-        'flex flex-col gap-2 border rounded py-2 px-2 transition-all ',
-        borderColor,
+        "flex flex-col gap-2 border rounded py-2 px-2 transition-all ",
+        borderColor
       )}
       ref={containerRef}
     >
       <div className="flex flex-row justify-center items-center h-full">
         <div className="flex justify-start gap-4 items-center">
           <div
-            className={cn('text-sm cursor-pointer', {
-              'font-bold': activeTab === 'code',
+            className={cn("text-sm cursor-pointer", {
+              "font-bold": activeTab === "code",
             })}
             onClick={() => handleCodeClick()}
           >
-            {t('Code')}
+            {t("Code")}
           </div>
           {allowNpmPackagesInCodeStep && (
             <div
-              className={cn('text-sm cursor-pointer', {
-                'font-bold': activeTab === 'packageJson',
+              className={cn("text-sm cursor-pointer", {
+                "font-bold": activeTab === "packageJson",
               })}
               onClick={() => handlePackageClick()}
             >
-              {t('Dependencies')}
+              {t("Dependencies")}
             </div>
           )}
         </div>
@@ -138,11 +138,11 @@ const CodeEditor = ({
           <Button
             variant="outline"
             className="flex gap-2"
-            size={'sm'}
+            size={"sm"}
             onClick={applyCodeToCurrentStep}
           >
             <Code className="w-3 h-3" />
-            {t('Use code')}
+            {t("Use code")}
           </Button>
         ) : (
           allowNpmPackagesInCodeStep && (
@@ -150,20 +150,20 @@ const CodeEditor = ({
               <Button
                 variant="outline"
                 className="flex gap-2"
-                size={'sm'}
+                size={"sm"}
                 onClick={() => {}}
               >
                 <Package className="w-4 h-4" />
-                {t('Add package')}
+                {t("Add package")}
               </Button>
             </AddNpmDialog>
           )
         )}
       </div>
       <CodeMirror
-        value={activeTab === 'code' ? code : packageJson}
+        value={activeTab === "code" ? code : packageJson}
         className="border-none"
-        minHeight={minHeight ?? '200px'}
+        minHeight={minHeight ?? "200px"}
         width="100%"
         height="100%"
         maxWidth="100%"
@@ -178,9 +178,9 @@ const CodeEditor = ({
         lang="typescript"
         onChange={(value) => {
           onChange(
-            activeTab === 'code'
+            activeTab === "code"
               ? { code: value, packageJson }
-              : { code, packageJson: value },
+              : { code, packageJson: value }
           );
         }}
         theme={codeEditorTheme}

@@ -1,10 +1,10 @@
-import { DialogTrigger } from '@radix-ui/react-dialog';
-import { t } from 'i18next';
-import { ChevronLeft, Search } from 'lucide-react';
-import React, { useState, useMemo } from 'react';
-import { useDebounce } from 'use-debounce';
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { t } from "i18next";
+import { ChevronLeft, Search } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { useDebounce } from "use-debounce";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,25 +12,25 @@ import {
   DialogTitle,
   DialogFooter,
   DialogClose,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { stepsHooks } from '@/features/pieces/lib/steps-hooks';
-import { PieceStepMetadataWithSuggestions } from '@/lib/types';
+} from "@/components/ui/tooltip";
+import { stepsHooks } from "@/features/pieces/lib/steps-hooks";
+import { PieceStepMetadataWithSuggestions } from "@/lib/types";
 import type {
   McpPieceTool,
   McpWithTools,
   McpToolRequest,
-} from '@activepieces/shared';
-import { isNil, McpToolType } from '@activepieces/shared';
+} from "@activepieces/shared";
+import { isNil, McpToolType } from "@activepieces/shared";
 
-import { McpPieceActionsDialog } from './mcp-piece-actions';
-import { McpPiecesContent } from './mcp-pieces-content';
+import { McpPieceActionsDialog } from "./mcp-piece-actions";
+import { McpPiecesContent } from "./mcp-pieces-content";
 
 type McpPieceDialogProps = {
   children: React.ReactNode;
@@ -52,7 +52,7 @@ export function McpPieceDialog({
   children,
   onClose,
 }: McpPieceDialogProps) {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedConnectionExternalId, setSelectedConnectionExternalId] =
     useState<string | null>(null);
   const [debouncedQuery] = useDebounce(searchQuery, 300);
@@ -60,7 +60,7 @@ export function McpPieceDialog({
   const { metadata, isLoading: isPiecesLoading } =
     stepsHooks.useAllStepsMetadata({
       searchQuery: debouncedQuery,
-      type: 'action',
+      type: "action",
     });
 
   const [selectedPiece, setSelectedPiece] =
@@ -71,7 +71,7 @@ export function McpPieceDialog({
     return (
       metadata?.filter(
         (m): m is PieceStepMetadataWithSuggestions =>
-          'suggestedActions' in m && 'suggestedTriggers' in m,
+          "suggestedActions" in m && "suggestedTriggers" in m
       ) ?? []
     );
   }, [metadata]);
@@ -80,7 +80,7 @@ export function McpPieceDialog({
     const existingTools = mcp?.tools?.filter(
       (tool): tool is McpPieceTool =>
         tool.type === McpToolType.PIECE &&
-        tool.pieceMetadata?.pieceName === piece.pieceName,
+        tool.pieceMetadata?.pieceName === piece.pieceName
     );
 
     if (existingTools && existingTools.length > 0) {
@@ -88,10 +88,10 @@ export function McpPieceDialog({
         existingTools.map((tool) => ({
           actionName: tool.pieceMetadata?.actionName,
           actionDisplayName: tool.pieceMetadata?.actionDisplayName,
-        })),
+        }))
       );
       setSelectedConnectionExternalId(
-        existingTools[0].pieceMetadata?.connectionExternalId || null,
+        existingTools[0].pieceMetadata?.connectionExternalId || null
       );
     }
 
@@ -101,7 +101,7 @@ export function McpPieceDialog({
   const handleActionSelect = (action: ActionInfo) => {
     setSelectedActions((prev) => {
       const isAlreadySelected = prev.some(
-        (a) => a.actionName === action.actionName,
+        (a) => a.actionName === action.actionName
       );
       const newSelected = isAlreadySelected
         ? prev.filter((a) => a.actionName !== action.actionName)
@@ -116,7 +116,7 @@ export function McpPieceDialog({
         selectedPiece.suggestedActions?.map((a) => ({
           actionName: a.name,
           actionDisplayName: a.displayName,
-        })) ?? [],
+        })) ?? []
       );
     } else {
       setSelectedActions([]);
@@ -151,7 +151,7 @@ export function McpPieceDialog({
 
   const handleClose = () => {
     setSelectedPiece(null);
-    setSearchQuery('');
+    setSearchQuery("");
     setSelectedActions([]);
     setShowValidationErrors(false);
     onClose();
@@ -168,7 +168,7 @@ export function McpPieceDialog({
     >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="w-[90vw] max-w-[750px] h-[80vh] max-h-[800px] flex flex-col overflow-hidden">
-        <DialogHeader className={`${selectedPiece ? 'gap-2' : 'gap-0'}`}>
+        <DialogHeader className={`${selectedPiece ? "gap-2" : "gap-0"}`}>
           <DialogTitle>
             {selectedPiece ? (
               <div className="flex items-center gap-2">
@@ -179,18 +179,18 @@ export function McpPieceDialog({
                       size="icon"
                       onClick={() => {
                         setSelectedPiece(null);
-                        setSearchQuery('');
+                        setSearchQuery("");
                       }}
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>{t('Back')}</TooltipContent>
+                  <TooltipContent>{t("Back")}</TooltipContent>
                 </Tooltip>
                 {selectedPiece.displayName}
               </div>
             ) : (
-              t('Add Tool')
+              t("Add Tool")
             )}
           </DialogTitle>
         </DialogHeader>
@@ -210,7 +210,7 @@ export function McpPieceDialog({
               <div className="relative mt-1">
                 <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder={t('Search')}
+                  placeholder={t("Search")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-8"
@@ -229,11 +229,11 @@ export function McpPieceDialog({
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="ghost">
-              {t('Close')}
+              {t("Close")}
             </Button>
           </DialogClose>
           <Button loading={false} type="button" onClick={handleSave}>
-            {t('Save')}
+            {t("Save")}
           </Button>
         </DialogFooter>
       </DialogContent>

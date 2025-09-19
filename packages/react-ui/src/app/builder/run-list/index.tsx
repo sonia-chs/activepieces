@@ -1,24 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import React from 'react';
+import { useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import React from "react";
 
 import {
   LeftSideBarType,
   useBuilderStateContext,
-} from '@/app/builder/builder-hooks';
+} from "@/app/builder/builder-hooks";
 import {
   CardList,
   CardListEmpty,
   CardListItemSkeleton,
-} from '@/components/custom/card-list';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { flowRunsApi } from '@/features/flow-runs/lib/flow-runs-api';
-import { authenticationSession } from '@/lib/authentication-session';
-import { FlowRun, SeekPage } from '@activepieces/shared';
+} from "@/components/custom/card-list";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { flowRunsApi } from "@/features/flow-runs/lib/flow-runs-api";
+import { authenticationSession } from "@/lib/authentication-session";
+import { FlowRun, SeekPage } from "@activepieces/shared";
 
-import { SidebarHeader } from '../sidebar-header';
+import { SidebarHeader } from "../sidebar-header";
 
-import { FlowRunCard } from './flow-run-card';
+import { FlowRunCard } from "./flow-run-card";
 
 type FlowRunsListProps = {
   recentRuns?: number;
@@ -38,7 +38,7 @@ const RunsList = React.memo(({ recentRuns = 20 }: FlowRunsListProps) => {
     refetch,
     isRefetching,
   } = useQuery<SeekPage<FlowRun>, Error>({
-    queryKey: ['flow-runs', flow.id],
+    queryKey: ["flow-runs", flow.id],
     queryFn: () =>
       flowRunsApi.list({
         flowId: [flow.id],
@@ -53,18 +53,18 @@ const RunsList = React.memo(({ recentRuns = 20 }: FlowRunsListProps) => {
   return (
     <>
       <SidebarHeader onClose={() => setLeftSidebar(LeftSideBarType.NONE)}>
-        {t('Recent Runs')}
+        {t("Recent Runs")}
       </SidebarHeader>
       <CardList>
         {isLoading ||
           (isRefetching && <CardListItemSkeleton numberOfCards={10} />)}
 
-        {isError && <div>{t('Error, please try again.')}</div>}
+        {isError && <div>{t("Error, please try again.")}</div>}
 
         {flowPage &&
           flowPage.data.length === 0 &&
           !isLoading &&
-          !isRefetching && <CardListEmpty message={t('No runs found')} />}
+          !isRefetching && <CardListEmpty message={t("No runs found")} />}
 
         <ScrollArea className="w-full h-full">
           {!isRefetching &&
@@ -87,5 +87,5 @@ const RunsList = React.memo(({ recentRuns = 20 }: FlowRunsListProps) => {
   );
 });
 
-RunsList.displayName = 'RunsList';
+RunsList.displayName = "RunsList";
 export { RunsList };

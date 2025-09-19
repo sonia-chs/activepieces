@@ -1,73 +1,73 @@
-import { t } from 'i18next';
-import { Check, Lock } from 'lucide-react';
+import { t } from "i18next";
+import { Check, Lock } from "lucide-react";
 
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
 import {
   PlatformPlanLimits,
   PlatformWithoutSensitiveData,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 const LICENSE_PROPS_MAP = {
   agentsEnabled: {
-    label: 'Agents',
-    description: 'AI assistants that can help automate tasks and workflows',
+    label: "Agents",
+    description: "AI assistants that can help automate tasks and workflows",
   },
   environmentsEnabled: {
-    label: 'Team Collaboration via Git',
+    label: "Team Collaboration via Git",
     description:
-      'Work together on projects with version control and team features',
+      "Work together on projects with version control and team features",
   },
   analyticsEnabled: {
-    label: 'Analytics',
-    description: 'View reports and insights about your workflow performance',
+    label: "Analytics",
+    description: "View reports and insights about your workflow performance",
   },
   auditLogEnabled: {
-    label: 'Audit Log',
-    description: 'Track all changes and activities in your workspace',
+    label: "Audit Log",
+    description: "Track all changes and activities in your workspace",
   },
   embeddingEnabled: {
-    label: 'Embedding',
-    description: 'Add workflows directly into your website or application',
+    label: "Embedding",
+    description: "Add workflows directly into your website or application",
   },
   globalConnectionsEnabled: {
-    label: 'Global Connections',
-    description: 'Create centralized connections for your projects',
+    label: "Global Connections",
+    description: "Create centralized connections for your projects",
   },
   managePiecesEnabled: {
-    label: 'Manage Pieces',
-    description: 'Create and organize custom building blocks for workflows',
+    label: "Manage Pieces",
+    description: "Create and organize custom building blocks for workflows",
   },
   manageTemplatesEnabled: {
-    label: 'Manage Templates',
-    description: 'Save and share workflow templates across your team',
+    label: "Manage Templates",
+    description: "Save and share workflow templates across your team",
   },
   customAppearanceEnabled: {
-    label: 'Brand Activepieces',
-    description: 'Customize the look and feel with your company branding',
+    label: "Brand Activepieces",
+    description: "Customize the look and feel with your company branding",
   },
   manageProjectsEnabled: {
-    label: 'Manage Projects',
-    description: 'Organize workflows into separate projects and workspaces',
+    label: "Manage Projects",
+    description: "Organize workflows into separate projects and workspaces",
   },
   projectRolesEnabled: {
-    label: 'Project Roles',
-    description: 'Control who can view, edit, or manage different projects',
+    label: "Project Roles",
+    description: "Control who can view, edit, or manage different projects",
   },
   customDomainsEnabled: {
-    label: 'Custom Domains',
-    description: 'Use your own web address instead of the default domain',
+    label: "Custom Domains",
+    description: "Use your own web address instead of the default domain",
   },
   apiKeysEnabled: {
-    label: 'API Keys',
-    description: 'Connect external services and applications to your workflows',
+    label: "API Keys",
+    description: "Connect external services and applications to your workflows",
   },
   ssoEnabled: {
-    label: 'Single Sign On',
-    description: 'Log in using your company account without separate passwords',
+    label: "Single Sign On",
+    description: "Log in using your company account without separate passwords",
   },
   customRolesEnabled: {
-    label: 'Custom Roles',
-    description: 'Create and manage custom roles for your team',
+    label: "Custom Roles",
+    description: "Create and manage custom roles for your team",
   },
 };
 

@@ -1,21 +1,21 @@
-import { DialogTitle } from '@radix-ui/react-dialog';
-import { t } from 'i18next';
-import { Bell, Settings, Users } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { t } from "i18next";
+import { Bell, Settings, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { cn } from '@/lib/utils';
-import { Permission } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { cn } from "@/lib/utils";
+import { Permission } from "@activepieces/shared";
 
-import { AlertsSettings } from './alerts';
-import { GeneralSettings } from './general';
-import { TeamSettings } from './team';
+import { AlertsSettings } from "./alerts";
+import { GeneralSettings } from "./general";
+import { TeamSettings } from "./team";
 
-type TabId = 'general' | 'team' | 'alerts';
+type TabId = "general" | "team" | "alerts";
 
 interface ProjectSettingsDialogProps {
   open: boolean;
@@ -42,14 +42,14 @@ export function ProjectSettingsDialog({
   projectId,
   initialValues,
 }: ProjectSettingsDialogProps) {
-  const [activeTab, setActiveTab] = useState<TabId>('general');
+  const [activeTab, setActiveTab] = useState<TabId>("general");
   const { checkAccess } = useAuthorization();
 
   const form = useForm<FormValues>({
     defaultValues: {
       projectName: initialValues?.projectName,
-      tasks: initialValues?.tasks || '',
-      aiCredits: initialValues?.aiCredits || '',
+      tasks: initialValues?.tasks || "",
+      aiCredits: initialValues?.aiCredits || "",
       externalId: initialValues?.externalId,
     },
     disabled: checkAccess(Permission.WRITE_PROJECT) === false,
@@ -63,20 +63,20 @@ export function ProjectSettingsDialog({
 
   const tabs = [
     {
-      id: 'general' as TabId,
-      label: t('General'),
+      id: "general" as TabId,
+      label: t("General"),
       icon: <Settings className="w-4 h-4" />,
       disabled: false,
     },
     {
-      id: 'team' as TabId,
-      label: t('Team'),
+      id: "team" as TabId,
+      label: t("Team"),
       icon: <Users className="w-4 h-4" />,
       disabled: !checkAccess(Permission.READ_PROJECT_MEMBER),
     },
     {
-      id: 'alerts' as TabId,
-      label: t('Alerts'),
+      id: "alerts" as TabId,
+      label: t("Alerts"),
       icon: <Bell className="w-4 h-4" />,
       disabled: !checkAccess(Permission.READ_ALERT),
     },
@@ -84,7 +84,7 @@ export function ProjectSettingsDialog({
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'general':
+      case "general":
         return (
           <GeneralSettings
             form={form}
@@ -92,9 +92,9 @@ export function ProjectSettingsDialog({
             initialValues={initialValues}
           />
         );
-      case 'team':
+      case "team":
         return <TeamSettings />;
-      case 'alerts':
+      case "alerts":
         return <AlertsSettings />;
       default:
         return null;
@@ -106,7 +106,7 @@ export function ProjectSettingsDialog({
       <DialogContent className="max-w-5xl w-full max-h-[90vh] h-fit pb-4 flex flex-col">
         <DialogHeader>
           <DialogTitle className="font-semibold">
-            {t('Project Settings')}
+            {t("Project Settings")}
           </DialogTitle>
         </DialogHeader>
 
@@ -118,12 +118,12 @@ export function ProjectSettingsDialog({
                   variant="ghost"
                   key={tab.id}
                   className={cn(
-                    'w-full justify-start gap-2 text-left h-9 text-sm font-medium rounded-lg transition-all',
+                    "w-full justify-start gap-2 text-left h-9 text-sm font-medium rounded-lg transition-all",
                     {
-                      'bg-primary/10 text-primary hover:bg-primary/15':
+                      "bg-primary/10 text-primary hover:bg-primary/15":
                         activeTab === tab.id,
-                      'hover:bg-muted/50': activeTab !== tab.id,
-                    },
+                      "hover:bg-muted/50": activeTab !== tab.id,
+                    }
                   )}
                   onClick={() => setActiveTab(tab.id)}
                 >

@@ -1,15 +1,15 @@
-import { t } from 'i18next';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { t } from "i18next";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-import { flowStructureUtil } from '@activepieces/shared';
+import { flowStructureUtil } from "@activepieces/shared";
 
-import { useApRipple } from '../../../components/theme-provider';
-import { Button } from '../../../components/ui/button';
-import { PieceIcon } from '../../../features/pieces/components/piece-icon';
-import { stepsHooks } from '../../../features/pieces/lib/steps-hooks';
-import { useBuilderStateContext } from '../builder-hooks';
+import { useApRipple } from "../../../components/theme-provider";
+import { Button } from "../../../components/ui/button";
+import { PieceIcon } from "../../../features/pieces/components/piece-icon";
+import { stepsHooks } from "../../../features/pieces/lib/steps-hooks";
+import { useBuilderStateContext } from "../builder-hooks";
 
-import { DataSelectorTreeNode } from './type';
+import { DataSelectorTreeNode } from "./type";
 
 const ToggleIcon = ({ expanded }: { expanded: boolean }) => {
   const toggleIconSize = 15;
@@ -27,7 +27,7 @@ type DataSelectorNodeContentProps = {
   node: DataSelectorTreeNode;
 };
 const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
-  if (event.key === 'Enter' || event.key === ' ') {
+  if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     if (event.target) {
       (event.target as HTMLDivElement).click();
@@ -46,17 +46,17 @@ const DataSelectorNodeContent = ({
 
   const [ripple, rippleEvent] = useApRipple();
   const step =
-    node.data.type === 'value'
+    node.data.type === "value"
       ? flowStructureUtil.getStep(node.data.propertyPath, flowVersion.trigger)
-      : node.data.type === 'test'
+      : node.data.type === "test"
       ? flowStructureUtil.getStep(node.data.stepName, flowVersion.trigger)
       : undefined;
   const stepMetadata = step
     ? stepsHooks.useStepMetadata({ step }).stepMetadata
     : undefined;
   const showInsertButton =
-    node.data.type === 'value' && node.data.insertable && !node.isLoopStepNode;
-  const showNodeValue = !node.children && node.data.type === 'value';
+    node.data.type === "value" && node.data.insertable && !node.isLoopStepNode;
+  const showNodeValue = !node.children && node.data.type === "value";
   const depthMultiplier = 23 / (1 + depth * 0.05);
   return (
     <div
@@ -69,7 +69,7 @@ const DataSelectorNodeContent = ({
           setExpanded(!expanded);
         } else if (
           insertMention &&
-          node.data.type === 'value' &&
+          node.data.type === "value" &&
           node.data.insertable
         ) {
           rippleEvent(e);
@@ -98,7 +98,7 @@ const DataSelectorNodeContent = ({
             ></PieceIcon>
           </div>
         )}
-        {node.data.type !== 'test' && (
+        {node.data.type !== "test" && (
           <div className=" truncate">{node.data.displayName}</div>
         )}
 
@@ -106,7 +106,7 @@ const DataSelectorNodeContent = ({
           <>
             <div className="flex-shrink-0">:</div>
             <div className="flex-1 text-primary truncate">
-              {`${node.data.type === 'value' ? node.data.value : ''}`}
+              {`${node.data.type === "value" ? node.data.value : ""}`}
             </div>
           </>
         )}
@@ -121,12 +121,12 @@ const DataSelectorNodeContent = ({
                 e.stopPropagation();
                 if (insertMention) {
                   insertMention(
-                    node.data.type === 'value' ? node.data.propertyPath : '',
+                    node.data.type === "value" ? node.data.propertyPath : ""
                   );
                 }
               }}
             >
-              {t('Insert')}
+              {t("Insert")}
             </Button>
           )}
           {node.children && node.children.length > 0 && (
@@ -139,5 +139,5 @@ const DataSelectorNodeContent = ({
     </div>
   );
 };
-DataSelectorNodeContent.displayName = 'DataSelectorNodeContent';
+DataSelectorNodeContent.displayName = "DataSelectorNodeContent";
 export { DataSelectorNodeContent };

@@ -1,20 +1,20 @@
-import deepEqual from 'deep-equal';
-import React, { useState, useRef, useContext } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
+import deepEqual from "deep-equal";
+import React, { useState, useRef, useContext } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
+import { useDeepCompareEffectNoCheck } from "use-deep-compare-effect";
 
-import { useBuilderStateContext } from '@/app/builder/builder-hooks';
-import { SkeletonList } from '@/components/ui/skeleton';
-import { formUtils } from '@/features/pieces/lib/form-utils';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { PiecePropertyMap, PropertyType } from '@activepieces/pieces-framework';
-import { FlowAction, FlowTrigger } from '@activepieces/shared';
+import { useBuilderStateContext } from "@/app/builder/builder-hooks";
+import { SkeletonList } from "@/components/ui/skeleton";
+import { formUtils } from "@/features/pieces/lib/form-utils";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { PiecePropertyMap, PropertyType } from "@activepieces/pieces-framework";
+import { FlowAction, FlowTrigger } from "@activepieces/shared";
 
-import { useStepSettingsContext } from '../step-settings/step-settings-context';
+import { useStepSettingsContext } from "../step-settings/step-settings-context";
 
-import { AutoPropertiesFormComponent } from './auto-properties-form';
-import { DynamicPropertiesErrorBoundary } from './dynamic-piece-properties-error-boundary';
-import { DynamicPropertiesContext } from './dynamic-properties-context';
+import { AutoPropertiesFormComponent } from "./auto-properties-form";
+import { DynamicPropertiesErrorBoundary } from "./dynamic-piece-properties-error-boundary";
+import { DynamicPropertiesContext } from "./dynamic-properties-context";
 type DynamicPropertiesProps = {
   refreshers: string[];
   propertyName: string;
@@ -32,12 +32,12 @@ const DynamicPropertiesImplementation = React.memo(
     const isFirstRender = useRef(true);
     const previousValues = useRef<undefined | unknown[]>(undefined);
     const { propertyLoadingFinished, propertyLoadingStarted } = useContext(
-      DynamicPropertiesContext,
+      DynamicPropertiesContext
     );
     const [propertyMap, setPropertyMap] = useState<
       PiecePropertyMap | undefined
     >(undefined);
-    const newRefreshers = [...props.refreshers, 'auth'];
+    const newRefreshers = [...props.refreshers, "auth"];
 
     const { mutate, isPending, error } =
       piecesHooks.usePieceOptions<PropertyType.DYNAMIC>({
@@ -60,7 +60,7 @@ const DynamicPropertiesImplementation = React.memo(
       useWatch({
         name: `settings.input.${refresher}` as const,
         control: form.control,
-      }),
+      })
     );
     /* eslint-enable react-hooks/rules-of-hooks */
 
@@ -82,7 +82,7 @@ const DynamicPropertiesImplementation = React.memo(
               null,
               {
                 shouldValidate: true,
-              },
+              }
             );
           });
         }
@@ -112,7 +112,7 @@ const DynamicPropertiesImplementation = React.memo(
         {
           onSuccess: (response) => {
             const currentValue = form.getValues(
-              `settings.input.${props.propertyName}`,
+              `settings.input.${props.propertyName}`
             );
             const defaultValue = formUtils.getDefaultValueForStep({
               props: response.options,
@@ -126,13 +126,13 @@ const DynamicPropertiesImplementation = React.memo(
 
             updateFormSchema(
               `settings.input.${props.propertyName}`,
-              response.options,
+              response.options
             );
 
             if (!readonly) {
               form.setValue(
                 `settings.propertySettings.${props.propertyName}.schema`,
-                response.options,
+                response.options
               );
             }
 
@@ -142,10 +142,10 @@ const DynamicPropertiesImplementation = React.memo(
               {
                 shouldValidate: true,
                 shouldDirty: true,
-              },
+              }
             );
           },
-        },
+        }
       );
     }, refresherValues);
 
@@ -165,7 +165,7 @@ const DynamicPropertiesImplementation = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 
 const DynamicProperties = React.memo((props: DynamicPropertiesProps) => {
@@ -175,6 +175,6 @@ const DynamicProperties = React.memo((props: DynamicPropertiesProps) => {
     </DynamicPropertiesErrorBoundary>
   );
 });
-DynamicPropertiesImplementation.displayName = 'DynamicPropertiesImplementation';
-DynamicProperties.displayName = 'DynamicProperties';
+DynamicPropertiesImplementation.displayName = "DynamicPropertiesImplementation";
+DynamicProperties.displayName = "DynamicProperties";
 export { DynamicProperties };

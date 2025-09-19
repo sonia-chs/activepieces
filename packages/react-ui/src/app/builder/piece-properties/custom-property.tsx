@@ -1,9 +1,9 @@
-import { useEffect, useId } from 'react';
+import { useEffect, useId } from "react";
 
-import { useEmbedding } from '@/components/embed-provider';
-import { projectHooks } from '@/hooks/project-hooks';
-import { CustomProperty as CustomPropertyType } from '@activepieces/pieces-framework';
-const CUSTOM_PROPERTY_CONTAINER_ID = 'custom-property-container';
+import { useEmbedding } from "@/components/embed-provider";
+import { projectHooks } from "@/hooks/project-hooks";
+import { CustomProperty as CustomPropertyType } from "@activepieces/pieces-framework";
+const CUSTOM_PROPERTY_CONTAINER_ID = "custom-property-container";
 
 type CustomPropertyParams = {
   value: unknown;
@@ -15,10 +15,10 @@ type CustomPropertyParams = {
 
 const parseFunctionString = (code: string) => {
   return new Function(
-    'params',
+    "params",
     `
     return (${code})(params);
-  `,
+  `
   );
 };
 const CustomProperty = ({
@@ -31,7 +31,7 @@ const CustomProperty = ({
   const { project } = projectHooks.useCurrentProject();
   const { embedState } = useEmbedding();
   const id = useId();
-  const containerId = CUSTOM_PROPERTY_CONTAINER_ID + '-' + id;
+  const containerId = CUSTOM_PROPERTY_CONTAINER_ID + "-" + id;
   useEffect(() => {
     try {
       const params = {
@@ -47,15 +47,15 @@ const CustomProperty = ({
       const fn = parseFunctionString(code);
       // Execute the function with args as the params object
       const cleanUpFunction = fn(params);
-      if (cleanUpFunction && typeof cleanUpFunction === 'function') {
+      if (cleanUpFunction && typeof cleanUpFunction === "function") {
         return cleanUpFunction;
       }
     } catch (error) {
-      console.error('Error executing custom code:', error);
+      console.error("Error executing custom code:", error);
     }
   }, []);
   return <div id={containerId}></div>;
 };
 
-CustomProperty.displayName = 'CustomProperty';
+CustomProperty.displayName = "CustomProperty";
 export default CustomProperty;

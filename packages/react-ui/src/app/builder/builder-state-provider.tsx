@@ -1,14 +1,14 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
 import {
   BuilderInitialState,
   BuilderStateContext,
   BuilderStore,
   createBuilderStore,
-} from '@/app/builder/builder-hooks';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { Permission } from '@activepieces/shared';
+} from "@/app/builder/builder-hooks";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { Permission } from "@activepieces/shared";
 
 type BuilderStateProviderProps = React.PropsWithChildren<BuilderInitialState>;
 

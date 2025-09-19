@@ -1,22 +1,22 @@
-import { useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { CheckIcon, Link2, Workflow } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { CheckIcon, Link2, Workflow } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { useEmbedding } from '@/components/embed-provider';
-import { DataTable } from '@/components/ui/data-table';
-import { appConnectionsQueries } from '@/features/connections/lib/app-connections-hooks';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { useFlowsBulkActions } from '@/features/flows/lib/use-flows-bulk-actions';
-import { FolderFilterList } from '@/features/folders/component/folder-filter-list';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { useNewWindow } from '@/lib/navigation-utils';
-import { formatUtils } from '@/lib/utils';
-import { FlowStatus, PopulatedFlow } from '@activepieces/shared';
+import { useEmbedding } from "@/components/embed-provider";
+import { DataTable } from "@/components/ui/data-table";
+import { appConnectionsQueries } from "@/features/connections/lib/app-connections-hooks";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { useFlowsBulkActions } from "@/features/flows/lib/use-flows-bulk-actions";
+import { FolderFilterList } from "@/features/folders/component/folder-filter-list";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { useNewWindow } from "@/lib/navigation-utils";
+import { formatUtils } from "@/lib/utils";
+import { FlowStatus, PopulatedFlow } from "@activepieces/shared";
 
-import { flowsTableColumns } from './columns';
+import { flowsTableColumns } from "./columns";
 
 type FlowsTableProps = {
   refetch?: () => void;
@@ -34,18 +34,18 @@ export const FlowsTable = ({ refetch: parentRefetch }: FlowsTableProps) => {
   const { pieces } = piecesHooks.usePieces({});
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['flow-table', searchParams.toString(), projectId, refresh],
+    queryKey: ["flow-table", searchParams.toString(), projectId, refresh],
     staleTime: 0,
     queryFn: () => {
-      const name = searchParams.get('name');
-      const status = searchParams.getAll('status') as FlowStatus[];
-      const cursor = searchParams.get('cursor');
-      const limit = searchParams.get('limit')
-        ? parseInt(searchParams.get('limit')!)
+      const name = searchParams.get("name");
+      const status = searchParams.getAll("status") as FlowStatus[];
+      const cursor = searchParams.get("cursor");
+      const limit = searchParams.get("limit")
+        ? parseInt(searchParams.get("limit")!)
         : 10;
-      const folderId = searchParams.get('folderId') ?? undefined;
+      const folderId = searchParams.get("folderId") ?? undefined;
       const connectionExternalId =
-        searchParams.getAll('connectionExternalId') ?? undefined;
+        searchParams.getAll("connectionExternalId") ?? undefined;
 
       return flowsApi.list({
         projectId,
@@ -87,16 +87,16 @@ export const FlowsTable = ({ refetch: parentRefetch }: FlowsTableProps) => {
 
   const filters = [
     {
-      type: 'input',
-      title: t('Flow name'),
-      accessorKey: 'name',
+      type: "input",
+      title: t("Flow name"),
+      accessorKey: "name",
       options: [],
       icon: CheckIcon,
     } as const,
     {
-      type: 'select',
-      title: t('Status'),
-      accessorKey: 'status',
+      type: "select",
+      title: t("Status"),
+      accessorKey: "status",
       options: Object.values(FlowStatus).map((status) => {
         return {
           label: formatUtils.convertEnumToHumanReadable(status),
@@ -106,9 +106,9 @@ export const FlowsTable = ({ refetch: parentRefetch }: FlowsTableProps) => {
       icon: CheckIcon,
     } as const,
     {
-      type: 'select',
-      title: t('Connection'),
-      accessorKey: 'connectionExternalId',
+      type: "select",
+      title: t("Connection"),
+      accessorKey: "connectionExternalId",
       options: (connections?.data || []).map((connection) => {
         return {
           label: connection.displayName,
@@ -135,12 +135,12 @@ export const FlowsTable = ({ refetch: parentRefetch }: FlowsTableProps) => {
       )}
       <div className="overflow-hidden w-full ">
         <DataTable
-          emptyStateTextTitle={t('No flows found')}
-          emptyStateTextDescription={t('Create a workflow to start automating')}
+          emptyStateTextTitle={t("No flows found")}
+          emptyStateTextDescription={t("Create a workflow to start automating")}
           emptyStateIcon={<Workflow className="size-14" />}
           columns={columns.filter(
             (column) =>
-              !embedState.hideFolders || column.accessorKey !== 'folderId',
+              !embedState.hideFolders || column.accessorKey !== "folderId"
           )}
           page={data}
           isLoading={isLoading || isLoadingConnections}
@@ -150,14 +150,14 @@ export const FlowsTable = ({ refetch: parentRefetch }: FlowsTableProps) => {
             if (newWindow) {
               openNewWindow(
                 authenticationSession.appendProjectRoutePrefix(
-                  `/flows/${row.id}`,
-                ),
+                  `/flows/${row.id}`
+                )
               );
             } else {
               navigate(
                 authenticationSession.appendProjectRoutePrefix(
-                  `/flows/${row.id}`,
-                ),
+                  `/flows/${row.id}`
+                )
               );
             }
           }}

@@ -1,25 +1,25 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   ListTriggerEventsRequest,
   SaveTriggerEventRequest,
   SeekPage,
   TestTriggerRequestBody,
   TriggerEventWithPayload,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const triggerEventsApi = {
   test(request: TestTriggerRequestBody) {
     return api.post<SeekPage<TriggerEventWithPayload>>(
-      '/v1/test-trigger',
-      request,
+      "/v1/test-trigger",
+      request
     );
   },
   list(
-    request: ListTriggerEventsRequest,
+    request: ListTriggerEventsRequest
   ): Promise<SeekPage<TriggerEventWithPayload>> {
     return api.get<SeekPage<TriggerEventWithPayload>>(
-      '/v1/trigger-events',
-      request,
+      "/v1/trigger-events",
+      request
     );
   },
   saveTriggerMockdata(request: SaveTriggerEventRequest) {

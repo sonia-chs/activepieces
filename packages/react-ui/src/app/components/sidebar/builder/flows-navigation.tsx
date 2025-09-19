@@ -1,17 +1,17 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { EllipsisVertical, Folder, FolderOpen } from 'lucide-react';
-import { useMemo, useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
+import { EllipsisVertical, Folder, FolderOpen } from "lucide-react";
+import { useMemo, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { CreateFlowDropdown } from '@/app/routes/flows';
-import { Button } from '@/components/ui/button';
+import { CreateFlowDropdown } from "@/app/routes/flows";
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { ScrollArea } from '@/components/ui/scroll-area';
+} from "@/components/ui/collapsible";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -23,17 +23,17 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarSkeleton,
-} from '@/components/ui/sidebar-shadcn';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { CreateFolderDialog } from '@/features/folders/component/create-folder-dialog';
-import { FolderActions } from '@/features/folders/component/folder-actions';
-import { foldersHooks } from '@/features/folders/lib/folders-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn } from '@/lib/utils';
-import { FolderDto, PopulatedFlow } from '@activepieces/shared';
+} from "@/components/ui/sidebar-shadcn";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { CreateFolderDialog } from "@/features/folders/component/create-folder-dialog";
+import { FolderActions } from "@/features/folders/component/folder-actions";
+import { foldersHooks } from "@/features/folders/lib/folders-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn } from "@/lib/utils";
+import { FolderDto, PopulatedFlow } from "@activepieces/shared";
 
-import FlowActionMenu from '../../flow-actions-menu';
+import FlowActionMenu from "../../flow-actions-menu";
 
 interface FlowsByFolder {
   [folderId: string]: PopulatedFlow[];
@@ -59,7 +59,7 @@ export function FlowsNavigation() {
     isLoading: flowsLoading,
     refetch: refetchFlows,
   } = useQuery({
-    queryKey: ['flow-table', project.id],
+    queryKey: ["flow-table", project.id],
     staleTime: 0,
     queryFn: () => {
       return flowsApi.list({
@@ -73,7 +73,7 @@ export function FlowsNavigation() {
   const flowsData = flows?.data || [];
 
   const flowsByFolder = flowsData.reduce<FlowsByFolder>((acc, flow) => {
-    const folderId = flow.folderId || 'default';
+    const folderId = flow.folderId || "default";
     if (!acc[folderId]) {
       acc[folderId] = [];
     }
@@ -84,7 +84,7 @@ export function FlowsNavigation() {
   const currentFlowFolderId = useMemo(() => {
     if (!currentFlowId || !flowsData.length) return null;
     const currentFlow = flowsData.find((flow) => flow.id === currentFlowId);
-    return currentFlow ? currentFlow.folderId || 'default' : null;
+    return currentFlow ? currentFlow.folderId || "default" : null;
   }, [currentFlowId, flowsData]);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export function FlowsNavigation() {
     if (currentFlowCount > previousFlowCount && previousFlowCount > 0) {
       const newFlow = flowsData[flowsData.length - 1];
       if (newFlow) {
-        const newFlowFolderId = newFlow.folderId || 'default';
+        const newFlowFolderId = newFlow.folderId || "default";
         setOpenFolders((prev) => new Set([...prev, newFlowFolderId]));
       }
     }
@@ -114,11 +114,11 @@ export function FlowsNavigation() {
 
     const timeoutId = setTimeout(() => {
       const selectedFlowElement = document.querySelector(
-        `[data-flow-id="${currentFlowId}"]`,
+        `[data-flow-id="${currentFlowId}"]`
       );
       if (selectedFlowElement && scrollAreaRef.current) {
         const scrollContainer = scrollAreaRef.current.querySelector(
-          '[data-radix-scroll-area-viewport]',
+          "[data-radix-scroll-area-viewport]"
         )!;
         const containerRect = scrollContainer.getBoundingClientRect();
         const elementRect = selectedFlowElement.getBoundingClientRect();
@@ -128,9 +128,9 @@ export function FlowsNavigation() {
           elementRect.bottom > containerRect.bottom
         ) {
           selectedFlowElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-            inline: 'nearest',
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest",
           });
         }
       }
@@ -141,7 +141,7 @@ export function FlowsNavigation() {
 
   const handleFlowClick = (flowId: string) => {
     navigate(
-      authenticationSession.appendProjectRoutePrefix(`/flows/${flowId}`),
+      authenticationSession.appendProjectRoutePrefix(`/flows/${flowId}`)
     );
   };
 
@@ -159,12 +159,12 @@ export function FlowsNavigation() {
 
   const sortedFolders =
     folders?.sort((a, b) => a.displayName.localeCompare(b.displayName)) || [];
-  const defaultFolderFlows = flowsByFolder['default'] || [];
+  const defaultFolderFlows = flowsByFolder["default"] || [];
 
   if (foldersLoading || flowsLoading) {
     return (
       <SidebarGroup>
-        <SidebarGroupLabel>{t('Flows Folders')}</SidebarGroupLabel>
+        <SidebarGroupLabel>{t("Flows Folders")}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarSkeleton numOfItems={6} />
         </SidebarGroupContent>
@@ -175,7 +175,7 @@ export function FlowsNavigation() {
   return (
     <SidebarGroup className="pb-2 max-h-[calc(50%-10px)] pr-0">
       <SidebarGroupLabel className="flex px-2 font-semibold text-foreground text-sm justify-between items-center w-full mb-1">
-        {t('Flow Folders')}
+        {t("Flow Folders")}
         <CreateFolderDialog
           refetchFolders={refetchFolders}
           updateSearchParams={() => {}}
@@ -188,8 +188,8 @@ export function FlowsNavigation() {
               flows={defaultFolderFlows}
               onFlowClick={handleFlowClick}
               isFlowActive={(flowId) => currentFlowId === flowId}
-              isOpen={openFolders.has('default')}
-              onToggle={(isOpen) => handleFolderToggle('default', isOpen)}
+              isOpen={openFolders.has("default")}
+              onToggle={(isOpen) => handleFolderToggle("default", isOpen)}
               refetch={refetchFlows}
             />
 
@@ -241,7 +241,7 @@ function DefaultFolder({
           <SidebarMenuButton className="px-2 group/item mb-1 pr-0">
             <Folder className="!size-3.5 group-data-[state=open]/collapsible:hidden" />
             <FolderOpen className="!size-3.5 hidden group-data-[state=open]/collapsible:block" />
-            <span>{t('Uncategorized')}</span>
+            <span>{t("Uncategorized")}</span>
             <div className="ml-auto relative">
               <CreateFlowDropdown
                 folderId="NULL"
@@ -350,7 +350,7 @@ function FlowItem({ flow, isActive, onClick, refetch }: FlowItemProps) {
     >
       <SidebarMenuSubButton
         onClick={onClick}
-        className={cn(isActive && 'bg-sidebar-accent', 'pr-0 pl-2')}
+        className={cn(isActive && "bg-sidebar-accent", "pr-0 pl-2")}
       >
         <span className="truncate">{flow.version.displayName}</span>
         <FlowActionMenu
@@ -364,7 +364,7 @@ function FlowItem({ flow, isActive, onClick, refetch }: FlowItemProps) {
             if (flowId === flow.id) {
               queryClient.invalidateQueries({
                 queryKey: [
-                  'flow',
+                  "flow",
                   flowId,
                   authenticationSession.getProjectId(),
                 ],

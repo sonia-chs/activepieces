@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 type DataListProps = {
   data: Record<string, any>;
@@ -7,23 +7,23 @@ type DataListProps = {
 
 function formatValue(value: any): string {
   if (Array.isArray(value)) {
-    return value.join(', ');
+    return value.join(", ");
   }
   if (value === null || value === undefined) {
-    return '';
+    return "";
   }
   return String(value);
 }
 
-export const DataList: React.FC<DataListProps> = ({ data, className = '' }) => {
+export const DataList: React.FC<DataListProps> = ({ data, className = "" }) => {
   const entries = Object.entries(data ?? {})
     .map(([key, value]) => [key, formatValue(value)])
-    .filter(([_, value]) => value !== '');
+    .filter(([_, value]) => value !== "");
 
   return (
     <div
       className={`relative rounded-lg bg-background py-4 w-full ${className}`}
-      style={{ minWidth: 0, width: '100%' }}
+      style={{ minWidth: 0, width: "100%" }}
     >
       <dl className="space-y-2 w-full">
         {entries.map(([key, value]) => (

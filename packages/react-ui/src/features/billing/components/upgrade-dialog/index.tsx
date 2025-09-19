@@ -1,48 +1,48 @@
-import { t } from 'i18next';
-import { Sparkle, ChevronRight } from 'lucide-react';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { t } from "i18next";
+import { Sparkle, ChevronRight } from "lucide-react";
+import { FC, useEffect, useMemo, useState } from "react";
 
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dialog";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { cn } from "@/lib/utils";
 import {
   ApSubscriptionStatus,
   BillingCycle,
   PlanName,
   StripePlanName,
-} from '@activepieces/ee-shared';
+} from "@activepieces/ee-shared";
 import {
   ApEdition,
   ApFlagId,
   isNil,
   PlatformUsageMetric,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { billingMutations, billingQueries } from '../../lib/billing-hooks';
+import { billingMutations, billingQueries } from "../../lib/billing-hooks";
 
-import { AddonsStep } from './addons-step';
+import { AddonsStep } from "./addons-step";
 import {
   planData,
   DEFAULT_PROJECTS,
   DEFAULT_SEATS,
   DEFAULT_ACTIVE_FLOWS,
-} from './data';
-import { PlanSelectionStep } from './plan-selection-step';
-import { useManagePlanDialogStore } from './store';
-import { SubscriptionSummary } from './summary';
-import { calculatePrice, getActionConfig, getCurrentPlanInfo } from './utils';
+} from "./data";
+import { PlanSelectionStep } from "./plan-selection-step";
+import { useManagePlanDialogStore } from "./store";
+import { SubscriptionSummary } from "./summary";
+import { calculatePrice, getActionConfig, getCurrentPlanInfo } from "./utils";
 
 export enum ActionType {
-  CONFIGURE_ADDONS = 'configure-addons',
-  UPDATE_SUBSCRIPTION = 'update-subscription',
-  CREATE_SUBSCRIPTION = 'create-subscription',
-  DISABLED = 'disabled',
+  CONFIGURE_ADDONS = "configure-addons",
+  UPDATE_SUBSCRIPTION = "update-subscription",
+  CREATE_SUBSCRIPTION = "create-subscription",
+  DISABLED = "disabled",
 }
 
 export interface DialogState {
@@ -94,20 +94,20 @@ const Stepper: FC<{
           <div className="flex items-center space-x-3">
             <div
               className={cn(
-                'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors',
+                "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors",
                 index + 1 <= currentStep
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-muted-foreground',
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
               )}
             >
               {index + 1}
             </div>
             <span
               className={cn(
-                'text-sm font-medium',
+                "text-sm font-medium",
                 index + 1 <= currentStep
-                  ? 'text-foreground'
-                  : 'text-muted-foreground',
+                  ? "text-foreground"
+                  : "text-muted-foreground"
               )}
             >
               {step.title}
@@ -136,7 +136,7 @@ export const UpgradeDialog: FC = () => {
 
   const currentPlanInfo = useMemo(
     () => getCurrentPlanInfo(platformBillingInformation),
-    [platformBillingInformation],
+    [platformBillingInformation]
   );
 
   const [dialogState, setDialogState] = useState<DialogState>({
@@ -174,17 +174,17 @@ export const UpgradeDialog: FC = () => {
         dialogState.selectedSeats,
         dialogState.selectedActiveFlows,
         dialogState.selectedProjects,
-        planData.plans,
+        planData.plans
       ),
-    [dialogState],
+    [dialogState]
   );
 
   const canGoNext =
-    dialogState.currentStep === 1 ? dialogState.selectedPlan !== '' : true;
+    dialogState.currentStep === 1 ? dialogState.selectedPlan !== "" : true;
 
   const actionConfig = useMemo(
     () => getActionConfig(dialogState, currentPlanInfo, canGoNext),
-    [dialogState, currentPlanInfo, canGoNext],
+    [dialogState, currentPlanInfo, canGoNext]
   );
 
   const { mutate: updateSubscription, isPending: isUpdatingSubscription } =
@@ -270,23 +270,23 @@ export const UpgradeDialog: FC = () => {
 
   const messages: Record<string, string> = {
     [PlatformUsageMetric.ACTIVE_FLOWS]: t(
-      'You have run out of active flows. Upgrade to get more.',
+      "You have run out of active flows. Upgrade to get more."
     ),
     [PlatformUsageMetric.MCPS]: t(
-      'You have run out of MCP servers. Upgrade to get more.',
+      "You have run out of MCP servers. Upgrade to get more."
     ),
     [PlatformUsageMetric.TABLES]: t(
-      'You have run out of tables. Upgrade to get more.',
+      "You have run out of tables. Upgrade to get more."
     ),
     [PlatformUsageMetric.USER_SEATS]: t(
-      'You have run out of user seats. Upgrade to get more.',
+      "You have run out of user seats. Upgrade to get more."
     ),
-    [PlatformUsageMetric.AGENTS]: t('Upgrade to unlock agents.'),
+    [PlatformUsageMetric.AGENTS]: t("Upgrade to unlock agents."),
   };
 
   const message = dialog.metric ? messages[dialog.metric] : undefined;
-  const title = dialog.title || t('Customize Your Plan');
-  const steps = [{ title: t('Select Plan') }, { title: t('Add-ons') }];
+  const title = dialog.title || t("Customize Your Plan");
+  const steps = [{ title: t("Select Plan") }, { title: t("Add-ons") }];
 
   return (
     <Dialog

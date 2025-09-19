@@ -1,6 +1,6 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { BillingCycle, PlanName } from '@activepieces/ee-shared';
+import { BillingCycle, PlanName } from "@activepieces/ee-shared";
 
 export const ANNUAL_DISCOUNT_PERCENTAGE = 0.24;
 export const MAX_SEATS = 20;
@@ -35,8 +35,8 @@ export const planData = {
   plans: [
     {
       name: PlanName.FREE,
-      description: t('Explorers & Tinkers'),
-      featuresTitle: t('Get started with'),
+      description: t("Explorers & Tinkers"),
+      featuresTitle: t("Get started with"),
       price: {
         [BillingCycle.MONTHLY]: 0,
         [BillingCycle.ANNUAL]: 0,
@@ -44,8 +44,8 @@ export const planData = {
     },
     {
       name: PlanName.PLUS,
-      description: t('Standard Users'),
-      featuresTitle: t('Everything in Free, and'),
+      description: t("Standard Users"),
+      featuresTitle: t("Everything in Free, and"),
       price: {
         [BillingCycle.MONTHLY]: 25,
         [BillingCycle.ANNUAL]: 19,
@@ -53,8 +53,8 @@ export const planData = {
     },
     {
       name: PlanName.BUSINESS,
-      description: t('Power Users & Small Teams'),
-      featuresTitle: t('Everything in Plus, and'),
+      description: t("Power Users & Small Teams"),
+      featuresTitle: t("Everything in Plus, and"),
       price: {
         [BillingCycle.MONTHLY]: 150,
         [BillingCycle.ANNUAL]: 114,
@@ -64,80 +64,80 @@ export const planData = {
 
   features: [
     {
-      key: 'tasks',
-      label: t('Tasks'),
+      key: "tasks",
+      label: t("Tasks"),
       values: {
-        free: '1,000/mo',
-        plus: 'Unlimited',
-        business: 'Unlimited',
+        free: "1,000/mo",
+        plus: "Unlimited",
+        business: "Unlimited",
       },
     },
     {
-      key: 'activeFlows',
-      label: t('Active Flows'),
+      key: "activeFlows",
+      label: t("Active Flows"),
       values: {
-        free: '2',
-        plus: '10',
-        business: '50',
+        free: "2",
+        plus: "10",
+        business: "50",
       },
     },
     {
-      key: 'agents',
-      label: t('AI Agents'),
-      values: {
-        free: null,
-        plus: 'Unlimited',
-        business: 'Unlimited',
-      },
-    },
-    {
-      key: 'users',
-      label: t('Users'),
+      key: "agents",
+      label: t("AI Agents"),
       values: {
         free: null,
-        plus: null,
-        business: '5+',
+        plus: "Unlimited",
+        business: "Unlimited",
       },
     },
     {
-      key: 'projects',
-      label: t('Projects'),
+      key: "users",
+      label: t("Users"),
       values: {
         free: null,
         plus: null,
-        business: '10',
+        business: "5+",
       },
     },
     {
-      key: 'aiCredits',
-      label: t('AI Credits'),
+      key: "projects",
+      label: t("Projects"),
       values: {
-        free: '200',
-        plus: '500+',
-        business: '1,000+',
+        free: null,
+        plus: null,
+        business: "10",
       },
     },
     {
-      key: 'mcpServers',
-      label: t('MCP Servers'),
+      key: "aiCredits",
+      label: t("AI Credits"),
       values: {
-        free: '1',
-        plus: 'Unlimited',
+        free: "200",
+        plus: "500+",
+        business: "1,000+",
+      },
+    },
+    {
+      key: "mcpServers",
+      label: t("MCP Servers"),
+      values: {
+        free: "1",
+        plus: "Unlimited",
         business: null,
       },
     },
     {
-      key: 'tables',
-      label: t('Tables'),
+      key: "tables",
+      label: t("Tables"),
       values: {
-        free: '1',
-        plus: 'Unlimited',
+        free: "1",
+        plus: "Unlimited",
         business: null,
       },
     },
     {
-      key: 'humanInLoop',
-      label: t('Human in the Loop'),
+      key: "humanInLoop",
+      label: t("Human in the Loop"),
       values: {
         free: null,
         plus: true,
@@ -145,8 +145,8 @@ export const planData = {
       },
     },
     {
-      key: 'apiAccess',
-      label: t('API Access'),
+      key: "apiAccess",
+      label: t("API Access"),
       values: {
         free: null,
         plus: null,
@@ -154,8 +154,8 @@ export const planData = {
       },
     },
     {
-      key: 'sso',
-      label: t('SSO'),
+      key: "sso",
+      label: t("SSO"),
       values: {
         free: null,
         plus: null,
@@ -163,8 +163,8 @@ export const planData = {
       },
     },
     {
-      key: 'analytics',
-      label: t('Analytics'),
+      key: "analytics",
+      label: t("Analytics"),
       values: {
         free: null,
         plus: null,

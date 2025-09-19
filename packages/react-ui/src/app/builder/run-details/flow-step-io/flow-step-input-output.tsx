@@ -1,12 +1,12 @@
-import { t } from 'i18next';
-import { Timer } from 'lucide-react';
-import React from 'react';
+import { t } from "i18next";
+import { Timer } from "lucide-react";
+import React from "react";
 
-import { JsonViewer } from '@/components/json-viewer';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { StepStatusIcon } from '@/features/flow-runs/components/step-status-icon';
-import { formatUtils } from '@/lib/utils';
-import { FlowAction, StepOutput } from '@activepieces/shared';
+import { JsonViewer } from "@/components/json-viewer";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { StepStatusIcon } from "@/features/flow-runs/components/step-status-icon";
+import { formatUtils } from "@/lib/utils";
+import { FlowAction, StepOutput } from "@activepieces/shared";
 
 type FlowStepInputOutputProps = {
   stepDetails: StepOutput;
@@ -14,7 +14,7 @@ type FlowStepInputOutputProps = {
 };
 
 const tryParseJson = (value: unknown): unknown => {
-  if (typeof value !== 'string') return value;
+  if (typeof value !== "string") return value;
 
   try {
     return JSON.parse(value);
@@ -33,7 +33,7 @@ const FlowStepInputOutput = React.memo(
   ({ stepDetails, selectedStep }: FlowStepInputOutputProps) => {
     const stepOutput = getStepOutput(stepDetails);
     const outputExists =
-      'output' in stepDetails || 'errorMessage' in stepDetails;
+      "output" in stepDetails || "errorMessage" in stepDetails;
 
     return (
       <ScrollArea className="h-full p-4">
@@ -45,17 +45,17 @@ const FlowStepInputOutput = React.memo(
           <div className="flex items-center gap-2 leading-4 justify-start">
             <Timer className="w-5 h-5" />
             <div>
-              {t('Duration')}:{' '}
+              {t("Duration")}:{" "}
               {formatUtils.formatDuration(stepDetails.duration ?? 0, false)}
             </div>
           </div>
-          <JsonViewer title={t('Input')} json={stepDetails.input} />
-          {outputExists && <JsonViewer title={t('Output')} json={stepOutput} />}
+          <JsonViewer title={t("Input")} json={stepDetails.input} />
+          {outputExists && <JsonViewer title={t("Output")} json={stepOutput} />}
         </div>
       </ScrollArea>
     );
-  },
+  }
 );
 
-FlowStepInputOutput.displayName = 'FlowStepInputOutput';
+FlowStepInputOutput.displayName = "FlowStepInputOutput";
 export { FlowStepInputOutput };

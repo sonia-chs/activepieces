@@ -1,13 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { ExternalLink, Plus, Workflow } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { ExternalLink, Plus, Workflow } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { flowsHooks } from '@/features/flows/lib/flows-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { flowsHooks } from "@/features/flows/lib/flows-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   FlowActionType,
   FlowOperationType,
@@ -17,44 +17,44 @@ import {
   PopulatedFlow,
   Agent,
   FlowTriggerType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 const template = {
-  created: '1751253117904',
-  updated: '1751253117904',
-  name: 'Chat With Agent',
-  description: '',
+  created: "1751253117904",
+  updated: "1751253117904",
+  name: "Chat With Agent",
+  description: "",
   tags: [],
-  pieces: ['@activepieces/piece-forms', '@activepieces/piece-agent'],
+  pieces: ["@activepieces/piece-forms", "@activepieces/piece-agent"],
   template: {
-    displayName: 'Chat With Agent',
+    displayName: "Chat With Agent",
     trigger: {
-      name: 'trigger',
+      name: "trigger",
       valid: true,
-      displayName: 'Chat UI',
+      displayName: "Chat UI",
       type: FlowTriggerType.PIECE,
       settings: {
-        pieceName: '@activepieces/piece-forms',
-        pieceVersion: '~0.4.3',
+        pieceName: "@activepieces/piece-forms",
+        pieceVersion: "~0.4.3",
         pieceType: PieceType.OFFICIAL,
         packageType: PackageType.REGISTRY,
         input: {
-          botName: 'AI Bot',
+          botName: "AI Bot",
         },
-        triggerName: 'chat_submission',
+        triggerName: "chat_submission",
       },
       nextAction: {
-        displayName: 'Fresh Agent',
-        name: 'step_2',
+        displayName: "Fresh Agent",
+        name: "step_2",
         valid: true,
         settings: {
-          pieceName: '@activepieces/piece-agent',
+          pieceName: "@activepieces/piece-agent",
           pieceType: PieceType.OFFICIAL,
           packageType: PackageType.REGISTRY,
-          actionName: 'run_agent',
-          pieceVersion: '~0.2.4',
+          actionName: "run_agent",
+          pieceVersion: "~0.2.4",
           input: {
-            agentId: '{{AGENT_ID}}',
+            agentId: "{{AGENT_ID}}",
             prompt: "{{trigger['message']}}",
           },
           errorHandlingOptions: {
@@ -68,16 +68,16 @@ const template = {
         },
         type: FlowActionType.PIECE,
         nextAction: {
-          displayName: 'Respond on UI',
-          name: 'step_1',
+          displayName: "Respond on UI",
+          name: "step_1",
           valid: true,
           skip: false,
           settings: {
-            pieceName: '@activepieces/piece-forms',
+            pieceName: "@activepieces/piece-forms",
             pieceType: PieceType.OFFICIAL,
             packageType: PackageType.REGISTRY,
-            actionName: 'return_response',
-            pieceVersion: '~0.4.3',
+            actionName: "return_response",
+            pieceVersion: "~0.4.3",
             input: {
               markdown: "{{step_2['message']}}",
             },
@@ -98,7 +98,7 @@ const template = {
     connectionIds: [],
     schemaVersion: LATEST_SCHEMA_VERSION,
   },
-  blogUrl: '',
+  blogUrl: "",
 };
 
 interface LinkedFlowsSectionProps {
@@ -125,7 +125,7 @@ export const LinkedFlowsSection = ({ agent }: LinkedFlowsSectionProps) => {
       const templateStr = JSON.stringify(template.template);
       const updatedTemplateStr = templateStr.replace(
         '"{{AGENT_ID}}"',
-        `"${agent.externalId}"`,
+        `"${agent.externalId}"`
       );
       const updatedTemplate = JSON.parse(updatedTemplateStr);
 
@@ -146,7 +146,7 @@ export const LinkedFlowsSection = ({ agent }: LinkedFlowsSectionProps) => {
     onError: () => {},
   });
 
-  const hasAgentPiece = template.pieces.includes('@activepieces/piece-agent');
+  const hasAgentPiece = template.pieces.includes("@activepieces/piece-agent");
 
   if (!hasAgentPiece) {
     return null;
@@ -157,7 +157,7 @@ export const LinkedFlowsSection = ({ agent }: LinkedFlowsSectionProps) => {
       <div className="flex flex-row items-center justify-between space-y-0 pb-2">
         <h2 className="text-base font-medium flex items-center gap-2">
           <Workflow className="h-4 w-4" />
-          {t('Linked Flows')}
+          {t("Linked Flows")}
         </h2>
         <Button
           variant="basic"
@@ -167,12 +167,12 @@ export const LinkedFlowsSection = ({ agent }: LinkedFlowsSectionProps) => {
           disabled={isPending}
         >
           <Plus className="h-4 w-4 mr-1" />
-          {isPending ? t('Importing...') : t('Use In Flow')}
+          {isPending ? t("Importing...") : t("Use In Flow")}
         </Button>
       </div>
       <div>
         {isAgentFlowsLoading ? (
-          <div className="text-sm text-muted-foreground">{t('Loading...')}</div>
+          <div className="text-sm text-muted-foreground">{t("Loading...")}</div>
         ) : linkedFlows?.data && linkedFlows.data.length > 0 ? (
           <div className="space-y-2">
             {linkedFlows.data.map((flow: PopulatedFlow) => (
@@ -197,8 +197,8 @@ export const LinkedFlowsSection = ({ agent }: LinkedFlowsSectionProps) => {
                           e.stopPropagation();
                           window.open(
                             `/flows/${flow.id}`,
-                            '_blank',
-                            'noopener,noreferrer',
+                            "_blank",
+                            "noopener,noreferrer"
                           );
                         }}
                       >
@@ -212,7 +212,7 @@ export const LinkedFlowsSection = ({ agent }: LinkedFlowsSectionProps) => {
           </div>
         ) : (
           <div className="text-sm text-muted-foreground">
-            {t('No linked flows found')}
+            {t("No linked flows found")}
           </div>
         )}
       </div>

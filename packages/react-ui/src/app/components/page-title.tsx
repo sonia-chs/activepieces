@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import { flagsHooks } from '@/hooks/flags-hooks';
+import { flagsHooks } from "@/hooks/flags-hooks";
 
 type PageTitleProps = {
   title: string;
@@ -17,6 +17,6 @@ const PageTitle = ({ title, children }: PageTitleProps) => {
   return children;
 };
 
-PageTitle.displayName = 'PageTitle';
+PageTitle.displayName = "PageTitle";
 
 export { PageTitle };

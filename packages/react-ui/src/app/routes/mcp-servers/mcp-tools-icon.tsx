@@ -1,17 +1,17 @@
-import { t } from 'i18next';
-import { WorkflowIcon } from 'lucide-react';
+import { t } from "i18next";
+import { WorkflowIcon } from "lucide-react";
 
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { PieceIcon } from '@/features/pieces/components/piece-icon';
-import { PieceMetadataModelSummary } from '@activepieces/pieces-framework';
-import { McpToolType, McpWithTools } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { PieceIcon } from "@/features/pieces/components/piece-icon";
+import { PieceMetadataModelSummary } from "@activepieces/pieces-framework";
+import { McpToolType, McpWithTools } from "@activepieces/shared";
 
 interface McpToolsIconProps {
-  mcpTools: McpWithTools['tools'];
+  mcpTools: McpWithTools["tools"];
   pieceMetadataMap: Map<string, PieceMetadataModelSummary>;
   isLoadingPiecesMetadata: boolean;
 }
@@ -22,7 +22,7 @@ export const McpToolsIcon = ({
   isLoadingPiecesMetadata,
 }: McpToolsIconProps) => {
   if (isLoadingPiecesMetadata) {
-    return <div className="text-left">{t('Loading...')}</div>;
+    return <div className="text-left">{t("Loading...")}</div>;
   }
 
   const MAX_ICONS_TO_SHOW = 3;
@@ -32,7 +32,7 @@ export const McpToolsIcon = ({
         self.findIndex(
           (t) =>
             t.type === McpToolType.PIECE &&
-            t.pieceMetadata?.pieceName === tool.pieceMetadata.pieceName,
+            t.pieceMetadata?.pieceName === tool.pieceMetadata.pieceName
         ) === index
       );
     }
@@ -49,17 +49,17 @@ export const McpToolsIcon = ({
         tool.pieceMetadata.pieceName
       );
     } else {
-      return 'Flow';
+      return "Flow";
     }
   });
 
-  let toolDisplayNamesTooltip = '';
+  let toolDisplayNamesTooltip = "";
   if (allDisplayNames.length === 1) {
     toolDisplayNamesTooltip = allDisplayNames[0];
   } else if (allDisplayNames.length > 1) {
     toolDisplayNamesTooltip =
-      allDisplayNames.slice(0, -1).join(', ') +
-      ` ${t('and')} ${allDisplayNames[allDisplayNames.length - 1]}`;
+      allDisplayNames.slice(0, -1).join(", ") +
+      ` ${t("and")} ${allDisplayNames[allDisplayNames.length - 1]}`;
   }
 
   return (
@@ -81,7 +81,7 @@ export const McpToolsIcon = ({
                       metadata?.displayName ||
                       (tool.type === McpToolType.PIECE && tool.pieceMetadata
                         ? tool.pieceMetadata.pieceName
-                        : 'Flow')
+                        : "Flow")
                     }
                     size="md"
                     circle={true}
@@ -94,7 +94,7 @@ export const McpToolsIcon = ({
                   <div
                     key={tool.id}
                     className={
-                      'bg-accent/35 rounded-full p-2 border border-solid size-[36px]'
+                      "bg-accent/35 rounded-full p-2 border border-solid size-[36px]"
                     }
                   >
                     <WorkflowIcon

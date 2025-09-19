@@ -1,19 +1,19 @@
-import React, { createContext, useContext } from 'react';
-import { useStore } from 'zustand';
+import React, { createContext, useContext } from "react";
+import { useStore } from "zustand";
 
-import { Agent } from '@activepieces/shared';
+import { Agent } from "@activepieces/shared";
 
 import {
   createBuilderAgentStore,
   BuilderAgentState,
-} from './builder-agent-state';
+} from "./builder-agent-state";
 
 interface AgentBuilderContextValue {
   store: ReturnType<typeof createBuilderAgentStore>;
 }
 
 const BuilderAgentContext = createContext<AgentBuilderContextValue | null>(
-  null,
+  null
 );
 
 interface AgentBuilderProviderProps {
@@ -35,11 +35,11 @@ export function AgentBuilderProvider({
 }
 
 export function useBuilderAgentState<T>(
-  selector: (state: BuilderAgentState) => T,
+  selector: (state: BuilderAgentState) => T
 ) {
   const builderAgentContext = useContext(BuilderAgentContext);
   if (!builderAgentContext) {
-    throw new Error('Builder agent context not found');
+    throw new Error("Builder agent context not found");
   }
   return useStore(builderAgentContext.store, selector);
 }

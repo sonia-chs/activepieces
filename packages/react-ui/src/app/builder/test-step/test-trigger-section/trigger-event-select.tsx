@@ -1,8 +1,8 @@
-import dayjs from 'dayjs';
-import deepEqual from 'deep-equal';
-import { t } from 'i18next';
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import dayjs from "dayjs";
+import deepEqual from "deep-equal";
+import { t } from "i18next";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
 import {
   Select,
@@ -10,10 +10,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { FlowTrigger, TriggerEventWithPayload } from '@activepieces/shared';
+} from "@/components/ui/select";
+import { FlowTrigger, TriggerEventWithPayload } from "@activepieces/shared";
 
-import { testStepHooks } from '../test-step-hooks';
+import { testStepHooks } from "../test-step-hooks";
 
 type TriggerEventSelectProps = {
   pollResults: { data: TriggerEventWithPayload[] } | undefined;
@@ -24,7 +24,7 @@ export const TriggerEventSelect = React.memo(
   ({ pollResults, sampleData }: TriggerEventSelectProps) => {
     const selectedId = getSelectedId(sampleData, pollResults?.data ?? []);
 
-    const form = useFormContext<Pick<FlowTrigger, 'name' | 'settings'>>();
+    const form = useFormContext<Pick<FlowTrigger, "name" | "settings">>();
     const formValues = form.getValues();
 
     const { mutate: updateSampleData } = testStepHooks.useUpdateSampleData(
@@ -35,16 +35,16 @@ export const TriggerEventSelect = React.memo(
           step.settings.sampleData?.sampleDataInputFileId;
 
         form.setValue(
-          'settings.sampleData',
+          "settings.sampleData",
           {
             ...(formValues.settings.sampleData ?? {}),
             sampleDataFileId,
             sampleDataInputFileId,
             lastTestDate: dayjs().toISOString(),
           },
-          { shouldValidate: true },
+          { shouldValidate: true }
         );
-      },
+      }
     );
 
     return (
@@ -53,7 +53,7 @@ export const TriggerEventSelect = React.memo(
           value={selectedId}
           onValueChange={(value: string) => {
             const triggerEvent = pollResults?.data.find(
-              (triggerEvent) => triggerEvent.id === value,
+              (triggerEvent) => triggerEvent.id === value
             );
             if (triggerEvent) {
               updateSampleData({
@@ -71,34 +71,34 @@ export const TriggerEventSelect = React.memo(
           >
             {pollResults && pollResults.data.length > 0 ? (
               <SelectValue
-                placeholder={t('No sample data available')}
+                placeholder={t("No sample data available")}
               ></SelectValue>
             ) : (
-              t('Old results were removed, retest for new sample data')
+              t("Old results were removed, retest for new sample data")
             )}
           </SelectTrigger>
           <SelectContent>
             {pollResults &&
               pollResults.data.map((triggerEvent, index) => (
                 <SelectItem key={triggerEvent.id} value={triggerEvent.id}>
-                  {t('Result #') + (index + 1)}
+                  {t("Result #") + (index + 1)}
                 </SelectItem>
               ))}
           </SelectContent>
         </Select>
         <span className="text-sm mt-2 text-muted-foreground">
-          {t('The sample data can be used in the next steps.')}
+          {t("The sample data can be used in the next steps.")}
         </span>
       </div>
     );
-  },
+  }
 );
 
-TriggerEventSelect.displayName = 'TriggerEventSelect';
+TriggerEventSelect.displayName = "TriggerEventSelect";
 
 function getSelectedId(
   sampleData: unknown,
-  pollResults: TriggerEventWithPayload[],
+  pollResults: TriggerEventWithPayload[]
 ) {
   if (sampleData === undefined) {
     return undefined;

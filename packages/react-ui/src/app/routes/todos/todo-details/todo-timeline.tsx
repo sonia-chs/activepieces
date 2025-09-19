@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { useSocket } from '@/components/socket-provider';
-import { todoUtils } from '@/features/todos/lib/todo-utils';
+import { useSocket } from "@/components/socket-provider";
+import { todoUtils } from "@/features/todos/lib/todo-utils";
 import {
   TodoChanged,
   WebsocketClientEvent,
   TodoActivityWithUser,
   TodoActivityChanged,
   PopulatedTodo,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { TodoComment, ActivityItem } from './todo-comment';
-import { TodoTimelineCommentSkeleton } from './todo-timeline-comment-skeleton';
-import { TodoTimelineStatus } from './todo-timeline-status';
+import { TodoComment, ActivityItem } from "./todo-comment";
+import { TodoTimelineCommentSkeleton } from "./todo-timeline-comment-skeleton";
+import { TodoTimelineStatus } from "./todo-timeline-status";
 
 interface TodoTimelineProps {
   todo: PopulatedTodo;
@@ -32,7 +32,7 @@ export const TodoTimeline = ({
   const formatComment = (activity: TodoActivityWithUser): ActivityItem => {
     const hash = encodeURIComponent(JSON.stringify(activity.content));
     return {
-      type: 'comment' as const,
+      type: "comment" as const,
       authorType: todoUtils.getAuthorType(activity),
       content: activity.content,
       timestamp: new Date(activity.created),
@@ -44,8 +44,8 @@ export const TodoTimeline = ({
 
   const [activities, setActivities] = useState<ActivityItem[]>([
     {
-      type: 'comment' as const,
-      content: todo.description ?? '',
+      type: "comment" as const,
+      content: todo.description ?? "",
       timestamp: new Date(todo.created),
       authorType: todoUtils.getAuthorType(todo),
       authorName: todoUtils.getAuthorName(todo),
@@ -76,14 +76,14 @@ export const TodoTimeline = ({
     socket.on(WebsocketClientEvent.TODO_CHANGED, handleTodoChanged);
     socket.on(
       WebsocketClientEvent.TODO_ACTIVITY_CHANGED,
-      handleTodoActivityChanged,
+      handleTodoActivityChanged
     );
 
     return () => {
       socket.off(WebsocketClientEvent.TODO_CHANGED, handleTodoChanged);
       socket.off(
         WebsocketClientEvent.TODO_ACTIVITY_CHANGED,
-        handleTodoActivityChanged,
+        handleTodoActivityChanged
       );
     };
   }, [socket, refetchComments]);
@@ -94,8 +94,8 @@ export const TodoTimeline = ({
         <>
           <TodoComment
             comment={{
-              type: 'comment' as const,
-              content: todo.description ?? '',
+              type: "comment" as const,
+              content: todo.description ?? "",
               timestamp: new Date(todo.created),
               authorType: todoUtils.getAuthorType(todo),
               authorName: todoUtils.getAuthorName(todo),

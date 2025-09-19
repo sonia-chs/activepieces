@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,12 +13,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { projectApi } from '@/lib/project-api';
-import { CreatePlatformProjectRequest } from '@activepieces/ee-shared';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { projectApi } from "@/lib/project-api";
+import { CreatePlatformProjectRequest } from "@activepieces/ee-shared";
 
 type NewProjectDialogProps = {
   children: React.ReactNode;
@@ -35,14 +35,14 @@ export const NewProjectDialog = ({
       Type.Object({
         displayName: Type.String({
           minLength: 1,
-          errorMessage: t('Name is required'),
+          errorMessage: t("Name is required"),
         }),
-      }),
+      })
     ),
   });
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ['create-project'],
+    mutationKey: ["create-project"],
     mutationFn: () => projectApi.create(form.getValues()),
     onSuccess: () => {
       onCreate();
@@ -55,7 +55,7 @@ export const NewProjectDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Create New Project')}</DialogTitle>
+          <DialogTitle>{t("Create New Project")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -66,11 +66,11 @@ export const NewProjectDialog = ({
               name="displayName"
               render={({ field }) => (
                 <FormItem className="grid space-y-2">
-                  <Label htmlFor="displayName">{t('Project Name')}</Label>
+                  <Label htmlFor="displayName">{t("Project Name")}</Label>
                   <Input
                     {...field}
                     id="displayName"
-                    placeholder={t('Project Name')}
+                    placeholder={t("Project Name")}
                     className="rounded-sm"
                   />
                   <FormMessage />
@@ -86,14 +86,14 @@ export const NewProjectDialog = ({
         </Form>
         <DialogFooter>
           <Button
-            variant={'outline'}
+            variant={"outline"}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
               setOpen(false);
             }}
           >
-            {t('Cancel')}
+            {t("Cancel")}
           </Button>
           <Button
             disabled={isPending}
@@ -104,7 +104,7 @@ export const NewProjectDialog = ({
               form.handleSubmit(() => mutate())(e);
             }}
           >
-            {t('Save')}
+            {t("Save")}
           </Button>
         </DialogFooter>
       </DialogContent>

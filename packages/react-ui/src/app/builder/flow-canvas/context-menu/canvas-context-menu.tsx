@@ -2,41 +2,41 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuTrigger,
-} from '@/components/ui/context-menu';
-import { ShortcutProps } from '@/components/ui/shortcut';
+} from "@/components/ui/context-menu";
+import { ShortcutProps } from "@/components/ui/shortcut";
 
-import { CanvasContextMenuContent } from './canvas-context-menu-content';
+import { CanvasContextMenuContent } from "./canvas-context-menu-content";
 
 export type CanvasShortcutsProps = Record<
-  'Paste' | 'Delete' | 'Copy' | 'Skip',
+  "Paste" | "Delete" | "Copy" | "Skip",
   ShortcutProps
 >;
 export const CanvasShortcuts: CanvasShortcutsProps = {
   Paste: {
     withCtrl: true,
     withShift: false,
-    shortcutKey: 'v',
+    shortcutKey: "v",
   },
   Delete: {
     withCtrl: false,
     withShift: true,
-    shortcutKey: 'Delete',
+    shortcutKey: "Delete",
   },
   Copy: {
     withCtrl: true,
     withShift: false,
-    shortcutKey: 'c',
+    shortcutKey: "c",
     shouldNotPreventDefault: true,
   },
   Skip: {
     withCtrl: true,
     withShift: false,
-    shortcutKey: 'e',
+    shortcutKey: "e",
   },
 };
 export enum ContextMenuType {
-  CANVAS = 'CANVAS',
-  STEP = 'STEP',
+  CANVAS = "CANVAS",
+  STEP = "STEP",
 }
 export type CanvasContextMenuProps = {
   children?: React.ReactNode;

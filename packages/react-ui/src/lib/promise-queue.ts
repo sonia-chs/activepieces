@@ -1,4 +1,4 @@
-import { Mutex } from 'async-mutex';
+import { Mutex } from "async-mutex";
 
 export class PromiseQueue {
   private queue: (() => Promise<unknown>)[] = [];

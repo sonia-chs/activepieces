@@ -1,14 +1,14 @@
-import { t } from 'i18next';
-import { FlaskConical } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { FlaskConical } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import EditableTextWithPen from '@/components/ui/editable-text-with-pen';
-import ImageWithFallback from '@/components/ui/image-with-fallback';
-import { useBuilderAgentState } from '@/features/agents/lib/store/builder-agent-state-provider';
-import { isNil } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import EditableTextWithPen from "@/components/ui/editable-text-with-pen";
+import ImageWithFallback from "@/components/ui/image-with-fallback";
+import { useBuilderAgentState } from "@/features/agents/lib/store/builder-agent-state-provider";
+import { isNil } from "@activepieces/shared";
 
-import { AgentPromptEditor } from './agent-prompt-editor';
+import { AgentPromptEditor } from "./agent-prompt-editor";
 
 type AgentFormValues = {
   displayName: string;
@@ -17,7 +17,7 @@ type AgentFormValues = {
 
 export const AgentLeftSection = () => {
   const [updateAgent, agent, setTestSectionIsOpen] = useBuilderAgentState(
-    (state) => [state.updateAgent, state.agent, state.setTestSectionIsOpen],
+    (state) => [state.updateAgent, state.agent, state.setTestSectionIsOpen]
   );
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
@@ -43,15 +43,15 @@ export const AgentLeftSection = () => {
                 value={agent.displayName}
                 className="text-2xl font-semibold"
                 readonly={isNil(agent)}
-                onValueChange={(val) => handleFieldChange('displayName', val)}
+                onValueChange={(val) => handleFieldChange("displayName", val)}
                 isEditing={isEditingName}
                 setIsEditing={setIsEditingName}
               />
               <EditableTextWithPen
-                value={agent.description ?? ''}
+                value={agent.description ?? ""}
                 className="text-sm text-muted-foreground mt-1 max-w-[400px]"
                 readonly={isNil(agent)}
-                onValueChange={(val) => handleFieldChange('description', val)}
+                onValueChange={(val) => handleFieldChange("description", val)}
                 isEditing={isEditingDescription}
                 setIsEditing={setIsEditingDescription}
               />
@@ -65,7 +65,7 @@ export const AgentLeftSection = () => {
                 type="button"
               >
                 <FlaskConical className="w-4 h-4" />
-                {t('Test Agent')}
+                {t("Test Agent")}
               </Button>
             </div>
           </div>

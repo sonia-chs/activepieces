@@ -1,16 +1,16 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   ListProjectMembersRequestQuery,
   ProjectMemberWithUser,
   UpdateProjectMemberRoleRequestBody,
-} from '@activepieces/ee-shared';
-import { SeekPage } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { SeekPage } from "@activepieces/shared";
 
 export const projectMembersApi = {
   list(request: ListProjectMembersRequestQuery) {
     return api.get<SeekPage<ProjectMemberWithUser>>(
-      '/v1/project-members',
-      request,
+      "/v1/project-members",
+      request
     );
   },
   update(memberId: string, request: UpdateProjectMemberRoleRequestBody) {

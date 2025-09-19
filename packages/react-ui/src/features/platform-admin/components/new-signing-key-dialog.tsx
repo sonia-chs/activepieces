@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { CopyToClipboardInput } from '@/components/custom/clipboard/copy-to-clipboard';
-import { Button } from '@/components/ui/button';
+import { CopyToClipboardInput } from "@/components/custom/clipboard/copy-to-clipboard";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,15 +13,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { signingKeyApi } from '@/features/platform-admin/lib/signing-key-api';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { signingKeyApi } from "@/features/platform-admin/lib/signing-key-api";
 import {
   AddSigningKeyRequestBody,
   AddSigningKeyResponse,
-} from '@activepieces/ee-shared';
+} from "@activepieces/ee-shared";
 
 type NewSigningKeyDialogProps = {
   children: React.ReactNode;
@@ -60,7 +60,7 @@ export const NewSigningKeyDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {signingKey ? t('Signing Key Created') : t('Create Signing Key')}
+            {signingKey ? t("Signing Key Created") : t("Create Signing Key")}
           </DialogTitle>
         </DialogHeader>
         {signingKey && (
@@ -68,11 +68,11 @@ export const NewSigningKeyDialog = ({
             <div className="flex flex-col items-start gap-2">
               <span className="text-md">
                 {t(
-                  'Please save this secret key somewhere safe and accessible. For security reasons,',
-                )}{' '}
+                  "Please save this secret key somewhere safe and accessible. For security reasons,"
+                )}{" "}
                 <span className="font-semibold">
                   {t(
-                    "you won't be able to view it again after closing this dialog.",
+                    "you won't be able to view it again after closing this dialog."
                   )}
                 </span>
               </span>
@@ -94,7 +94,7 @@ export const NewSigningKeyDialog = ({
                 name="displayName"
                 render={({ field }) => (
                   <FormItem className="grid space-y-4">
-                    <Label htmlFor="displayName">{t('Name')}</Label>
+                    <Label htmlFor="displayName">{t("Name")}</Label>
                     <Input
                       {...field}
                       required
@@ -117,25 +117,25 @@ export const NewSigningKeyDialog = ({
           {!signingKey ? (
             <>
               <Button variant="outline" onClick={() => setOpen(false)}>
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button
                 disabled={isPending || !form.formState.isValid}
                 loading={isPending}
                 onClick={() => mutate()}
               >
-                {t('Save')}
+                {t("Save")}
               </Button>
             </>
           ) : (
             <Button
-              variant={'accent'}
+              variant={"accent"}
               onClick={() => {
                 setSigningKey(undefined);
                 setOpen(false);
               }}
             >
-              {t('Done')}
+              {t("Done")}
             </Button>
           )}
         </DialogFooter>

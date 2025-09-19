@@ -1,8 +1,8 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
-import { FieldType } from '@activepieces/shared';
+import { FieldType } from "@activepieces/shared";
 
-import { useTableState } from './ap-table-state-provider';
+import { useTableState } from "./ap-table-state-provider";
 
 type Cell = {
   rowIdx: number;
@@ -21,7 +21,7 @@ type CellContextType = {
 const CellContext = createContext<CellContextType>({
   isEditing: false,
   setIsEditing: () => {},
-  value: '',
+  value: "",
   handleCellChange: () => {},
   rowIdx: 0,
   columnIdx: 0,
@@ -63,11 +63,11 @@ export const CellProvider = ({
     const newRecrodValues = fields.map((_, fIndex) => {
       // values order isn't guaranteed to be the same as fields order
       const fieldValue = record.values.find(
-        (value) => value.fieldIndex === fIndex,
+        (value) => value.fieldIndex === fIndex
       )?.value;
       return {
         fieldIndex: fIndex,
-        value: fieldValue ?? '',
+        value: fieldValue ?? "",
       };
     });
     newRecrodValues[columnIdx].value = newCellValue;

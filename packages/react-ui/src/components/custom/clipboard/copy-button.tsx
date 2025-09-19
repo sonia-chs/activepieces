@@ -1,20 +1,20 @@
-import { TooltipContentProps } from '@radix-ui/react-tooltip';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Check, Copy } from 'lucide-react';
-import { useState } from 'react';
+import { TooltipContentProps } from "@radix-ui/react-tooltip";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Check, Copy } from "lucide-react";
+import { useState } from "react";
 
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { toast } from '@/components/ui/use-toast';
+} from "@/components/ui/tooltip";
+import { toast } from "@/components/ui/use-toast";
 
 interface CopyButtonProps extends ButtonProps {
   textToCopy: string;
-  tooltipSide?: TooltipContentProps['side'];
+  tooltipSide?: TooltipContentProps["side"];
   withoutTooltip?: boolean;
 }
 
@@ -35,7 +35,7 @@ export const CopyButton = ({
     },
     onError: () => {
       toast({
-        title: t('Failed to copy to clipboard'),
+        title: t("Failed to copy to clipboard"),
         duration: 3000,
       });
     },
@@ -77,7 +77,7 @@ export const CopyButton = ({
           )}
         </Button>
       </TooltipTrigger>
-      <TooltipContent side={tooltipSide}>{t('Copy')}</TooltipContent>
+      <TooltipContent side={tooltipSide}>{t("Copy")}</TooltipContent>
     </Tooltip>
   );
 };

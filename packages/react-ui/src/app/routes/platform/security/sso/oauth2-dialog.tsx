@@ -1,12 +1,12 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { ApMarkdown } from '@/components/custom/markdown';
-import { Button } from '@/components/ui/button';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,19 +14,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { platformApi } from '@/lib/platforms-api';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
+import { platformApi } from "@/lib/platforms-api";
 import {
   PlatformWithoutSensitiveData,
   UpdatePlatformRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type NewOAuth2DialogProps = {
-  providerName: 'google' | 'github';
+  providerName: "google" | "github";
   providerDisplayName: string;
   platform: PlatformWithoutSensitiveData;
   connected: boolean;
@@ -62,8 +62,8 @@ export const NewOAuth2Dialog = ({
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Single sign on settings updated'),
+        title: t("Success"),
+        description: t("Single sign on settings updated"),
         duration: 3000,
       });
       setOpen(false);
@@ -83,9 +83,9 @@ export const NewOAuth2Dialog = ({
       <DialogTrigger asChild>
         {connected ? (
           <Button
-            size={'sm'}
+            size={"sm"}
             className="w-32 text-destructive"
-            variant={'basic'}
+            variant={"basic"}
             loading={isPending}
             onClick={(e) => {
               mutate({
@@ -96,30 +96,30 @@ export const NewOAuth2Dialog = ({
               e.preventDefault();
             }}
           >
-            {t('Disable')}
+            {t("Disable")}
           </Button>
         ) : (
           <Button
-            size={'sm'}
+            size={"sm"}
             className="w-32"
-            variant={'basic'}
+            variant={"basic"}
             onClick={() => setOpen(true)}
           >
-            {t('Enable')}
+            {t("Enable")}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {t('Configure {provider} SSO', { provider: providerDisplayName })}
+            {t("Configure {provider} SSO", { provider: providerDisplayName })}
           </DialogTitle>
         </DialogHeader>
         <div className="mb-4">
           <ApMarkdown
             markdown={t(
-              'Read more information about how to configure {provider} SSO [here](https://www.activepieces.com/docs/security/sso).',
-              { provider: providerDisplayName },
+              "Read more information about how to configure {provider} SSO [here](https://www.activepieces.com/docs/security/sso).",
+              { provider: providerDisplayName }
             )}
           />
         </div>
@@ -140,7 +140,7 @@ export const NewOAuth2Dialog = ({
               render={({ field }) => (
                 <FormItem className="grid space-y-4">
                   <Label htmlFor="clientId">
-                    {t('{provider} Client ID', {
+                    {t("{provider} Client ID", {
                       provider: providerDisplayName,
                     })}
                   </Label>
@@ -159,7 +159,7 @@ export const NewOAuth2Dialog = ({
               render={({ field }) => (
                 <FormItem className="grid space-y-4">
                   <Label htmlFor="clientSecret">
-                    {t('{provider} Client Secret', {
+                    {t("{provider} Client Secret", {
                       provider: providerDisplayName,
                     })}
                   </Label>
@@ -182,14 +182,14 @@ export const NewOAuth2Dialog = ({
 
             <DialogFooter>
               <Button variant="outline" onClick={() => setOpen(false)}>
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button
                 loading={isPending}
                 disabled={!form.formState.isValid}
                 type="submit"
               >
-                {t('Save')}
+                {t("Save")}
               </Button>
             </DialogFooter>
           </form>

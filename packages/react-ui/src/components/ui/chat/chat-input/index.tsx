@@ -1,19 +1,19 @@
-import { ArrowUpIcon, Paperclip } from 'lucide-react';
-import * as React from 'react';
-import { useRef, useState } from 'react';
+import { ArrowUpIcon, Paperclip } from "lucide-react";
+import * as React from "react";
+import { useRef, useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import { FileInputPreview } from '@/components/ui/chat/chat-input/file-input-preview';
-import { ResizableTextareaProps, Textarea } from '@/components/ui/textarea';
-import { cn, useElementSize } from '@/lib/utils';
-import { isNil } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { FileInputPreview } from "@/components/ui/chat/chat-input/file-input-preview";
+import { ResizableTextareaProps, Textarea } from "@/components/ui/textarea";
+import { cn, useElementSize } from "@/lib/utils";
+import { isNil } from "@activepieces/shared";
 
 export interface ChatMessage {
   textContent: string;
   files: File[];
 }
 
-interface ChatInputProps extends Omit<ResizableTextareaProps, 'onSubmit'> {
+interface ChatInputProps extends Omit<ResizableTextareaProps, "onSubmit"> {
   onSendMessage: (message: ChatMessage) => void;
   disabled?: boolean;
   placeholder?: string;
@@ -25,12 +25,12 @@ const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       className,
       onSendMessage,
       disabled = false,
-      placeholder = 'Type your message here...',
+      placeholder = "Type your message here...",
       ...props
     },
-    ref,
+    ref
   ) => {
-    const [input, setInput] = useState('');
+    const [input, setInput] = useState("");
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const filesPreviewContainerRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +43,7 @@ const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
           return newFiles;
         });
         if (fileInputRef.current) {
-          fileInputRef.current.value = '';
+          fileInputRef.current.value = "";
         }
       }
     };
@@ -62,12 +62,12 @@ const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       });
 
       // Clear input fields
-      setInput('');
+      setInput("");
       setFiles([]);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
+      if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         if (!disabled && (input || files.length > 0)) {
           handleSubmit(e as unknown as React.FormEvent);
@@ -117,15 +117,15 @@ const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
               maxRows={6}
               name="message"
               className={cn(
-                'px-4 py-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 w-full resize-none border-0 shadow-none focus-visible:ring-0',
-                className,
+                "px-4 py-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 w-full resize-none border-0 shadow-none focus-visible:ring-0",
+                className
               )}
               value={input}
               onKeyDown={handleKeyDown}
               onChange={(e) => setInput(e.target.value)}
               onPaste={(e) => {
                 const selectedFiles = Array.from(e.clipboardData.items)
-                  .filter((item) => item.kind === 'file')
+                  .filter((item) => item.kind === "file")
                   .map((item) => item.getAsFile())
                   .filter((item) => !isNil(item));
                 handleFileChange(selectedFiles);
@@ -145,7 +145,7 @@ const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
                 multiple
                 onChange={(e) => {
                   handleFileChange(
-                    (e.target.files && Array.from(e.target.files)) || [],
+                    (e.target.files && Array.from(e.target.files)) || []
                   );
                 }}
                 className="hidden"
@@ -163,9 +163,9 @@ const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
         </form>
       </div>
     );
-  },
+  }
 );
 
-ChatInput.displayName = 'ChatInput';
+ChatInput.displayName = "ChatInput";
 
 export { ChatInput };

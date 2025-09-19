@@ -1,14 +1,14 @@
-import { t } from 'i18next';
-import { ExpandIcon, MinusIcon, PanelRightDashedIcon } from 'lucide-react';
+import { t } from "i18next";
+import { ExpandIcon, MinusIcon, PanelRightDashedIcon } from "lucide-react";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
-import { Button } from '../../../components/ui/button';
-import { cn } from '../../../lib/utils';
+import { Button } from "../../../components/ui/button";
+import { cn } from "../../../lib/utils";
 
 export enum DataSelectorSizeState {
   EXPANDED,
@@ -30,9 +30,9 @@ export const DataSelectorSizeTogglers = ({
   };
 
   const buttonClassName = (btnState: DataSelectorSizeState) =>
-    cn('', {
-      'text-outline': state === btnState,
-      'text-outline opacity-50': state !== btnState,
+    cn("", {
+      "text-outline": state === btnState,
+      "text-outline opacity-50": state !== btnState,
     });
 
   return (
@@ -48,7 +48,7 @@ export const DataSelectorSizeTogglers = ({
             <ExpandIcon className="size-5"></ExpandIcon>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>{t('Expand')}</TooltipContent>
+        <TooltipContent>{t("Expand")}</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -61,7 +61,7 @@ export const DataSelectorSizeTogglers = ({
             <PanelRightDashedIcon className="size-5"></PanelRightDashedIcon>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>{t('Dock')}</TooltipContent>
+        <TooltipContent>{t("Dock")}</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -74,7 +74,7 @@ export const DataSelectorSizeTogglers = ({
             <MinusIcon className="size-5"></MinusIcon>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>{t('Minimize')}</TooltipContent>
+        <TooltipContent>{t("Minimize")}</TooltipContent>
       </Tooltip>
     </>
   );

@@ -1,6 +1,6 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-import { PlatformUsageMetric } from '@activepieces/shared';
+import { PlatformUsageMetric } from "@activepieces/shared";
 
 interface ManagePlanDialogState {
   isOpen: boolean;
@@ -44,5 +44,5 @@ export const useManagePlanDialogStore = create<ManagePlanDialogStore>(
           title: undefined,
         },
       })),
-  }),
+  })
 );

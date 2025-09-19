@@ -1,18 +1,18 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
 
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { Skeleton } from '@/components/ui/skeleton';
-import { aiProviderApi } from '@/features/platform-admin/lib/ai-provider-api';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { SUPPORTED_AI_PROVIDERS } from '@activepieces/common-ai';
-import { PlatformRole, ApFlagId, ApEdition } from '@activepieces/shared';
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { Skeleton } from "@/components/ui/skeleton";
+import { aiProviderApi } from "@/features/platform-admin/lib/ai-provider-api";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { SUPPORTED_AI_PROVIDERS } from "@activepieces/common-ai";
+import { PlatformRole, ApFlagId, ApEdition } from "@activepieces/shared";
 
-import LockedFeatureGuard from '../../../../components/locked-feature-guard';
+import LockedFeatureGuard from "../../../../components/locked-feature-guard";
 
-import { CopilotSetup } from './copilot';
-import { AIProviderCard } from './universal-pieces/ai-provider-card';
+import { CopilotSetup } from "./copilot";
+import { AIProviderCard } from "./universal-pieces/ai-provider-card";
 
 export default function AIProvidersPage() {
   const {
@@ -20,7 +20,7 @@ export default function AIProvidersPage() {
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: ['ai-providers'],
+    queryKey: ["ai-providers"],
     queryFn: () => aiProviderApi.list(),
   });
   const { data: currentUser } = userHooks.useCurrentUser();
@@ -39,21 +39,21 @@ export default function AIProvidersPage() {
     <LockedFeatureGuard
       featureKey="UNIVERSAL_AI"
       locked={currentUser?.platformRole !== PlatformRole.ADMIN}
-      lockTitle={t('Unlock AI')}
+      lockTitle={t("Unlock AI")}
       lockDescription={t(
-        'Set your AI providers & copilot settings so your users enjoy a seamless building experience with our universal AI pieces',
+        "Set your AI providers & copilot settings so your users enjoy a seamless building experience with our universal AI pieces"
       )}
     >
       <div className="flex flex-col w-full gap-4">
         <DashboardPageHeader
-          title={t('AI Providers')}
+          title={t("AI Providers")}
           description={
             allowWrite
               ? t(
-                  'Set provider credentials that will be used by universal AI pieces, i.e Text AI.',
+                  "Set provider credentials that will be used by universal AI pieces, i.e Text AI."
                 )
               : t(
-                  'Available AI providers that will be used by universal AI pieces, i.e Text AI.',
+                  "Available AI providers that will be used by universal AI pieces, i.e Text AI."
                 )
           }
         ></DashboardPageHeader>
@@ -63,7 +63,7 @@ export default function AIProvidersPage() {
               providers?.data.some((p) => p.provider === metadata.provider) ??
               false;
             const showAzureOpenAI =
-              metadata.provider === 'openai' &&
+              metadata.provider === "openai" &&
               edition === ApEdition.ENTERPRISE;
 
             return isLoading ? (

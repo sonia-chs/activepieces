@@ -1,9 +1,9 @@
-import { FolderDto } from '@activepieces/shared';
+import { FolderDto } from "@activepieces/shared";
 
 export const foldersUtils = {
   extractUncategorizedFlows: (
     allFlowsCount?: number,
-    folders?: FolderDto[],
+    folders?: FolderDto[]
   ) => {
     let uncategorizedCount = allFlowsCount ?? 0;
 

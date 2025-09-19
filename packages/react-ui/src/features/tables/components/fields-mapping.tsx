@@ -1,12 +1,12 @@
-import { t } from 'i18next';
-import { ArrowLeftIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { t } from "i18next";
+import { ArrowLeftIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { SearchableSelect } from '@/components/custom/searchable-select';
-import { Input } from '@/components/ui/input';
-import { Field } from '@activepieces/shared';
+import { SearchableSelect } from "@/components/custom/searchable-select";
+import { Input } from "@/components/ui/input";
+import { Field } from "@activepieces/shared";
 
-import { FieldsMapping } from '../lib/utils';
+import { FieldsMapping } from "../lib/utils";
 
 const FieldsMappingControl = ({
   onChange,
@@ -30,22 +30,22 @@ const FieldsMappingControl = ({
       label: column,
       value: index.toString(),
     })),
-    { label: t('Ignored'), value: 'ignore' },
+    { label: t("Ignored"), value: "ignore" },
   ];
   const findFieldIdCsvIndex = (fieldId: string) => {
     const res = fieldsMapping.findIndex((id) => id === fieldId);
     if (res !== -1) {
       return res.toString();
     }
-    return 'ignore';
+    return "ignore";
   };
   const handleChange = (fieldId: string, columnIndex: string | null) => {
     const newFieldsMapping = [...fieldsMapping];
     const columnIndexUsingFieldId = findFieldIdCsvIndex(fieldId);
-    if (columnIndexUsingFieldId !== 'ignore' || columnIndex === 'ignore') {
+    if (columnIndexUsingFieldId !== "ignore" || columnIndex === "ignore") {
       newFieldsMapping[parseInt(columnIndexUsingFieldId)] = null;
     }
-    if (columnIndex !== null && columnIndex !== 'ignore') {
+    if (columnIndex !== null && columnIndex !== "ignore") {
       newFieldsMapping[parseInt(columnIndex)] = fieldId;
     }
     setFieldsMapping(newFieldsMapping);
@@ -54,9 +54,9 @@ const FieldsMappingControl = ({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
-        <div className="flex-1 text-center text-sm">{t('Table')}</div>
+        <div className="flex-1 text-center text-sm">{t("Table")}</div>
         <ArrowLeftIcon className=" w-4 h-4 opacity-0 shrink-0" />
-        <div className="flex-1 text-center text-sm">{t('CSV')}</div>
+        <div className="flex-1 text-center text-sm">{t("CSV")}</div>
       </div>
       {fields.map((field) => (
         <div className="flex items-center gap-2" key={field.id}>
@@ -69,7 +69,7 @@ const FieldsMappingControl = ({
               options={csvColumnsOptions}
               onChange={(value) => handleChange(field.id, value)}
               value={findFieldIdCsvIndex(field.id)}
-              placeholder={t('Field')}
+              placeholder={t("Field")}
               showDeselect={false}
             ></SearchableSelect>
           </div>
@@ -79,5 +79,5 @@ const FieldsMappingControl = ({
   );
 };
 
-FieldsMappingControl.displayName = 'FieldsMappingControl';
+FieldsMappingControl.displayName = "FieldsMappingControl";
 export { FieldsMappingControl };

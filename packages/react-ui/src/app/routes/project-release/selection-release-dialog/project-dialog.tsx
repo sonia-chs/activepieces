@@ -1,31 +1,31 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { SearchableSelect } from '@/components/custom/searchable-select';
-import { Button } from '@/components/ui/button';
+import { SearchableSelect } from "@/components/custom/searchable-select";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FormField, FormItem, Form, FormMessage } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { projectReleaseApi } from '@/features/project-version/lib/project-release-api';
-import { projectHooks } from '@/hooks/project-hooks';
-import { DiffReleaseRequest, ProjectReleaseType } from '@activepieces/shared';
+} from "@/components/ui/dialog";
+import { FormField, FormItem, Form, FormMessage } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
+import { projectReleaseApi } from "@/features/project-version/lib/project-release-api";
+import { projectHooks } from "@/hooks/project-hooks";
+import { DiffReleaseRequest, ProjectReleaseType } from "@activepieces/shared";
 
-import { CreateReleaseDialog } from '../create-release-dialog';
+import { CreateReleaseDialog } from "../create-release-dialog";
 
 const FormSchema = Type.Object({
   selectedProject: Type.String({
-    errorMessage: t('Please select project'),
+    errorMessage: t("Please select project"),
     required: true,
   }),
 });
@@ -60,9 +60,9 @@ export function ProjectSelectionDialog({
         (!plan.agents || plan.agents.length === 0)
       ) {
         toast({
-          title: t('No Changes Found'),
-          description: t('There are no differences to apply'),
-          variant: 'default',
+          title: t("No Changes Found"),
+          description: t("There are no differences to apply"),
+          variant: "default",
         });
         return;
       }
@@ -81,9 +81,9 @@ export function ProjectSelectionDialog({
   });
   const onSubmit = (data: FormSchema) => {
     if (!data.selectedProject) {
-      form.setError('selectedProject', {
-        type: 'required',
-        message: t('Please select a project'),
+      form.setError("selectedProject", {
+        type: "required",
+        message: t("Please select a project"),
       });
       return;
     }
@@ -106,7 +106,7 @@ export function ProjectSelectionDialog({
       >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{t('Create Release')}</DialogTitle>
+            <DialogTitle>{t("Create Release")}</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form
@@ -118,11 +118,11 @@ export function ProjectSelectionDialog({
                 name="selectedProject"
                 render={({ field }) => (
                   <FormItem className="grid gap-2">
-                    <Label>{t('Project')}</Label>
+                    <Label>{t("Project")}</Label>
                     <SearchableSelect
                       onChange={field.onChange}
                       value={field.value}
-                      placeholder={t('Search projects...')}
+                      placeholder={t("Search projects...")}
                       options={(projects ?? [])
                         .filter((project) => project.id !== projectId)
                         .map((project) => ({
@@ -139,18 +139,18 @@ export function ProjectSelectionDialog({
 
               <DialogFooter>
                 <Button
-                  variant={'outline'}
+                  variant={"outline"}
                   type="button"
                   onClick={() => setOpen(false)}
                 >
-                  {t('Cancel')}
+                  {t("Cancel")}
                 </Button>
                 <Button
                   type="submit"
                   onClick={() => form.handleSubmit(onSubmit)}
                   loading={isDoingDiff}
                 >
-                  {t('Review Changes')}
+                  {t("Review Changes")}
                 </Button>
               </DialogFooter>
             </form>
@@ -165,7 +165,7 @@ export function ProjectSelectionDialog({
           setOpen={setIsCreateReleaseDialogOpen}
           refetch={onSuccess}
           diffRequest={{
-            targetProjectId: form.getValues('selectedProject'),
+            targetProjectId: form.getValues("selectedProject"),
             type: ProjectReleaseType.PROJECT,
           }}
           plan={syncPlan}

@@ -1,22 +1,22 @@
-import { useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
 
 import {
   LeftSideBarType,
   useBuilderStateContext,
-} from '@/app/builder/builder-hooks';
-import { CardList, CardListItemSkeleton } from '@/components/custom/card-list';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { FlowVersionMetadata, SeekPage } from '@activepieces/shared';
+} from "@/app/builder/builder-hooks";
+import { CardList, CardListItemSkeleton } from "@/components/custom/card-list";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { FlowVersionMetadata, SeekPage } from "@activepieces/shared";
 
-import { SidebarHeader } from '../sidebar-header';
+import { SidebarHeader } from "../sidebar-header";
 
-import { FlowVersionDetailsCard } from './flow-versions-card';
+import { FlowVersionDetailsCard } from "./flow-versions-card";
 
 const FlowVersionsList = () => {
   const [flow, setLeftSidebar, selectedFlowVersion] = useBuilderStateContext(
-    (state) => [state.flow, state.setLeftSidebar, state.flowVersion],
+    (state) => [state.flow, state.setLeftSidebar, state.flowVersion]
   );
 
   const {
@@ -24,7 +24,7 @@ const FlowVersionsList = () => {
     isLoading,
     isError,
   } = useQuery<SeekPage<FlowVersionMetadata>, Error>({
-    queryKey: ['flow-versions', flow.id],
+    queryKey: ["flow-versions", flow.id],
     queryFn: () =>
       flowsApi.listVersions(flow.id, {
         limit: 1000,
@@ -36,11 +36,11 @@ const FlowVersionsList = () => {
   return (
     <>
       <SidebarHeader onClose={() => setLeftSidebar(LeftSideBarType.NONE)}>
-        {t('Version History')}
+        {t("Version History")}
       </SidebarHeader>
       <CardList>
         {isLoading && <CardListItemSkeleton numberOfCards={10} />}
-        {isError && <div>{t('Error, please try again.')}</div>}
+        {isError && <div>{t("Error, please try again.")}</div>}
         {flowVersionPage && flowVersionPage.data && (
           <ScrollArea className="w-full h-full">
             {flowVersionPage.data.map((flowVersion, index) => (
@@ -59,6 +59,6 @@ const FlowVersionsList = () => {
   );
 };
 
-FlowVersionsList.displayName = 'FlowVersionsList';
+FlowVersionsList.displayName = "FlowVersionsList";
 
 export { FlowVersionsList };

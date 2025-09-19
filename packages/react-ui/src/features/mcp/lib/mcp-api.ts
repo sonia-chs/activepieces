@@ -1,19 +1,19 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   ListMcpsRequest,
   SeekPage,
   UpdateMcpRequestBody,
   McpWithTools,
   CreateMcpRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const mcpApi = {
   async create(request: CreateMcpRequestBody): Promise<McpWithTools> {
-    return await api.post<McpWithTools>('/v1/mcp-servers', request);
+    return await api.post<McpWithTools>("/v1/mcp-servers", request);
   },
 
   async list(request: ListMcpsRequest): Promise<SeekPage<McpWithTools>> {
-    return await api.get<SeekPage<McpWithTools>>('/v1/mcp-servers', request);
+    return await api.get<SeekPage<McpWithTools>>("/v1/mcp-servers", request);
   },
 
   async get(id: string): Promise<McpWithTools> {
@@ -22,7 +22,7 @@ export const mcpApi = {
 
   async update(
     id: string,
-    request: UpdateMcpRequestBody,
+    request: UpdateMcpRequestBody
   ): Promise<McpWithTools> {
     return await api.post<McpWithTools>(`/v1/mcp-servers/${id}`, request);
   },

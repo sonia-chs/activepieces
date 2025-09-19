@@ -1,9 +1,9 @@
-import { CheckIcon } from '@radix-ui/react-icons';
-import { useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { ChevronsUpDown } from 'lucide-react';
-import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { CheckIcon } from "@radix-ui/react-icons";
+import { useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
+import { ChevronsUpDown } from "lucide-react";
+import * as React from "react";
+import { useLocation } from "react-router-dom";
 
 import {
   Command,
@@ -12,17 +12,17 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { SidebarMenuButton } from '@/components/ui/sidebar-shadcn';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { SidebarMenuButton } from "@/components/ui/sidebar-shadcn";
+import { cn } from "@/lib/utils";
 
-import { ScrollArea } from '../../../components/ui/scroll-area';
-import { projectHooks } from '../../../hooks/project-hooks';
+import { ScrollArea } from "../../../components/ui/scroll-area";
+import { projectHooks } from "../../../hooks/project-hooks";
 
 export function ProjectSwitcher() {
   const location = useLocation();
@@ -43,7 +43,7 @@ export function ProjectSwitcher() {
         ? 1
         : 0;
     },
-    [allProjects],
+    [allProjects]
   );
 
   return (
@@ -81,7 +81,7 @@ export function ProjectSwitcher() {
                             setCurrentProject(
                               queryClient,
                               project,
-                              location.pathname,
+                              location.pathname
                             );
                           }}
                           value={project.id}
@@ -90,17 +90,17 @@ export function ProjectSwitcher() {
                           {project.displayName}
                           <CheckIcon
                             className={cn(
-                              'ml-auto h-4 w-4 shrink-0',
+                              "ml-auto h-4 w-4 shrink-0",
                               currentProject?.id === project.id
-                                ? 'opacity-100'
-                                : 'opacity-0',
+                                ? "opacity-100"
+                                : "opacity-0"
                             )}
                           />
                         </CommandItem>
                       ))}
                   </ScrollArea>
 
-                  <CommandEmpty>{t('No projects found')}</CommandEmpty>
+                  <CommandEmpty>{t("No projects found")}</CommandEmpty>
                 </CommandGroup>
               ))}
           </CommandList>

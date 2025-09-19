@@ -206,6 +206,8 @@ const EmbedPage = React.memo(() => {
       (search.get('homeButtonIcon') as 'back' | 'logo' | null) ?? 'logo';
     const fontUrl = search.get('fontUrl') ?? undefined;
     const fontFamily = search.get('fontFamily') ?? undefined;
+    const hideTutorials = parseBool(search.get('hideTutorials'));
+    const hideLogo = parseBool(search.get('hideLogo'));
     const primaryColor = search.get('primaryColor') ?? undefined;
     const primaryColorLight = search.get('primaryColorLight') ?? undefined;
     const primaryColorDark = search.get('primaryColorDark') ?? undefined;
@@ -241,6 +243,8 @@ const EmbedPage = React.memo(() => {
             hideDuplicateFlow: hideDuplicateFlow ?? false,
             hideFlowsPageNavbar: hideFlowsPageNavbar ?? false,
             hideProjectSettings: hideProjectSettings ?? false,
+            hideTutorials: hideTutorials ?? false,
+            hideLogo: hideLogo ?? false,
           });
         });
       };

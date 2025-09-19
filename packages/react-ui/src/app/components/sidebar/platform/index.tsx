@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 import {
   ArrowLeft,
   LayoutGrid,
@@ -7,11 +7,11 @@ import {
   Shield,
   Users,
   Wrench,
-} from 'lucide-react';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+} from "lucide-react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -20,16 +20,16 @@ import {
   SidebarHeader,
   SidebarGroup,
   SidebarMenuButton,
-} from '@/components/ui/sidebar-shadcn';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { cn, determineDefaultRoute } from '@/lib/utils';
-import { ApEdition, ApFlagId } from '@activepieces/shared';
+} from "@/components/ui/sidebar-shadcn";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { cn, determineDefaultRoute } from "@/lib/utils";
+import { ApEdition, ApFlagId } from "@activepieces/shared";
 
-import { ApSidebareGroup, SidebarGeneralItemType } from '../ap-sidebar-group';
-import { ApSidebarItem } from '../ap-sidebar-item';
-import { SidebarUser } from '../sidebar-user';
+import { ApSidebareGroup, SidebarGeneralItemType } from "../ap-sidebar-group";
+import { ApSidebarItem } from "../ap-sidebar-item";
+import { SidebarUser } from "../sidebar-user";
 
 export function PlatformSidebar() {
   const [setupOpen, setSetupOpen] = useState(false);
@@ -44,154 +44,154 @@ export function PlatformSidebar() {
 
   const items: SidebarGeneralItemType[] = [
     {
-      type: 'link',
-      to: '/platform/analytics',
-      label: t('Overview'),
+      type: "link",
+      to: "/platform/analytics",
+      label: t("Overview"),
       icon: LineChart,
       locked: !platform.plan.analyticsEnabled,
       isSubItem: false,
       show: true,
     },
     {
-      type: 'link',
-      to: '/platform/projects',
-      label: t('Projects'),
+      type: "link",
+      to: "/platform/projects",
+      label: t("Projects"),
       icon: LayoutGrid,
       locked: !platform.plan.manageProjectsEnabled,
       isSubItem: false,
       show: true,
     },
     {
-      type: 'link',
-      to: '/platform/users',
-      label: t('Users'),
+      type: "link",
+      to: "/platform/users",
+      label: t("Users"),
       icon: Users,
       isSubItem: false,
       show: true,
     },
     {
-      type: 'group',
-      label: t('Setup'),
+      type: "group",
+      label: t("Setup"),
       icon: Wrench,
       open: setupOpen,
       setOpen: setSetupOpen,
-      isActive: (pathname: string) => pathname.includes('/setup'),
+      isActive: (pathname: string) => pathname.includes("/setup"),
       items: [
         {
-          type: 'link',
-          to: '/platform/setup/ai',
-          label: t('AI'),
+          type: "link",
+          to: "/platform/setup/ai",
+          label: t("AI"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/setup/branding',
-          label: t('Branding'),
+          type: "link",
+          to: "/platform/setup/branding",
+          label: t("Branding"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/setup/connections',
-          label: t('Global Connections'),
+          type: "link",
+          to: "/platform/setup/connections",
+          label: t("Global Connections"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/setup/pieces',
-          label: t('Pieces'),
+          type: "link",
+          to: "/platform/setup/pieces",
+          label: t("Pieces"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/setup/templates',
-          label: t('Templates'),
+          type: "link",
+          to: "/platform/setup/templates",
+          label: t("Templates"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/setup/billing',
-          label: t('Billing'),
+          type: "link",
+          to: "/platform/setup/billing",
+          label: t("Billing"),
           isSubItem: true,
           show: edition !== ApEdition.COMMUNITY,
         },
       ],
     },
     {
-      type: 'group',
-      label: t('Security'),
+      type: "group",
+      label: t("Security"),
       open: securityOpen,
       setOpen: setSecurityOpen,
-      isActive: (pathname: string) => pathname.includes('/security'),
+      isActive: (pathname: string) => pathname.includes("/security"),
       icon: Shield,
       items: [
         {
-          type: 'link',
-          to: '/platform/security/audit-logs',
-          label: t('Audit Logs'),
+          type: "link",
+          to: "/platform/security/audit-logs",
+          label: t("Audit Logs"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/security/sso',
-          label: t('Single Sign On'),
+          type: "link",
+          to: "/platform/security/sso",
+          label: t("Single Sign On"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/security/signing-keys',
-          label: t('Signing Keys'),
+          type: "link",
+          to: "/platform/security/signing-keys",
+          label: t("Signing Keys"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/security/project-roles',
-          label: t('Project Roles'),
+          type: "link",
+          to: "/platform/security/project-roles",
+          label: t("Project Roles"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/security/api-keys',
-          label: t('API Keys'),
+          type: "link",
+          to: "/platform/security/api-keys",
+          label: t("API Keys"),
           isSubItem: true,
           show: true,
         },
       ],
     },
     {
-      type: 'group',
-      label: t('Infrastructure'),
+      type: "group",
+      label: t("Infrastructure"),
       icon: Server,
       open: infrastructureOpen,
       setOpen: setInfrastructureOpen,
-      isActive: (pathname: string) => pathname.includes('/infrastructure'),
+      isActive: (pathname: string) => pathname.includes("/infrastructure"),
       items: [
         {
-          type: 'link',
-          to: '/platform/infrastructure/workers',
-          label: t('Workers'),
+          type: "link",
+          to: "/platform/infrastructure/workers",
+          label: t("Workers"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/infrastructure/health',
-          label: t('Health'),
+          type: "link",
+          to: "/platform/infrastructure/health",
+          label: t("Health"),
           isSubItem: true,
           show: true,
         },
         {
-          type: 'link',
-          to: '/platform/infrastructure/triggers',
-          label: t('Triggers'),
+          type: "link",
+          to: "/platform/infrastructure/triggers",
+          label: t("Triggers"),
           isSubItem: true,
           show: true,
         },
@@ -205,11 +205,11 @@ export function PlatformSidebar() {
         <div className="w-full py-2 flex items-center gap-2">
           <Link
             to={defaultRoute}
-            className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }))}
+            className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
           >
             <img
               src={branding.logos.logoIconUrl}
-              alt={t('home')}
+              alt={t("home")}
               className="h-5 w-5 object-contain"
             />
           </Link>
@@ -221,11 +221,11 @@ export function PlatformSidebar() {
         <SidebarGroup>
           <SidebarMenu>
             {items.map((item) =>
-              item.type === 'group' ? (
+              item.type === "group" ? (
                 <ApSidebareGroup key={item.label} {...item} />
               ) : (
                 <ApSidebarItem key={item.label} {...item} />
-              ),
+              )
             )}
           </SidebarMenu>
         </SidebarGroup>
@@ -233,11 +233,11 @@ export function PlatformSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuButton
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="py-5 px-2"
           >
             <ArrowLeft />
-            {t('Exit platform admin')}
+            {t("Exit platform admin")}
           </SidebarMenuButton>
         </SidebarMenu>
         <SidebarUser />

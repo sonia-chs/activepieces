@@ -1,10 +1,10 @@
-import { t } from 'i18next';
-import React from 'react';
+import { t } from "i18next";
+import React from "react";
 
-import { FlowActionType, FlowTriggerType } from '@activepieces/shared';
+import { FlowActionType, FlowTriggerType } from "@activepieces/shared";
 
-import { TestActionSection } from './test-action-section';
-import { TestTriggerSection } from './test-trigger-section';
+import { TestActionSection } from "./test-action-section";
+import { TestTriggerSection } from "./test-trigger-section";
 
 type TestStepContainerProps = {
   flowVersionId: string;
@@ -25,7 +25,7 @@ const TestStepContainer = React.memo(
     return (
       <div className="flex flex-col gap-4">
         <div className="text-md font-semibold ">
-          {t('Generate Sample Data')}
+          {t("Generate Sample Data")}
         </div>
         {type === FlowTriggerType.PIECE ? (
           <TestTriggerSection
@@ -43,8 +43,8 @@ const TestStepContainer = React.memo(
         )}
       </div>
     );
-  },
+  }
 );
-TestStepContainer.displayName = 'TestStepContainer';
+TestStepContainer.displayName = "TestStepContainer";
 
 export { TestStepContainer };

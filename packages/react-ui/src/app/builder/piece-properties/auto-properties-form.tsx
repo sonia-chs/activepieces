@@ -1,33 +1,33 @@
-import { t } from 'i18next';
-import React from 'react';
-import { ControllerRenderProps, useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import React from "react";
+import { ControllerRenderProps, useFormContext } from "react-hook-form";
 
-import { JsonEditor } from '@/components/custom/json-editor';
-import { ApMarkdown } from '@/components/custom/markdown';
-import { SearchableSelect } from '@/components/custom/searchable-select';
-import { ColorPicker } from '@/components/ui/color-picker';
-import { FormControl, FormField } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
+import { JsonEditor } from "@/components/custom/json-editor";
+import { ApMarkdown } from "@/components/custom/markdown";
+import { SearchableSelect } from "@/components/custom/searchable-select";
+import { ColorPicker } from "@/components/ui/color-picker";
+import { FormControl, FormField } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import {
   OAuth2Props,
   PieceProperty,
   PiecePropertyMap,
   PropertyType,
   ArraySubProps,
-} from '@activepieces/pieces-framework';
-import { isNil } from '@activepieces/shared';
+} from "@activepieces/pieces-framework";
+import { isNil } from "@activepieces/shared";
 
-import { MultiSelectPieceProperty } from '../../../components/custom/multi-select-piece-property';
+import { MultiSelectPieceProperty } from "../../../components/custom/multi-select-piece-property";
 
-import { ArrayPieceProperty } from './array-property';
-import { AutoFormFieldWrapper } from './auto-form-field-wrapper';
-import { BuilderJsonEditorWrapper } from './builder-json-wrapper';
-import CustomProperty from './custom-property';
-import { DictionaryProperty } from './dictionary-property';
-import { DynamicDropdownPieceProperty } from './dynamic-dropdown-piece-property';
-import { DynamicProperties } from './dynamic-piece-property';
-import { TextInputWithMentions } from './text-input-with-mentions';
+import { ArrayPieceProperty } from "./array-property";
+import { AutoFormFieldWrapper } from "./auto-form-field-wrapper";
+import { BuilderJsonEditorWrapper } from "./builder-json-wrapper";
+import CustomProperty from "./custom-property";
+import { DictionaryProperty } from "./dictionary-property";
+import { DynamicDropdownPieceProperty } from "./dynamic-dropdown-piece-property";
+import { DynamicProperties } from "./dynamic-piece-property";
+import { TextInputWithMentions } from "./text-input-with-mentions";
 
 type AutoFormProps = {
   props: PiecePropertyMap | OAuth2Props | ArraySubProps<boolean>;
@@ -87,7 +87,7 @@ const AutoPropertiesFormComponent = React.memo(
         </div>
       )
     );
-  },
+  }
 );
 
 type selectFormComponentForPropertyParams = {
@@ -192,7 +192,7 @@ const selectFormComponentForProperty = ({
             onChange={field.onChange}
             value={field.value}
             disabled={disabled}
-            placeholder={property.options.placeholder ?? t('Select an option')}
+            placeholder={property.options.placeholder ?? t("Select an option")}
             showDeselect={!property.required}
           ></SearchableSelect>
         </AutoFormFieldWrapper>
@@ -228,7 +228,7 @@ const selectFormComponentForProperty = ({
           allowDynamicValues={allowDynamicValues}
         >
           <MultiSelectPieceProperty
-            placeholder={property.options.placeholder ?? t('Select an option')}
+            placeholder={property.options.placeholder ?? t("Select an option")}
             options={property.options.options}
             onChange={field.onChange}
             initialValues={field.value}
@@ -292,7 +292,7 @@ const selectFormComponentForProperty = ({
               onChange={field.onChange}
               disabled={disabled}
               type={
-                property.type === PropertyType.SECRET_TEXT ? 'password' : 'text'
+                property.type === PropertyType.SECRET_TEXT ? "password" : "text"
               }
             ></Input>
           )}
@@ -335,5 +335,5 @@ const selectFormComponentForProperty = ({
       );
   }
 };
-AutoPropertiesFormComponent.displayName = 'AutoFormComponent';
+AutoPropertiesFormComponent.displayName = "AutoFormComponent";
 export { AutoPropertiesFormComponent };

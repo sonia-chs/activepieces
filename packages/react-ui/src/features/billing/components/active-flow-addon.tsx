@@ -1,22 +1,22 @@
-import { t } from 'i18next';
-import { CircleHelp, Zap } from 'lucide-react';
+import { t } from "i18next";
+import { CircleHelp, Zap } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   TooltipContent,
   TooltipProvider,
   Tooltip,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 import {
   BillingCycle,
   PRICE_PER_EXTRA_5_ACTIVE_FLOWS_MAP,
-} from '@activepieces/ee-shared';
-import { PlatformBillingInformation } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { PlatformBillingInformation } from "@activepieces/shared";
 
-import { useManagePlanDialogStore } from './upgrade-dialog/store';
+import { useManagePlanDialogStore } from "./upgrade-dialog/store";
 
 type BusinessActiveFlowsProps = {
   platformSubscription: PlatformBillingInformation;
@@ -47,21 +47,21 @@ export function ActiveFlowAddon({
               <Zap className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{t('Active Flows')}</h3>
+              <h3 className="text-lg font-semibold">{t("Active Flows")}</h3>
               <p className="text-sm text-muted-foreground">
-                {t('Monitor your active flows usage')}
+                {t("Monitor your active flows usage")}
               </p>
             </div>
           </div>
           <Button variant="link" onClick={() => openDialog({ step: 2 })}>
-            {t('Extra Flows?')}
+            {t("Extra Flows?")}
           </Button>
         </div>
       </CardHeader>
       <CardContent className="p-6">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <h4 className="text-base font-medium">{t('Active Flows Usage')}</h4>
+            <h4 className="text-base font-medium">{t("Active Flows Usage")}</h4>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -69,7 +69,7 @@ export function ActiveFlowAddon({
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   {t(
-                    `Count of active flows, $${PRICE_PER_EXTRA_5_ACTIVE_FLOWS} for extra 5 active flows`,
+                    `Count of active flows, $${PRICE_PER_EXTRA_5_ACTIVE_FLOWS} for extra 5 active flows`
                   )}
                 </TooltipContent>
               </Tooltip>
@@ -78,11 +78,11 @@ export function ActiveFlowAddon({
           <div className="rounded-lg space-y-3">
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">
-                {currentActiveFlows.toLocaleString()}{' '}
+                {currentActiveFlows.toLocaleString()}{" "}
                 {`/ ${activeFlowsLimit.toLocaleString()}`}
               </span>
               <span className="text-xs font-medium text-muted-foreground">
-                {t('Plan Limit')}
+                {t("Plan Limit")}
               </span>
             </div>
             <Progress value={usagePercentage} className="w-full" />

@@ -1,17 +1,17 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 import {
   LayoutGridIcon,
   PuzzleIcon,
   SparklesIcon,
   WrenchIcon,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
+import { Tabs, TabsTrigger, TabsList } from "@/components/ui/tabs";
 
 import {
   PieceSelectorTabType,
   usePieceSelectorTabs,
-} from '../lib/piece-selector-tabs-provider';
+} from "../lib/piece-selector-tabs-provider";
 
 export const PieceSelectorTabs = () => {
   const { selectedTab, setSelectedTab } = usePieceSelectorTabs();
@@ -42,22 +42,22 @@ export const PieceSelectorTabs = () => {
 const tabs = [
   {
     value: PieceSelectorTabType.EXPLORE,
-    name: t('Explore'),
+    name: t("Explore"),
     icon: <LayoutGridIcon className="size-5 " />,
   },
   {
     value: PieceSelectorTabType.AI_AND_AGENTS,
-    name: t('AI & Agents'),
+    name: t("AI & Agents"),
     icon: <SparklesIcon className="size-5" />,
   },
   {
     value: PieceSelectorTabType.APPS,
-    name: t('Apps'),
+    name: t("Apps"),
     icon: <PuzzleIcon className="size-5" />,
   },
   {
     value: PieceSelectorTabType.UTILITY,
-    name: t('Utility'),
+    name: t("Utility"),
     icon: <WrenchIcon className="size-5" />,
   },
 ];

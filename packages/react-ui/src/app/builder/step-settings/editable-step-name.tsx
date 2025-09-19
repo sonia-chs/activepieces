@@ -1,9 +1,9 @@
-import { t } from 'i18next'; // Import t directly from i18next
-import { Pencil } from 'lucide-react';
-import React from 'react';
+import { t } from "i18next"; // Import t directly from i18next
+import { Pencil } from "lucide-react";
+import React from "react";
 
-import EditableText from '@/components/ui/editable-text';
-import { isNil } from '@activepieces/shared';
+import EditableText from "@/components/ui/editable-text";
+import { isNil } from "@activepieces/shared";
 
 interface EditableStepNameProps {
   selectedBranchIndex: number | null;
@@ -39,7 +39,7 @@ const EditableStepName: React.FC<EditableStepNameProps> = ({
           }}
           readonly={readonly}
           value={displayName}
-          tooltipContent={readonly ? '' : t('Edit Step Name')}
+          tooltipContent={readonly ? "" : t("Edit Step Name")}
           isEditing={isEditingStepOrBranchName}
           setIsEditing={setIsEditingStepOrBranchName}
         />
@@ -64,7 +64,7 @@ const EditableStepName: React.FC<EditableStepNameProps> = ({
             }}
             readonly={readonly}
             value={branchName}
-            tooltipContent={readonly ? '' : t('Edit Branch Name')}
+            tooltipContent={readonly ? "" : t("Edit Branch Name")}
             isEditing={isEditingStepOrBranchName}
             setIsEditing={setIsEditingStepOrBranchName}
           />

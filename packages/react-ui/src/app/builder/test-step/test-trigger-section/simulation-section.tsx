@@ -1,10 +1,10 @@
-import { t } from 'i18next';
-import { AlertCircle } from 'lucide-react';
-import React from 'react';
+import { t } from "i18next";
+import { AlertCircle } from "lucide-react";
+import React from "react";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { LoadingSpinner } from '@/components/ui/spinner';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 type SimulationSectionProps = {
   note: React.ReactNode;
@@ -21,7 +21,7 @@ export const SimulationNote = ({
     <div className="flex flex-col gap-4 w-full">
       <div className="flex gap-2 items-center justify-center w-full">
         <LoadingSpinner className="size-4"></LoadingSpinner>
-        <div>{t('Testing Trigger')}</div>
+        <div>{t("Testing Trigger")}</div>
         <div className="flex-grow"></div>
 
         <Button
@@ -33,7 +33,7 @@ export const SimulationNote = ({
             abortControllerRef.current = new AbortController();
           }}
         >
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
       </div>
 
@@ -41,7 +41,7 @@ export const SimulationNote = ({
         <Alert>
           <AlertCircle className="h-4 w-4 text-warning" />
           <div className="flex flex-col gap-1">
-            <AlertTitle>{t('Action Required')}:</AlertTitle>
+            <AlertTitle>{t("Action Required")}:</AlertTitle>
             <AlertDescription>
               <div className="break-wrods">{note}</div>
             </AlertDescription>

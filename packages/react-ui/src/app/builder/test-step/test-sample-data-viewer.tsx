@@ -1,16 +1,16 @@
-import { t } from 'i18next';
-import React, { useContext } from 'react';
+import { t } from "i18next";
+import React, { useContext } from "react";
 
-import { JsonViewer } from '@/components/json-viewer';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { StepStatusIcon } from '@/features/flow-runs/components/step-status-icon';
-import { formatUtils } from '@/lib/utils';
-import { isNil, StepOutputStatus } from '@activepieces/shared';
+import { JsonViewer } from "@/components/json-viewer";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { StepStatusIcon } from "@/features/flow-runs/components/step-status-icon";
+import { formatUtils } from "@/lib/utils";
+import { isNil, StepOutputStatus } from "@activepieces/shared";
 
-import { DynamicPropertiesContext } from '../piece-properties/dynamic-properties-context';
+import { DynamicPropertiesContext } from "../piece-properties/dynamic-properties-context";
 
-import { TestButtonTooltip } from './test-step-tooltip';
+import { TestButtonTooltip } from "./test-step-tooltip";
 
 type TestSampleDataViewerProps = {
   isValid: boolean;
@@ -45,19 +45,19 @@ const RetestButton = React.forwardRef<HTMLButtonElement, RetestButtonProps>(
           onClick={onRetest}
           loading={isTesting}
         >
-          {t('Retest')}
+          {t("Retest")}
         </Button>
       </TestButtonTooltip>
     );
-  },
+  }
 );
-RetestButton.displayName = 'RetestButton';
+RetestButton.displayName = "RetestButton";
 
 const isConsoleLogsValid = (value: unknown) => {
   if (isNil(value)) {
     return false;
   }
-  return value !== '';
+  return value !== "";
 };
 
 const TestSampleDataViewer = React.memo(
@@ -86,7 +86,7 @@ const TestSampleDataViewer = React.memo(
                       status={StepOutputStatus.FAILED}
                       size="5"
                     ></StepStatusIcon>
-                    <span>{t('Testing Failed')}</span>
+                    <span>{t("Testing Failed")}</span>
                   </>
                 ) : (
                   <>
@@ -94,7 +94,7 @@ const TestSampleDataViewer = React.memo(
                       status={StepOutputStatus.SUCCEEDED}
                       size="5"
                     ></StepStatusIcon>
-                    <span>{t('Tested Successfully')}</span>
+                    <span>{t("Tested Successfully")}</span>
                   </>
                 )}
               </div>
@@ -117,42 +117,42 @@ const TestSampleDataViewer = React.memo(
           {isNil(sampleDataInput) && !isConsoleLogsValid(consoleLogs) ? (
             <JsonViewer
               json={errorMessage ?? sampleData}
-              title={t('Output')}
+              title={t("Output")}
             ></JsonViewer>
           ) : (
             <Tabs defaultValue="Output">
               <TabsList
                 className={`grid w-full ${
                   !isNil(sampleDataInput) && isConsoleLogsValid(consoleLogs)
-                    ? 'w-[300px] grid-cols-3'
-                    : 'w-[250px] grid-cols-2'
+                    ? "w-[300px] grid-cols-3"
+                    : "w-[250px] grid-cols-2"
                 }`}
               >
                 {!isNil(sampleDataInput) && (
-                  <TabsTrigger value="Input">{t('Input')}</TabsTrigger>
+                  <TabsTrigger value="Input">{t("Input")}</TabsTrigger>
                 )}
-                <TabsTrigger value="Output">{t('Output')}</TabsTrigger>
+                <TabsTrigger value="Output">{t("Output")}</TabsTrigger>
                 {isConsoleLogsValid(consoleLogs) && (
-                  <TabsTrigger value="Logs">{t('Logs')}</TabsTrigger>
+                  <TabsTrigger value="Logs">{t("Logs")}</TabsTrigger>
                 )}
               </TabsList>
               {!isNil(sampleDataInput) && (
                 <TabsContent value="Input">
                   <JsonViewer
                     json={sampleDataInput}
-                    title={t('Input')}
+                    title={t("Input")}
                   ></JsonViewer>
                 </TabsContent>
               )}
               <TabsContent value="Output">
                 <JsonViewer
                   json={errorMessage ?? sampleData}
-                  title={t('Output')}
+                  title={t("Output")}
                 ></JsonViewer>
               </TabsContent>
               {isConsoleLogsValid(consoleLogs) && (
                 <TabsContent value="Logs">
-                  <JsonViewer json={consoleLogs} title={t('Logs')}></JsonViewer>
+                  <JsonViewer json={consoleLogs} title={t("Logs")}></JsonViewer>
                 </TabsContent>
               )}
             </Tabs>
@@ -160,9 +160,9 @@ const TestSampleDataViewer = React.memo(
         </div>
       </>
     );
-  },
+  }
 );
 
-TestSampleDataViewer.displayName = 'TestSampleDataViewer';
+TestSampleDataViewer.displayName = "TestSampleDataViewer";
 
 export { TestSampleDataViewer };

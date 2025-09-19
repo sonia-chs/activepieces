@@ -8,22 +8,22 @@ import {
   rectIntersection,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import { useViewport } from '@xyflow/react';
-import { t } from 'i18next';
-import { useCallback, useState } from 'react';
+} from "@dnd-kit/core";
+import { useViewport } from "@xyflow/react";
+import { t } from "i18next";
+import { useCallback, useState } from "react";
 
-import { toast } from '@/components/ui/use-toast';
+import { toast } from "@/components/ui/use-toast";
 import {
   FlowOperationType,
   StepLocationRelativeToParent,
   flowStructureUtil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
-import StepDragOverlay from './step-drag-overlay';
-import { ApButtonData } from './utils/types';
+import StepDragOverlay from "./step-drag-overlay";
+import { ApButtonData } from "./utils/types";
 
 const FlowDragLayer = ({
   children,
@@ -73,7 +73,7 @@ const FlowDragLayer = ({
       };
       return rectIntersection(updated);
     },
-    [viewport.x, viewport.y, previousViewPort.x, previousViewPort.y],
+    [viewport.x, viewport.y, previousViewPort.x, previousViewPort.y]
   );
   const draggedStep = activeDraggingStep
     ? flowStructureUtil.getStep(activeDraggingStep, flowVersion.trigger)
@@ -105,13 +105,13 @@ const FlowDragLayer = ({
       ) {
         const isPartOfInnerFlow = flowStructureUtil.isChildOf(
           draggedStep,
-          droppedAtNodeData.parentStepName,
+          droppedAtNodeData.parentStepName
         );
         if (isPartOfInnerFlow) {
           toast({
-            title: t('Invalid Move'),
+            title: t("Invalid Move"),
             description: t(
-              'The destination location is a child of the dragged step',
+              "The destination location is a child of the dragged step"
             ),
             duration: 3000,
           });
@@ -141,7 +141,7 @@ const FlowDragLayer = ({
         distance: 10,
       },
     }),
-    useSensor(TouchSensor),
+    useSensor(TouchSensor)
   );
   return (
     <>

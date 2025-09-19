@@ -1,12 +1,12 @@
-import { t } from 'i18next';
-import { Control } from 'react-hook-form';
+import { t } from "i18next";
+import { Control } from "react-hook-form";
 
-import { projectHooks } from '@/hooks/project-hooks';
-import { isNil } from '@activepieces/shared';
+import { projectHooks } from "@/hooks/project-hooks";
+import { isNil } from "@activepieces/shared";
 
-import { MultiSelectPieceProperty } from '../../../components/custom/multi-select-piece-property';
-import { FormField, FormItem, FormMessage } from '../../../components/ui/form';
-import { Label } from '../../../components/ui/label';
+import { MultiSelectPieceProperty } from "../../../components/custom/multi-select-piece-property";
+import { FormField, FormItem, FormMessage } from "../../../components/ui/form";
+import { Label } from "../../../components/ui/label";
 
 export const AssignConnectionToProjectsControl = ({
   control,
@@ -22,9 +22,9 @@ export const AssignConnectionToProjectsControl = ({
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col gap-2">
-          <Label>{t('Available for Projects')}</Label>
+          <Label>{t("Available for Projects")}</Label>
           <MultiSelectPieceProperty
-            placeholder={t('Select projects')}
+            placeholder={t("Select projects")}
             options={
               projects?.map((project) => ({
                 value: project.id,

@@ -1,31 +1,31 @@
-import { t } from 'i18next';
-import { Plus } from 'lucide-react';
-import { ReactNode } from 'react';
-import { Column, RenderCellProps } from 'react-data-grid';
+import { t } from "i18next";
+import { Plus } from "lucide-react";
+import { ReactNode } from "react";
+import { Column, RenderCellProps } from "react-data-grid";
 
 import {
   TooltipTrigger,
   Tooltip,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
+} from "@/components/ui/tooltip";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
 import {
   ApFlagId,
   isNil,
   Permission,
   PlatformUsageMetric,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { ClientRecordData } from '../lib/store/ap-tables-client-state';
-import { Row } from '../lib/types';
+import { ClientRecordData } from "../lib/store/ap-tables-client-state";
+import { Row } from "../lib/types";
 
-import { ApFieldHeader } from './ap-field-header';
-import { useTableState } from './ap-table-state-provider';
-import { EditableCell } from './editable-cell';
-import { NewFieldPopup } from './new-field-popup';
-import { SelectCell, SelectHeaderCell } from './select-column';
+import { ApFieldHeader } from "./ap-field-header";
+import { useTableState } from "./ap-table-state-provider";
+import { EditableCell } from "./editable-cell";
+import { NewFieldPopup } from "./new-field-popup";
+import { SelectCell, SelectHeaderCell } from "./select-column";
 
 export function useTableColumns(createEmptyRecord: () => void) {
   const [fields, setSelectedAgentRunId] = useTableState((state) => [
@@ -34,29 +34,29 @@ export function useTableColumns(createEmptyRecord: () => void) {
   ]);
 
   const { data: maxFields } = flagsHooks.useFlag<number>(
-    ApFlagId.MAX_FIELDS_PER_TABLE,
+    ApFlagId.MAX_FIELDS_PER_TABLE
   );
 
   const userHasTableWritePermission = useAuthorization().checkAccess(
-    Permission.WRITE_TABLE,
+    Permission.WRITE_TABLE
   );
   const isAllowedToCreateField =
     userHasTableWritePermission && maxFields && fields.length < maxFields;
 
   const newFieldColumn: Column<Row, { id: string }> = {
-    key: 'new-field',
+    key: "new-field",
     minWidth: 67,
     maxWidth: 67,
     width: 67,
-    name: '',
+    name: "",
     renderHeaderCell: () => <AddFieldButton />,
     renderCell: () => <div className="empty-cell"></div>,
   };
 
   const columns: Column<Row, { id: string }>[] = [
     {
-      key: 'select-row',
-      name: 'Select',
+      key: "select-row",
+      name: "Select",
       width: 66,
       minWidth: 66,
       maxWidth: 66,
@@ -88,7 +88,7 @@ export function useTableColumns(createEmptyRecord: () => void) {
       width: 207,
       minHeight: 37,
       resizable: true,
-      name: '',
+      name: "",
       renderHeaderCell: () => <ApFieldHeader field={{ ...field, index }} />,
       renderCell: ({
         row,
@@ -96,7 +96,7 @@ export function useTableColumns(createEmptyRecord: () => void) {
         rowIdx,
       }: RenderCellProps<Row, { id: string }>) => (
         <EditableCell
-          key={row.id + '_' + field.uuid}
+          key={row.id + "_" + field.uuid}
           field={field}
           value={row[field.uuid]}
           row={row}
@@ -125,7 +125,7 @@ export function useTableColumns(createEmptyRecord: () => void) {
 
 export function mapRecordsToRows(
   records: ClientRecordData[],
-  fields: any[],
+  fields: any[]
 ): Row[] {
   if (!records || records.length === 0) return [];
   return records.map((record: ClientRecordData) => {
@@ -151,7 +151,7 @@ type AddRecordButtonProps = {
 
 function AddRecordButton({ handleClick, icon }: AddRecordButtonProps) {
   const exccedTableLimit = platformHooks.useCheckResourceIsLocked(
-    PlatformUsageMetric.TABLES,
+    PlatformUsageMetric.TABLES
   );
 
   return exccedTableLimit ? (
@@ -161,7 +161,7 @@ function AddRecordButton({ handleClick, icon }: AddRecordButtonProps) {
       </TooltipTrigger>
       <TooltipContent>
         {t(
-          'Table limit exceeded. Delete unnecessary tables or upgrade to unlock access.',
+          "Table limit exceeded. Delete unnecessary tables or upgrade to unlock access."
         )}
       </TooltipContent>
     </Tooltip>
@@ -177,7 +177,7 @@ function AddRecordButton({ handleClick, icon }: AddRecordButtonProps) {
 
 function AddFieldButton() {
   const exccedTableLimit = platformHooks.useCheckResourceIsLocked(
-    PlatformUsageMetric.TABLES,
+    PlatformUsageMetric.TABLES
   );
 
   return exccedTableLimit ? (
@@ -187,7 +187,7 @@ function AddFieldButton() {
       </TooltipTrigger>
       <TooltipContent>
         {t(
-          'You have exceeded tables limit please delete extra tables or upgrade to retain access',
+          "You have exceeded tables limit please delete extra tables or upgrade to retain access"
         )}
       </TooltipContent>
     </Tooltip>

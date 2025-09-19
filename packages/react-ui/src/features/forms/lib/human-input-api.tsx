@@ -1,12 +1,12 @@
-import semVer from 'semver';
+import semVer from "semver";
 
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   ChatUIResponse,
   FormResponse,
   USE_DRAFT_QUERY_PARAM_NAME,
   HumanInputFormResult,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const humanInputApi = {
   getForm: (flowId: string, useDraft?: boolean) => {
@@ -22,26 +22,26 @@ export const humanInputApi = {
   submitForm: async (
     formResult: FormResponse,
     useDraft: boolean,
-    data: unknown,
+    data: unknown
   ) => {
     const processedData = await processData(
       data as Record<string, unknown>,
-      formResult,
+      formResult
     );
     const suffix = getSuffix(
-      useDraft ? 'draft' : 'locked',
-      formResult.props.waitForResponse,
+      useDraft ? "draft" : "locked",
+      formResult.props.waitForResponse
     );
     return api.post<HumanInputFormResult | null>(
       `/v1/webhooks/${formResult.id}${suffix}`,
       processedData,
       undefined,
       {
-        'Content-Type':
+        "Content-Type":
           processedData instanceof FormData
-            ? 'multipart/form-data'
-            : 'application/json',
-      },
+            ? "multipart/form-data"
+            : "application/json",
+      }
     );
   },
   sendMessage: async ({
@@ -52,8 +52,8 @@ export const humanInputApi = {
     mode,
   }: SendMessageParams) => {
     const formData = new FormData();
-    formData.append('chatId', chatId);
-    formData.append('message', message);
+    formData.append("chatId", chatId);
+    formData.append("message", message);
     files.forEach((file, index) => {
       formData.append(`file[${index}]`, file);
     });
@@ -63,8 +63,8 @@ export const humanInputApi = {
       formData,
       undefined,
       {
-        'Content-Type': 'multipart/form-data',
-      },
+        "Content-Type": "multipart/form-data",
+      }
     );
   },
 };
@@ -77,7 +77,7 @@ const fileToBase64 = (file: File): Promise<string> => {
       if (reader.result) {
         resolve(reader.result as string);
       } else {
-        reject(new Error('Failed to read file'));
+        reject(new Error("Failed to read file"));
       }
     };
     reader.onerror = () => {
@@ -88,9 +88,9 @@ const fileToBase64 = (file: File): Promise<string> => {
 
 async function processData(
   data: Record<string, unknown>,
-  formResult: FormResponse,
+  formResult: FormResponse
 ) {
-  const useFormData = semVer.gte(formResult.version, '0.4.1');
+  const useFormData = semVer.gte(formResult.version, "0.4.1");
   const formData = new FormData();
   const processedData: Record<string, unknown> = {};
 
@@ -106,16 +106,16 @@ async function processData(
 }
 
 function getSuffix(
-  mode: 'draft' | 'locked' | 'test',
-  waitForResponse: boolean,
+  mode: "draft" | "locked" | "test",
+  waitForResponse: boolean
 ): string {
-  if (mode === 'test') {
-    return '/test';
+  if (mode === "test") {
+    return "/test";
   }
-  if (mode === 'draft') {
-    return waitForResponse ? '/draft/sync' : '/draft';
+  if (mode === "draft") {
+    return waitForResponse ? "/draft/sync" : "/draft";
   }
-  return waitForResponse ? '/sync' : '';
+  return waitForResponse ? "/sync" : "";
 }
 
 type SendMessageParams = {
@@ -123,5 +123,5 @@ type SendMessageParams = {
   chatId: string;
   message: string;
   files: File[];
-  mode: 'draft' | 'locked' | 'test';
+  mode: "draft" | "locked" | "test";
 };

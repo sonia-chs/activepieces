@@ -1,15 +1,15 @@
-import { Static, Type } from '@sinclair/typebox';
-import { Bot } from 'lucide-react';
-import React, { forwardRef } from 'react';
+import { Static, Type } from "@sinclair/typebox";
+import { Bot } from "lucide-react";
+import React, { forwardRef } from "react";
 
-import { CodeEditor } from '../step-settings/code-settings/code-editor';
+import { CodeEditor } from "../step-settings/code-settings/code-editor";
 
-import { WelcomeMessage } from './welcome-message';
+import { WelcomeMessage } from "./welcome-message";
 
 export const CopilotMessage = Type.Union([
   Type.Object({
-    messageType: Type.Literal('code'),
-    userType: Type.Literal('bot'),
+    messageType: Type.Literal("code"),
+    userType: Type.Literal("bot"),
     content: Type.Object({
       packages: Type.Object({
         dependencies: Type.Record(Type.String(), Type.String()),
@@ -21,8 +21,8 @@ export const CopilotMessage = Type.Union([
     }),
   }),
   Type.Object({
-    messageType: Type.Literal('text'),
-    userType: Type.Union([Type.Literal('user'), Type.Literal('bot')]),
+    messageType: Type.Literal("text"),
+    userType: Type.Union([Type.Literal("user"), Type.Literal("bot")]),
     content: Type.String(),
   }),
 ]);
@@ -43,17 +43,17 @@ interface ChatMessageProps {
 
 export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
   ({ message, onApplyCode }, ref) => {
-    const isUser = message.userType === 'user';
-    const isBot = message.userType === 'bot';
-    const isCode = message.messageType === 'code';
+    const isUser = message.userType === "user";
+    const isBot = message.userType === "bot";
+    const isCode = message.messageType === "code";
     const isWelcome =
-      message.messageType === 'text' && message.content === 'welcome';
+      message.messageType === "text" && message.content === "welcome";
 
     return (
       <div
         ref={ref}
         className={`flex gap-2 mx-2 ${
-          isUser ? 'justify-end' : 'justify-start'
+          isUser ? "justify-end" : "justify-start"
         }`}
       >
         {isWelcome ? (
@@ -79,7 +79,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
                         packageJson: JSON.stringify(
                           message.content.packages,
                           null,
-                          2,
+                          2
                         ),
                       }}
                       readonly={true}
@@ -99,7 +99,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
-ChatMessage.displayName = 'ChatMessage';
+ChatMessage.displayName = "ChatMessage";

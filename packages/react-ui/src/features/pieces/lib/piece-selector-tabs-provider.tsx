@@ -1,13 +1,13 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
-import { StepMetadataWithSuggestions } from '@/lib/types';
+import { StepMetadataWithSuggestions } from "@/lib/types";
 
 export enum PieceSelectorTabType {
-  EXPLORE = 'EXPLORE',
-  AI_AND_AGENTS = 'AI_AND_AGENTS',
-  APPS = 'APPS',
-  UTILITY = 'UTILITY',
-  NONE = 'NONE',
+  EXPLORE = "EXPLORE",
+  AI_AND_AGENTS = "AI_AND_AGENTS",
+  APPS = "APPS",
+  UTILITY = "UTILITY",
+  NONE = "NONE",
 }
 
 export const PieceSelectorTabsContext = createContext({
@@ -59,7 +59,7 @@ export const usePieceSelectorTabs = () => {
   const context = useContext(PieceSelectorTabsContext);
   if (!context) {
     throw new Error(
-      'usePieceSelectorTabs must be used within a PieceSelectorTabsProvider',
+      "usePieceSelectorTabs must be used within a PieceSelectorTabsProvider"
     );
   }
   return context;

@@ -1,15 +1,15 @@
-import { t } from 'i18next';
-import React from 'react';
+import { t } from "i18next";
+import React from "react";
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { PieceStepMetadataWithSuggestions } from '@/lib/types';
-import { isNil } from '@activepieces/shared';
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { PieceStepMetadataWithSuggestions } from "@/lib/types";
+import { isNil } from "@activepieces/shared";
 
-import { ConnectionDropdown } from './connection-dropdown';
+import { ConnectionDropdown } from "./connection-dropdown";
 
-import { ActionInfo } from '.';
+import { ActionInfo } from ".";
 
 interface McpPieceActionsDialogProps {
   piece: PieceStepMetadataWithSuggestions;
@@ -18,7 +18,7 @@ interface McpPieceActionsDialogProps {
   onSelectAll: (checked: boolean) => void;
   selectedConnectionExternalId: string | null;
   setSelectedConnectionExternalId: (
-    connectionExternalId: string | null,
+    connectionExternalId: string | null
   ) => void;
   showValidationErrors?: boolean;
 }
@@ -39,7 +39,7 @@ export const McpPieceActionsDialog: React.FC<McpPieceActionsDialogProps> = ({
     piece.suggestedActions &&
     piece.suggestedActions.length > 0 &&
     piece.suggestedActions.every((a) =>
-      selectedActions.some((action) => action.actionName === a.name),
+      selectedActions.some((action) => action.actionName === a.name)
     );
   const someSelected = selectedActions.length > 0 && !allSelected;
 
@@ -50,12 +50,12 @@ export const McpPieceActionsDialog: React.FC<McpPieceActionsDialogProps> = ({
       {pieceHasAuth && (
         <div className="px-3 mb-4">
           <div className="space-y-3">
-            <h4 className="text-sm font-semibold">{t('Connection')}</h4>
+            <h4 className="text-sm font-semibold">{t("Connection")}</h4>
             <ConnectionDropdown
               piece={selectedPiece}
               value={selectedConnectionExternalId}
               onChange={setSelectedConnectionExternalId}
-              placeholder={t('Select a connection')}
+              placeholder={t("Select a connection")}
               showLabel={false}
               required={true}
               showError={showValidationErrors}
@@ -66,10 +66,10 @@ export const McpPieceActionsDialog: React.FC<McpPieceActionsDialogProps> = ({
 
       <div className="flex items-center mb-2 gap-4 px-3">
         <Checkbox
-          checked={allSelected ? true : someSelected ? 'indeterminate' : false}
+          checked={allSelected ? true : someSelected ? "indeterminate" : false}
           onCheckedChange={(checked) => onSelectAll(!!checked)}
         />
-        <span className="text-sm font-bold select-none">{t('Select all')}</span>
+        <span className="text-sm font-bold select-none">{t("Select all")}</span>
       </div>
 
       <ScrollArea className="flex-grow overflow-y-auto rounded-md">
@@ -89,7 +89,7 @@ export const McpPieceActionsDialog: React.FC<McpPieceActionsDialogProps> = ({
                 <Checkbox
                   checked={selectedActions.some(
                     (selectedAction) =>
-                      selectedAction.actionName === action.name,
+                      selectedAction.actionName === action.name
                   )}
                   onCheckedChange={() =>
                     onSelectAction({
@@ -119,7 +119,7 @@ export const McpPieceActionsDialog: React.FC<McpPieceActionsDialogProps> = ({
             ))}
           {piece.suggestedActions && piece.suggestedActions.length === 0 && (
             <div className="text-center text-muted-foreground py-8">
-              {t('No actions available')}
+              {t("No actions available")}
             </div>
           )}
         </div>

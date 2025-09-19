@@ -4,7 +4,7 @@ import {
   PieceAuthProperty,
   PieceMetadataModelSummary,
   TriggerBase,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   FlowActionType,
   PackageType,
@@ -12,7 +12,7 @@ import {
   FlowTriggerType,
   FlowOperationType,
   StepLocationRelativeToParent,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type BaseStepMetadata = {
   displayName: string;
@@ -40,7 +40,7 @@ export type PrimitiveStepMetadata = BaseStepMetadata & {
 };
 
 export type PieceStepMetadataWithSuggestions = PieceStepMetadata &
-  Pick<PieceMetadataModelSummary, 'suggestedActions' | 'suggestedTriggers'>;
+  Pick<PieceMetadataModelSummary, "suggestedActions" | "suggestedTriggers">;
 
 export type StepMetadataWithSuggestions =
   | PieceStepMetadataWithSuggestions

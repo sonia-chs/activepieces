@@ -1,30 +1,30 @@
-import { X } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
-import { useSocket } from '@/components/socket-provider';
-import { Button } from '@/components/ui/button';
-import { LoadingScreen } from '@/components/ui/loading-screen';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { todosHooks } from '@/features/todos/lib/todo-hook';
-import { todoActivitiesHook } from '@/features/todos/lib/todos-activity-hook';
-import { todosApi } from '@/features/todos/lib/todos-api';
-import { cn } from '@/lib/utils';
+import { useSocket } from "@/components/socket-provider";
+import { Button } from "@/components/ui/button";
+import { LoadingScreen } from "@/components/ui/loading-screen";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { todosHooks } from "@/features/todos/lib/todo-hook";
+import { todoActivitiesHook } from "@/features/todos/lib/todos-activity-hook";
+import { todosApi } from "@/features/todos/lib/todos-api";
+import { cn } from "@/lib/utils";
 import {
   Todo,
   TodoChanged,
   WebsocketClientEvent,
   UNRESOLVED_STATUS,
   TodoActivityCreated,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { TodoCreateComment } from './todo-create-comment';
-import { TodoDetailsStatus } from './todo-details-status';
-import { TodoTimeline } from './todo-timeline';
+import { TodoCreateComment } from "./todo-create-comment";
+import { TodoDetailsStatus } from "./todo-details-status";
+import { TodoTimeline } from "./todo-timeline";
 
 type TodoDetailsProps = {
   todoId: string | null;
   onClose?: () => void;
-  onStatusChange?: (status: Todo['status'], source: 'agent' | 'manual') => void;
+  onStatusChange?: (status: Todo["status"], source: "agent" | "manual") => void;
   className?: string;
   simpleTitle?: boolean;
 };
@@ -39,7 +39,7 @@ export const TodoDetails = ({
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
 
   const socket = useSocket();
-  const previousStatus = useRef<Todo['status']>();
+  const previousStatus = useRef<Todo["status"]>();
   const { data: todo, isLoading, refetch } = todosHooks.useTodo(todoId);
 
   function detectStatusChange(updatedTodo: Todo) {
@@ -49,7 +49,7 @@ export const TodoDetails = ({
       const isNowResolved = updatedTodo.status.name !== UNRESOLVED_STATUS.name;
 
       if (wasUnresolved && isNowResolved) {
-        onStatusChange?.(updatedTodo.status, 'agent');
+        onStatusChange?.(updatedTodo.status, "agent");
       }
     }
     previousStatus.current = updatedTodo?.status;
@@ -77,13 +77,13 @@ export const TodoDetails = ({
     socket.on(WebsocketClientEvent.TODO_CHANGED, handleTodoChanged);
     socket.on(
       WebsocketClientEvent.TODO_ACTIVITY_CREATED,
-      handleTodoActivityCreated,
+      handleTodoActivityCreated
     );
     return () => {
       socket.off(WebsocketClientEvent.TODO_CHANGED, handleTodoChanged);
       socket.off(
         WebsocketClientEvent.TODO_ACTIVITY_CREATED,
-        handleTodoActivityCreated,
+        handleTodoActivityCreated
       );
     };
   }, [socket, refetch, todoId]);
@@ -95,8 +95,8 @@ export const TodoDetails = ({
   } = todoActivitiesHook.useComments(todoId);
 
   const handleStatusChange = async (
-    status: Todo['status'],
-    source: 'agent' | 'manual',
+    status: Todo["status"],
+    source: "agent" | "manual"
   ) => {
     if (!todo) return;
     setIsUpdatingStatus(true);
@@ -109,7 +109,7 @@ export const TodoDetails = ({
   };
 
   return (
-    <div className={cn('flex flex-col w-full ', className)}>
+    <div className={cn("flex flex-col w-full ", className)}>
       {isLoading && <LoadingScreen mode="container"></LoadingScreen>}
       {!isLoading && todo && (
         <ScrollArea className="flex-1 px-0">

@@ -1,11 +1,11 @@
-import { BaseEdge, EdgeProps } from '@xyflow/react';
+import { BaseEdge, EdgeProps } from "@xyflow/react";
 
-import { StepLocationRelativeToParent } from '@activepieces/shared';
+import { StepLocationRelativeToParent } from "@activepieces/shared";
 
-import { flowUtilConsts } from '../utils/consts';
-import { ApLoopReturnEdge } from '../utils/types';
+import { flowUtilConsts } from "../utils/consts";
+import { ApLoopReturnEdge } from "../utils/types";
 
-import { ApAddButton } from './add-button';
+import { ApAddButton } from "./add-button";
 
 export const ApLoopReturnLineCanvasEdge = ({
   sourceX,
@@ -43,7 +43,7 @@ export const ApLoopReturnLineCanvasEdge = ({
     flowUtilConsts.ARC_LENGTH / 2
   }
    v${endLineLength} ${
-    data.drawArrowHeadAfterEnd ? flowUtilConsts.ARROW_DOWN : ''
+    data.drawArrowHeadAfterEnd ? flowUtilConsts.ARROW_DOWN : ""
   } 
    `;
   const buttonPosition = {

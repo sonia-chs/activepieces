@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { t } from 'i18next';
-import { Lock, Unlock } from 'lucide-react';
-import { useState, forwardRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { t } from "i18next";
+import { Lock, Unlock } from "lucide-react";
+import { useState, forwardRef } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,20 +13,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 import {
   oauthAppsMutations,
   oauthAppsQueries,
-} from '@/features/connections/lib/oauth-apps-hooks';
-import { isNil } from '@activepieces/shared';
+} from "@/features/connections/lib/oauth-apps-hooks";
+import { isNil } from "@activepieces/shared";
 
 type ConfigurePieceOAuth2DialogProps = {
   pieceName: string;
@@ -75,8 +75,8 @@ export const ConfigurePieceOAuth2Dialog = forwardRef<
           <TooltipTrigger asChild>
             <Button
               ref={ref}
-              size={'sm'}
-              variant={'ghost'}
+              size={"sm"}
+              variant={"ghost"}
               loading={isUpserting || isDeleting}
               disabled={!isEnabled}
               onClick={(e) => {
@@ -103,14 +103,14 @@ export const ConfigurePieceOAuth2Dialog = forwardRef<
           </TooltipTrigger>
           <TooltipContent>
             {isNil(oauth2App)
-              ? t('Configure OAuth2 App')
-              : t('Delete OAuth2 App')}
+              ? t("Configure OAuth2 App")
+              : t("Delete OAuth2 App")}
           </TooltipContent>
         </Tooltip>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Configure OAuth2 App')}</DialogTitle>
+          <DialogTitle>{t("Configure OAuth2 App")}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -128,7 +128,7 @@ export const ConfigurePieceOAuth2Dialog = forwardRef<
               name="clientId"
               render={({ field }) => (
                 <FormItem className="grid space-y-4">
-                  <Label htmlFor="clientId">{t('Client ID')}</Label>
+                  <Label htmlFor="clientId">{t("Client ID")}</Label>
                   <Input
                     {...field}
                     required
@@ -143,7 +143,7 @@ export const ConfigurePieceOAuth2Dialog = forwardRef<
               name="clientSecret"
               render={({ field }) => (
                 <FormItem className="grid space-y-4">
-                  <Label htmlFor="clientSecret">{t('Client Secret')}</Label>
+                  <Label htmlFor="clientSecret">{t("Client Secret")}</Label>
                   <Input
                     {...field}
                     required
@@ -162,14 +162,14 @@ export const ConfigurePieceOAuth2Dialog = forwardRef<
 
             <DialogFooter>
               <Button variant="outline" onClick={() => setOpen(false)}>
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button
                 loading={isUpserting}
                 disabled={!form.formState.isValid}
                 type="submit"
               >
-                {t('Save')}
+                {t("Save")}
               </Button>
             </DialogFooter>
           </form>
@@ -179,4 +179,4 @@ export const ConfigurePieceOAuth2Dialog = forwardRef<
   );
 });
 
-ConfigurePieceOAuth2Dialog.displayName = 'ConfigurePieceOAuth2Dialog';
+ConfigurePieceOAuth2Dialog.displayName = "ConfigurePieceOAuth2Dialog";

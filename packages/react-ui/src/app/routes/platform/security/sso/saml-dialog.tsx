@@ -1,12 +1,12 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { ApMarkdown } from '@/components/custom/markdown';
-import { Button } from '@/components/ui/button';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,19 +14,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/components/ui/use-toast';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformApi } from '@/lib/platforms-api';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformApi } from "@/lib/platforms-api";
 import {
   ApFlagId,
   PlatformWithoutSensitiveData,
   UpdatePlatformRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type ConfigureSamlDialogProps = {
   platform: PlatformWithoutSensitiveData;
@@ -55,7 +55,7 @@ export const ConfigureSamlDialog = ({
   });
 
   const { data: samlAcs } = flagsHooks.useFlag<string>(
-    ApFlagId.SAML_AUTH_ACS_URL,
+    ApFlagId.SAML_AUTH_ACS_URL
   );
   const { mutate, isPending } = useMutation({
     mutationFn: async (request: UpdatePlatformRequestBody) => {
@@ -64,8 +64,8 @@ export const ConfigureSamlDialog = ({
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Single sign-on settings updated'),
+        title: t("Success"),
+        description: t("Single sign-on settings updated"),
         duration: 3000,
       });
       setOpen(false);
@@ -85,9 +85,9 @@ export const ConfigureSamlDialog = ({
       <DialogTrigger asChild>
         {connected ? (
           <Button
-            size={'sm'}
+            size={"sm"}
             className="w-32 text-destructive"
-            variant={'basic'}
+            variant={"basic"}
             loading={isPending}
             onClick={(e) => {
               mutate({
@@ -98,22 +98,22 @@ export const ConfigureSamlDialog = ({
               e.preventDefault();
             }}
           >
-            {t('Disable')}
+            {t("Disable")}
           </Button>
         ) : (
           <Button
-            size={'sm'}
+            size={"sm"}
             className="w-32"
-            variant={'basic'}
+            variant={"basic"}
             onClick={() => setOpen(true)}
           >
-            {t('Enable')}
+            {t("Enable")}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Configure SAML 2.0 SSO')}</DialogTitle>
+          <DialogTitle>{t("Configure SAML 2.0 SSO")}</DialogTitle>
         </DialogHeader>
         {samlAcs && (
           <div className="mb-4">
@@ -132,7 +132,7 @@ Please check the following documentation: [SAML SSO](https://activepieces.com/do
 Activepieces
 \`\`\`
 `,
-                { samlAcs: samlAcs ?? '' },
+                { samlAcs: samlAcs ?? "" }
               )}
             />
           </div>
@@ -153,7 +153,7 @@ Activepieces
               name="idpMetadata"
               render={({ field }) => (
                 <FormItem className="grid space-y-4">
-                  <Label htmlFor="idpMetadata">{t('IDP Metadata')}</Label>
+                  <Label htmlFor="idpMetadata">{t("IDP Metadata")}</Label>
                   <Input
                     {...field}
                     required
@@ -168,7 +168,7 @@ Activepieces
               name="idpCertificate"
               render={({ field }) => (
                 <FormItem className="grid space-y-4">
-                  <Label htmlFor="idpCertificate">{t('IDP Certificate')}</Label>
+                  <Label htmlFor="idpCertificate">{t("IDP Certificate")}</Label>
                   <Textarea
                     {...field}
                     required
@@ -187,14 +187,14 @@ Activepieces
 
             <DialogFooter>
               <Button variant="outline" onClick={() => setOpen(false)}>
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button
                 loading={isPending}
                 disabled={!form.formState.isValid}
                 type="submit"
               >
-                {t('Save')}
+                {t("Save")}
               </Button>
             </DialogFooter>
           </form>

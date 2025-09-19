@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { Permission } from '@activepieces/shared';
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { Permission } from "@activepieces/shared";
 
 export const RoutePermissionGuard = ({
   permission,

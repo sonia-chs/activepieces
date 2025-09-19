@@ -1,16 +1,16 @@
-import { DotsVerticalIcon } from '@radix-ui/react-icons';
-import { t } from 'i18next';
-import { Eye, EyeIcon, Pencil } from 'lucide-react';
-import React, { useState } from 'react';
+import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { t } from "i18next";
+import { Eye, EyeIcon, Pencil } from "lucide-react";
+import React, { useState } from "react";
 
 import {
   LeftSideBarType,
   useBuilderStateContext,
-} from '@/app/builder/builder-hooks';
-import { CardListItem } from '@/components/custom/card-list';
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { useEmbedding } from '@/components/embed-provider';
-import { Button } from '@/components/ui/button';
+} from "@/app/builder/builder-hooks";
+import { CardListItem } from "@/components/custom/card-list";
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { useEmbedding } from "@/components/embed-provider";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -20,29 +20,29 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { LoadingSpinner } from '@/components/ui/spinner';
+} from "@/components/ui/dropdown-menu";
+import { LoadingSpinner } from "@/components/ui/spinner";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { UserAvatar } from '@/components/ui/user-avatar';
-import { FlowVersionStateDot } from '@/features/flows/components/flow-version-state-dot';
-import { flowsHooks } from '@/features/flows/lib/flows-hooks';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { formatUtils } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { FlowVersionStateDot } from "@/features/flows/components/flow-version-state-dot";
+import { flowsHooks } from "@/features/flows/lib/flows-hooks";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { formatUtils } from "@/lib/utils";
 import {
   FlowVersionMetadata,
   FlowVersionState,
   Permission,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type UseAsDraftOptionProps = {
   versionNumber: number;
@@ -70,34 +70,34 @@ const UseAsDraftDropdownMenuOption = ({
             disabled={!userHasPermissionToWriteFlow}
           >
             <Pencil className="mr-2 h-4 w-4" />
-            <span>{t('Use as Draft')}</span>
+            <span>{t("Use as Draft")}</span>
           </DropdownMenuItem>
         </PermissionNeededTooltip>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Are you sure?')}</DialogTitle>
+          <DialogTitle>{t("Are you sure?")}</DialogTitle>
           <DialogDescription>
-            {t('Your current draft version will be overwritten with')}{' '}
+            {t("Your current draft version will be overwritten with")}{" "}
             <span className="font-semibold">
-              {t('version #')}
+              {t("version #")}
               {versionNumber}
             </span>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="justify-end">
           <DialogClose asChild>
-            <Button variant={'outline'}>{t('Cancel')}</Button>
+            <Button variant={"outline"}>{t("Cancel")}</Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button onClick={() => onConfirm()}>{t('Confirm')}</Button>
+            <Button onClick={() => onConfirm()}>{t("Confirm")}</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
-UseAsDraftDropdownMenuOption.displayName = 'UseAsDraftDropdownMenuOption';
+UseAsDraftDropdownMenuOption.displayName = "UseAsDraftDropdownMenuOption";
 
 type FlowVersionDetailsCardProps = {
   flowVersion: FlowVersionMetadata;
@@ -126,7 +126,7 @@ const FlowVersionDetailsCard = React.memo(
         setBuilderVersion(populatedFlowVersion);
         setReadonly(
           populatedFlowVersion.state === FlowVersionState.LOCKED ||
-            !userHasPermissionToWriteFlow,
+            !userHasPermissionToWriteFlow
         );
       },
     });
@@ -153,7 +153,7 @@ const FlowVersionDetailsCard = React.memo(
             size={28}
             name={
               flowVersion.updatedByUser.firstName +
-              ' ' +
+              " " +
               flowVersion.updatedByUser.lastName
             }
             email={flowVersion.updatedByUser.email}
@@ -164,7 +164,7 @@ const FlowVersionDetailsCard = React.memo(
             {formatUtils.formatDate(new Date(flowVersion.created))}
           </p>
           <p className="flex gap-1 text-xs text-muted-foreground">
-            {t('Version')} {flowVersionNumber}
+            {t("Version")} {flowVersionNumber}
           </p>
         </div>
         <div className="flex-grow"></div>
@@ -176,7 +176,7 @@ const FlowVersionDetailsCard = React.memo(
                   <EyeIcon className="w-5 h-5 "></EyeIcon>
                 </div>
               </TooltipTrigger>
-              <TooltipContent>{t('Viewing')}</TooltipContent>
+              <TooltipContent>{t("Viewing")}</TooltipContent>
             </Tooltip>
           )}
 
@@ -194,7 +194,7 @@ const FlowVersionDetailsCard = React.memo(
               <Button
                 variant="ghost"
                 disabled={isPending || isDraftPending}
-                size={'icon'}
+                size={"icon"}
               >
                 {(isPending || isDraftPending) && <LoadingSpinner />}
                 {!isPending && !isDraftPending && <DotsVerticalIcon />}
@@ -206,7 +206,7 @@ const FlowVersionDetailsCard = React.memo(
                 className="w-full"
               >
                 <Eye className="mr-2 h-4 w-4" />
-                <span>{t('View')}</span>
+                <span>{t("View")}</span>
               </DropdownMenuItem>
               {flowVersion.state !== FlowVersionState.DRAFT && (
                 <UseAsDraftDropdownMenuOption
@@ -219,8 +219,8 @@ const FlowVersionDetailsCard = React.memo(
         </div>
       </CardListItem>
     );
-  },
+  }
 );
 
-FlowVersionDetailsCard.displayName = 'FlowVersionDetailsCard';
+FlowVersionDetailsCard.displayName = "FlowVersionDetailsCard";
 export { FlowVersionDetailsCard };

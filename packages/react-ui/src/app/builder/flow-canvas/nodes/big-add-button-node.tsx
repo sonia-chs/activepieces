@@ -1,20 +1,20 @@
-import { DragMoveEvent, useDndMonitor, useDroppable } from '@dnd-kit/core';
-import { Handle, Position } from '@xyflow/react';
-import { Plus } from 'lucide-react';
-import React, { useId, useState } from 'react';
+import { DragMoveEvent, useDndMonitor, useDroppable } from "@dnd-kit/core";
+import { Handle, Position } from "@xyflow/react";
+import { Plus } from "lucide-react";
+import React, { useId, useState } from "react";
 
-import { PieceSelector } from '@/app/builder/pieces-selector';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { isNil } from '@activepieces/shared';
+import { PieceSelector } from "@/app/builder/pieces-selector";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { isNil } from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../../builder-hooks';
-import { flowUtilConsts } from '../utils/consts';
-import { flowCanvasUtils } from '../utils/flow-canvas-utils';
-import { ApBigAddButtonNode } from '../utils/types';
+import { useBuilderStateContext } from "../../builder-hooks";
+import { flowUtilConsts } from "../utils/consts";
+import { flowCanvasUtils } from "../utils/flow-canvas-utils";
+import { ApBigAddButtonNode } from "../utils/types";
 
 const ApBigAddButtonCanvasNode = React.memo(
-  ({ data, id }: Omit<ApBigAddButtonNode, 'position'>) => {
+  ({ data, id }: Omit<ApBigAddButtonNode, "position">) => {
     const [isIsStepInsideDropzone, setIsStepInsideDropzone] = useState(false);
     const [readonly, activeDraggingStep, isPieceSelectorOpened] =
       useBuilderStateContext((state) => [
@@ -63,12 +63,12 @@ const ApBigAddButtonCanvasNode = React.memo(
                     width: `${flowUtilConsts.AP_NODE_SIZE.BIG_ADD_BUTTON.width}px`,
                   }}
                   id={id}
-                  className={cn('rounded bg-accent relative', {
-                    'bg-primary/80':
+                  className={cn("rounded bg-accent relative", {
+                    "bg-primary/80":
                       isShowingDropIndicator || isPieceSelectorOpened,
-                    'shadow-add-button':
+                    "shadow-add-button":
                       isIsStepInsideDropzone || isPieceSelectorOpened,
-                    'transition-all':
+                    "transition-all":
                       isIsStepInsideDropzone ||
                       isPieceSelectorOpened ||
                       isShowingDropIndicator,
@@ -77,7 +77,7 @@ const ApBigAddButtonCanvasNode = React.memo(
                   {!isShowingDropIndicator && (
                     <PieceSelector
                       operation={flowCanvasUtils.createAddOperationFromAddButtonData(
-                        data,
+                        data
                       )}
                       id={id}
                     >
@@ -87,8 +87,8 @@ const ApBigAddButtonCanvasNode = React.memo(
                           className="w-full h-full flex items-center hover:bg-accent-foreground rounded"
                         >
                           <Plus
-                            className={cn('w-6 h-6 text-accent-foreground ', {
-                              'opacity-0':
+                            className={cn("w-6 h-6 text-accent-foreground ", {
+                              "opacity-0":
                                 isShowingDropIndicator || isPieceSelectorOpened,
                             })}
                           />
@@ -110,7 +110,7 @@ const ApBigAddButtonCanvasNode = React.memo(
                     className=" absolute "
                     ref={setNodeRef}
                   >
-                    {' '}
+                    {" "}
                   </div>
                 )}
               </div>
@@ -129,7 +129,7 @@ const ApBigAddButtonCanvasNode = React.memo(
                   className="overflow-visible  "
                   style={{
                     stroke:
-                      'var(--xy-edge-stroke, var(--xy-edge-stroke-default))',
+                      "var(--xy-edge-stroke, var(--xy-edge-stroke-default))",
                   }}
                   shapeRendering="auto"
                 >
@@ -165,8 +165,8 @@ const ApBigAddButtonCanvasNode = React.memo(
         />
       </>
     );
-  },
+  }
 );
 
-ApBigAddButtonCanvasNode.displayName = 'ApBigAddButtonCanvasNode';
+ApBigAddButtonCanvasNode.displayName = "ApBigAddButtonCanvasNode";
 export { ApBigAddButtonCanvasNode };

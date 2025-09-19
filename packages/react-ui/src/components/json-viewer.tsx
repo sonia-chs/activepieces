@@ -1,21 +1,21 @@
-import { t } from 'i18next';
-import { Copy, Download, Eye, EyeOff } from 'lucide-react';
-import React, { useLayoutEffect, useMemo } from 'react';
-import { createRoot } from 'react-dom/client';
-import ReactJson from 'react-json-view';
+import { t } from "i18next";
+import { Copy, Download, Eye, EyeOff } from "lucide-react";
+import React, { useLayoutEffect, useMemo } from "react";
+import { createRoot } from "react-dom/client";
+import ReactJson from "react-json-view";
 
-import { useTheme } from '@/components/theme-provider';
+import { useTheme } from "@/components/theme-provider";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { isStepFileUrl } from '@/lib/utils';
-import { isNil } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { isStepFileUrl } from "@/lib/utils";
+import { isNil } from "@activepieces/shared";
 
-import { Button } from './ui/button';
-import { toast } from './ui/use-toast';
+import { Button } from "./ui/button";
+import { toast } from "./ui/use-toast";
 
 type JsonViewerProps = {
   json: any;
@@ -28,7 +28,7 @@ type FileButtonProps = {
   handleDownloadFile: (fileUrl: string) => void;
 };
 const FileButton = ({ fileUrl, handleDownloadFile }: FileButtonProps) => {
-  const readonly = fileUrl.includes('file://');
+  const readonly = fileUrl.includes("file://");
   return (
     <div className="flex items-center gap-0">
       <Button
@@ -43,7 +43,7 @@ const FileButton = ({ fileUrl, handleDownloadFile }: FileButtonProps) => {
         ) : (
           <Eye className="w-4 h-4" />
         )}
-        {t('Download File')}
+        {t("Download File")}
       </Button>
     </div>
   );
@@ -55,11 +55,11 @@ const removeDoubleQuotes = (str: string): string =>
 const removeUndefined = (obj: any): any => {
   if (Array.isArray(obj)) {
     return obj.map(removeUndefined);
-  } else if (typeof obj === 'object' && obj !== null) {
+  } else if (typeof obj === "object" && obj !== null) {
     return Object.fromEntries(
       Object.entries(obj)
         .filter(([_, value]) => value !== undefined)
-        .map(([key, value]) => [key, removeUndefined(value)]),
+        .map(([key, value]) => [key, removeUndefined(value)])
     );
   }
   return obj;
@@ -72,53 +72,53 @@ const JsonViewer = React.memo(
       return removeUndefined(unclearJson);
     }, [unclearJson]);
 
-    const viewerTheme = theme === 'dark' ? 'bright' : 'rjv-default';
+    const viewerTheme = theme === "dark" ? "bright" : "rjv-default";
     const handleCopy = () => {
       navigator.clipboard.writeText(JSON.stringify(json, null, 2));
       toast({
-        title: t('Copied to clipboard'),
+        title: t("Copied to clipboard"),
         duration: 1000,
       });
     };
 
     const handleDownload = () => {
       const blob = new Blob([JSON.stringify(json, null, 2)], {
-        type: 'application/json',
+        type: "application/json",
       });
       const url = URL.createObjectURL(blob);
       handleDownloadFile(url);
     };
 
-    const handleDownloadFile = (fileUrl: string, ext = '') => {
-      const link = document.createElement('a');
+    const handleDownloadFile = (fileUrl: string, ext = "") => {
+      const link = document.createElement("a");
       link.href = fileUrl;
       link.download = `${title}${ext}`;
       link.click();
       URL.revokeObjectURL(fileUrl);
     };
     useLayoutEffect(() => {
-      if (typeof json === 'object') {
+      if (typeof json === "object") {
         const stringValuesHTML = Array.from(
-          document.getElementsByClassName('string-value'),
+          document.getElementsByClassName("string-value")
         );
 
         const stepFileUrlsHTML = stringValuesHTML.filter(
           (el) =>
             isStepFileUrl(el.innerHTML) ||
-            isStepFileUrl(el.parentElement!.nextElementSibling?.innerHTML),
+            isStepFileUrl(el.parentElement!.nextElementSibling?.innerHTML)
         );
 
         stepFileUrlsHTML.forEach((el: Element) => {
           const fileUrl = removeDoubleQuotes(el.innerHTML)
             .trim()
-            .replace('\n', '');
-          el.className += ' hidden';
+            .replace("\n", "");
+          el.className += " hidden";
 
-          const rootElem = document.createElement('div');
+          const rootElem = document.createElement("div");
           const root = createRoot(rootElem);
 
           el.parentElement!.replaceChildren(el as Node, rootElem as Node);
-          const isProductionFile = fileUrl.includes('file://');
+          const isProductionFile = fileUrl.includes("file://");
 
           root.render(
             <div data-file-root="true">
@@ -132,7 +132,7 @@ const JsonViewer = React.memo(
                       />
                     </TooltipTrigger>
                     <TooltipContent side="right">
-                      {t('File is not available after execution.')}
+                      {t("File is not available after execution.")}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -142,7 +142,7 @@ const JsonViewer = React.memo(
                   handleDownloadFile={handleDownloadFile}
                 />
               )}
-            </div>,
+            </div>
           );
         });
       }
@@ -162,11 +162,11 @@ const JsonViewer = React.memo(
           </div>
           <div className="flex items-center gap-0">
             {!hideDownload && (
-              <Button variant={'ghost'} size={'sm'} onClick={handleDownload}>
+              <Button variant={"ghost"} size={"sm"} onClick={handleDownload}>
                 <Download className="w-4 h-4" />
               </Button>
             )}
-            <Button variant={'ghost'} size={'sm'} onClick={handleCopy}>
+            <Button variant={"ghost"} size={"sm"} onClick={handleCopy}>
               <Copy className="w-4 h-4" />
             </Button>
           </div>
@@ -176,27 +176,27 @@ const JsonViewer = React.memo(
           <>
             {isNil(json) ? (
               <pre className="text-sm whitespace-pre-wrap overflow-x-auto p-2">
-                {json === null ? 'null' : 'undefined'}
+                {json === null ? "null" : "undefined"}
               </pre>
             ) : (
               <>
-                {typeof json !== 'string' && typeof json !== 'object' && (
+                {typeof json !== "string" && typeof json !== "object" && (
                   <pre className="text-sm whitespace-pre-wrap  break-all overflow-x-auto p-2">
                     {JSON.stringify(json)}
                   </pre>
                 )}
-                {typeof json === 'string' && (
+                {typeof json === "string" && (
                   <pre className="text-sm whitespace-pre-wrap break-all overflow-x-auto p-2">
                     {json}
                   </pre>
                 )}
-                {typeof json === 'object' && (
+                {typeof json === "object" && (
                   <div className="max-w-full">
                     <ReactJson
                       style={{
-                        overflowX: 'auto',
-                        padding: '0.5rem',
-                        wordBreak: 'break-word',
+                        overflowX: "auto",
+                        padding: "0.5rem",
+                        wordBreak: "break-word",
                       }}
                       theme={viewerTheme}
                       enableClipboard={false}
@@ -214,8 +214,8 @@ const JsonViewer = React.memo(
         }
       </div>
     );
-  },
+  }
 );
 
-JsonViewer.displayName = 'JsonViewer';
+JsonViewer.displayName = "JsonViewer";
 export { JsonViewer };

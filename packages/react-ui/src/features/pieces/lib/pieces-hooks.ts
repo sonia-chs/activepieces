@@ -1,18 +1,18 @@
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useTranslation } from 'react-i18next';
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
-import { platformHooks } from '@/hooks/platform-hooks';
+import { platformHooks } from "@/hooks/platform-hooks";
 import {
   StepMetadataWithSuggestions,
   CategorizedStepMetadataWithSuggestions,
-} from '@/lib/types';
+} from "@/lib/types";
 import {
   PieceMetadataModel,
   PieceMetadataModelSummary,
   PropertyType,
   ExecutePropsResult,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   FlowActionType,
   flowPieceUtil,
@@ -20,15 +20,15 @@ import {
   PieceOptionRequest,
   PlatformWithoutSensitiveData,
   FlowTriggerType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { pieceSearchUtils } from './piece-search-utils';
+import { pieceSearchUtils } from "./piece-search-utils";
 import {
   PieceSelectorTabType,
   usePieceSelectorTabs,
-} from './piece-selector-tabs-provider';
-import { piecesApi } from './pieces-api';
-import { stepsHooks } from './steps-hooks';
+} from "./piece-selector-tabs-provider";
+import { piecesApi } from "./pieces-api";
+import { stepsHooks } from "./steps-hooks";
 
 const {
   getPinnedPieces,
@@ -65,14 +65,14 @@ type UsePiecesProps = {
 type UsePiecesSearchProps = {
   searchQuery: string;
   enabled?: boolean;
-  type: 'action' | 'trigger';
+  type: "action" | "trigger";
 };
 
 export const piecesHooks = {
   usePiece: ({ name, version, enabled = true }: UsePieceProps) => {
     const { i18n } = useTranslation();
     const query = useQuery<PieceMetadataModel, Error>({
-      queryKey: ['piece', name, version],
+      queryKey: ["piece", name, version],
       queryFn: () =>
         piecesApi.get({ name, version, locale: i18n.language as LocalesEnum }),
       staleTime: Infinity,
@@ -123,7 +123,7 @@ export const piecesHooks = {
     const { i18n } = useTranslation();
     return useQueries({
       queries: names.map((name) => ({
-        queryKey: ['piece', name, undefined],
+        queryKey: ["piece", name, undefined],
         queryFn: () =>
           piecesApi.get({
             name,
@@ -141,7 +141,7 @@ export const piecesHooks = {
   }: UsePiecesProps) => {
     const { i18n } = useTranslation();
     const query = useQuery<PieceMetadataModelSummary[], Error>({
-      queryKey: ['pieces', searchQuery, includeHidden],
+      queryKey: ["pieces", searchQuery, includeHidden],
       queryFn: () =>
         piecesApi.list({
           searchQuery,
@@ -158,7 +158,7 @@ export const piecesHooks = {
     };
   },
   usePiecesSearch: (
-    props: UsePiecesSearchProps,
+    props: UsePiecesSearchProps
   ): {
     isLoading: boolean;
     data: CategorizedStepMetadataWithSuggestions[];
@@ -178,12 +178,12 @@ export const piecesHooks = {
 
     const pinnedPieces = getPinnedPieces(
       piecesMetadataWithoutEmptySuggestions,
-      platform.pinnedPieces ?? [],
+      platform.pinnedPieces ?? []
     );
 
     const popularPieces = getPopularPieces(
       piecesMetadataWithoutEmptySuggestions,
-      platform.pinnedPieces ?? [],
+      platform.pinnedPieces ?? []
     );
 
     const flowControllerPieces =
@@ -194,30 +194,30 @@ export const piecesHooks = {
 
     const pieceMetadataWithoutPopularOrPinnedPieces =
       piecesMetadataWithoutEmptySuggestions.filter(
-        (p) => !popularPieces.includes(p) && !pinnedPieces.includes(p),
+        (p) => !popularPieces.includes(p) && !pinnedPieces.includes(p)
       );
 
     const appPieces =
       pieceMetadataWithoutPopularOrPinnedPieces.filter(isAppPiece);
 
     const utilitiesCategory = {
-      title: t('Utility'),
+      title: t("Utility"),
       metadata: utilityPieces,
     };
     const flowControllerCategory = {
-      title: t('Flow Controller'),
+      title: t("Flow Controller"),
       metadata: flowControllerPieces,
     };
     const appsCategory = {
-      title: t('Apps'),
+      title: t("Apps"),
       metadata: appPieces,
     };
     const popularCategory = {
-      title: t('Popular'),
+      title: t("Popular"),
       metadata: popularPieces,
     };
     const allCategory = {
-      title: t('All'),
+      title: t("All"),
       metadata: piecesMetadataWithoutEmptySuggestions,
     };
 
@@ -228,7 +228,7 @@ export const piecesHooks = {
           data: getExploreTabContent(
             piecesMetadataWithoutEmptySuggestions,
             platform,
-            props.type,
+            props.type
           ),
         };
       case PieceSelectorTabType.UTILITY:
@@ -252,7 +252,7 @@ export const piecesHooks = {
         };
         if (pinnedPieces.length > 0) {
           result.data.unshift({
-            title: t('Highlights'),
+            title: t("Highlights"),
             metadata: pinnedPieces,
           });
         }
@@ -270,7 +270,7 @@ export const piecesHooks = {
     T extends
       | PropertyType.DYNAMIC
       | PropertyType.DROPDOWN
-      | PropertyType.MULTI_SELECT_DROPDOWN,
+      | PropertyType.MULTI_SELECT_DROPDOWN
   >({
     onSuccess,
     onError,
@@ -298,7 +298,7 @@ export const piecesHooks = {
 };
 
 const filterOutPiecesWithNoSuggestions = (
-  stepsMetadata: StepMetadataWithSuggestions[],
+  stepsMetadata: StepMetadataWithSuggestions[]
 ) => {
   return stepsMetadata.filter((metadata) => {
     const isActionWithSuggestions =
@@ -323,20 +323,20 @@ const filterOutPiecesWithNoSuggestions = (
 const getExploreTabContent = (
   queryResult: StepMetadataWithSuggestions[],
   platform: PlatformWithoutSensitiveData,
-  type: 'action' | 'trigger',
+  type: "action" | "trigger"
 ) => {
   const popularCategory: CategorizedStepMetadataWithSuggestions = {
-    title: t('Popular'),
+    title: t("Popular"),
     metadata: [],
   };
 
   const pinnedPieces = getPinnedPieces(
     queryResult,
-    platform.pinnedPieces ?? [],
+    platform.pinnedPieces ?? []
   );
   const popularPieces = getPopularPieces(
     queryResult,
-    platform.pinnedPieces ?? [],
+    platform.pinnedPieces ?? []
   );
 
   if (popularPieces.length > 0) {
@@ -344,18 +344,18 @@ const getExploreTabContent = (
   }
 
   const hightlightedPiecesCategory: CategorizedStepMetadataWithSuggestions = {
-    title: t('Highlights'),
+    title: t("Highlights"),
     metadata: [],
   };
   const highlightedPieces = getHighlightedPieces(queryResult, type);
   const codePiece = queryResult.find(
-    (piece) => piece.type === FlowActionType.CODE,
+    (piece) => piece.type === FlowActionType.CODE
   );
   const branchPiece = queryResult.find(
-    (piece) => piece.type === FlowActionType.ROUTER,
+    (piece) => piece.type === FlowActionType.ROUTER
   );
   const loopPiece = queryResult.find(
-    (piece) => piece.type === FlowActionType.LOOP_ON_ITEMS,
+    (piece) => piece.type === FlowActionType.LOOP_ON_ITEMS
   );
 
   if (highlightedPieces.length > 0) {

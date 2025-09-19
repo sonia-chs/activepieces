@@ -1,10 +1,10 @@
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
-import { DownloadButton } from '../download-button';
+import { DownloadButton } from "../download-button";
 
-import { CopyButton } from './copy-button';
+import { CopyButton } from "./copy-button";
 
 type CopyToClipboardInputProps = {
   textToCopy: string;
@@ -32,8 +32,8 @@ const CopyToClipboardInput = ({
         />
       )}
       <div
-        className={cn('flex  gap-1', {
-          'flex-col': !useInput,
+        className={cn("flex  gap-1", {
+          "flex-col": !useInput,
         })}
       >
         <CopyButton textToCopy={textToCopy} variant="ghost" />
@@ -50,5 +50,5 @@ const CopyToClipboardInput = ({
   );
 };
 
-CopyToClipboardInput.displayName = 'CopyToClipboardInput';
+CopyToClipboardInput.displayName = "CopyToClipboardInput";
 export { CopyToClipboardInput };

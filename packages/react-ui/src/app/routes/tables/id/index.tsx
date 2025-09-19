@@ -1,34 +1,34 @@
-import { nanoid } from 'nanoid';
-import { useRef, useEffect } from 'react';
-import DataGrid, { DataGridHandle } from 'react-data-grid';
-import 'react-data-grid/lib/styles.css';
-import { useNavigate } from 'react-router-dom';
+import { nanoid } from "nanoid";
+import { useRef, useEffect } from "react";
+import DataGrid, { DataGridHandle } from "react-data-grid";
+import "react-data-grid/lib/styles.css";
+import { useNavigate } from "react-router-dom";
 
-import { useSocket } from '@/components/socket-provider';
-import { useTheme } from '@/components/theme-provider';
-import { AgentRunDialog } from '@/features/agents/agent-run-dialog';
-import { ApTableFooter } from '@/features/tables/components/ap-table-footer';
-import { ApTableHeader } from '@/features/tables/components/ap-table-header';
-import { useTableState } from '@/features/tables/components/ap-table-state-provider';
+import { useSocket } from "@/components/socket-provider";
+import { useTheme } from "@/components/theme-provider";
+import { AgentRunDialog } from "@/features/agents/agent-run-dialog";
+import { ApTableFooter } from "@/features/tables/components/ap-table-footer";
+import { ApTableHeader } from "@/features/tables/components/ap-table-header";
+import { useTableState } from "@/features/tables/components/ap-table-state-provider";
 import {
   useTableColumns,
   mapRecordsToRows,
-} from '@/features/tables/components/table-columns';
-import { recordsApi } from '@/features/tables/lib/records-api';
-import { Row, ROW_HEIGHT_MAP, RowHeight } from '@/features/tables/lib/types';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn } from '@/lib/utils';
+} from "@/features/tables/components/table-columns";
+import { recordsApi } from "@/features/tables/lib/records-api";
+import { Row, ROW_HEIGHT_MAP, RowHeight } from "@/features/tables/lib/types";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn } from "@/lib/utils";
 import {
   AgentRun,
   AgentTaskStatus,
   ApFlagId,
   Permission,
   WebsocketClientEvent,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import './react-data-grid.css';
+import "./react-data-grid.css";
 
 const ApTableEditorPage = () => {
   const navigate = useNavigate();
@@ -64,11 +64,11 @@ const ApTableEditorPage = () => {
   const gridRef = useRef<DataGridHandle>(null);
   const { theme } = useTheme();
   const { data: maxRecords } = flagsHooks.useFlag<number>(
-    ApFlagId.MAX_RECORDS_PER_TABLE,
+    ApFlagId.MAX_RECORDS_PER_TABLE
   );
   const socket = useSocket();
   const userHasTableWritePermission = useAuthorization().checkAccess(
-    Permission.WRITE_TABLE,
+    Permission.WRITE_TABLE
   );
   const isAllowedToCreateRecord =
     userHasTableWritePermission && maxRecords && records.length < maxRecords;
@@ -96,15 +96,15 @@ const ApTableEditorPage = () => {
       if (
         selectedCell &&
         !(event.target as HTMLElement).closest(
-          `#editable-cell-${selectedCell.rowIdx}-${selectedCell.columnIdx}`,
+          `#editable-cell-${selectedCell.rowIdx}-${selectedCell.columnIdx}`
         )
       ) {
         setSelectedCell(null);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [selectedCell]);
 
   useEffect(() => {
@@ -114,9 +114,7 @@ const ApTableEditorPage = () => {
         if (agentRun.metadata?.tableId === table.id) {
           setAgentRunId(
             agentRun.metadata.recordId!,
-            agentRun.status === AgentTaskStatus.IN_PROGRESS
-              ? agentRun.id
-              : null,
+            agentRun.status === AgentTaskStatus.IN_PROGRESS ? agentRun.id : null
           );
           if (
             agentRun.status === AgentTaskStatus.COMPLETED ||
@@ -130,7 +128,7 @@ const ApTableEditorPage = () => {
             setRecords(records.data);
           }
         }
-      },
+      }
     );
     return () => {
       socket.off(WebsocketClientEvent.AGENT_RUN_PROGRESS);
@@ -161,11 +159,11 @@ const ApTableEditorPage = () => {
               selectedRows={selectedRecords}
               onSelectedRowsChange={setSelectedRecords}
               className={cn(
-                'scroll-smooth w-full h-full bg-muted/30',
-                theme === 'dark' ? 'rdg-dark' : 'rdg-light',
+                "scroll-smooth w-full h-full bg-muted/30",
+                theme === "dark" ? "rdg-dark" : "rdg-light"
               )}
               bottomSummaryRows={
-                userHasTableWritePermission ? [{ id: 'new-record' }] : []
+                userHasTableWritePermission ? [{ id: "new-record" }] : []
               }
               rowHeight={ROW_HEIGHT_MAP[RowHeight.DEFAULT]}
               headerRowHeight={ROW_HEIGHT_MAP[RowHeight.DEFAULT]}
@@ -194,6 +192,6 @@ const ApTableEditorPage = () => {
   );
 };
 
-ApTableEditorPage.displayName = 'ApTableEditorPage';
+ApTableEditorPage.displayName = "ApTableEditorPage";
 
 export { ApTableEditorPage };

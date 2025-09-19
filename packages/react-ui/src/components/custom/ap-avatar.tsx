@@ -1,18 +1,18 @@
-import { AvatarImage } from '@radix-ui/react-avatar';
-import { Workflow } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { Workflow } from "lucide-react";
+import { Link } from "react-router-dom";
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-import { UserAvatar } from '../ui/user-avatar';
+import { UserAvatar } from "../ui/user-avatar";
 
 interface ApAvatarProps {
-  type: 'agent' | 'user' | 'flow';
+  type: "agent" | "user" | "flow";
   fullName: string;
   userEmail?: string;
   pictureUrl?: string;
   profileUrl?: string;
-  size: 'small' | 'medium';
+  size: "small" | "medium";
   includeName?: boolean;
 }
 
@@ -23,12 +23,12 @@ export const ApAvatar = ({
   pictureUrl,
   profileUrl,
   includeName = false,
-  size = 'medium',
+  size = "medium",
 }: ApAvatarProps) => {
   const renderAvatar = () => {
-    if (type === 'agent') {
+    if (type === "agent") {
       return (
-        <Avatar className={size === 'small' ? 'w-6 h-6' : 'w-8 h-8'}>
+        <Avatar className={size === "small" ? "w-6 h-6" : "w-8 h-8"}>
           <AvatarImage
             src={pictureUrl}
             alt={fullName}
@@ -38,22 +38,22 @@ export const ApAvatar = ({
       );
     }
 
-    if (type === 'user') {
+    if (type === "user") {
       return (
         <UserAvatar
           name={fullName}
           email={userEmail!}
-          size={size === 'small' ? 24 : 32}
+          size={size === "small" ? 24 : 32}
           disableTooltip={true}
         />
       );
     }
 
     return (
-      <Avatar className={size === 'small' ? 'w-6 h-6' : 'w-8 h-8'}>
+      <Avatar className={size === "small" ? "w-6 h-6" : "w-8 h-8"}>
         <AvatarFallback
           className={`text-xs font-bold border ${
-            size === 'small' ? 'w-6 h-6' : 'w-8 h-8'
+            size === "small" ? "w-6 h-6" : "w-8 h-8"
           }`}
         >
           <Workflow className="p-1" />
@@ -69,7 +69,7 @@ export const ApAvatar = ({
     </div>
   );
 
-  if (type === 'agent' && profileUrl) {
+  if (type === "agent" && profileUrl) {
     return <Link to={profileUrl}>{content}</Link>;
   }
 

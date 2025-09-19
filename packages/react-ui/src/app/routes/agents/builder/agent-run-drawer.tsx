@@ -1,17 +1,17 @@
-import { ArrowLeft, Play } from 'lucide-react';
+import { ArrowLeft, Play } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-} from '@/components/ui/drawer';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
-import { AgentTimeline } from '@/features/agents/agent-timeline';
-import { agentRunHooks } from '@/features/agents/lib/agent-hooks';
-import { agentRunUtils } from '@/features/agents/lib/agent-run-utils';
-import { formatUtils } from '@/lib/utils';
+} from "@/components/ui/drawer";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
+import { AgentTimeline } from "@/features/agents/agent-timeline";
+import { agentRunHooks } from "@/features/agents/lib/agent-hooks";
+import { agentRunUtils } from "@/features/agents/lib/agent-run-utils";
+import { formatUtils } from "@/lib/utils";
 
 interface AgentRunDrawerProps {
   open: boolean;
@@ -44,7 +44,7 @@ export function AgentRunDrawer({
             <div className="flex items-center gap-1">
               <Button
                 variant="basic"
-                size={'icon'}
+                size={"icon"}
                 className="text-foreground"
                 onClick={() => onOpenChange(false)}
               >
@@ -56,7 +56,7 @@ export function AgentRunDrawer({
                   <StatusIconWithText
                     icon={Icon}
                     text={formatUtils.convertEnumToHumanReadable(
-                      agentRun.status,
+                      agentRun.status
                     )}
                     variant={variant}
                   />

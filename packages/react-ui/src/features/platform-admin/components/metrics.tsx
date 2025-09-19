@@ -1,15 +1,15 @@
-import { t } from 'i18next';
-import { Building, User, Workflow, Puzzle, Bot, Info } from 'lucide-react';
-import React from 'react';
+import { t } from "i18next";
+import { Building, User, Workflow, Puzzle, Bot, Info } from "lucide-react";
+import React from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { PlatformAnalyticsReport } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { PlatformAnalyticsReport } from "@activepieces/shared";
 
 type MetricProps = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -78,51 +78,51 @@ export function Metrics({ report }: MetricsProps) {
   const metricsData = [
     {
       icon: Workflow,
-      title: t('Active Flows'),
+      title: t("Active Flows"),
       value: report?.activeFlows,
-      description: t('The number of enabled flows in the platform'),
+      description: t("The number of enabled flows in the platform"),
       footer: report ? `Out of ${report.totalFlows} total flows` : null,
-      iconColor: 'text-cyan-700',
+      iconColor: "text-cyan-700",
     },
     {
       icon: Building,
-      title: t('Active Projects'),
+      title: t("Active Projects"),
       value: report?.activeProjects,
-      description: t('The number of projects with at least one enabled flow'),
+      description: t("The number of projects with at least one enabled flow"),
       footer: report ? `Out of ${report.totalProjects} total projects` : null,
-      iconColor: 'text-pink-700',
+      iconColor: "text-pink-700",
     },
     {
       icon: User,
-      title: t('Active Users'),
+      title: t("Active Users"),
       value: report?.activeUsers,
-      description: t('The number of users logged in the last 30 days'),
+      description: t("The number of users logged in the last 30 days"),
       footer: report
         ? t(`Out of {totalusers} total users`, {
             totalusers: report.totalUsers,
           })
         : null,
-      iconColor: 'text-indigo-700',
+      iconColor: "text-indigo-700",
     },
     {
       icon: Puzzle,
-      title: t('Pieces Used'),
+      title: t("Pieces Used"),
       value: report?.uniquePiecesUsed,
-      description: t('The number of unique pieces used across all flows'),
-      iconColor: 'text-green-700',
+      description: t("The number of unique pieces used across all flows"),
+      iconColor: "text-green-700",
     },
     {
       icon: Bot,
-      title: t('Flows with AI'),
+      title: t("Flows with AI"),
       value: report?.activeFlowsWithAI,
-      description: t('The number of enabled flows that use AI pieces'),
-      iconColor: 'text-purple-700',
+      description: t("The number of enabled flows that use AI pieces"),
+      iconColor: "text-purple-700",
     },
   ];
 
   return (
     <div>
-      <div className="text-xl font-semibold ">{t('Metrics')}</div>
+      <div className="text-xl font-semibold ">{t("Metrics")}</div>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {report
           ? metricsData.map((metric, index) => (

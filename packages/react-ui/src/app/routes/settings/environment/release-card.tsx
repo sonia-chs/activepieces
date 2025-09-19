@@ -1,13 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Package } from 'lucide-react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Package } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { toast } from '@/components/ui/use-toast';
-import { projectHooks } from '@/hooks/project-hooks';
-import { projectApi } from '@/lib/project-api';
-import { cn } from '@/lib/utils';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { toast } from "@/components/ui/use-toast";
+import { projectHooks } from "@/hooks/project-hooks";
+import { projectApi } from "@/lib/project-api";
+import { cn } from "@/lib/utils";
 
 const ReleaseCard = () => {
   const { project, refetch } = projectHooks.useCurrentProject();
@@ -21,8 +21,8 @@ const ReleaseCard = () => {
     onSuccess: () => {
       refetch();
       toast({
-        title: t('Releases Enabled'),
-        description: t('You have successfully enabled releases'),
+        title: t("Releases Enabled"),
+        description: t("You have successfully enabled releases"),
         duration: 3000,
       });
     },
@@ -35,20 +35,20 @@ const ReleaseCard = () => {
           <Package className="size-8" />
         </div>
         <div className="flex flex-grow flex-col">
-          <div className="text-lg">{t('Releases')}</div>
+          <div className="text-lg">{t("Releases")}</div>
           <div className="text-sm text-muted-foreground">
-            {t('Enable releases to easily create and manage project releases.')}
+            {t("Enable releases to easily create and manage project releases.")}
           </div>
         </div>
         <div className="flex flex-row justify-center items-center gap-1">
           <Button
-            variant={'basic'}
+            variant={"basic"}
             onClick={() => mutate()}
-            className={cn('', {
-              'text-destructive': project.releasesEnabled,
+            className={cn("", {
+              "text-destructive": project.releasesEnabled,
             })}
           >
-            {project.releasesEnabled ? t('Disable') : t('Enable')}
+            {project.releasesEnabled ? t("Disable") : t("Enable")}
           </Button>
         </div>
       </div>
@@ -56,5 +56,5 @@ const ReleaseCard = () => {
   );
 };
 
-ReleaseCard.displayName = 'ReleaseCard';
+ReleaseCard.displayName = "ReleaseCard";
 export { ReleaseCard };

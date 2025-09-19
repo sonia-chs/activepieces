@@ -1,8 +1,8 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from "react";
 
-import { isNil } from '@activepieces/shared';
+import { isNil } from "@activepieces/shared";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 type EditableTextProps = {
   value: string | undefined;
@@ -17,7 +17,7 @@ type EditableTextProps = {
 
 const EditableText = ({
   value: initialValue,
-  className = '',
+  className = "",
   readonly = false,
   onValueChange,
   tooltipContent,
@@ -35,7 +35,7 @@ const EditableText = ({
   const editableTextRef = useRef<HTMLDivElement>(null);
 
   const emitChangedValue = useCallback(() => {
-    const nodeValue = (editableTextRef.current?.textContent ?? '').trim();
+    const nodeValue = (editableTextRef.current?.textContent ?? "").trim();
     const shouldUpdateValue =
       nodeValue.length > 0 && nodeValue !== valueOnEditingStartedRef.current;
 
@@ -62,7 +62,7 @@ const EditableText = ({
   };
 
   if (isEditing && !isEditingPreviousRef.current) {
-    valueOnEditingStartedRef.current = value ? value.trim() : '';
+    valueOnEditingStartedRef.current = value ? value.trim() : "";
 
     setSelectionToValue();
   }
@@ -86,7 +86,7 @@ const EditableText = ({
             }
           }}
           ref={editableTextRef}
-          key={'viewed'}
+          key={"viewed"}
           className={`${className} truncate `}
           title={
             editableTextRef.current &&
@@ -94,7 +94,7 @@ const EditableText = ({
               editableTextRef.current.clientWidth &&
             value
               ? value
-              : ''
+              : ""
           }
         >
           {value}
@@ -108,7 +108,7 @@ const EditableText = ({
     </Tooltip>
   ) : (
     <div
-      key={'editable'}
+      key={"editable"}
       ref={editableTextRef}
       contentEditable
       suppressContentEditableWarning={true}
@@ -118,10 +118,10 @@ const EditableText = ({
         setIsEditing(false);
       }}
       onKeyDown={(event) => {
-        if (event.key === 'Escape') {
+        if (event.key === "Escape") {
           setValue(valueOnEditingStartedRef.current);
           setIsEditing(false);
-        } else if (event.key === 'Enter') {
+        } else if (event.key === "Enter") {
           emitChangedValue();
           setIsEditing(false);
         }
@@ -132,5 +132,5 @@ const EditableText = ({
   );
 };
 
-EditableText.displayName = 'EditableText';
+EditableText.displayName = "EditableText";
 export default EditableText;

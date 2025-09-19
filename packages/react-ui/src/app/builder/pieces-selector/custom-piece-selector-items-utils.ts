@@ -1,17 +1,17 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
-import { pieceSelectorUtils } from '@/features/pieces/lib/piece-selector-utils';
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
+import { pieceSelectorUtils } from "@/features/pieces/lib/piece-selector-utils";
 import {
   CORE_STEP_METADATA,
   TODO_ACTIONS,
-} from '@/features/pieces/lib/step-utils';
+} from "@/features/pieces/lib/step-utils";
 import {
   PieceSelectorItem,
   PieceSelectorOperation,
   PieceSelectorPieceItem,
   PieceStepMetadataWithSuggestions,
-} from '@/lib/types';
+} from "@/lib/types";
 import {
   FlowActionType,
   Agent,
@@ -23,9 +23,9 @@ import {
   RouterExecutionType,
   StepLocationRelativeToParent,
   TodoType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { BuilderState } from '../builder-hooks';
+import { BuilderState } from "../builder-hooks";
 
 const getTodoActionName = (todoType: TodoType) => {
   switch (todoType) {
@@ -38,10 +38,10 @@ const getTodoActionName = (todoType: TodoType) => {
 
 const getActionFromPieceMetadata = (
   pieceMetadata: PieceStepMetadataWithSuggestions,
-  actionName: string,
+  actionName: string
 ) => {
   const result = pieceMetadata.suggestedActions?.find(
-    (action) => action.name === actionName,
+    (action) => action.name === actionName
   );
   if (isNil(result)) {
     toast(INTERNAL_ERROR_TOAST);
@@ -58,7 +58,7 @@ export const createRouterStep = ({
 }: {
   parentStepName: string;
   logoUrl: string;
-  handleAddingOrUpdatingStep: BuilderState['handleAddingOrUpdatingStep'];
+  handleAddingOrUpdatingStep: BuilderState["handleAddingOrUpdatingStep"];
 }) => {
   const routerOnApprovalSettings: RouterActionSettings = {
     branches: [
@@ -68,17 +68,17 @@ export const createRouterStep = ({
             {
               operator: BranchOperator.TEXT_EXACTLY_MATCHES,
               firstValue: `{{ ${parentStepName}['status'] }}`,
-              secondValue: 'Accepted',
+              secondValue: "Accepted",
               caseSensitive: false,
             },
           ],
         ],
         branchType: BranchExecutionType.CONDITION,
-        branchName: 'Accepted',
+        branchName: "Accepted",
       },
       {
         branchType: BranchExecutionType.FALLBACK,
-        branchName: 'Rejected',
+        branchName: "Rejected",
       },
     ],
     executionType: RouterExecutionType.EXECUTE_FIRST_MATCH,
@@ -86,7 +86,7 @@ export const createRouterStep = ({
   return handleAddingOrUpdatingStep({
     pieceSelectorItem: {
       ...CORE_STEP_METADATA[FlowActionType.ROUTER],
-      displayName: t('Check Todo Status'),
+      displayName: t("Check Todo Status"),
     },
     operation: {
       type: FlowOperationType.ADD_ACTION,
@@ -110,12 +110,12 @@ export const createTodoStep = ({
   pieceMetadata: PieceStepMetadataWithSuggestions;
   operation: PieceSelectorOperation;
   todoType: TodoType;
-  handleAddingOrUpdatingStep: BuilderState['handleAddingOrUpdatingStep'];
+  handleAddingOrUpdatingStep: BuilderState["handleAddingOrUpdatingStep"];
 }) => {
   const actionName = getTodoActionName(todoType);
   const createTodoAction = getActionFromPieceMetadata(
     pieceMetadata,
-    actionName,
+    actionName
   );
   if (isNil(createTodoAction)) {
     return null;
@@ -138,11 +138,11 @@ export const createWaitForApprovalStep = ({
 }: {
   pieceMetadata: PieceStepMetadataWithSuggestions;
   parentStepName: string;
-  handleAddingOrUpdatingStep: BuilderState['handleAddingOrUpdatingStep'];
+  handleAddingOrUpdatingStep: BuilderState["handleAddingOrUpdatingStep"];
 }) => {
   const waitForApprovalAction = getActionFromPieceMetadata(
     pieceMetadata,
-    TODO_ACTIONS.waitForApproval,
+    TODO_ACTIONS.waitForApproval
   );
   if (isNil(waitForApprovalAction)) {
     return null;
@@ -187,10 +187,10 @@ export const createWaitForApprovalStep = ({
 
 export const overrideDisplayInfoForPieceSelectorItemWithAgentInfo = (
   pieceSelectorItem: PieceSelectorPieceItem,
-  agent: Agent,
+  agent: Agent
 ): PieceSelectorPieceItem => {
   const agentPieceSelectorItem: PieceSelectorPieceItem = JSON.parse(
-    JSON.stringify(pieceSelectorItem),
+    JSON.stringify(pieceSelectorItem)
   );
   agentPieceSelectorItem.pieceMetadata.logoUrl = agent.profilePictureUrl;
   agentPieceSelectorItem.actionOrTrigger.description = agent.description;
@@ -202,12 +202,12 @@ export const handleAddingOrUpdatingCustomAgentPieceSelectorItem = (
   pieceSelectorItem: PieceSelectorPieceItem,
   agent: Agent,
   operation: PieceSelectorOperation,
-  handleAddingOrUpdatingStep: BuilderState['handleAddingOrUpdatingStep'],
+  handleAddingOrUpdatingStep: BuilderState["handleAddingOrUpdatingStep"]
 ) => {
   const agentPieceSelectorItem =
     overrideDisplayInfoForPieceSelectorItemWithAgentInfo(
       pieceSelectorItem,
-      agent,
+      agent
     );
   const stepName = handleAddingOrUpdatingStep({
     pieceSelectorItem: agentPieceSelectorItem,

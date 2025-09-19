@@ -1,11 +1,11 @@
-import JSZip from 'jszip';
-import { Type, Calendar, Hash, ChevronDownCircle } from 'lucide-react';
-import { createContext, ReactNode } from 'react';
+import JSZip from "jszip";
+import { Type, Calendar, Hash, ChevronDownCircle } from "lucide-react";
+import { createContext, ReactNode } from "react";
 
-import { downloadFile } from '@/lib/utils';
-import { ExportTableResponse, FieldType } from '@activepieces/shared';
+import { downloadFile } from "@/lib/utils";
+import { ExportTableResponse, FieldType } from "@activepieces/shared";
 
-import { ClientField, ClientRecordData } from './store/ap-tables-client-state';
+import { ClientField, ClientRecordData } from "./store/ap-tables-client-state";
 
 function getColumnIcon(type: FieldType): ReactNode {
   switch (type) {
@@ -25,17 +25,17 @@ const getCsvContent = (table: ExportTableResponse) => {
   const csvRows: string[][] = [];
   csvRows.push(table.fields.map((f) => f.name));
   table.rows.forEach((row) => {
-    csvRows.push(table.fields.map((field) => row[field.name] ?? ''));
+    csvRows.push(table.fields.map((field) => row[field.name] ?? ""));
   });
   return csvRows
     .map((row) =>
       row
         .map((cell) =>
-          typeof cell === 'string' ? `"${cell.replace(/"/g, '""')}"` : cell,
+          typeof cell === "string" ? `"${cell.replace(/"/g, '""')}"` : cell
         )
-        .join(','),
+        .join(",")
     )
-    .join('\n');
+    .join("\n");
 };
 function exportTables(tables: ExportTableResponse[]) {
   if (tables.length === 1) {
@@ -43,7 +43,7 @@ function exportTables(tables: ExportTableResponse[]) {
     downloadFile({
       obj: csvContent,
       fileName: `${tables[0].name}`,
-      extension: 'csv',
+      extension: "csv",
     });
     return;
   }
@@ -54,8 +54,8 @@ function exportTables(tables: ExportTableResponse[]) {
   });
   downloadFile({
     obj: zip,
-    fileName: 'tables',
-    extension: 'zip',
+    fileName: "tables",
+    extension: "zip",
   });
 }
 
@@ -84,7 +84,7 @@ function exportRecords({
   downloadFile({
     obj: csvContent,
     fileName: `${tableName}`,
-    extension: 'csv',
+    extension: "csv",
   });
 }
 export const tablesUtils = {

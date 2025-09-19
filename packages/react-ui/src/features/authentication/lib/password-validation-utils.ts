@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
 const MIN_LENGTH = 8;
 const MAX_LENGTH = 64;
@@ -15,32 +15,32 @@ type ValidationRule = {
 const validationMessages = {
   minLength: t(`Password must be at least ${MIN_LENGTH} characters long`),
   maxLength: t(`Password can't be more than ${MAX_LENGTH} characters long`),
-  specialCharacter: t('Password must contain at least one special character'),
-  lowercase: t('Password must contain at least one lowercase letter'),
-  uppercase: t('Password must contain at least one uppercase letter'),
-  number: t('Password must contain at least one number'),
+  specialCharacter: t("Password must contain at least one special character"),
+  lowercase: t("Password must contain at least one lowercase letter"),
+  uppercase: t("Password must contain at least one uppercase letter"),
+  number: t("Password must contain at least one number"),
 };
 
 const passwordRules: ValidationRule[] = [
   {
-    label: t('8-64 Characters'),
+    label: t("8-64 Characters"),
     condition: (password: string) =>
       password.length >= MIN_LENGTH && password.length <= MAX_LENGTH,
   },
   {
-    label: t('Special Character'),
+    label: t("Special Character"),
     condition: (password: string) => SPECIAL_CHARACTER_REGEX.test(password),
   },
   {
-    label: t('Lowercase'),
+    label: t("Lowercase"),
     condition: (password: string) => LOWERCASE_REGEX.test(password),
   },
   {
-    label: t('Uppercase'),
+    label: t("Uppercase"),
     condition: (password: string) => UPPERCASE_REGEX.test(password),
   },
   {
-    label: t('Number'),
+    label: t("Number"),
     condition: (password: string) => NUMBER_REGEX.test(password),
   },
 ];

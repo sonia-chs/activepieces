@@ -1,13 +1,13 @@
-import dayjs from 'dayjs';
-import { t } from 'i18next';
-import { Shield, AlertTriangle, Check } from 'lucide-react';
+import dayjs from "dayjs";
+import { t } from "i18next";
+import { Shield, AlertTriangle, Check } from "lucide-react";
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
-import { formatUtils } from '@/lib/utils';
-import { isNil, PlatformWithoutSensitiveData } from '@activepieces/shared';
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
+import { formatUtils } from "@/lib/utils";
+import { isNil, PlatformWithoutSensitiveData } from "@activepieces/shared";
 
-import { FeatureStatus } from './features-status';
+import { FeatureStatus } from "./features-status";
 
 export const LicenseKey = ({
   platform,
@@ -20,13 +20,13 @@ export const LicenseKey = ({
   const expiresSoon =
     !expired &&
     !isNil(platform?.plan?.licenseExpiresAt) &&
-    dayjs(platform.plan.licenseExpiresAt).isBefore(dayjs().add(7, 'day'));
+    dayjs(platform.plan.licenseExpiresAt).isBefore(dayjs().add(7, "day"));
 
   const getStatusBadge = () => {
     if (expired) {
       return (
         <StatusIconWithText
-          text={t('Expired')}
+          text={t("Expired")}
           icon={AlertTriangle}
           variant="error"
         />
@@ -35,14 +35,14 @@ export const LicenseKey = ({
     if (expiresSoon) {
       return (
         <StatusIconWithText
-          text={t('Expires soon')}
+          text={t("Expires soon")}
           icon={AlertTriangle}
           variant="default"
         />
       );
     }
     return (
-      <StatusIconWithText text={t('Active')} icon={Check} variant="success" />
+      <StatusIconWithText text={t("Active")} icon={Check} variant="success" />
     );
   };
 
@@ -55,9 +55,9 @@ export const LicenseKey = ({
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{t('License Key')}</h3>
+              <h3 className="text-lg font-semibold">{t("License Key")}</h3>
               <p className="text-sm text-muted-foreground">
-                {t('Activate your platform and unlock enterprise features')}
+                {t("Activate your platform and unlock enterprise features")}
               </p>
             </div>
           </div>
@@ -70,12 +70,12 @@ export const LicenseKey = ({
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-green-500 rounded-full" />
               <div>
-                <p className="text-sm font-medium">{t('License Active')}</p>
+                <p className="text-sm font-medium">{t("License Active")}</p>
                 {!isNil(platform.plan.licenseExpiresAt) && (
                   <p className="text-xs text-muted-foreground">
-                    {t('Valid until')}{' '}
+                    {t("Valid until")}{" "}
                     {formatUtils.formatDateOnly(
-                      dayjs(platform.plan.licenseExpiresAt).toDate(),
+                      dayjs(platform.plan.licenseExpiresAt).toDate()
                     )}
                   </p>
                 )}
@@ -86,7 +86,7 @@ export const LicenseKey = ({
         )}
         <div>
           <h3 className="text-base font-semibold mb-4">
-            {t('Enabled Features')}
+            {t("Enabled Features")}
           </h3>
           <FeatureStatus platform={platform} />
         </div>
@@ -95,4 +95,4 @@ export const LicenseKey = ({
   );
 };
 
-LicenseKey.displayName = 'LicenseKeys';
+LicenseKey.displayName = "LicenseKeys";

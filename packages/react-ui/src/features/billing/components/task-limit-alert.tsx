@@ -1,9 +1,9 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { projectHooks } from '@/hooks/project-hooks';
-import { isNil } from '@activepieces/shared';
+import { projectHooks } from "@/hooks/project-hooks";
+import { isNil } from "@activepieces/shared";
 
-import { LimitAlert } from './limit-alert';
+import { LimitAlert } from "./limit-alert";
 
 export const TaskLimitAlert = () => {
   const { project } = projectHooks.useCurrentProject();
@@ -15,16 +15,16 @@ export const TaskLimitAlert = () => {
   return (
     <LimitAlert
       fullUsageWarningNote={t(
-        'When a project tasks limit is reached, all flows will be turned off and you will not be able to run any flows.',
+        "When a project tasks limit is reached, all flows will be turned off and you will not be able to run any flows."
       )}
       usagePercentage={taskUsagePercentage}
       getPercentageNote={(limitWarningPercentage) => {
-        return `${t('Task Usage Exceeded')} ${
+        return `${t("Task Usage Exceeded")} ${
           limitWarningPercentage * 100
-        }% ${t('of the Allowed Limit.')} `;
+        }% ${t("of the Allowed Limit.")} `;
       }}
     />
   );
 };
 
-TaskLimitAlert.displayName = 'TaskLimitAlert';
+TaskLimitAlert.displayName = "TaskLimitAlert";

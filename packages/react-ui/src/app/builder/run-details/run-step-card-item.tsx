@@ -1,25 +1,25 @@
-import { useReactFlow } from '@xyflow/react';
-import { t } from 'i18next';
-import { ChevronRight } from 'lucide-react';
-import React, { useMemo } from 'react';
+import { useReactFlow } from "@xyflow/react";
+import { t } from "i18next";
+import { ChevronRight } from "lucide-react";
+import React, { useMemo } from "react";
 
-import { useBuilderStateContext } from '@/app/builder/builder-hooks';
-import { CardListItem } from '@/components/custom/card-list';
-import { Button } from '@/components/ui/button';
+import { useBuilderStateContext } from "@/app/builder/builder-hooks";
+import { CardListItem } from "@/components/custom/card-list";
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { stepsHooks } from '@/features/pieces/lib/steps-hooks';
-import { cn, formatUtils } from '@/lib/utils';
-import { FlowActionType, flowStructureUtil } from '@activepieces/shared';
+} from "@/components/ui/collapsible";
+import { stepsHooks } from "@/features/pieces/lib/steps-hooks";
+import { cn, formatUtils } from "@/lib/utils";
+import { FlowActionType, flowStructureUtil } from "@activepieces/shared";
 
-import { StepStatusIcon } from '../../../features/flow-runs/components/step-status-icon';
-import { flowRunUtils } from '../../../features/flow-runs/lib/flow-run-utils';
-import { flowCanvasUtils } from '../flow-canvas/utils/flow-canvas-utils';
+import { StepStatusIcon } from "../../../features/flow-runs/components/step-status-icon";
+import { flowRunUtils } from "../../../features/flow-runs/lib/flow-run-utils";
+import { flowCanvasUtils } from "../flow-canvas/utils/flow-canvas-utils";
 
-import { LoopIterationInput } from './loop-iteration-input';
+import { LoopIterationInput } from "./loop-iteration-input";
 type RunStepCardProps = {
   stepName: string;
   depth: number;
@@ -37,7 +37,7 @@ const RunStepCardItem = ({ stepName, depth }: RunStepCardProps) => {
   ] = useBuilderStateContext((state) => {
     const step = flowStructureUtil.getStepOrThrow(
       stepName,
-      state.flowVersion.trigger,
+      state.flowVersion.trigger
     );
     const stepIndex = flowStructureUtil
       .getAllSteps(state.flowVersion.trigger)
@@ -66,7 +66,7 @@ const RunStepCardItem = ({ stepName, depth }: RunStepCardProps) => {
           stepName,
           loopsIndexes,
           run.steps,
-          flowVersion.trigger,
+          flowVersion.trigger
         )
       : null;
   }, [loopsIndexes, run, stepName, flowVersion.trigger]);
@@ -101,21 +101,21 @@ const RunStepCardItem = ({ stepName, depth }: RunStepCardProps) => {
               setIsOpen(!isOpen);
             }
           }}
-          className={cn('cursor-pointer select-none px-4 py-3 h-14', {
-            'bg-accent text-accent-foreground': isStepSelected,
+          className={cn("cursor-pointer select-none px-4 py-3 h-14", {
+            "bg-accent text-accent-foreground": isStepSelected,
           })}
         >
           <div
             style={{
               minWidth: `${depth * 25}px`,
-              display: depth === 0 ? 'none' : 'flex',
+              display: depth === 0 ? "none" : "flex",
             }}
           ></div>
           <div className="flex items-center  w-full gap-3">
             {children.length > 0 && (
               <Button
                 variant="ghost"
-                size={'icon'}
+                size={"icon"}
                 className="w-4 h-4"
                 onClick={(e) => {
                   setIsOpen(!isOpen);
@@ -124,7 +124,7 @@ const RunStepCardItem = ({ stepName, depth }: RunStepCardProps) => {
               >
                 <ChevronRight
                   size={16}
-                  className={cn('', { 'rotate-90': isOpen })}
+                  className={cn("", { "rotate-90": isOpen })}
                 />
               </Button>
             )}
@@ -140,16 +140,16 @@ const RunStepCardItem = ({ stepName, depth }: RunStepCardProps) => {
             <div className="flex gap-1 justify-end  items-center flex-grow">
               {isLoopStep && isStepSelected && (
                 <span className="text-sm font-semibold animate-fade">
-                  {t('All Iterations')}
+                  {t("All Iterations")}
                 </span>
               )}
               {isLoopStep && !isStepSelected && (
                 <div
                   className={cn(
-                    'flex gap-1 justify-end  items-center flex-grow',
+                    "flex gap-1 justify-end  items-center flex-grow",
                     {
                       hidden: !isChildSelected,
-                    },
+                    }
                   )}
                 >
                   <LoopIterationInput stepName={stepName} />
@@ -161,7 +161,7 @@ const RunStepCardItem = ({ stepName, depth }: RunStepCardProps) => {
                   <span className="text-muted-foreground text-xs break-normal whitespace-nowrap">
                     {formatUtils.formatDuration(
                       stepOutput?.duration ?? 0,
-                      true,
+                      true
                     )}
                   </span>
                   {stepOutput && stepOutput.status && (
@@ -189,5 +189,5 @@ const RunStepCardItem = ({ stepName, depth }: RunStepCardProps) => {
   );
 };
 
-RunStepCardItem.displayName = 'RunStepCardItem';
+RunStepCardItem.displayName = "RunStepCardItem";
 export { RunStepCardItem as FlowStepDetailsCardItem };

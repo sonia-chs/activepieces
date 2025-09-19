@@ -1,25 +1,25 @@
-import { t } from 'i18next';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { platformApi } from '@/lib/platforms-api';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { platformApi } from "@/lib/platforms-api";
 import {
   AzureOpenAiProvider,
   CopilotProviderType,
   CopilotSettings,
   OpenAiProvider,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type ConfigureProviderDialogProps = {
   open: boolean;
@@ -38,13 +38,13 @@ export const ConfigureProviderDialog = ({
   ] as OpenAiProvider | undefined;
 
   const [selectedProvider, setSelectedProvider] = useState<CopilotProviderType>(
-    CopilotProviderType.OPENAI,
+    CopilotProviderType.OPENAI
   );
   const [formData, setFormData] = useState({
-    baseUrl: openaiProvider?.baseUrl || 'https://api.openai.com',
-    apiKey: openaiProvider?.apiKey || '',
-    resourceName: '',
-    deploymentName: '',
+    baseUrl: openaiProvider?.baseUrl || "https://api.openai.com",
+    apiKey: openaiProvider?.apiKey || "",
+    resourceName: "",
+    deploymentName: "",
   });
 
   const handleProviderChange = (value: CopilotProviderType) => {
@@ -58,17 +58,17 @@ export const ConfigureProviderDialog = ({
 
     if (value === CopilotProviderType.OPENAI) {
       setFormData({
-        baseUrl: openaiProvider?.baseUrl || 'https://api.openai.com',
-        apiKey: openaiProvider?.apiKey || '',
-        resourceName: '',
-        deploymentName: '',
+        baseUrl: openaiProvider?.baseUrl || "https://api.openai.com",
+        apiKey: openaiProvider?.apiKey || "",
+        resourceName: "",
+        deploymentName: "",
       });
     } else {
       setFormData({
-        baseUrl: '',
-        apiKey: azureProvider?.apiKey || '',
-        resourceName: azureProvider?.resourceName || '',
-        deploymentName: azureProvider?.deploymentName || '',
+        baseUrl: "",
+        apiKey: azureProvider?.apiKey || "",
+        resourceName: azureProvider?.resourceName || "",
+        deploymentName: azureProvider?.deploymentName || "",
       });
     }
   };
@@ -99,13 +99,13 @@ export const ConfigureProviderDialog = ({
         {
           copilotSettings: newSettings,
         },
-        platformId,
+        platformId
       );
 
       await refetch();
       onOpenChange(false);
     } catch (error) {
-      console.error('Failed to configure provider:', error);
+      console.error("Failed to configure provider:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -116,7 +116,7 @@ export const ConfigureProviderDialog = ({
       <DialogContent className="sm:max-w-[425px] p-4">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-lg font-medium">
-            {t('Configure AI Provider')}
+            {t("Configure AI Provider")}
           </DialogTitle>
         </DialogHeader>
 
@@ -163,7 +163,7 @@ export const ConfigureProviderDialog = ({
             {selectedProvider === CopilotProviderType.OPENAI ? (
               <>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium">{t('Base URL')}</label>
+                  <label className="text-sm font-medium">{t("Base URL")}</label>
                   <Input
                     value={formData.baseUrl}
                     onChange={(e) =>
@@ -175,7 +175,7 @@ export const ConfigureProviderDialog = ({
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium">{t('API Key')}</label>
+                  <label className="text-sm font-medium">{t("API Key")}</label>
                   <Input
                     type="password"
                     value={formData.apiKey}
@@ -192,7 +192,7 @@ export const ConfigureProviderDialog = ({
               <>
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium">
-                    {t('Resource Name')}
+                    {t("Resource Name")}
                   </label>
                   <Input
                     value={formData.resourceName}
@@ -206,7 +206,7 @@ export const ConfigureProviderDialog = ({
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium">
-                    {t('Deployment Name')}
+                    {t("Deployment Name")}
                   </label>
                   <Input
                     value={formData.deploymentName}
@@ -222,7 +222,7 @@ export const ConfigureProviderDialog = ({
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium">{t('API Key')}</label>
+                  <label className="text-sm font-medium">{t("API Key")}</label>
                   <Input
                     type="password"
                     value={formData.apiKey}
@@ -247,10 +247,10 @@ export const ConfigureProviderDialog = ({
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-3.5 h-3.5 animate-spin mr-2" />
-                  {t('Saving')}
+                  {t("Saving")}
                 </>
               ) : (
-                t('Save')
+                t("Save")
               )}
             </Button>
           </div>

@@ -1,15 +1,15 @@
-import { PolarGrid, RadialBar, RadialBarChart } from 'recharts';
+import { PolarGrid, RadialBar, RadialBarChart } from "recharts";
 
-import { ChartContainer } from '../ui/chart';
+import { ChartContainer } from "../ui/chart";
 
 const ProgressCircularComponent: React.FC<{
   data: {
     plan: number;
     usage: number;
   };
-  size?: 'big' | 'small';
-}> = ({ data, size = 'big' }) => {
-  const sizeClass = size === 'big' ? 'size-[40px]' : 'size-[25px]';
+  size?: "big" | "small";
+}> = ({ data, size = "big" }) => {
+  const sizeClass = size === "big" ? "size-[40px]" : "size-[25px]";
   return (
     <div className={`overflow-hidden ${sizeClass}`}>
       <ChartContainer
@@ -19,9 +19,9 @@ const ProgressCircularComponent: React.FC<{
         <RadialBarChart
           data={[
             {
-              name: 'plan',
+              name: "plan",
               progress: data.usage,
-              fill: 'hsl(var(--primary))',
+              fill: "hsl(var(--primary))",
             },
           ]}
           startAngle={0}
@@ -29,7 +29,7 @@ const ProgressCircularComponent: React.FC<{
           innerRadius={80}
           outerRadius={110}
           style={{
-            height: size === 'big' ? 40 : 25,
+            height: size === "big" ? 40 : 25,
           }}
         >
           <PolarGrid

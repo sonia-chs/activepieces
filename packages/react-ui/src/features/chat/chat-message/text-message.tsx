@@ -1,23 +1,23 @@
-import { javascript } from '@codemirror/lang-javascript';
-import { githubDark, githubLight } from '@uiw/codemirror-theme-github';
+import { javascript } from "@codemirror/lang-javascript";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import ReactCodeMirror, {
   EditorState,
   EditorView,
-} from '@uiw/react-codemirror';
-import { CodeIcon, Copy } from 'lucide-react';
-import React from 'react';
-import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+} from "@uiw/react-codemirror";
+import { CodeIcon, Copy } from "lucide-react";
+import React from "react";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
-import { CopyButton } from '@/components/custom/clipboard/copy-button';
-import { useTheme } from '@/components/theme-provider';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { FileResponseInterface } from '@activepieces/shared';
+import { CopyButton } from "@/components/custom/clipboard/copy-button";
+import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { FileResponseInterface } from "@activepieces/shared";
 
 interface TextMessageProps {
   content: string;
-  role: 'user' | 'bot';
+  role: "user" | "bot";
   attachments?: FileResponseInterface[];
 }
 
@@ -25,7 +25,7 @@ export const TextMessage: React.FC<TextMessageProps> = React.memo(
   ({ content, role }) => {
     const { theme } = useTheme();
     const extensions = [
-      theme === 'dark' ? githubDark : githubLight,
+      theme === "dark" ? githubDark : githubLight,
       EditorState.readOnly.of(true),
       EditorView.editable.of(false),
       javascript({ jsx: false, typescript: true }),
@@ -38,16 +38,16 @@ export const TextMessage: React.FC<TextMessageProps> = React.memo(
           className="bg-inherit"
           components={{
             code({ node, inline, className, children, ...props }: any) {
-              if (role === 'user') {
+              if (role === "user") {
                 return <div className="font-mono text-sm">{children}</div>;
               }
-              const match = /language-(\w+)/.exec(className || '');
+              const match = /language-(\w+)/.exec(className || "");
 
               return !inline && match && match[1] ? (
                 <div
                   className={cn(
-                    'relative border rounded-md p-4 pt-12',
-                    theme === 'dark' ? 'bg-[#0E1117]' : 'bg-background',
+                    "relative border rounded-md p-4 pt-12",
+                    theme === "dark" ? "bg-[#0E1117]" : "bg-background"
                   )}
                 >
                   <ReactCodeMirror
@@ -72,7 +72,7 @@ export const TextMessage: React.FC<TextMessageProps> = React.memo(
                       closeBrackets: false,
                     }}
                     lang={match[1]}
-                    theme={theme === 'dark' ? githubDark : githubLight}
+                    theme={theme === "dark" ? githubDark : githubLight}
                     readOnly={true}
                     extensions={extensions}
                   />
@@ -91,7 +91,7 @@ export const TextMessage: React.FC<TextMessageProps> = React.memo(
                 <code
                   className={cn(
                     className,
-                    'bg-gray-200 px-[6px] py-[2px] rounded-xs font-mono text-sm',
+                    "bg-gray-200 px-[6px] py-[2px] rounded-xs font-mono text-sm"
                   )}
                   {...props}
                 >
@@ -103,7 +103,7 @@ export const TextMessage: React.FC<TextMessageProps> = React.memo(
         >
           {content}
         </Markdown>
-        {role === 'bot' && (
+        {role === "bot" && (
           <CopyButton
             textToCopy={content}
             tooltipSide="bottom"
@@ -118,9 +118,9 @@ export const TextMessage: React.FC<TextMessageProps> = React.memo(
       prevProps.content === nextProps.content &&
       prevProps.role === nextProps.role
     );
-  },
+  }
 );
-TextMessage.displayName = 'TextMessage';
+TextMessage.displayName = "TextMessage";
 
 const CopyCode = ({
   textToCopy,
@@ -143,7 +143,7 @@ const CopyCode = ({
         }}
       >
         <Copy className="size-4" />
-        <span className="text-xs">{isCopied ? 'Copied!' : 'Copy Code'}</span>
+        <span className="text-xs">{isCopied ? "Copied!" : "Copy Code"}</span>
       </Button>
     </div>
   );

@@ -1,18 +1,18 @@
-import { t } from 'i18next';
-import { RouteOff } from 'lucide-react';
-import { useMemo } from 'react';
+import { t } from "i18next";
+import { RouteOff } from "lucide-react";
+import { useMemo } from "react";
 
-import { InvalidStepIcon } from '@/components/custom/alert-icon';
+import { InvalidStepIcon } from "@/components/custom/alert-icon";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { StepStatusIcon } from '@/features/flow-runs/components/step-status-icon';
-import { flowStructureUtil } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { StepStatusIcon } from "@/features/flow-runs/components/step-status-icon";
+import { flowStructureUtil } from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../../builder-hooks';
-import { flowCanvasUtils } from '../utils/flow-canvas-utils';
+import { useBuilderStateContext } from "../../builder-hooks";
+import { flowCanvasUtils } from "../utils/flow-canvas-utils";
 
 const ApStepNodeStatus = ({ stepName }: { stepName: string }) => {
   const [run, loopIndexes, flowVersion, step] = useBuilderStateContext(
@@ -21,7 +21,7 @@ const ApStepNodeStatus = ({ stepName }: { stepName: string }) => {
       state.loopsIndexes,
       state.flowVersion,
       flowStructureUtil.getStep(stepName, state.flowVersion.trigger),
-    ],
+    ]
   );
 
   const stepStatusInRun = useMemo(() => {
@@ -29,7 +29,7 @@ const ApStepNodeStatus = ({ stepName }: { stepName: string }) => {
       stepName,
       run,
       loopIndexes,
-      flowVersion,
+      flowVersion
     );
   }, [stepName, run, loopIndexes, flowVersion]);
   const isSkipped = flowCanvasUtils.isSkipped(stepName, flowVersion.trigger);
@@ -48,7 +48,7 @@ const ApStepNodeStatus = ({ stepName }: { stepName: string }) => {
           <TooltipTrigger asChild>
             <RouteOff className="w-4 h-4"> </RouteOff>
           </TooltipTrigger>
-          <TooltipContent side="bottom">{t('Skipped')}</TooltipContent>
+          <TooltipContent side="bottom">{t("Skipped")}</TooltipContent>
         </Tooltip>
       )}
       {!step?.valid && !isSkipped && (
@@ -63,13 +63,13 @@ const ApStepNodeStatus = ({ stepName }: { stepName: string }) => {
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            {t('Incomplete settings')}
+            {t("Incomplete settings")}
           </TooltipContent>
         </Tooltip>
       )}
     </div>
   );
 };
-ApStepNodeStatus.displayName = 'ApStepNodeStatus';
+ApStepNodeStatus.displayName = "ApStepNodeStatus";
 
 export { ApStepNodeStatus };

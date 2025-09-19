@@ -1,22 +1,22 @@
-import dayjs from 'dayjs';
-import { t } from 'i18next';
-import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import dayjs from "dayjs";
+import { t } from "i18next";
+import { CheckCircle, XCircle, AlertCircle } from "lucide-react";
 
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { DataTable } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { DataTable } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { triggerRunHooks } from '@/features/flows/lib/trigger-run-api';
-import PieceDisplayName from '@/features/pieces/components/piece-display-name';
-import PieceIconWithPieceName from '@/features/pieces/components/piece-icon-from-name';
-import { cn } from '@/lib/utils';
-import { TriggerStatusReport } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { triggerRunHooks } from "@/features/flows/lib/trigger-run-api";
+import PieceDisplayName from "@/features/pieces/components/piece-display-name";
+import PieceIconWithPieceName from "@/features/pieces/components/piece-icon-from-name";
+import { cn } from "@/lib/utils";
+import { TriggerStatusReport } from "@activepieces/shared";
 
-import { StatusProgressBar, type DayStatus } from './status-progress-bar';
+import { StatusProgressBar, type DayStatus } from "./status-progress-bar";
 
 type TriggerHealthRow = {
   id: string;
@@ -31,30 +31,30 @@ type TriggerHealthRow = {
 };
 
 const STATUS = {
-  SUCCESS: 'success',
-  FAULT: 'fault',
-  WARNING: 'warning',
+  SUCCESS: "success",
+  FAULT: "fault",
+  WARNING: "warning",
 };
 
 const STATUS_TOOLTIPS: Record<string, string> = {
-  [STATUS.SUCCESS]: 'All trigger runs were successful in the selected period.',
+  [STATUS.SUCCESS]: "All trigger runs were successful in the selected period.",
   [STATUS.WARNING]:
-    'Some trigger runs failed. Please review for potential issues.',
-  [STATUS.FAULT]: 'All trigger runs failed. Immediate attention required.',
+    "Some trigger runs failed. Please review for potential issues.",
+  [STATUS.FAULT]: "All trigger runs failed. Immediate attention required.",
 };
 
 const percentageForLastXDays = (
   days: number,
-  pieceData: TriggerStatusReport['pieces'][string],
+  pieceData: TriggerStatusReport["pieces"][string]
 ) => {
   const lastXDays = generateLastXDays(days);
   const successRuns = lastXDays.reduce(
     (acc, day) => acc + (pieceData.dailyStats[day]?.success ?? 0),
-    0,
+    0
   );
   const failureRuns = lastXDays.reduce(
     (acc, day) => acc + (pieceData.dailyStats[day]?.failure ?? 0),
-    0,
+    0
   );
   const percentage =
     successRuns > 0 ? (successRuns / (successRuns + failureRuns)) * 100 : 100;
@@ -63,7 +63,7 @@ const percentageForLastXDays = (
 
 const generateLastXDays = (days: number): string[] => {
   return Array.from({ length: days }, (_, i) =>
-    dayjs().subtract(i, 'day').format('YYYY-MM-DD'),
+    dayjs().subtract(i, "day").format("YYYY-MM-DD")
   );
 };
 
@@ -98,7 +98,7 @@ export default function TriggerHealthPage() {
               success,
               failure,
               status:
-                failure > 0 ? (success > 0 ? 'warning' : 'fault') : 'success',
+                failure > 0 ? (success > 0 ? "warning" : "fault") : "success",
               totalRuns: totalRuns,
             };
           }),
@@ -122,23 +122,23 @@ export default function TriggerHealthPage() {
   const getStatusColor = (statusType: string) => {
     switch (statusType) {
       case STATUS.SUCCESS:
-        return 'text-emerald-700';
+        return "text-emerald-700";
       case STATUS.WARNING:
-        return 'text-yellow-700';
+        return "text-yellow-700";
       case STATUS.FAULT:
-        return 'text-destructive';
+        return "text-destructive";
       default:
-        return 'text-gray-600';
+        return "text-gray-600";
     }
   };
 
   const getStatusTooltip = (statusType: string) => {
-    return STATUS_TOOLTIPS[statusType] || 'Unknown status';
+    return STATUS_TOOLTIPS[statusType] || "Unknown status";
   };
 
   const columns = [
     {
-      accessorKey: 'pieceDisplayName',
+      accessorKey: "pieceDisplayName",
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title="Piece" />
       ),
@@ -158,12 +158,12 @@ export default function TriggerHealthPage() {
                   <TooltipTrigger asChild>
                     <span
                       className={cn(
-                        'flex items-center ml-2',
-                        getStatusColor(status.type),
+                        "flex items-center ml-2",
+                        getStatusColor(status.type)
                       )}
                       tabIndex={0}
                       aria-label={getStatusTooltip(status.type)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                     >
                       {getStatusIcon(status.type)}
                     </span>
@@ -179,7 +179,7 @@ export default function TriggerHealthPage() {
       },
     },
     {
-      accessorKey: 'runs',
+      accessorKey: "runs",
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title="Total Runs (14D)" />
       ),
@@ -188,7 +188,7 @@ export default function TriggerHealthPage() {
       ),
     },
     {
-      accessorKey: 'lastResults',
+      accessorKey: "lastResults",
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title="Last Results" />
       ),
@@ -197,30 +197,30 @@ export default function TriggerHealthPage() {
       ),
     },
     {
-      accessorKey: 'last24Hours',
+      accessorKey: "last24Hours",
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title="Last 24 Hours" />
       ),
       cell: ({ row }: any) => (
-        <div className={cn('font-medium')}>{row.original.last24Hours}%</div>
+        <div className={cn("font-medium")}>{row.original.last24Hours}%</div>
       ),
     },
     {
-      accessorKey: 'last7Days',
+      accessorKey: "last7Days",
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title="Last 7 Days" />
       ),
       cell: ({ row }: any) => (
-        <div className={cn('font-medium')}>{row.original.last7Days}%</div>
+        <div className={cn("font-medium")}>{row.original.last7Days}%</div>
       ),
     },
     {
-      accessorKey: 'last14Days',
+      accessorKey: "last14Days",
       header: ({ column }: any) => (
         <DataTableColumnHeader column={column} title="Last 14 Days" />
       ),
       cell: ({ row }: any) => (
-        <div className={cn('font-medium')}>{row.original.last14Days}%</div>
+        <div className={cn("font-medium")}>{row.original.last14Days}%</div>
       ),
     },
   ];
@@ -228,18 +228,18 @@ export default function TriggerHealthPage() {
   return (
     <div className="flex flex-col w-full gap-4">
       <DashboardPageHeader
-        title={t('Trigger Health Status')}
-        description={t('Monitor the health and performance of your triggers')}
+        title={t("Trigger Health Status")}
+        description={t("Monitor the health and performance of your triggers")}
       />
       <DataTable
-        emptyStateTextTitle={t('No trigger data available')}
+        emptyStateTextTitle={t("No trigger data available")}
         emptyStateTextDescription={t(
-          'Trigger health information will appear here',
+          "Trigger health information will appear here"
         )}
         emptyStateIcon={<CheckCircle className="size-14" />}
         hidePagination={true}
         columns={columns}
-        page={{ data: triggerHealthData, previous: '', next: '' }}
+        page={{ data: triggerHealthData, previous: "", next: "" }}
         isLoading={isLoading}
       />
     </div>

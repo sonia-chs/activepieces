@@ -1,3 +1,4 @@
+import { ApFlagId, supportUrl } from '@activepieces/shared';
 import { QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 import { t } from 'i18next';
 import { ChevronRight, BookOpen, History, VideoIcon } from 'lucide-react';
@@ -5,6 +6,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import TutorialsDialog from '@/components/custom/tutorials-dialog';
+import { useEmbedding } from '@/components/embed-provider';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,10 +15,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenuButton } from '@/components/ui/sidebar-shadcn';
 import { flagsHooks } from '@/hooks/flags-hooks';
-import { ApFlagId, supportUrl } from '@activepieces/shared';
 
 export const HelpAndFeedback = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { embedState } = useEmbedding();
   const { data: showCommunity } = flagsHooks.useFlag<boolean>(
     ApFlagId.SHOW_COMMUNITY,
   );
@@ -61,12 +63,17 @@ export const HelpAndFeedback = () => {
           </Link>
         </DropdownMenuItem>
 
-        <TutorialsDialog location="tutorials-sidebar-item" showTooltip={false}>
-          <div className="flex items-center gap-2 text-sm px-2 py-1.5 cursor-pointer hover:bg-sidebar-accent rounded-sm transition-colors">
-            <VideoIcon className="size-4" />
-            <span>{t('Tutorials')}</span>
-          </div>
-        </TutorialsDialog>
+        {!embedState.hideTutorials && (
+          <TutorialsDialog
+            location="tutorials-sidebar-item"
+            showTooltip={false}
+          >
+            <div className="flex items-center gap-2 text-sm px-2 py-1.5 cursor-pointer hover:bg-sidebar-accent rounded-sm transition-colors">
+              <VideoIcon className="size-4" />
+              <span>{t('Tutorials')}</span>
+            </div>
+          </TutorialsDialog>
+        )}
 
         {showCommunity && (
           <>

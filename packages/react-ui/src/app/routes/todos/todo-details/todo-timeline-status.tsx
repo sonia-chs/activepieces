@@ -1,6 +1,6 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { STATUS_VARIANT, Todo } from '@activepieces/shared';
+import { STATUS_VARIANT, Todo } from "@activepieces/shared";
 
 interface TodoTimelineStatusProps {
   todo: Todo;
@@ -12,9 +12,9 @@ export const TodoTimelineStatus = ({ todo }: TodoTimelineStatusProps) => {
   }
 
   const bgColor = {
-    [STATUS_VARIANT.POSITIVE]: 'bg-emerald-700',
-    [STATUS_VARIANT.NEGATIVE]: 'bg-destructive-300',
-    [STATUS_VARIANT.NEUTRAL]: 'bg-gray-700',
+    [STATUS_VARIANT.POSITIVE]: "bg-emerald-700",
+    [STATUS_VARIANT.NEGATIVE]: "bg-destructive-300",
+    [STATUS_VARIANT.NEUTRAL]: "bg-gray-700",
   }[todo.status.variant];
 
   return (

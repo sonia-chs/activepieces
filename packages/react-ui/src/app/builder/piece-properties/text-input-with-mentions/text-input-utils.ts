@@ -1,13 +1,13 @@
-import { MentionNodeAttrs } from '@tiptap/extension-mention';
-import { JSONContent } from '@tiptap/react';
+import { MentionNodeAttrs } from "@tiptap/extension-mention";
+import { JSONContent } from "@tiptap/react";
 
-import { StepMetadata } from '@/lib/types';
+import { StepMetadata } from "@/lib/types";
 import {
   FlowAction,
   FlowTrigger,
   assertNotNullOrUndefined,
   isNil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 const removeQuotes = (text: string) => {
   if (
@@ -41,10 +41,10 @@ type ApMentionNodeAttrs = {
 };
 const flattenNestedKeysRegex = /^flattenNestedKeys\((\w+),\s*\[(.*?)\]\)$/;
 enum TipTapNodeTypes {
-  paragraph = 'paragraph',
-  text = 'text',
-  hardBreak = 'hardBreak',
-  mention = 'mention',
+  paragraph = "paragraph",
+  text = "text",
+  hardBreak = "hardBreak",
+  mention = "mention",
 }
 
 const isMentionNodeText = (item: string) => {
@@ -65,7 +65,7 @@ type StepMetadataWithDisplayName = StepMetadata & { stepDisplayName: string };
 function convertTextToTipTapJsonContent(
   userInputText: string,
   steps: (FlowAction | FlowTrigger)[],
-  stepsMetadata: (StepMetadataWithDisplayName | undefined)[],
+  stepsMetadata: (StepMetadataWithDisplayName | undefined)[]
 ): {
   type: TipTapNodeTypes.paragraph;
   content: JSONContent[];
@@ -77,14 +77,14 @@ function convertTextToTipTapJsonContent(
     .filter((el) => el);
   return inputSplitToNodesContent.reduce(
     (result, node) => {
-      if (node === '\n') {
+      if (node === "\n") {
         result.push({
           type: TipTapNodeTypes.paragraph,
           content: [],
         });
       } else if (isMentionNodeText(node)) {
         result[result.length - 1].content.push(
-          createMentionNodeFromText(node, steps, stepsMetadata),
+          createMentionNodeFromText(node, steps, stepsMetadata)
         );
       } else {
         result[result.length - 1].content.push({
@@ -102,7 +102,7 @@ function convertTextToTipTapJsonContent(
     ] as {
       type: TipTapNodeTypes.paragraph;
       content: JSONContent[];
-    }[],
+    }[]
   );
 }
 
@@ -119,8 +119,8 @@ function parseFlattenArrayPath(input: string): {
 
   const stepName = match[1];
   const arrayPath = match[2]
-    .split(',')
-    .map((item) => item.trim().replace(/['"]/g, ''));
+    .split(",")
+    .map((item) => item.trim().replace(/['"]/g, ""));
 
   return {
     isValid: true,
@@ -130,7 +130,7 @@ function parseFlattenArrayPath(input: string): {
 }
 
 const removeIntroplationBrackets = (text: string) => {
-  if (text.startsWith('{{') && text.endsWith('}}')) {
+  if (text.startsWith("{{") && text.endsWith("}}")) {
     return text.slice(2, text.length - 2).trim();
   }
   return text;
@@ -140,7 +140,7 @@ function parseStepAndNameFromMention(mention: string) {
   const mentionWithoutInterpolationBrackets =
     removeIntroplationBrackets(mention);
   const { isValid, stepName, arrayPath } = parseFlattenArrayPath(
-    mentionWithoutInterpolationBrackets,
+    mentionWithoutInterpolationBrackets
   );
   if (isValid) {
     return {
@@ -164,7 +164,7 @@ function parseStepAndNameFromMention(mention: string) {
 function parseLabelFromMention(
   mention: string,
   steps: (FlowAction | FlowTrigger)[],
-  stepsMetadata: (StepMetadataWithDisplayName | undefined)[],
+  stepsMetadata: (StepMetadataWithDisplayName | undefined)[]
 ) {
   const { stepName, path } = parseStepAndNameFromMention(mention);
   const stepIdx = steps.findIndex((step) => step.name === stepName);
@@ -172,14 +172,14 @@ function parseLabelFromMention(
     return {
       displayText: `(Missing) ${stepName}`,
       serverValue: mention,
-      logoUrl: '/src/assets/img/custom/incomplete.png',
+      logoUrl: "/src/assets/img/custom/incomplete.png",
     };
   }
   const stepMetadata = stepsMetadata[stepIdx];
   return {
     displayText: `${stepIdx + 1}. ${
-      stepMetadata?.stepDisplayName ?? ''
-    } ${path.join(' ')}`,
+      stepMetadata?.stepDisplayName ?? ""
+    } ${path.join(" ")}`,
     serverValue: mention,
     logoUrl: stepMetadata?.logoUrl,
   };
@@ -188,14 +188,14 @@ function parseLabelFromMention(
 function createMentionNodeFromText(
   mention: string,
   steps: (FlowAction | FlowTrigger)[],
-  stepsMetadata: (StepMetadataWithDisplayName | undefined)[],
+  stepsMetadata: (StepMetadataWithDisplayName | undefined)[]
 ) {
   return {
     type: TipTapNodeTypes.mention,
     attrs: {
       id: mention,
       label: JSON.stringify(
-        parseLabelFromMention(mention, steps, stepsMetadata),
+        parseLabelFromMention(mention, steps, stepsMetadata)
       ),
     },
   };
@@ -205,69 +205,69 @@ function convertTiptapJsonToText(nodes: JSONContent[]): string {
   const res = nodes.map((node, index) => {
     switch (node.type) {
       case TipTapNodeTypes.hardBreak:
-        return '\n';
+        return "\n";
       case TipTapNodeTypes.text: {
         //replace &nbsp; with a normal space
-        return node.text ? node.text.replaceAll('\u00A0', ' ') : '';
+        return node.text ? node.text.replaceAll("\u00A0", " ") : "";
       }
       case TipTapNodeTypes.mention: {
         return node.attrs?.label
           ? JSON.parse(node.attrs.label).serverValue
-          : '';
+          : "";
       }
       case TipTapNodeTypes.paragraph: {
         return `${
-          isNil(node.content) ? '' : convertTiptapJsonToText(node.content)
-        }${index < nodes.length - 1 ? '\n' : ''}`;
+          isNil(node.content) ? "" : convertTiptapJsonToText(node.content)
+        }${index < nodes.length - 1 ? "\n" : ""}`;
       }
       default:
-        return '';
+        return "";
     }
   });
-  return res.join('');
+  return res.join("");
 }
 
 const generateMentionHtmlElement = (mentionAttrs: MentionNodeAttrs) => {
-  const mentionElement = document.createElement('span');
+  const mentionElement = document.createElement("span");
   const apMentionNodeAttrs: ApMentionNodeAttrs = JSON.parse(
-    mentionAttrs.label || '{}',
+    mentionAttrs.label || "{}"
   );
   mentionElement.className =
-    'inline-flex bg-muted/10 break-all my-1 mx-[1px] border border-[#9e9e9e] border-solid items-center gap-2 py-1 px-2 rounded-[3px] text-muted-foreground ';
-  assertNotNullOrUndefined(mentionAttrs.label, 'mentionAttrs.label');
-  assertNotNullOrUndefined(mentionAttrs.id, 'mentionAttrs.id');
+    "inline-flex bg-muted/10 break-all my-1 mx-[1px] border border-[#9e9e9e] border-solid items-center gap-2 py-1 px-2 rounded-[3px] text-muted-foreground ";
+  assertNotNullOrUndefined(mentionAttrs.label, "mentionAttrs.label");
+  assertNotNullOrUndefined(mentionAttrs.id, "mentionAttrs.id");
   assertNotNullOrUndefined(
     apMentionNodeAttrs.displayText,
-    'apMentionNodeAttrs.displayText',
+    "apMentionNodeAttrs.displayText"
   );
   mentionElement.dataset.id = mentionAttrs.id;
   mentionElement.dataset.label = mentionAttrs.label;
   mentionElement.dataset.displayText = apMentionNodeAttrs.displayText;
   mentionElement.dataset.type = TipTapNodeTypes.mention;
-  mentionElement.contentEditable = 'false';
+  mentionElement.contentEditable = "false";
 
   if (apMentionNodeAttrs.logoUrl) {
-    const imgElement = document.createElement('img');
+    const imgElement = document.createElement("img");
     imgElement.src = apMentionNodeAttrs.logoUrl;
-    imgElement.className = 'object-contain w-4 h-4';
+    imgElement.className = "object-contain w-4 h-4";
     mentionElement.appendChild(imgElement);
   } else {
-    const emptyImagePlaceHolder = document.createElement('span');
-    emptyImagePlaceHolder.className = 'h-4 -mr-2';
+    const emptyImagePlaceHolder = document.createElement("span");
+    emptyImagePlaceHolder.className = "h-4 -mr-2";
     mentionElement.appendChild(emptyImagePlaceHolder);
   }
 
   const mentiontextDiv = document.createTextNode(
-    apMentionNodeAttrs.displayText,
+    apMentionNodeAttrs.displayText
   );
-  mentionElement.setAttribute('serverValue', apMentionNodeAttrs.serverValue);
+  mentionElement.setAttribute("serverValue", apMentionNodeAttrs.serverValue);
 
   mentionElement.appendChild(mentiontextDiv);
   return mentionElement;
 };
 
-const inputWithMentionsCssClass = 'ap-text-with-mentions';
-const dataSelectorCssClassSelector = 'ap-data-selector';
+const inputWithMentionsCssClass = "ap-text-with-mentions";
+const dataSelectorCssClassSelector = "ap-data-selector";
 const isDataSelectorOrChildOfDataSelector = (element: HTMLElement) => {
   return (
     element.classList.contains(dataSelectorCssClassSelector) ||
@@ -280,7 +280,7 @@ export const textMentionUtils = {
     const nodes = content ?? [];
     const res =
       nodes.length === 1 && isNil(nodes[0].content)
-        ? ''
+        ? ""
         : convertTiptapJsonToText(nodes);
     return res;
   },

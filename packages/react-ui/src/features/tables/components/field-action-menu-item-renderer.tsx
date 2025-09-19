@@ -1,14 +1,14 @@
-import { t } from 'i18next';
-import { Pencil, Trash } from 'lucide-react';
-import { useContext } from 'react';
+import { t } from "i18next";
+import { Pencil, Trash } from "lucide-react";
+import { useContext } from "react";
 
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-import { FieldHeaderContext } from '../lib/utils';
+import { FieldHeaderContext } from "../lib/utils";
 
-import { useTableState } from './ap-table-state-provider';
-import RenameFieldPopoverContent from './rename-field-popovercontent';
+import { useTableState } from "./ap-table-state-provider";
+import RenameFieldPopoverContent from "./rename-field-popovercontent";
 
 export enum FieldActionType {
   DELETE,
@@ -24,7 +24,7 @@ const ApFieldActionMenuItemRenderer = ({
   const deleteField = useTableState((state) => state.deleteField);
 
   if (!fieldHeaderContext) {
-    console.error('FieldHeaderContext not found');
+    console.error("FieldHeaderContext not found");
     return null;
   }
   const { field, setIsPopoverOpen, setPopoverContent } = fieldHeaderContext;
@@ -33,14 +33,14 @@ const ApFieldActionMenuItemRenderer = ({
     case FieldActionType.DELETE:
       return (
         <ConfirmationDeleteDialog
-          title={t('Delete Field')}
+          title={t("Delete Field")}
           message={t(
-            'Are you sure you want to delete this field? This action cannot be undone.',
+            "Are you sure you want to delete this field? This action cannot be undone."
           )}
           mutationFn={async () => {
             await deleteField(field.index);
           }}
-          entityName={t('field')}
+          entityName={t("field")}
         >
           <DropdownMenuItem
             onSelect={(e) => {
@@ -51,7 +51,7 @@ const ApFieldActionMenuItemRenderer = ({
             className="flex items-center gap-2 text-destructive cursor-pointer"
           >
             <Trash className="h-4 w-4 text-destructive" />
-            <span className="text-destructive">{t('Delete')}</span>
+            <span className="text-destructive">{t("Delete")}</span>
           </DropdownMenuItem>
         </ConfirmationDeleteDialog>
       );
@@ -69,7 +69,7 @@ const ApFieldActionMenuItemRenderer = ({
           className="flex items-center gap-2 cursor-pointer"
         >
           <Pencil className="h-4 w-4 " />
-          <span>{t('Rename')}</span>
+          <span>{t("Rename")}</span>
         </DropdownMenuItem>
       );
     default:
@@ -77,5 +77,5 @@ const ApFieldActionMenuItemRenderer = ({
   }
 };
 
-ApFieldActionMenuItemRenderer.displayName = 'ApFieldActionMenuItemRenderer';
+ApFieldActionMenuItemRenderer.displayName = "ApFieldActionMenuItemRenderer";
 export default ApFieldActionMenuItemRenderer;

@@ -1,11 +1,11 @@
-import { t } from 'i18next';
-import { Copy, Check } from 'lucide-react';
-import React, { useState } from 'react';
-import ReactJson from 'react-json-view';
+import { t } from "i18next";
+import { Copy, Check } from "lucide-react";
+import React, { useState } from "react";
+import ReactJson from "react-json-view";
 
-import { useTheme } from './theme-provider';
-import { Button } from './ui/button';
-import { toast } from './ui/use-toast';
+import { useTheme } from "./theme-provider";
+import { Button } from "./ui/button";
+import { toast } from "./ui/use-toast";
 
 interface SimpleJsonViewerProps {
   data: any;
@@ -29,7 +29,7 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
     navigator.clipboard.writeText(formattedJson);
     setCopied(true);
     toast({
-      title: t('Copied to clipboard'),
+      title: t("Copied to clipboard"),
       duration: 1000,
     });
 
@@ -38,13 +38,13 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
     }, 3000);
   };
 
-  const viewerTheme = theme === 'dark' ? 'bright' : 'rjv-default';
+  const viewerTheme = theme === "dark" ? "bright" : "rjv-default";
 
   return (
     <div
       className="w-full relative text-foreground overflow-hidden"
       style={{
-        maxWidth: '100%',
+        maxWidth: "100%",
       }}
     >
       {!hideCopyButton && (
@@ -60,7 +60,7 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
             ) : (
               <Copy
                 className={`w-4 h-4 ${
-                  theme === 'dark' ? 'text-white' : 'text-black'
+                  theme === "dark" ? "text-white" : "text-black"
                 }`}
               />
             )}
@@ -70,24 +70,24 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
       <div
         className="p-2"
         style={{
-          maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : '400px',
-          overflow: 'auto',
-          overflowX: 'auto',
-          width: '100%',
-          boxSizing: 'border-box',
+          maxHeight: typeof maxHeight === "number" ? `${maxHeight}px` : "400px",
+          overflow: "auto",
+          overflowX: "auto",
+          width: "100%",
+          boxSizing: "border-box",
         }}
       >
-        <div style={{ minWidth: 0, width: '100%', height: '100%' }}>
+        <div style={{ minWidth: 0, width: "100%", height: "100%" }}>
           <ReactJson
             style={{
-              overflowX: 'auto',
-              padding: '0.5rem',
-              fontSize: '14px',
-              width: '100%',
+              overflowX: "auto",
+              padding: "0.5rem",
+              fontSize: "14px",
+              width: "100%",
               minWidth: 0,
-              boxSizing: 'border-box',
-              wordBreak: 'break-word',
-              whiteSpace: 'pre-wrap',
+              boxSizing: "border-box",
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
             }}
             theme={viewerTheme}
             enableClipboard={false}

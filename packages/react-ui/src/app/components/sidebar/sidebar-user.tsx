@@ -1,19 +1,19 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
 import {
   ChevronsUpDown,
   LogOut,
   Settings,
   Shield,
   UserPlus,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+} from "lucide-react";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { notificationHooks } from '@/app/routes/platform/notifications/hooks/notifications-hooks';
-import { useEmbedding } from '@/components/embed-provider';
-import { useTelemetry } from '@/components/telemetry-provider';
-import { Dot } from '@/components/ui/dot';
+import { notificationHooks } from "@/app/routes/platform/notifications/hooks/notifications-hooks";
+import { useEmbedding } from "@/components/embed-provider";
+import { useTelemetry } from "@/components/telemetry-provider";
+import { Dot } from "@/components/ui/dot";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,21 +22,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar-shadcn';
-import { UserAvatar } from '@/components/ui/user-avatar';
-import { InviteUserDialog } from '@/features/team/component/invite-user-dialog';
-import { useShowPlatformAdminDashboard } from '@/hooks/authorization-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { PlatformRole } from '@activepieces/shared';
+} from "@/components/ui/sidebar-shadcn";
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { InviteUserDialog } from "@/features/team/component/invite-user-dialog";
+import { useShowPlatformAdminDashboard } from "@/hooks/authorization-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { PlatformRole } from "@activepieces/shared";
 
-import { ProjectSettingsDialog } from '../project-settings';
+import { ProjectSettingsDialog } from "../project-settings";
 
 export function SidebarUser() {
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -48,7 +48,7 @@ export function SidebarUser() {
   const queryClient = useQueryClient();
   const { reset } = useTelemetry();
 
-  const isInPlatformAdmin = location.pathname.startsWith('/platform');
+  const isInPlatformAdmin = location.pathname.startsWith("/platform");
 
   if (!user || embedState.isEmbedded) {
     return null;
@@ -71,7 +71,7 @@ export function SidebarUser() {
             >
               <div className="flex items-center gap-2 w-full text-left text-sm">
                 <UserAvatar
-                  name={user.firstName + ' ' + user.lastName}
+                  name={user.firstName + " " + user.lastName}
                   email={user.email}
                   size={32}
                   disableTooltip={true}
@@ -95,7 +95,7 @@ export function SidebarUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <UserAvatar
-                  name={user.firstName + ' ' + user.lastName}
+                  name={user.firstName + " " + user.lastName}
                   email={user.email}
                   size={32}
                   disableTooltip={true}
@@ -121,18 +121,18 @@ export function SidebarUser() {
               {!embedState.hideProjectSettings && !isInPlatformAdmin && (
                 <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
                   <Settings className="w-4 h-4 mr-2" />
-                  {t('Project Settings')}
+                  {t("Project Settings")}
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem onClick={() => setInviteOpen(true)}>
                 <UserPlus className="size-4 mr-2" />
-                <span>{t('Invite User')}</span>
+                <span>{t("Invite User")}</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
-              {t('Log out')}
+              {t("Log out")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -145,8 +145,8 @@ export function SidebarUser() {
         projectId={project?.id}
         initialValues={{
           projectName: project?.displayName,
-          tasks: project?.plan?.tasks?.toString() ?? '',
-          aiCredits: project?.plan?.aiCredits?.toString() ?? '',
+          tasks: project?.plan?.tasks?.toString() ?? "",
+          aiCredits: project?.plan?.aiCredits?.toString() ?? "",
         }}
       />
     </SidebarMenu>
@@ -167,12 +167,12 @@ function SidebarPlatformAdminButton() {
   return (
     <DropdownMenuGroup>
       <DropdownMenuItem
-        onClick={() => navigate('/platform')}
+        onClick={() => navigate("/platform")}
         className="w-full flex items-center justify-center relative"
       >
         <div className={`w-full flex items-center gap-2`}>
           <Shield className="size-4" />
-          <span className={`text-sm`}>{t('Platform Admin')}</span>
+          <span className={`text-sm`}>{t("Platform Admin")}</span>
         </div>
         {messages.length > 0 && platformRole === PlatformRole.ADMIN && (
           <Dot

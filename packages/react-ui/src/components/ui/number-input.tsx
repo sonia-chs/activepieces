@@ -1,8 +1,8 @@
-import { MinusIcon, PlusIcon } from 'lucide-react';
-import React from 'react';
+import { MinusIcon, PlusIcon } from "lucide-react";
+import React from "react";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface NumberInputWithButtonsProps {
   value: number;
@@ -21,7 +21,7 @@ const NumberInputWithButtons: React.FC<NumberInputWithButtonsProps> = ({
   max = Infinity,
   step = 1,
   disabled = false,
-  className = '',
+  className = "",
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value) || 0;

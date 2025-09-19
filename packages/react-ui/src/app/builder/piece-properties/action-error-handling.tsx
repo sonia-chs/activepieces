@@ -1,16 +1,16 @@
-import { t } from 'i18next';
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
 import {
   FormField,
   FormItem,
   FormLabel,
   FormControl,
-} from '@/components/ui/form';
-import { ReadMoreDescription } from '@/components/ui/read-more-description';
-import { Switch } from '@/components/ui/switch';
-import { FlowAction, FlowTrigger } from '@activepieces/shared';
+} from "@/components/ui/form";
+import { ReadMoreDescription } from "@/components/ui/read-more-description";
+import { Switch } from "@/components/ui/switch";
+import { FlowAction, FlowTrigger } from "@activepieces/shared";
 
 type ActionErrorHandlingFormProps = {
   hideContinueOnFailure?: boolean;
@@ -47,12 +47,12 @@ const ActionErrorHandlingForm = React.memo(
                     />
                   </FormControl>
                   <span className="ml-3 flex-grow">
-                    {t('Continue on Failure')}
+                    {t("Continue on Failure")}
                   </span>
                 </FormLabel>
                 <ReadMoreDescription
                   text={t(
-                    'Enable this option to skip this step and continue the flow normally if it fails.',
+                    "Enable this option to skip this step and continue the flow normally if it fails."
                   )}
                 />
               </FormItem>
@@ -77,11 +77,11 @@ const ActionErrorHandlingForm = React.memo(
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <span className="ml-3 grow">{t('Retry on Failure')}</span>
+                  <span className="ml-3 grow">{t("Retry on Failure")}</span>
                 </FormLabel>
                 <ReadMoreDescription
                   text={t(
-                    'Automatically retry up to four attempts when failed.',
+                    "Automatically retry up to four attempts when failed."
                   )}
                 />
               </FormItem>
@@ -90,8 +90,8 @@ const ActionErrorHandlingForm = React.memo(
         )}
       </div>
     );
-  },
+  }
 );
 
-ActionErrorHandlingForm.displayName = 'ActionErrorHandlingForm';
+ActionErrorHandlingForm.displayName = "ActionErrorHandlingForm";
 export { ActionErrorHandlingForm };

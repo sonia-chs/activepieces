@@ -1,24 +1,24 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { DialogTrigger } from '@radix-ui/react-dialog';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { FlowOperationType, PopulatedFlow } from '@activepieces/shared';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { FlowOperationType, PopulatedFlow } from "@activepieces/shared";
 
 const RenameFlowSchema = Type.Object({
   displayName: Type.String(),
@@ -60,8 +60,8 @@ const RenameFlowDialog: React.FC<RenameFlowDialogProps> = ({
       setIsRenameDialogOpen(false);
       onRename(renameFlowForm.getValues().displayName);
       toast({
-        title: t('Success'),
-        description: t('Flow has been renamed.'),
+        title: t("Success"),
+        description: t("Flow has been renamed."),
         duration: 3000,
       });
     },
@@ -76,7 +76,7 @@ const RenameFlowDialog: React.FC<RenameFlowDialogProps> = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {t('Rename')} {flowName}
+            {t("Rename")} {flowName}
           </DialogTitle>
         </DialogHeader>
         <Form {...renameFlowForm}>
@@ -86,7 +86,7 @@ const RenameFlowDialog: React.FC<RenameFlowDialogProps> = ({
               mutate({
                 flowId,
                 displayName: data.displayName,
-              }),
+              })
             )}
           >
             <FormField
@@ -94,11 +94,11 @@ const RenameFlowDialog: React.FC<RenameFlowDialogProps> = ({
               name="displayName"
               render={({ field }) => (
                 <FormItem className="grid space-y-2">
-                  <Label htmlFor="displayName">{t('Name')}</Label>
+                  <Label htmlFor="displayName">{t("Name")}</Label>
                   <Input
                     {...field}
                     id="displayName"
-                    placeholder={t('New Flow Name')}
+                    placeholder={t("New Flow Name")}
                     className="rounded-sm"
                     defaultValue={flowName}
                   />
@@ -111,7 +111,7 @@ const RenameFlowDialog: React.FC<RenameFlowDialogProps> = ({
                 {renameFlowForm.formState.errors.root.serverError.message}
               </FormMessage>
             )}
-            <Button loading={isPending}>{t('Confirm')}</Button>
+            <Button loading={isPending}>{t("Confirm")}</Button>
           </form>
         </Form>
       </DialogContent>

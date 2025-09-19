@@ -1,6 +1,6 @@
-import { Check, X } from 'lucide-react';
+import { Check, X } from "lucide-react";
 
-import { passwordRules } from '@/features/authentication/lib/password-validation-utils';
+import { passwordRules } from "@/features/authentication/lib/password-validation-utils";
 
 const PasswordValidator = ({ password }: { password: string }) => {
   return (
@@ -20,5 +20,5 @@ const PasswordValidator = ({ password }: { password: string }) => {
     </>
   );
 };
-PasswordValidator.displayName = 'PasswordValidator';
+PasswordValidator.displayName = "PasswordValidator";
 export { PasswordValidator };

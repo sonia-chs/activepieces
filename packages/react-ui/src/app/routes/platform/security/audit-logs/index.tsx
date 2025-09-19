@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
 import {
   CheckIcon,
   Folder,
@@ -10,33 +10,33 @@ import {
   Users,
   Wand,
   Workflow,
-} from 'lucide-react';
-import { Link, useSearchParams } from 'react-router-dom';
+} from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
 
-import LockedFeatureGuard from '@/app/components/locked-feature-guard';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
+import LockedFeatureGuard from "@/app/components/locked-feature-guard";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
 import {
   CURSOR_QUERY_PARAM,
   DataTable,
   LIMIT_QUERY_PARAM,
-} from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+} from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { auditEventsApi } from '@/features/platform-admin/lib/audit-events-api';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { platformUserHooks } from '@/hooks/platform-user-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { formatUtils } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { auditEventsApi } from "@/features/platform-admin/lib/audit-events-api";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { platformUserHooks } from "@/hooks/platform-user-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { formatUtils } from "@/lib/utils";
 import {
   ApplicationEvent,
   ApplicationEventName,
   summarizeApplicationEvent,
-} from '@activepieces/ee-shared';
-import { isNil } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { isNil } from "@activepieces/shared";
 
 export default function AuditLogsPage() {
   const { platform } = platformHooks.useCurrentPlatform();
@@ -48,9 +48,9 @@ export default function AuditLogsPage() {
 
   const filters = [
     {
-      type: 'select',
-      title: t('Action'),
-      accessorKey: 'action',
+      type: "select",
+      title: t("Action"),
+      accessorKey: "action",
       options: Object.values(ApplicationEventName).map((action) => {
         return {
           label: formatUtils.convertEnumToHumanReadable(action),
@@ -60,9 +60,9 @@ export default function AuditLogsPage() {
       icon: Wand,
     } as const,
     {
-      type: 'select',
-      title: t('Performed By'),
-      accessorKey: 'userId',
+      type: "select",
+      title: t("Performed By"),
+      accessorKey: "userId",
       options:
         users?.data?.map((user) => {
           return {
@@ -73,9 +73,9 @@ export default function AuditLogsPage() {
       icon: Users,
     } as const,
     {
-      type: 'select',
-      title: t('Project'),
-      accessorKey: 'projectId',
+      type: "select",
+      title: t("Project"),
+      accessorKey: "projectId",
       options:
         projects?.map((project) => {
           return {
@@ -86,32 +86,32 @@ export default function AuditLogsPage() {
       icon: Folder,
     } as const,
     {
-      type: 'date',
-      title: t('Created'),
-      accessorKey: 'created',
+      type: "date",
+      title: t("Created"),
+      accessorKey: "created",
       options: [],
       icon: CheckIcon,
     } as const,
   ];
 
   const { data: auditLogsData, isLoading } = useQuery({
-    queryKey: ['audit-logs', searchParams.toString()],
+    queryKey: ["audit-logs", searchParams.toString()],
     staleTime: 0,
     gcTime: 0,
     queryFn: async () => {
       const cursor = searchParams.get(CURSOR_QUERY_PARAM);
       const limit = searchParams.get(LIMIT_QUERY_PARAM);
-      const action = searchParams.getAll('action');
-      const projectId = searchParams.getAll('projectId');
-      const userId = searchParams.get('userId');
+      const action = searchParams.getAll("action");
+      const projectId = searchParams.getAll("projectId");
+      const userId = searchParams.get("userId");
       return auditEventsApi.list({
         cursor: cursor ?? undefined,
         limit: limit ? parseInt(limit) : undefined,
         action: action ?? undefined,
         projectId: projectId ?? undefined,
         userId: userId ?? undefined,
-        createdBefore: searchParams.get('createdBefore') ?? undefined,
-        createdAfter: searchParams.get('createdAfter') ?? undefined,
+        createdBefore: searchParams.get("createdBefore") ?? undefined,
+        createdAfter: searchParams.get("createdAfter") ?? undefined,
       });
     },
   });
@@ -121,28 +121,28 @@ export default function AuditLogsPage() {
     <LockedFeatureGuard
       featureKey="AUDIT_LOGS"
       locked={!isEnabled}
-      lockTitle={t('Unlock Audit Logs')}
+      lockTitle={t("Unlock Audit Logs")}
       lockDescription={t(
-        'Comply with internal and external security policies by tracking activities done within your account',
+        "Comply with internal and external security policies by tracking activities done within your account"
       )}
     >
       <div className="flex flex-col  w-full">
         <DashboardPageHeader
-          description={t('Track activities done within your platform')}
-          title={t('Audit Logs')}
+          description={t("Track activities done within your platform")}
+          title={t("Audit Logs")}
         />
         <DataTable
-          emptyStateTextTitle={t('No audit logs found')}
+          emptyStateTextTitle={t("No audit logs found")}
           emptyStateTextDescription={t(
-            'Come back later when you have some activity to audit',
+            "Come back later when you have some activity to audit"
           )}
           emptyStateIcon={<History className="size-14" />}
           filters={filters}
           columns={[
             {
-              accessorKey: 'resource',
+              accessorKey: "resource",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Resource')} />
+                <DataTableColumnHeader column={column} title={t("Resource")} />
               ),
               cell: ({ row }) => {
                 const icon = convertToIcon(row.original);
@@ -164,9 +164,9 @@ export default function AuditLogsPage() {
               },
             },
             {
-              accessorKey: 'details',
+              accessorKey: "details",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Details')} />
+                <DataTableColumnHeader column={column} title={t("Details")} />
               ),
               cell: ({ row }) => {
                 return (
@@ -177,11 +177,11 @@ export default function AuditLogsPage() {
               },
             },
             {
-              accessorKey: 'userId',
+              accessorKey: "userId",
               header: ({ column }) => (
                 <DataTableColumnHeader
                   column={column}
-                  title={t('Performed By')}
+                  title={t("Performed By")}
                 />
               ),
               cell: ({ row }) => {
@@ -191,42 +191,42 @@ export default function AuditLogsPage() {
               },
             },
             {
-              accessorKey: 'action',
+              accessorKey: "action",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Action')} />
+                <DataTableColumnHeader column={column} title={t("Action")} />
               ),
               cell: ({ row }) => {
                 return (
                   <div className="text-left">
                     {formatUtils.convertEnumToHumanReadable(
-                      row.original.action,
+                      row.original.action
                     )}
                   </div>
                 );
               },
             },
             {
-              accessorKey: 'projectId',
+              accessorKey: "projectId",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Project')} />
+                <DataTableColumnHeader column={column} title={t("Project")} />
               ),
               cell: ({ row }) => {
                 return row.original.projectId &&
-                  'project' in row.original.data ? (
+                  "project" in row.original.data ? (
                   <Link to={`/projects/${row.original.projectId}`}>
                     <div className="text-left text-primary hover:underline">
                       {row.original.data.project?.displayName}
                     </div>
                   </Link>
                 ) : (
-                  <div className="text-left">{t('N/A')}</div>
+                  <div className="text-left">{t("N/A")}</div>
                 );
               },
             },
             {
-              accessorKey: 'created',
+              accessorKey: "created",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Created')} />
+                <DataTableColumnHeader column={column} title={t("Created")} />
               ),
               cell: ({ row }) => {
                 return (
@@ -251,27 +251,27 @@ function convertToIcon(event: ApplicationEvent) {
     case ApplicationEventName.FLOW_RUN_STARTED:
       return {
         icon: <Logs className="size-4" />,
-        tooltip: t('Flow Run'),
+        tooltip: t("Flow Run"),
       };
     case ApplicationEventName.FLOW_CREATED:
     case ApplicationEventName.FLOW_DELETED:
     case ApplicationEventName.FLOW_UPDATED:
       return {
         icon: <Workflow className="size-4" />,
-        tooltip: t('Flow'),
+        tooltip: t("Flow"),
       };
     case ApplicationEventName.FOLDER_CREATED:
     case ApplicationEventName.FOLDER_DELETED:
     case ApplicationEventName.FOLDER_UPDATED:
       return {
         icon: <Folder className="size-4" />,
-        tooltip: t('Folder'),
+        tooltip: t("Folder"),
       };
     case ApplicationEventName.CONNECTION_DELETED:
     case ApplicationEventName.CONNECTION_UPSERTED:
       return {
         icon: <Link2 className="size-4" />,
-        tooltip: t('Connection'),
+        tooltip: t("Connection"),
       };
     case ApplicationEventName.USER_SIGNED_UP:
     case ApplicationEventName.USER_SIGNED_IN:
@@ -279,12 +279,12 @@ function convertToIcon(event: ApplicationEvent) {
     case ApplicationEventName.USER_EMAIL_VERIFIED:
       return {
         icon: <Users className="size-4" />,
-        tooltip: t('User'),
+        tooltip: t("User"),
       };
     case ApplicationEventName.SIGNING_KEY_CREATED:
       return {
         icon: <Key className="size-4" />,
-        tooltip: t('Signing Key'),
+        tooltip: t("Signing Key"),
       };
     default:
       return undefined;

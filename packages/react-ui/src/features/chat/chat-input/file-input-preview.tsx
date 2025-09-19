@@ -1,6 +1,6 @@
-import { FileIcon, X } from 'lucide-react';
+import { FileIcon, X } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 type FileInputPreviewProps = {
   file: File;
@@ -13,8 +13,8 @@ export const FileInputPreview = ({
   index,
   onRemove,
 }: FileInputPreviewProps) => {
-  const isImage = file.type.startsWith('image/');
-  const isVideo = file.type.startsWith('video/');
+  const isImage = file.type.startsWith("image/");
+  const isVideo = file.type.startsWith("video/");
 
   return (
     <div key={index} className="relative inline-block mr-2 mt-2 mb-3">

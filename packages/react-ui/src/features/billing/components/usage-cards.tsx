@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 import {
   Bot,
   ClipboardCheck,
@@ -6,20 +6,20 @@ import {
   LayoutGrid,
   Users,
   Workflow,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { McpSvg } from '@/assets/img/custom/mcp';
-import { CardContent, Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { cn } from '@/lib/utils';
-import { ApSubscriptionStatus, PlanName } from '@activepieces/ee-shared';
+import { McpSvg } from "@/assets/img/custom/mcp";
+import { CardContent, Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { cn } from "@/lib/utils";
+import { ApSubscriptionStatus, PlanName } from "@activepieces/ee-shared";
 import {
   ApEdition,
   ApFlagId,
   isNil,
   PlatformBillingInformation,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const UsageCards = ({
   platformSubscription,
@@ -40,16 +40,16 @@ export const UsageCards = ({
 
   return (
     <div
-      className={cn('grid gap-6', {
-        'grid-cols-3': true,
-        'grid-cols-4': isBusinessPlan,
-        '2xl:grid-cols-3': plan.plan === PlanName.PLUS,
-        '2xl:grid-cols-7': isFree,
+      className={cn("grid gap-6", {
+        "grid-cols-3": true,
+        "grid-cols-4": isBusinessPlan,
+        "2xl:grid-cols-3": plan.plan === PlanName.PLUS,
+        "2xl:grid-cols-7": isFree,
       })}
     >
       <UsageCard
         icon={<ClipboardCheck className="w-5 h-5" />}
-        title={t('Tasks')}
+        title={t("Tasks")}
         used={usage.tasks}
         total={plan.tasksLimit}
       />
@@ -57,7 +57,7 @@ export const UsageCards = ({
       {(isFree || isTrial || isEnterprise) && (
         <UsageCard
           icon={<Workflow className="w-4 h-4" />}
-          title={t('Active flows')}
+          title={t("Active flows")}
           used={usage.activeFlows}
           total={plan.activeFlowsLimit}
         />
@@ -66,7 +66,7 @@ export const UsageCards = ({
       {(isFree || isPlusPlan || (isBusinessPlan && isTrial)) && (
         <UsageCard
           icon={<Users className="w-4 h-4" />}
-          title={t('Users')}
+          title={t("Users")}
           used={usage.seats}
           total={plan.userSeatsLimit}
         />
@@ -75,7 +75,7 @@ export const UsageCards = ({
       {(isFree || isPlusPlan || (isBusinessPlan && isTrial)) && (
         <UsageCard
           icon={<LayoutGrid className="w-4 h-4" />}
-          title={t('Projects')}
+          title={t("Projects")}
           used={usage.projects}
           total={plan.projectsLimit}
         />
@@ -83,21 +83,21 @@ export const UsageCards = ({
 
       <UsageCard
         icon={<McpSvg className="size-4" />}
-        title={t('MCP Servers')}
+        title={t("MCP Servers")}
         used={usage.mcps}
         total={plan.mcpLimit}
       />
 
       <UsageCard
         icon={<Database className="w-4 h-4" />}
-        title={t('Tables')}
+        title={t("Tables")}
         used={usage.tables}
         total={plan.tablesLimit}
       />
 
       <UsageCard
         icon={<Bot className="w-4 h-4" />}
-        title={t('Agents')}
+        title={t("Agents")}
         used={usage.agents}
         total={plan.agentsLimit}
       />
@@ -139,15 +139,15 @@ export default function UsageCard({
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">
-                {used.toLocaleString()} /{' '}
-                {isUnlimited ? 'Unlimited' : total?.toLocaleString()}
+                {used.toLocaleString()} /{" "}
+                {isUnlimited ? "Unlimited" : total?.toLocaleString()}
               </span>
             </div>
 
             {showProgress && (
               <Progress
                 value={usagePercentage}
-                className={cn('w-full', isUnlimited && 'bg-primary/40')}
+                className={cn("w-full", isUnlimited && "bg-primary/40")}
               />
             )}
           </div>

@@ -1,12 +1,12 @@
-import { t } from 'i18next';
-import * as React from 'react';
+import { t } from "i18next";
+import * as React from "react";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface BetaBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
@@ -21,12 +21,12 @@ export function BetaBadge({
   const badge = (
     <span
       className={cn(
-        'bg-accent text-primary text-xs font-medium  px-2.5 py-0.5 rounded-sm font-semibold select-none',
-        className,
+        "bg-accent text-primary text-xs font-medium  px-2.5 py-0.5 rounded-sm font-semibold select-none",
+        className
       )}
       {...props}
     >
-      {t('New')}
+      {t("New")}
     </span>
   );
 
@@ -38,7 +38,7 @@ export function BetaBadge({
     <Tooltip>
       <TooltipTrigger asChild>{badge}</TooltipTrigger>
       <TooltipContent>
-        {t('This feature is still under testing and might be changed often')}
+        {t("This feature is still under testing and might be changed often")}
       </TooltipContent>
     </Tooltip>
   );

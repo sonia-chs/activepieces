@@ -1,14 +1,14 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-import { PromiseQueue } from '@/lib/promise-queue';
+import { PromiseQueue } from "@/lib/promise-queue";
 import {
   Agent,
   UpdateAgentRequestBody,
   debounce,
   spreadIfDefined,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { agentsApi } from '../agents-api';
+import { agentsApi } from "../agents-api";
 
 const agentUpdatesQueue = new PromiseQueue();
 
@@ -22,7 +22,7 @@ export type BuilderAgentState = {
   setAgent: (agent: Agent) => void;
   updateAgent: (
     updates: UpdateAgentRequestBody,
-    debounceUpdate?: boolean,
+    debounceUpdate?: boolean
   ) => void;
   testSectionIsOpen: boolean;
   setTestSectionIsOpen: (isOpen: boolean) => void;
@@ -39,16 +39,16 @@ export const createBuilderAgentStore = (initialAgent: Agent) => {
       setAgent: (agent: Agent) => set({ agent }),
       updateAgent: (
         requestBody: UpdateAgentRequestBody,
-        debounceUpdate?: boolean,
+        debounceUpdate?: boolean
       ) => {
         set((state) => ({
           agent: {
             ...state.agent,
-            ...spreadIfDefined('displayName', requestBody.displayName),
-            ...spreadIfDefined('description', requestBody.description),
-            ...spreadIfDefined('systemPrompt', requestBody.systemPrompt),
-            ...spreadIfDefined('outputType', requestBody.outputType),
-            ...spreadIfDefined('outputFields', requestBody.outputFields),
+            ...spreadIfDefined("displayName", requestBody.displayName),
+            ...spreadIfDefined("description", requestBody.description),
+            ...spreadIfDefined("systemPrompt", requestBody.systemPrompt),
+            ...spreadIfDefined("outputType", requestBody.outputType),
+            ...spreadIfDefined("outputFields", requestBody.outputFields),
           },
         }));
 
@@ -69,7 +69,7 @@ export const createBuilderAgentStore = (initialAgent: Agent) => {
               isSaving: agentUpdatesQueue.size() !== 0,
             }));
           } catch (error) {
-            console.error('Failed to update agent:', error);
+            console.error("Failed to update agent:", error);
             agentUpdatesQueue.halt();
             set({ isSaving: false });
           }

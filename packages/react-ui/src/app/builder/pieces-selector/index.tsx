@@ -1,26 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import React, { useEffect, useRef, useState } from "react";
+import { useDebounce } from "use-debounce";
 
-import { useBuilderStateContext } from '@/app/builder/builder-hooks';
+import { useBuilderStateContext } from "@/app/builder/builder-hooks";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Separator } from '@/components/ui/separator';
-import { PiecesSearchInput } from '@/features/pieces/components/piece-selector-search';
-import { PieceSelectorTabs } from '@/features/pieces/components/piece-selector-tabs';
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { PiecesSearchInput } from "@/features/pieces/components/piece-selector-search";
+import { PieceSelectorTabs } from "@/features/pieces/components/piece-selector-tabs";
 import {
   PieceSelectorTabsProvider,
   PieceSelectorTabType,
-} from '@/features/pieces/lib/piece-selector-tabs-provider';
-import { pieceSelectorUtils } from '@/features/pieces/lib/piece-selector-utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { PieceSelectorOperation } from '@/lib/types';
-import { FlowOperationType, FlowTriggerType } from '@activepieces/shared';
+} from "@/features/pieces/lib/piece-selector-tabs-provider";
+import { pieceSelectorUtils } from "@/features/pieces/lib/piece-selector-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { PieceSelectorOperation } from "@/lib/types";
+import { FlowOperationType, FlowTriggerType } from "@activepieces/shared";
 
-import { ExploreTabContent } from './explore-tab-content';
-import { PiecesCardList } from './pieces-card-list';
+import { ExploreTabContent } from "./explore-tab-content";
+import { PiecesCardList } from "./pieces-card-list";
 
 type PieceSelectorProps = {
   children: React.ReactNode;
@@ -48,10 +48,10 @@ const PieceSelector = ({
     state.setOpenedPieceSelectorStepNameOrAddButtonId,
     state.setSelectedPieceMetadataInPieceSelector,
     state.flowVersion.trigger.type === FlowTriggerType.EMPTY &&
-      id === 'trigger',
+      id === "trigger",
     state.deselectStep,
   ]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const isForReplace =
     operation.type === FlowOperationType.UPDATE_ACTION ||
     (operation.type === FlowOperationType.UPDATE_TRIGGER && !isForEmptyTrigger);
@@ -71,7 +71,7 @@ const PieceSelector = ({
   }, [isOpen]);
 
   const clearSearch = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setSelectedPieceMetadataInPieceSelector(null);
   };
   return (
@@ -107,7 +107,7 @@ const PieceSelector = ({
             : PieceSelectorTabType.EXPLORE
         }
         onTabChange={clearSearch}
-        key={isOpen ? 'open' : 'closed'}
+        key={isOpen ? "open" : "closed"}
       >
         <PopoverContent
           onContextMenu={(e) => {
@@ -127,7 +127,7 @@ const PieceSelector = ({
                 onSearchChange={(e) => {
                   setSearchQuery(e);
                   setSelectedPieceMetadataInPieceSelector(null);
-                  if (e === '') {
+                  if (e === "") {
                     clearSearch();
                   }
                 }}
@@ -138,14 +138,14 @@ const PieceSelector = ({
             <div
               className=" flex flex-row max-h-[300px] h-[300px] "
               style={{
-                height: listHeight + 'px',
+                height: listHeight + "px",
               }}
             >
               <ExploreTabContent operation={operation} />
               <PiecesCardList
                 listHeight={listHeight}
                 //this is done to avoid debounced results when user clears search
-                searchQuery={searchQuery === '' ? '' : debouncedQuery}
+                searchQuery={searchQuery === "" ? "" : debouncedQuery}
                 operation={operation}
                 stepToReplacePieceDisplayName={
                   isMobile ? undefined : stepToReplacePieceDisplayName

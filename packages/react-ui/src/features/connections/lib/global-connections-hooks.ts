@@ -1,19 +1,19 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { UseFormReturn } from 'react-hook-form';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { UseFormReturn } from "react-hook-form";
 
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
 import {
   AppConnectionWithoutSensitiveData,
   ListGlobalConnectionsRequestQuery,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { globalConnectionsApi } from './api/global-connections';
+import { globalConnectionsApi } from "./api/global-connections";
 import {
   NoProjectSelected,
   ConnectionNameAlreadyExists,
   isConnectionNameUnique,
-} from './utils';
+} from "./utils";
 
 type UseGlobalConnectionsProps = {
   request: ListGlobalConnectionsRequestQuery;
@@ -30,7 +30,7 @@ export const globalConnectionsQueries = {
     gcTime,
   }: UseGlobalConnectionsProps) =>
     useQuery({
-      queryKey: ['globalConnections', ...extraKeys],
+      queryKey: ["globalConnections", ...extraKeys],
       staleTime,
       gcTime,
       queryFn: () => {
@@ -50,8 +50,8 @@ export const globalConnectionsMutations = {
       },
       onError: () => {
         toast({
-          title: t('Error deleting connections'),
-          variant: 'destructive',
+          title: t("Error deleting connections"),
+          variant: "destructive",
         });
       },
     }),
@@ -61,7 +61,7 @@ export const globalConnectionsMutations = {
     editConnectionForm: UseFormReturn<{
       displayName: string;
       projectIds: string[];
-    }>,
+    }>
   ) =>
     useMutation<
       AppConnectionWithoutSensitiveData,
@@ -96,19 +96,19 @@ export const globalConnectionsMutations = {
       onSuccess: () => {
         refetch();
         toast({
-          title: t('Success'),
-          description: t('Connection has been updated.'),
+          title: t("Success"),
+          description: t("Connection has been updated."),
           duration: 3000,
         });
         setIsOpen(false);
       },
       onError: (error) => {
         if (error instanceof ConnectionNameAlreadyExists) {
-          editConnectionForm.setError('displayName', {
+          editConnectionForm.setError("displayName", {
             message: error.message,
           });
         } else if (error instanceof NoProjectSelected) {
-          editConnectionForm.setError('projectIds', {
+          editConnectionForm.setError("projectIds", {
             message: error.message,
           });
         } else {

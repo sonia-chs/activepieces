@@ -1,19 +1,19 @@
-import { Edge } from '@xyflow/react';
+import { Edge } from "@xyflow/react";
 
 import {
   FlowAction,
   StepLocationRelativeToParent,
   FlowTrigger,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export enum ApNodeType {
-  STEP = 'STEP',
-  ADD_BUTTON = 'ADD_BUTTON',
-  BIG_ADD_BUTTON = 'BIG_ADD_BUTTON',
-  GRAPH_END_WIDGET = 'GRAPH_END_WIDGET',
-  GRAPH_START_WIDGET = 'GRAPH_START_WIDGET',
+  STEP = "STEP",
+  ADD_BUTTON = "ADD_BUTTON",
+  BIG_ADD_BUTTON = "BIG_ADD_BUTTON",
+  GRAPH_END_WIDGET = "GRAPH_END_WIDGET",
+  GRAPH_START_WIDGET = "GRAPH_START_WIDGET",
   /**Used for calculating the loop graph width */
-  LOOP_RETURN_NODE = 'LOOP_RETURN_NODE',
+  LOOP_RETURN_NODE = "LOOP_RETURN_NODE",
 }
 export type ApBoundingBox = {
   width: number;
@@ -96,12 +96,12 @@ export type ApNode =
   | ApLoopReturnNode;
 
 export enum ApEdgeType {
-  STRAIGHT_LINE = 'ApStraightLineEdge',
-  LOOP_START_EDGE = 'ApLoopStartEdge',
-  LOOP_CLOSE_EDGE = 'ApLoopCloseEdge',
-  LOOP_RETURN_EDGE = 'ApLoopReturnEdge',
-  ROUTER_START_EDGE = 'ApRouterStartEdge',
-  ROUTER_END_EDGE = 'ApRouterEndEdge',
+  STRAIGHT_LINE = "ApStraightLineEdge",
+  LOOP_START_EDGE = "ApLoopStartEdge",
+  LOOP_CLOSE_EDGE = "ApLoopCloseEdge",
+  LOOP_RETURN_EDGE = "ApLoopReturnEdge",
+  ROUTER_START_EDGE = "ApRouterStartEdge",
+  ROUTER_END_EDGE = "ApRouterEndEdge",
 }
 
 export type ApStraightLineEdge = Edge & {

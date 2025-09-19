@@ -1,8 +1,8 @@
-import { DialogTrigger } from '@radix-ui/react-dialog';
-import { t } from 'i18next';
-import React, { useState } from 'react';
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { t } from "i18next";
+import React, { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,14 +10,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { PieceMetadataModelSummary } from '@activepieces/pieces-framework';
-import { AppConnectionWithoutSensitiveData, isNil } from '@activepieces/shared';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { PieceMetadataModelSummary } from "@activepieces/pieces-framework";
+import { AppConnectionWithoutSensitiveData, isNil } from "@activepieces/shared";
 
-import { CreateOrEditConnectionDialog } from './create-edit-connection-dialog';
+import { CreateOrEditConnectionDialog } from "./create-edit-connection-dialog";
 
 type NewConnectionDialogProps = {
   onConnectionCreated: (connection: AppConnectionWithoutSensitiveData) => void;
@@ -37,7 +37,7 @@ const NewConnectionDialog = React.memo(
       PieceMetadataModelSummary | undefined
     >(undefined);
     const { pieces, isLoading } = piecesHooks.usePieces({});
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState("");
 
     const filteredPieces = pieces?.filter((piece) => {
       return (
@@ -73,17 +73,17 @@ const NewConnectionDialog = React.memo(
           open={dialogTypesOpen}
           onOpenChange={(open) => {
             setDialogTypesOpen(open);
-            setSearchTerm('');
+            setSearchTerm("");
           }}
         >
           <DialogTrigger asChild>{children}</DialogTrigger>
           <DialogContent className="min-w-[700px] max-w-[700px] h-[680px] max-h-[680px] flex flex-col">
             <DialogHeader>
-              <DialogTitle>{t('New Connection')}</DialogTitle>
+              <DialogTitle>{t("New Connection")}</DialogTitle>
             </DialogHeader>
             <div className="mb-4">
               <Input
-                placeholder={t('Search')}
+                placeholder={t("Search")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -92,7 +92,7 @@ const NewConnectionDialog = React.memo(
               <div className="grid grid-cols-4 gap-4">
                 {(isLoading ||
                   (filteredPieces && filteredPieces.length === 0)) && (
-                  <div className="text-center">{t('No pieces found')}</div>
+                  <div className="text-center">{t("No pieces found")}</div>
                 )}
                 {!isLoading &&
                   filteredPieces &&
@@ -116,7 +116,7 @@ const NewConnectionDialog = React.memo(
             <DialogFooter>
               <DialogClose asChild>
                 <Button type="button" variant="ghost">
-                  {t('Close')}
+                  {t("Close")}
                 </Button>
               </DialogClose>
             </DialogFooter>
@@ -124,8 +124,8 @@ const NewConnectionDialog = React.memo(
         </Dialog>
       </>
     );
-  },
+  }
 );
 
-NewConnectionDialog.displayName = 'NewConnectionDialog';
+NewConnectionDialog.displayName = "NewConnectionDialog";
 export { NewConnectionDialog };

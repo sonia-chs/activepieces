@@ -1,6 +1,6 @@
-import deepEqual from 'deep-equal';
-import { t } from 'i18next';
-import { useState } from 'react';
+import deepEqual from "deep-equal";
+import { t } from "i18next";
+import { useState } from "react";
 
 import {
   MultiSelect,
@@ -10,8 +10,8 @@ import {
   MultiSelectSearch,
   MultiSelectTrigger,
   MultiSelectValue,
-} from '@/components/custom/multi-select';
-import { CommandEmpty } from '@/components/ui/command';
+} from "@/components/custom/multi-select";
+import { CommandEmpty } from "@/components/ui/command";
 
 type MultiSelectPiecePropertyProps = {
   placeholder: string;
@@ -47,7 +47,7 @@ const MultiSelectPieceProperty = ({
   refreshOnSearch,
   cachedOptions = [],
 }: MultiSelectPiecePropertyProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const filteredOptions = options
     .map((option, index) => ({
       ...option,
@@ -64,21 +64,21 @@ const MultiSelectPieceProperty = ({
     ? initialValues
         .map((value) =>
           [...cachedOptions, ...options].findIndex((option) =>
-            deepEqual(option.value, value),
-          ),
+            deepEqual(option.value, value)
+          )
         )
         .filter((index) => index > -1)
         .map((index) => String(index))
     : [];
   const sendChanges = (indicides: string[]) => {
     const newSelectedIndicies = indicides.filter(
-      (index) => index !== undefined,
+      (index) => index !== undefined
     );
     if (newSelectedIndicies.length === 0) {
       onChange([]);
     } else {
       onChange(
-        newSelectedIndicies.map((index) => options[Number(index)].value),
+        newSelectedIndicies.map((index) => options[Number(index)].value)
       );
     }
   };
@@ -90,16 +90,16 @@ const MultiSelectPieceProperty = ({
       onValueChange={sendChanges}
       disabled={disabled}
       onSearch={(searchTerm) => {
-        setSearchTerm(searchTerm ?? '');
+        setSearchTerm(searchTerm ?? "");
         if (refreshOnSearch) {
-          refreshOnSearch(searchTerm ?? '');
+          refreshOnSearch(searchTerm ?? "");
         }
       }}
       onOpenChange={(open) => {
         if (!open) {
-          setSearchTerm('');
+          setSearchTerm("");
           if (refreshOnSearch && searchTerm.length > 0) {
-            refreshOnSearch('');
+            refreshOnSearch("");
           }
         }
       }}
@@ -114,7 +114,7 @@ const MultiSelectPieceProperty = ({
         {selectedIndicies.length < 10 ? (
           <MultiSelectValue placeholder={placeholder} />
         ) : (
-          t('{number} items selected', { number: selectedIndicies.length })
+          t("{number} items selected", { number: selectedIndicies.length })
         )}
       </MultiSelectTrigger>
       <MultiSelectContent>
@@ -130,7 +130,7 @@ const MultiSelectPieceProperty = ({
                 }}
               >
                 {filteredOptions.length > 1 && (
-                  <MultiSelectItem>{t('Select All')}</MultiSelectItem>
+                  <MultiSelectItem>{t("Select All")}</MultiSelectItem>
                 )}
               </div>
 
@@ -143,12 +143,12 @@ const MultiSelectPieceProperty = ({
                 </MultiSelectItem>
               ))}
               {filteredOptions.length === 0 && (
-                <CommandEmpty>{t('No results found.')}</CommandEmpty>
+                <CommandEmpty>{t("No results found.")}</CommandEmpty>
               )}
             </>
           )}
           {loading && (
-            <MultiSelectItem disabled>{t('Loading...')}</MultiSelectItem>
+            <MultiSelectItem disabled>{t("Loading...")}</MultiSelectItem>
           )}
         </MultiSelectList>
       </MultiSelectContent>
@@ -156,5 +156,5 @@ const MultiSelectPieceProperty = ({
   );
 };
 
-MultiSelectPieceProperty.displayName = 'MultiSelectPieceProperty';
+MultiSelectPieceProperty.displayName = "MultiSelectPieceProperty";
 export { MultiSelectPieceProperty };

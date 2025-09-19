@@ -1,16 +1,16 @@
-import { CardListItemSkeleton } from '@/components/custom/card-list';
-import { agentHooks } from '@/features/agents/lib/agent-hooks';
-import { PieceSelectorOperation, PieceSelectorPieceItem } from '@/lib/types';
-import { isNil } from '@activepieces/shared';
+import { CardListItemSkeleton } from "@/components/custom/card-list";
+import { agentHooks } from "@/features/agents/lib/agent-hooks";
+import { PieceSelectorOperation, PieceSelectorPieceItem } from "@/lib/types";
+import { isNil } from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
-import CreateAgentActionItem from './create-agent-action-item';
+import CreateAgentActionItem from "./create-agent-action-item";
 import {
   handleAddingOrUpdatingCustomAgentPieceSelectorItem,
   overrideDisplayInfoForPieceSelectorItemWithAgentInfo,
-} from './custom-piece-selector-items-utils';
-import GenericActionOrTriggerItem from './generic-piece-selector-item';
+} from "./custom-piece-selector-items-utils";
+import GenericActionOrTriggerItem from "./generic-piece-selector-item";
 
 type RunAgentActionItemProps = {
   pieceSelectorItem: PieceSelectorPieceItem;
@@ -38,7 +38,7 @@ const RunAgentActionItem = ({
   const agentPieceSelectorItems = agentsPage.data.map((agent) => ({
     ...overrideDisplayInfoForPieceSelectorItemWithAgentInfo(
       pieceSelectorItem,
-      agent,
+      agent
     ),
     agent,
   }));
@@ -61,7 +61,7 @@ const RunAgentActionItem = ({
               agentPieceSelectorItem,
               agentPieceSelectorItem.agent,
               operation,
-              handleAddingOrUpdatingStep,
+              handleAddingOrUpdatingStep
             );
           }}
         />

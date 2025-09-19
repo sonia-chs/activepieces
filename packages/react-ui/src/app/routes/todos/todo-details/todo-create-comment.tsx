@@ -1,7 +1,7 @@
-import { todoActivityApi } from '@/features/todos/lib/todos-activitiy-api';
-import { Todo } from '@activepieces/shared';
+import { todoActivityApi } from "@/features/todos/lib/todos-activitiy-api";
+import { Todo } from "@activepieces/shared";
 
-import { TodoTextarea } from './todo-textarea';
+import { TodoTextarea } from "./todo-textarea";
 
 type TodoCreateCommentProps = {
   todo: Todo;

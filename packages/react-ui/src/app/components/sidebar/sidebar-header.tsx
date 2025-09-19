@@ -1,3 +1,4 @@
+import { ApEdition, ApFlagId } from '@activepieces/shared';
 import { t } from 'i18next';
 import { Link } from 'react-router-dom';
 
@@ -12,7 +13,6 @@ import { ProjectSwitcher } from '@/features/projects/components/project-switcher
 import { useAuthorization } from '@/hooks/authorization-hooks';
 import { flagsHooks } from '@/hooks/flags-hooks';
 import { cn, determineDefaultRoute } from '@/lib/utils';
-import { ApEdition, ApFlagId } from '@activepieces/shared';
 
 export const AppSidebarHeader = () => {
   const { embedState } = useEmbedding();
@@ -23,6 +23,9 @@ export const AppSidebarHeader = () => {
   const { checkAccess } = useAuthorization();
   const defaultRoute = determineDefaultRoute(checkAccess);
 
+  if (embedState.hideLogo) {
+    return null;
+  }
   return (
     <SidebarHeader>
       <SidebarMenu>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { FeatureKey, RequestTrial } from './request-trial';
+import { FeatureKey, RequestTrial } from "./request-trial";
 
 type LockedFeatureGuardProps = {
   children: React.ReactNode;

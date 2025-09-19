@@ -1,19 +1,19 @@
-import { t } from 'i18next';
-import { RefreshCw } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { RefreshCw } from "lucide-react";
+import { useState } from "react";
 
-import { CreateOrEditConnectionDialog } from '@/app/connections/create-edit-connection-dialog';
-import { Button } from '@/components/ui/button';
+import { CreateOrEditConnectionDialog } from "@/app/connections/create-edit-connection-dialog";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
+} from "@/components/ui/tooltip";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
 import {
   AppConnectionScope,
   AppConnectionWithoutSensitiveData,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type ReconnectButtonDialogProps = {
   connection: AppConnectionWithoutSensitiveData;
@@ -38,16 +38,16 @@ const ReconnectButtonDialog = ({
           <Button
             onClick={() => setOpen(true)}
             disabled={!hasPermission}
-            variant={'ghost'}
+            variant={"ghost"}
           >
             <RefreshCw className="h-4 w-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
           {!hasPermission ? (
-            <p>{t('Permission needed')}</p>
+            <p>{t("Permission needed")}</p>
           ) : (
-            <p>{t('Reconnect')}</p>
+            <p>{t("Reconnect")}</p>
           )}
         </TooltipContent>
       </Tooltip>

@@ -1,5 +1,5 @@
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { ApEdition, ApFlagId } from '@activepieces/shared';
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { ApEdition, ApFlagId } from "@activepieces/shared";
 
 type EditionGuardProps = {
   children: React.ReactNode;
@@ -15,5 +15,5 @@ const EditionGuard = ({ children, allowedEditions }: EditionGuardProps) => {
   return children;
 };
 
-EditionGuard.displayName = 'EditionGuard';
+EditionGuard.displayName = "EditionGuard";
 export { EditionGuard };

@@ -1,25 +1,25 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { CircleMinus, Pencil, RotateCcw, Trash, User } from 'lucide-react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { CircleMinus, Pencil, RotateCcw, Trash, User } from "lucide-react";
 
-import LockedFeatureGuard from '@/app/components/locked-feature-guard';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
-import { DataTable } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+import LockedFeatureGuard from "@/app/components/locked-feature-guard";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useToast } from '@/components/ui/use-toast';
-import { platformUserHooks } from '@/hooks/platform-user-hooks';
-import { platformUserApi } from '@/lib/platform-user-api';
-import { formatUtils } from '@/lib/utils';
-import { PlatformRole, UserStatus } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
+import { platformUserHooks } from "@/hooks/platform-user-hooks";
+import { platformUserApi } from "@/lib/platform-user-api";
+import { formatUtils } from "@/lib/utils";
+import { PlatformRole, UserStatus } from "@activepieces/shared";
 
-import { UpdateUserDialog } from './update-user-dialog';
+import { UpdateUserDialog } from "./update-user-dialog";
 
 export default function UsersPage() {
   const { toast } = useToast();
@@ -27,15 +27,15 @@ export default function UsersPage() {
   const { data, isLoading, refetch } = platformUserHooks.useUsers();
 
   const { mutate: deleteUser, isPending: isDeleting } = useMutation({
-    mutationKey: ['delete-user'],
+    mutationKey: ["delete-user"],
     mutationFn: async (userId: string) => {
       await platformUserApi.delete(userId);
     },
     onSuccess: () => {
       refetch();
       toast({
-        title: t('Success'),
-        description: t('User deleted successfully'),
+        title: t("Success"),
+        description: t("User deleted successfully"),
         duration: 3000,
       });
     },
@@ -55,49 +55,49 @@ export default function UsersPage() {
       onSuccess: (data) => {
         refetch();
         toast({
-          title: t('Success'),
+          title: t("Success"),
           description:
             data.status === UserStatus.ACTIVE
-              ? t('User activated successfully')
-              : t('User deactivated successfully'),
+              ? t("User activated successfully")
+              : t("User deactivated successfully"),
           duration: 3000,
         });
       },
-    },
+    }
   );
 
   return (
     <LockedFeatureGuard
       featureKey="USERS"
       locked={false}
-      lockTitle={t('Unlock Users')}
-      lockDescription={t('Manage your users and their access to your projects')}
+      lockTitle={t("Unlock Users")}
+      lockDescription={t("Manage your users and their access to your projects")}
     >
       <div className="flex flex-col w-full">
         <DashboardPageHeader
-          title={t('Users')}
+          title={t("Users")}
           description={t(
-            'Manage, delete, active and desactivate users on platfrom',
+            "Manage, delete, active and desactivate users on platfrom"
           )}
         />
         <DataTable
-          emptyStateTextTitle={t('No users found')}
-          emptyStateTextDescription={t('Start inviting users to your project')}
+          emptyStateTextTitle={t("No users found")}
+          emptyStateTextDescription={t("Start inviting users to your project")}
           emptyStateIcon={<User className="size-14" />}
           columns={[
             {
-              accessorKey: 'email',
+              accessorKey: "email",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Email')} />
+                <DataTableColumnHeader column={column} title={t("Email")} />
               ),
               cell: ({ row }) => {
                 return <div className="text-left">{row.original.email}</div>;
               },
             },
             {
-              accessorKey: 'name',
+              accessorKey: "name",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Name')} />
+                <DataTableColumnHeader column={column} title={t("Name")} />
               ),
               cell: ({ row }) => {
                 return (
@@ -108,11 +108,11 @@ export default function UsersPage() {
               },
             },
             {
-              accessorKey: 'externalId',
+              accessorKey: "externalId",
               header: ({ column }) => (
                 <DataTableColumnHeader
                   column={column}
-                  title={t('External Id')}
+                  title={t("External Id")}
                 />
               ),
               cell: ({ row }) => {
@@ -122,26 +122,26 @@ export default function UsersPage() {
               },
             },
             {
-              accessorKey: 'role',
+              accessorKey: "role",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Role')} />
+                <DataTableColumnHeader column={column} title={t("Role")} />
               ),
               cell: ({ row }) => {
                 return (
                   <div className="text-left">
                     {row.original.platformRole === PlatformRole.ADMIN
-                      ? t('Admin')
+                      ? t("Admin")
                       : row.original.platformRole === PlatformRole.OPERATOR
-                      ? t('Operator')
-                      : t('Member')}
+                      ? t("Operator")
+                      : t("Member")}
                   </div>
                 );
               },
             },
             {
-              accessorKey: 'createdAt',
+              accessorKey: "createdAt",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Created')} />
+                <DataTableColumnHeader column={column} title={t("Created")} />
               ),
               cell: ({ row }) => {
                 return (
@@ -152,16 +152,16 @@ export default function UsersPage() {
               },
             },
             {
-              accessorKey: 'status',
+              accessorKey: "status",
               header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={t('Status')} />
+                <DataTableColumnHeader column={column} title={t("Status")} />
               ),
               cell: ({ row }) => {
                 return (
                   <div className="text-left">
                     {row.original.status === UserStatus.ACTIVE
-                      ? t('Activated')
-                      : t('Deactivated')}
+                      ? t("Activated")
+                      : t("Deactivated")}
                   </div>
                 );
               },
@@ -188,7 +188,7 @@ export default function UsersPage() {
                       </UpdateUserDialog>
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
-                      {t('Edit user')}
+                      {t("Edit user")}
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -226,10 +226,10 @@ export default function UsersPage() {
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
                       {row.platformRole === PlatformRole.ADMIN
-                        ? t('Admin cannot be deactivated')
+                        ? t("Admin cannot be deactivated")
                         : row.status === UserStatus.ACTIVE
-                        ? t('Deactivate user')
-                        : t('Activate user')}
+                        ? t("Deactivate user")
+                        : t("Activate user")}
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -241,11 +241,11 @@ export default function UsersPage() {
                   <Tooltip>
                     <TooltipTrigger>
                       <ConfirmationDeleteDialog
-                        title={t('Delete User')}
+                        title={t("Delete User")}
                         message={t(
-                          'Are you sure you want to delete this user?',
+                          "Are you sure you want to delete this user?"
                         )}
-                        entityName={`${t('User')} ${row.email}`}
+                        entityName={`${t("User")} ${row.email}`}
                         mutationFn={async () => {
                           deleteUser(row.id);
                         }}
@@ -260,7 +260,7 @@ export default function UsersPage() {
                       </ConfirmationDeleteDialog>
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
-                      {t('Delete user')}
+                      {t("Delete user")}
                     </TooltipContent>
                   </Tooltip>
                 </div>

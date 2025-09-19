@@ -1,9 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { TriangleAlert } from 'lucide-react';
-import { useState } from 'react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { TriangleAlert } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
-import { toast } from './ui/use-toast';
+import { toast } from "./ui/use-toast";
 
 interface ConfirmationDeleteDialogProps {
   title: string;
@@ -44,7 +44,7 @@ export const ConfirmationDeleteDialog = ({
   onOpenChange,
 }: ConfirmationDeleteDialogProps) => {
   const [isControlled] = useState(
-    open !== undefined && onOpenChange !== undefined,
+    open !== undefined && onOpenChange !== undefined
   );
   const [isUncontrolledOpen, setIsUncontrolledOpen] = useState(false);
 
@@ -54,7 +54,7 @@ export const ConfirmationDeleteDialog = ({
       handleClose();
       if (showToast) {
         toast({
-          title: t('Removed {entityName}', { entityName }),
+          title: t("Removed {entityName}", { entityName }),
         });
       }
     },
@@ -89,7 +89,7 @@ export const ConfirmationDeleteDialog = ({
             disabled={isPending}
             onClick={() => handleClose()}
           >
-            {t('Cancel')}
+            {t("Cancel")}
           </Button>
           <Button
             variant="destructive"
@@ -97,7 +97,7 @@ export const ConfirmationDeleteDialog = ({
             onClick={() => mutate()}
           >
             {isDanger && <TriangleAlert className="size-4 mr-2" />}
-            {buttonText || t('Remove')}
+            {buttonText || t("Remove")}
           </Button>
         </DialogFooter>
       </DialogContent>

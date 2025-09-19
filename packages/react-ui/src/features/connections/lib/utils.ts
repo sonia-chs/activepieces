@@ -1,14 +1,14 @@
-import { t } from 'i18next';
-import { CheckIcon, UnplugIcon, XIcon } from 'lucide-react';
+import { t } from "i18next";
+import { CheckIcon, UnplugIcon, XIcon } from "lucide-react";
 
-import { authenticationSession } from '@/lib/authentication-session';
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   CustomAuthProps,
   OAuth2Props,
   PieceMetadataModel,
   PieceMetadataModelSummary,
   PropertyType,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   AppConnectionType,
   AppConnectionWithoutSensitiveData,
@@ -17,44 +17,44 @@ import {
   isNil,
   apId,
   AppConnectionStatus,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { appConnectionsApi } from './api/app-connections';
-import { globalConnectionsApi } from './api/global-connections';
+import { appConnectionsApi } from "./api/app-connections";
+import { globalConnectionsApi } from "./api/global-connections";
 
 export class ConnectionNameAlreadyExists extends Error {
   constructor() {
-    super(t('Connection name already used'));
-    this.name = 'ConnectionNameAlreadyExists';
+    super(t("Connection name already used"));
+    this.name = "ConnectionNameAlreadyExists";
   }
 }
 
 export class NoProjectSelected extends Error {
   constructor() {
-    super(t('Please select at least one project'));
-    this.name = 'NoProjectSelected';
+    super(t("Please select at least one project"));
+    this.name = "NoProjectSelected";
   }
 }
 
 export const appConnectionUtils = {
   getStatusIcon(status: AppConnectionStatus): {
-    variant: 'default' | 'success' | 'error';
+    variant: "default" | "success" | "error";
     icon: React.ComponentType;
   } {
     switch (status) {
       case AppConnectionStatus.ACTIVE:
         return {
-          variant: 'success',
+          variant: "success",
           icon: CheckIcon,
         };
       case AppConnectionStatus.MISSING:
         return {
-          variant: 'default',
+          variant: "default",
           icon: UnplugIcon,
         };
       case AppConnectionStatus.ERROR:
         return {
-          variant: 'error',
+          variant: "error",
           icon: XIcon,
         };
     }
@@ -65,7 +65,7 @@ export const newConnectionUtils = {
   getConnectionName(
     piece: PieceMetadataModelSummary | PieceMetadataModel,
     reconnectConnection: AppConnectionWithoutSensitiveData | null,
-    externalIdComingFromSdk?: string | null,
+    externalIdComingFromSdk?: string | null
   ): {
     externalId: string;
     displayName: string;
@@ -92,10 +92,10 @@ export const newConnectionUtils = {
   createDefaultValues(
     piece: PieceMetadataModelSummary | PieceMetadataModel,
     suggestedExternalId: string,
-    suggestedDisplayName: string,
+    suggestedDisplayName: string
   ): Partial<UpsertAppConnectionRequestBody> {
     const projectId = authenticationSession.getProjectId();
-    assertNotNullOrUndefined(projectId, 'projectId');
+    assertNotNullOrUndefined(projectId, "projectId");
     if (!piece.auth) {
       throw new Error(`Unsupported property type: ${piece.auth}`);
     }
@@ -110,7 +110,7 @@ export const newConnectionUtils = {
           type: AppConnectionType.SECRET_TEXT,
           value: {
             type: AppConnectionType.SECRET_TEXT,
-            secret_text: '',
+            secret_text: "",
           },
         };
       case PropertyType.BASIC_AUTH:
@@ -122,8 +122,8 @@ export const newConnectionUtils = {
           type: AppConnectionType.BASIC_AUTH,
           value: {
             type: AppConnectionType.BASIC_AUTH,
-            username: '',
-            password: '',
+            username: "",
+            password: "",
           },
         };
       case PropertyType.CUSTOM_AUTH: {
@@ -136,7 +136,7 @@ export const newConnectionUtils = {
           value: {
             type: AppConnectionType.CUSTOM_AUTH,
             props: newConnectionUtils.extractDefaultPropsValues(
-              piece.auth.props,
+              piece.auth.props
             ),
           },
         };
@@ -150,13 +150,13 @@ export const newConnectionUtils = {
           type: AppConnectionType.CLOUD_OAUTH2,
           value: {
             type: AppConnectionType.CLOUD_OAUTH2,
-            scope: piece.auth.scope.join(' '),
+            scope: piece.auth.scope.join(" "),
             authorization_method: piece.auth?.authorizationMethod,
-            client_id: '',
+            client_id: "",
             props: newConnectionUtils.extractDefaultPropsValues(
-              piece.auth.props,
+              piece.auth.props
             ),
-            code: '',
+            code: "",
           },
         };
       default:
@@ -188,7 +188,7 @@ export const newConnectionUtils = {
 
 export const isConnectionNameUnique = async (
   isGlobalConnection: boolean,
-  displayName: string,
+  displayName: string
 ) => {
   const connections = isGlobalConnection
     ? await globalConnectionsApi.list({
@@ -199,7 +199,7 @@ export const isConnectionNameUnique = async (
         limit: 10000,
       });
   const existingConnection = connections.data.find(
-    (connection) => connection.displayName === displayName,
+    (connection) => connection.displayName === displayName
   );
   return isNil(existingConnection);
 };

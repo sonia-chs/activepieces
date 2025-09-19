@@ -1,14 +1,14 @@
-import { t } from 'i18next';
-import { Info } from 'lucide-react';
-import { FC } from 'react';
+import { t } from "i18next";
+import { Info } from "lucide-react";
+import { FC } from "react";
 
-import { Slider } from '@/components/ui/slider';
+import { Slider } from "@/components/ui/slider";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { PlanName } from '@activepieces/ee-shared';
+} from "@/components/ui/tooltip";
+import { PlanName } from "@activepieces/ee-shared";
 
 import {
   DEFAULT_ACTIVE_FLOWS,
@@ -17,9 +17,9 @@ import {
   MAX_ACTIVE_FLOWS,
   MAX_PROJECTS,
   MAX_SEATS,
-} from './data';
+} from "./data";
 
-import { CurrentPlanInfo } from '.';
+import { CurrentPlanInfo } from ".";
 
 const AddonSlider: FC<{
   title: string;
@@ -119,8 +119,8 @@ export const AddonsStep: FC<{
     <div className="grid grid-rows-3 h-full gap-4">
       {(isBusinessPlan || isPlus) && (
         <AddonSlider
-          title={t('Active Flows')}
-          description={t('Increase your automation capacity')}
+          title={t("Active Flows")}
+          description={t("Increase your automation capacity")}
           value={selectedActiveFlows}
           onValueChange={onActiveFlowsChange}
           max={maxActiveFlows}
@@ -134,8 +134,8 @@ export const AddonsStep: FC<{
       {isBusinessPlan && (
         <>
           <AddonSlider
-            title={t('User Seats')}
-            description={t('Add more team members to your workspace')}
+            title={t("User Seats")}
+            description={t("Add more team members to your workspace")}
             value={selectedSeats}
             onValueChange={onSeatsChange}
             max={MAX_SEATS}
@@ -146,8 +146,8 @@ export const AddonsStep: FC<{
           />
 
           <AddonSlider
-            title={t('Projects')}
-            description={t('Organize your work with more projects')}
+            title={t("Projects")}
+            description={t("Organize your work with more projects")}
             value={selectedProjects}
             onValueChange={onProjectsChange}
             max={MAX_PROJECTS}

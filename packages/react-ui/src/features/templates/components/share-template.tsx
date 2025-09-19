@@ -1,18 +1,18 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { authenticationSession } from '@/lib/authentication-session';
-import { FlowOperationType, FlowTemplate } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { authenticationSession } from "@/lib/authentication-session";
+import { FlowOperationType, FlowTemplate } from "@activepieces/shared";
 
-import { LoadingSpinner } from '../../../components/ui/spinner';
-import { PieceIconList } from '../../pieces/components/piece-icon-list';
-import { templatesApi } from '../lib/templates-api';
+import { LoadingSpinner } from "../../../components/ui/spinner";
+import { PieceIconList } from "../../pieces/components/piece-icon-list";
+import { templatesApi } from "../lib/templates-api";
 
 const TemplateViewer = ({ template }: { template: FlowTemplate }) => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const TemplateViewer = ({ template }: { template: FlowTemplate }) => {
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2 items-center justify-between mb-4">
               <div className="flex flex-row w-full justify-between items-center">
-                <span>{t('Steps in this flow')}</span>
+                <span>{t("Steps in this flow")}</span>
                 <PieceIconList
                   trigger={template.template.trigger}
                   maxNumberOfIconsToShow={5}
@@ -58,18 +58,18 @@ const TemplateViewer = ({ template }: { template: FlowTemplate }) => {
                 <>
                   <Separator className="my-2" />
                   <div className="flex flex-col w-full justify-start items-start">
-                    <span className="font-semibold">{t('Description')}</span>
+                    <span className="font-semibold">{t("Description")}</span>
                     <span>{template.description}</span>
                   </div>
                 </>
               )}
             </div>
             <div className="ml-auto flex items-center gap-2">
-              <Button variant={'accent'} onClick={() => navigate('/flows')}>
-                {t('Cancel')}
+              <Button variant={"accent"} onClick={() => navigate("/flows")}>
+                {t("Cancel")}
               </Button>
               <Button loading={isPending} onClick={() => mutate()}>
-                {t('Import')}
+                {t("Import")}
               </Button>
             </div>
           </div>
@@ -81,7 +81,7 @@ const TemplateViewer = ({ template }: { template: FlowTemplate }) => {
 
 const ShareTemplate: React.FC<{ templateId: string }> = ({ templateId }) => {
   const { data } = useQuery({
-    queryKey: ['template', templateId],
+    queryKey: ["template", templateId],
     queryFn: () => templatesApi.getTemplate(templateId),
     staleTime: 0,
   });

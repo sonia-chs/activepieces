@@ -1,13 +1,13 @@
-import { t } from 'i18next';
-import { ChevronRight } from 'lucide-react';
+import { t } from "i18next";
+import { ChevronRight } from "lucide-react";
 
 import {
   ApSubscriptionStatus,
   BillingCycle,
   PlanName,
   StripePlanName,
-} from '@activepieces/ee-shared';
-import { PlatformBillingInformation } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { PlatformBillingInformation } from "@activepieces/shared";
 
 import {
   ADDON_PRICES,
@@ -16,7 +16,7 @@ import {
   DEFAULT_PROJECTS,
   DEFAULT_SEATS,
   planData,
-} from './data';
+} from "./data";
 
 import {
   ActionConfig,
@@ -24,10 +24,10 @@ import {
   CurrentPlanInfo,
   DialogState,
   PricingCalculation,
-} from '.';
+} from ".";
 
 export const getCurrentPlanInfo = (
-  platformBillingInformation?: PlatformBillingInformation,
+  platformBillingInformation?: PlatformBillingInformation
 ): CurrentPlanInfo => {
   const isTrial =
     platformBillingInformation?.plan.stripeSubscriptionStatus ===
@@ -59,7 +59,7 @@ export const calculatePrice = (
   selectedSeats: number[],
   selectedActiveFlows: number[],
   selectedProjects: number[],
-  plans: (typeof planData.plans)[0][],
+  plans: (typeof planData.plans)[0][]
 ): PricingCalculation => {
   if (selectedPlan === PlanName.FREE) {
     return {
@@ -90,7 +90,7 @@ export const calculatePrice = (
     selectedActiveFlows[0] -
       (DEFAULT_ACTIVE_FLOWS[
         selectedPlan as PlanName.PLUS | PlanName.BUSINESS
-      ] ?? 0),
+      ] ?? 0)
   );
   const extraProjects = Math.max(0, selectedProjects[0] - DEFAULT_PROJECTS);
 
@@ -124,7 +124,7 @@ export const calculatePrice = (
 export const getActionConfig = (
   dialogState: DialogState,
   currentPlanInfo: CurrentPlanInfo,
-  canGoNext: boolean,
+  canGoNext: boolean
 ): ActionConfig => {
   const {
     selectedPlan,
@@ -164,7 +164,7 @@ export const getActionConfig = (
       return {
         type: ActionType.UPDATE_SUBSCRIPTION,
         label: isDowngradingToFree
-          ? t('Downgrade to Free')
+          ? t("Downgrade to Free")
           : t("You're already Free"),
         disabled: !canGoNext || !isDowngradingToFree,
       };
@@ -172,7 +172,7 @@ export const getActionConfig = (
 
     return {
       type: ActionType.CONFIGURE_ADDONS,
-      label: t('Configure Add-ons'),
+      label: t("Configure Add-ons"),
       disabled: !canGoNext,
       icon: <ChevronRight className="h-4 w-4 ml-2" />,
     };
@@ -182,21 +182,21 @@ export const getActionConfig = (
     if (isTrial || currentPlan === PlanName.FREE) {
       return {
         type: ActionType.CREATE_SUBSCRIPTION,
-        label: t('Start Subscription'),
+        label: t("Start Subscription"),
         disabled: !canGoNext,
       };
     }
 
     return {
       type: ActionType.UPDATE_SUBSCRIPTION,
-      label: t('Update Subscription'),
+      label: t("Update Subscription"),
       disabled: !canGoNext || !hasChanges,
     };
   }
 
   return {
     type: ActionType.DISABLED,
-    label: t('Continue'),
+    label: t("Continue"),
     disabled: true,
   };
 };

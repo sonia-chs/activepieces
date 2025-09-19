@@ -1,7 +1,7 @@
-import { t } from 'i18next';
-import { X } from 'lucide-react';
+import { t } from "i18next";
+import { X } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 type SidebarHeaderProps = {
   children: React.ReactNode;
@@ -14,12 +14,12 @@ const SidebarHeader = ({ children, onClose }: SidebarHeaderProps) => {
       <div className="grow"></div>
       <Button
         variant="ghost"
-        size={'sm'}
+        size={"sm"}
         onClick={(e) => {
           e.stopPropagation();
           onClose();
         }}
-        aria-label={t('Close')}
+        aria-label={t("Close")}
       >
         <X size={16} />
       </Button>

@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import { format, subDays, addDays } from 'date-fns';
-import { t } from 'i18next';
-import { Calendar as CalendarIcon, Clock } from 'lucide-react';
-import * as React from 'react';
-import { DateRange } from 'react-day-picker';
+import { format, subDays, addDays } from "date-fns";
+import { t } from "i18next";
+import { Calendar as CalendarIcon, Clock } from "lucide-react";
+import * as React from "react";
+import { DateRange } from "react-day-picker";
 
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
-import { Separator } from './separator';
-import { TimePicker } from './time-picker';
+import { Separator } from "./separator";
+import { TimePicker } from "./time-picker";
 
 type DateTimePickerWithRangeProps = {
   onChange: (date: DateRange | undefined) => void;
@@ -32,7 +32,7 @@ type DateTimePickerWithRangeProps = {
   to?: string;
   maxDate?: Date;
   minDate?: Date;
-  presetType: 'past' | 'future';
+  presetType: "past" | "future";
 };
 
 const applyTimeToDate = ({
@@ -52,8 +52,8 @@ const applyTimeToDate = ({
       hours,
       minutes,
       seconds,
-      milliseconds,
-    ),
+      milliseconds
+    )
   ); // Return the updated targetDate
 };
 const getStartToEndDayTime = () => {
@@ -65,7 +65,7 @@ const getStartToEndDayTime = () => {
     0,
     0,
     0,
-    0,
+    0
   );
   const endDate = new Date(
     now.getFullYear(),
@@ -74,7 +74,7 @@ const getStartToEndDayTime = () => {
     23,
     59,
     59,
-    999,
+    999
   );
   return {
     from: startDate,
@@ -88,7 +88,7 @@ export function DateTimePickerWithRange({
   to,
   maxDate = new Date(),
   minDate,
-  presetType = 'past',
+  presetType = "past",
 }: DateTimePickerWithRangeProps) {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: from ? new Date(from) : undefined,
@@ -140,16 +140,16 @@ export function DateTimePickerWithRange({
     let newDate: DateRange;
 
     switch (value) {
-      case 'week':
+      case "week":
         newDate = { from: subDays(today, 7), to: today };
         break;
-      case 'month':
+      case "month":
         newDate = { from: subDays(today, 30), to: today };
         break;
-      case '3months':
+      case "3months":
         newDate = { from: subDays(today, 90), to: today };
         break;
-      case '6months':
+      case "6months":
         newDate = { from: subDays(today, 180), to: today };
         break;
       default:
@@ -162,27 +162,27 @@ export function DateTimePickerWithRange({
   };
 
   return (
-    <div className={cn('grid gap-2', className)}>
+    <div className={cn("grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
-            variant={'outline'}
+            variant={"outline"}
             className={cn(
-              'min-w-[90px] h-8 border-dashed justify-start text-left font-normal',
-              !date && 'text-muted-foreground',
+              "min-w-[90px] h-8 border-dashed justify-start text-left font-normal",
+              !date && "text-muted-foreground"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date?.from ? (
               date.to ? (
                 <div className="flex gap-2 items-center">
-                  <div>{format(date.from, 'LLL dd, y, hh:mm a')}</div>
-                  <div>{t('to')}</div>
-                  <div>{format(date.to, 'LLL dd, y, hh:mm a')}</div>
+                  <div>{format(date.from, "LLL dd, y, hh:mm a")}</div>
+                  <div>{t("to")}</div>
+                  <div>{format(date.to, "LLL dd, y, hh:mm a")}</div>
                 </div>
               ) : (
-                format(date.from, 'LLL dd, y, hh:mm a')
+                format(date.from, "LLL dd, y, hh:mm a")
               )
             ) : (
               <span>Pick a date range</span>
@@ -196,23 +196,23 @@ export function DateTimePickerWithRange({
                 <SelectValue placeholder="Select preset" />
               </SelectTrigger>
               <SelectContent>
-                {presetType === 'past' ? (
+                {presetType === "past" ? (
                   <>
-                    <SelectItem value="week">{t('Last Week')}</SelectItem>
-                    <SelectItem value="month">{t('Last Month')}</SelectItem>
+                    <SelectItem value="week">{t("Last Week")}</SelectItem>
+                    <SelectItem value="month">{t("Last Month")}</SelectItem>
                     <SelectItem value="3months">
-                      {t('Last 3 Months')}
+                      {t("Last 3 Months")}
                     </SelectItem>
                     <SelectItem value="6months">
-                      {t('Last 6 Months')}
+                      {t("Last 6 Months")}
                     </SelectItem>
                   </>
                 ) : (
                   <>
-                    <SelectItem value="7">{t('Next 7 days')}</SelectItem>
-                    <SelectItem value="30">{t('Next 30 days')}</SelectItem>
-                    <SelectItem value="90">{t('Next 90 days')}</SelectItem>
-                    <SelectItem value="180">{t('Next 180 days')}</SelectItem>
+                    <SelectItem value="7">{t("Next 7 days")}</SelectItem>
+                    <SelectItem value="30">{t("Next 30 days")}</SelectItem>
+                    <SelectItem value="90">{t("Next 90 days")}</SelectItem>
+                    <SelectItem value="180">{t("Next 180 days")}</SelectItem>
                   </>
                 )}
               </SelectContent>
@@ -234,11 +234,11 @@ export function DateTimePickerWithRange({
           <div className="flex justify-between items-center ">
             <div className="flex gap-1.5 px-2 items-center text-sm">
               <Clock className="w-4 h-4 text-muted-foreground"></Clock>
-              {t('Select Time Range')}
+              {t("Select Time Range")}
             </div>
             <Button
-              variant={'ghost'}
-              size={'sm'}
+              variant={"ghost"}
+              size={"sm"}
               className="text-primary hover:!text-primary"
               onClick={() => {
                 const fromTime = getStartToEndDayTime().from;
@@ -272,7 +272,7 @@ export function DateTimePickerWithRange({
                 });
               }}
             >
-              {t('Clear')}
+              {t("Clear")}
             </Button>
           </div>
 
@@ -300,7 +300,7 @@ export function DateTimePickerWithRange({
               ></TimePicker>
             </div>
 
-            {t('to')}
+            {t("to")}
 
             <div className="flex gap-2 grow justify-center items-center ">
               <TimePicker

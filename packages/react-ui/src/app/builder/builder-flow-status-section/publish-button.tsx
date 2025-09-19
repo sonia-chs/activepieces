@@ -1,17 +1,17 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { flowsHooks } from '@/features/flows/lib/flows-hooks';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { FlowVersionState, Permission } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { flowsHooks } from "@/features/flows/lib/flows-hooks";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { FlowVersionState, Permission } from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
 const PublishButton = () => {
   const { checkAccess } = useAuthorization();
@@ -53,25 +53,25 @@ const PublishButton = () => {
       <Tooltip>
         <TooltipTrigger asChild className="disabled:pointer-events-auto">
           <Button
-            size={'sm'}
+            size={"sm"}
             loading={isSaving || isPublishing}
             disabled={isPublishedVersion || !flowVersion.valid}
             onClick={() => publish()}
           >
-            {t('Publish')}
+            {t("Publish")}
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom">
           {isPublishedVersion
-            ? t('Latest version is published')
+            ? t("Latest version is published")
             : !flowVersion.valid
-            ? t('Your flow has incomplete steps')
-            : t('Publish')}
+            ? t("Your flow has incomplete steps")
+            : t("Publish")}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
 };
 
-PublishButton.displayName = 'PublishButton';
+PublishButton.displayName = "PublishButton";
 export { PublishButton };

@@ -1,6 +1,6 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 type BranchConditionToolbarProps = {
   onAnd: () => void;
@@ -20,7 +20,7 @@ const BranchConditionToolbar = (props: BranchConditionToolbarProps) => {
           onClick={props.onAnd}
           disabled={props.readonly}
         >
-          {t('+ And')}
+          {t("+ And")}
         </Button>
       )}
 
@@ -31,12 +31,12 @@ const BranchConditionToolbar = (props: BranchConditionToolbarProps) => {
           onClick={props.onOr}
           disabled={props.readonly}
         >
-          {t('+ Or')}
+          {t("+ Or")}
         </Button>
       )}
     </div>
   );
 };
 
-BranchConditionToolbar.displayName = 'BranchConditionToolbar';
+BranchConditionToolbar.displayName = "BranchConditionToolbar";
 export { BranchConditionToolbar };

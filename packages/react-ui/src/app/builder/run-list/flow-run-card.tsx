@@ -1,29 +1,29 @@
-import { StopwatchIcon } from '@radix-ui/react-icons';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { ChevronRight, Eye, Redo, RefreshCcw, RotateCw } from 'lucide-react';
-import React, { useState } from 'react';
+import { StopwatchIcon } from "@radix-ui/react-icons";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { ChevronRight, Eye, Redo, RefreshCcw, RotateCw } from "lucide-react";
+import React, { useState } from "react";
 
 import {
   LeftSideBarType,
   useBuilderStateContext,
-} from '@/app/builder/builder-hooks';
-import { CardListItem } from '@/components/custom/card-list';
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { Button } from '@/components/ui/button';
+} from "@/app/builder/builder-hooks";
+import { CardListItem } from "@/components/custom/card-list";
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuContent,
-} from '@/components/ui/dropdown-menu';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { flowRunUtils } from '@/features/flow-runs/lib/flow-run-utils';
-import { flowRunsApi } from '@/features/flow-runs/lib/flow-runs-api';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn, formatUtils } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { flowRunUtils } from "@/features/flow-runs/lib/flow-run-utils";
+import { flowRunsApi } from "@/features/flow-runs/lib/flow-runs-api";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn, formatUtils } from "@/lib/utils";
 import {
   FlowRetryStrategy,
   FlowRun,
@@ -31,7 +31,7 @@ import {
   isNil,
   Permission,
   PopulatedFlow,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type FlowRunCardProps = {
   run: FlowRun;
@@ -43,7 +43,7 @@ const FlowRunCard = React.memo(
   ({ run, viewedRunId, refetchRuns }: FlowRunCardProps) => {
     const { Icon, variant } = flowRunUtils.getStatusIcon(run.status);
     const userHasPermissionToRetryRun = useAuthorization().checkAccess(
-      Permission.WRITE_RUN,
+      Permission.WRITE_RUN
     );
     const projectId = authenticationSession.getProjectId();
     const [hoveringRetryButton, setHoveringRetryButton] =
@@ -113,8 +113,8 @@ const FlowRunCard = React.memo(
 
     return (
       <CardListItem
-        className={cn('px-3', {
-          'hover:bg-background': hoveringRetryButton,
+        className={cn("px-3", {
+          "hover:bg-background": hoveringRetryButton,
         })}
         onClick={() => {
           if (!isFetchingRun) {
@@ -126,28 +126,28 @@ const FlowRunCard = React.memo(
         <div>
           <span>
             <Icon
-              className={cn('w-5 h-5', {
-                'text-success': variant === 'success',
-                'text-destructive': variant === 'error',
+              className={cn("w-5 h-5", {
+                "text-success": variant === "success",
+                "text-destructive": variant === "error",
               })}
             />
           </span>
         </div>
         <div className="grid gap-2">
           <div className="text-sm font-medium leading-none flex gap-2 items-center">
-            {formatUtils.formatDate(new Date(run.startTime))}{' '}
+            {formatUtils.formatDate(new Date(run.startTime))}{" "}
             {run.id === viewedRunId && <Eye className="w-3.5 h-3.5"></Eye>}
           </div>
           {run.finishTime && (
             <p className="flex gap-1 text-xs text-muted-foreground">
               <StopwatchIcon className="h-3.5 w-3.5" />
-              {t('Took')} {formatUtils.formatDuration(run.duration, false)}
+              {t("Took")} {formatUtils.formatDuration(run.duration, false)}
             </p>
           )}
           {isNil(run.finishTime) ||
             (!run.finishTime && (
               <p className="flex gap-1 text-xs text-muted-foreground">
-                {t('Running')}...
+                {t("Running")}...
               </p>
             ))}
         </div>
@@ -207,7 +207,7 @@ const FlowRunCard = React.memo(
                   >
                     <div className="flex flex-row gap-2 items-center">
                       <RotateCw className="h-4 w-4" />
-                      <span>{t('on latest version')}</span>
+                      <span>{t("on latest version")}</span>
                     </div>
                   </DropdownMenuItem>
 
@@ -226,7 +226,7 @@ const FlowRunCard = React.memo(
                   >
                     <div className="flex flex-row gap-2 items-center">
                       <Redo className="h-4 w-4" />
-                      <span>{t('from failed step')}</span>
+                      <span>{t("from failed step")}</span>
                     </div>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -236,8 +236,8 @@ const FlowRunCard = React.memo(
         </div>
       </CardListItem>
     );
-  },
+  }
 );
 
-FlowRunCard.displayName = 'FlowRunCard';
+FlowRunCard.displayName = "FlowRunCard";
 export { FlowRunCard };

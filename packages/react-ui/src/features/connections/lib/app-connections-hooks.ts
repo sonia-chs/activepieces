@@ -1,12 +1,12 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { UseFormReturn } from 'react-hook-form';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { UseFormReturn } from "react-hook-form";
 
-import { useEmbedding } from '@/components/embed-provider';
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
-import { projectMembersApi } from '@/features/team/lib/project-members-api';
-import { api } from '@/lib/api';
-import { authenticationSession } from '@/lib/authentication-session';
+import { useEmbedding } from "@/components/embed-provider";
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
+import { projectMembersApi } from "@/features/team/lib/project-members-api";
+import { api } from "@/lib/api";
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   ApErrorParams,
   AppConnectionScope,
@@ -16,15 +16,15 @@ import {
   ListAppConnectionsRequestQuery,
   ReplaceAppConnectionsRequestBody,
   UpsertAppConnectionRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { appConnectionsApi } from './api/app-connections';
-import { globalConnectionsApi } from './api/global-connections';
+import { appConnectionsApi } from "./api/app-connections";
+import { globalConnectionsApi } from "./api/global-connections";
 import {
   ConnectionNameAlreadyExists,
   NoProjectSelected,
   isConnectionNameUnique,
-} from './utils';
+} from "./utils";
 
 type UseReplaceConnectionsProps = {
   setDialogOpen: (isOpen: boolean) => void;
@@ -52,7 +52,7 @@ type UseUpsertAppConnectionProps = {
   }>;
   setOpen: (
     open: boolean,
-    connection?: AppConnectionWithoutSensitiveData,
+    connection?: AppConnectionWithoutSensitiveData
   ) => void;
 };
 
@@ -67,16 +67,16 @@ export const appConnectionsMutations = {
   }: UseUpsertAppConnectionProps) => {
     return useMutation({
       mutationFn: async () => {
-        setErrorMessage('');
+        setErrorMessage("");
         const formValues = form.getValues().request;
         const isNameUnique = await isConnectionNameUnique(
           isGlobalConnection,
-          formValues.displayName,
+          formValues.displayName
         );
         if (
           !isNameUnique &&
           reconnectConnection?.displayName !== formValues.displayName &&
-          (isNil(externalIdComingFromSdk) || externalIdComingFromSdk === '')
+          (isNil(externalIdComingFromSdk) || externalIdComingFromSdk === "")
         ) {
           throw new ConnectionNameAlreadyExists();
         }
@@ -94,15 +94,15 @@ export const appConnectionsMutations = {
       },
       onSuccess: (connection) => {
         setOpen(false, connection);
-        setErrorMessage('');
+        setErrorMessage("");
       },
       onError: (err) => {
         if (err instanceof ConnectionNameAlreadyExists) {
-          form.setError('request.displayName', {
+          form.setError("request.displayName", {
             message: err.message,
           });
         } else if (err instanceof NoProjectSelected) {
-          form.setError('request.projectIds', {
+          form.setError("request.projectIds", {
             message: err.message,
           });
         } else if (api.isError(err)) {
@@ -111,37 +111,37 @@ export const appConnectionsMutations = {
             case ErrorCode.INVALID_CLOUD_CLAIM: {
               setErrorMessage(
                 t(
-                  'Could not claim the authorization code, make sure you have correct settings and try again.',
-                ),
+                  "Could not claim the authorization code, make sure you have correct settings and try again."
+                )
               );
               break;
             }
             case ErrorCode.INVALID_CLAIM: {
               setErrorMessage(
-                t('Connection failed with error {msg}', {
+                t("Connection failed with error {msg}", {
                   msg: apError.params.message,
-                }),
+                })
               );
               break;
             }
             case ErrorCode.INVALID_APP_CONNECTION: {
               setErrorMessage(
-                t('Connection failed with error {msg}', {
+                t("Connection failed with error {msg}", {
                   msg: apError.params.error,
-                }),
+                })
               );
               break;
             }
             // can happen in embedding sdk connect method
             case ErrorCode.PERMISSION_DENIED: {
               setErrorMessage(
-                t(`You don't have the permission to create a connection.`),
+                t(`You don't have the permission to create a connection.`)
               );
               break;
             }
 
             default: {
-              setErrorMessage('Unexpected error, please contact support');
+              setErrorMessage("Unexpected error, please contact support");
               toast(INTERNAL_ERROR_TOAST);
               console.error(err);
             }
@@ -161,8 +161,8 @@ export const appConnectionsMutations = {
       },
       onError: () => {
         toast({
-          title: t('Error deleting connections'),
-          variant: 'destructive',
+          title: t("Error deleting connections"),
+          variant: "destructive",
         });
       },
     });
@@ -184,7 +184,7 @@ export const appConnectionsMutations = {
       }) => {
         const existingConnection = await isConnectionNameUnique(
           false,
-          displayName,
+          displayName
         );
         if (!existingConnection && displayName !== currentName) {
           throw new ConnectionNameAlreadyExists();
@@ -194,15 +194,15 @@ export const appConnectionsMutations = {
       onSuccess: () => {
         refetch();
         toast({
-          title: t('Success'),
-          description: t('Connection has been renamed.'),
+          title: t("Success"),
+          description: t("Connection has been renamed."),
           duration: 3000,
         });
         setIsRenameDialogOpen(false);
       },
       onError: (error) => {
         if (error instanceof ConnectionNameAlreadyExists) {
-          renameConnectionForm.setError('displayName', {
+          renameConnectionForm.setError("displayName", {
             message: error.message,
           });
         } else {
@@ -222,17 +222,17 @@ export const appConnectionsMutations = {
       },
       onSuccess: () => {
         toast({
-          title: t('Success'),
-          description: t('Connections replaced successfully'),
+          title: t("Success"),
+          description: t("Connections replaced successfully"),
         });
         setDialogOpen(false);
         refetch();
       },
       onError: () => {
         toast({
-          title: t('Error'),
-          description: t('Failed to replace connections'),
-          variant: 'destructive',
+          title: t("Error"),
+          description: t("Failed to replace connections"),
+          variant: "destructive",
         });
       },
     });
@@ -254,7 +254,7 @@ export const appConnectionsQueries = {
     staleTime,
   }: UseConnectionsProps) => {
     return useQuery({
-      queryKey: ['app-connections', ...extraKeys],
+      queryKey: ["app-connections", ...extraKeys],
       queryFn: () => appConnectionsApi.list(request),
       enabled,
       staleTime,
@@ -262,11 +262,11 @@ export const appConnectionsQueries = {
   },
 
   useConnectionsOwners: () => {
-    const projectId = authenticationSession.getProjectId() ?? '';
+    const projectId = authenticationSession.getProjectId() ?? "";
     const isEmbedding = useEmbedding().embedState.isEmbedded;
 
     return useQuery({
-      queryKey: ['app-connections-owners', projectId],
+      queryKey: ["app-connections-owners", projectId],
       queryFn: async () => {
         const { data: owners } = await appConnectionsApi.getOwners({
           projectId,
@@ -279,9 +279,9 @@ export const appConnectionsQueries = {
             (owner) =>
               !isNil(
                 projectMembers.find(
-                  (member) => member.user.email === owner.email,
-                ),
-              ),
+                  (member) => member.user.email === owner.email
+                )
+              )
           );
         }
 

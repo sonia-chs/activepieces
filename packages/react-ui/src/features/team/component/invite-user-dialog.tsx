@@ -1,13 +1,13 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { CopyIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { CopyIcon } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { useEmbedding } from '@/components/embed-provider';
-import { Button } from '@/components/ui/button';
+import { useEmbedding } from "@/components/embed-provider";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -16,10 +16,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FormField, FormItem, Form, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { FormField, FormItem, Form, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -28,49 +28,49 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { toast } from '@/components/ui/use-toast';
-import { projectRoleApi } from '@/features/platform-admin/lib/project-role-api';
-import { PlatformRoleSelect } from '@/features/team/component/platform-role-select';
-import { userInvitationApi } from '@/features/team/lib/user-invitation';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { HttpError } from '@/lib/api';
-import { formatUtils } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { toast } from "@/components/ui/use-toast";
+import { projectRoleApi } from "@/features/platform-admin/lib/project-role-api";
+import { PlatformRoleSelect } from "@/features/team/component/platform-role-select";
+import { userInvitationApi } from "@/features/team/lib/user-invitation";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { HttpError } from "@/lib/api";
+import { formatUtils } from "@/lib/utils";
 import {
   InvitationType,
   isNil,
   Permission,
   PlatformRole,
   UserInvitationWithLink,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { userInvitationsHooks } from '../lib/user-invitations-hooks';
+import { userInvitationsHooks } from "../lib/user-invitations-hooks";
 
 const FormSchema = Type.Object({
   email: Type.String({
-    errorMessage: t('Please enter a valid email address'),
+    errorMessage: t("Please enter a valid email address"),
     pattern: formatUtils.emailRegex.source,
   }),
   type: Type.Enum(InvitationType, {
-    errorMessage: t('Please select invitation type'),
+    errorMessage: t("Please select invitation type"),
     required: true,
   }),
   platformRole: Type.Enum(PlatformRole, {
-    errorMessage: t('Please select platform role'),
+    errorMessage: t("Please select platform role"),
     required: true,
   }),
   projectRole: Type.Optional(
     Type.String({
       required: true,
-    }),
+    })
   ),
 });
 
@@ -84,14 +84,14 @@ export const InviteUserDialog = ({
   setOpen: (_open: boolean) => void;
 }) => {
   const { embedState } = useEmbedding();
-  const [invitationLink, setInvitationLink] = useState('');
+  const [invitationLink, setInvitationLink] = useState("");
   const { platform } = platformHooks.useCurrentPlatform();
   const { refetch } = userInvitationsHooks.useInvitations();
   const { project } = projectHooks.useCurrentProject();
   const { data: currentUser } = userHooks.useCurrentUser();
   const { checkAccess } = useAuthorization();
   const userHasPermissionToInviteUser = checkAccess(
-    Permission.WRITE_INVITATION,
+    Permission.WRITE_INVITATION
   );
 
   const { mutate, isPending } = useMutation<
@@ -122,7 +122,7 @@ export const InviteUserDialog = ({
       } else {
         setOpen(false);
         toast({
-          title: t('Invitation sent successfully'),
+          title: t("Invitation sent successfully"),
         });
       }
       refetch();
@@ -131,7 +131,7 @@ export const InviteUserDialog = ({
   });
 
   const { data: rolesData } = useQuery({
-    queryKey: ['project-roles'],
+    queryKey: ["project-roles"],
     queryFn: () => projectRoleApi.list(),
     enabled:
       !isNil(platform.plan.projectRolesEnabled) &&
@@ -143,7 +143,7 @@ export const InviteUserDialog = ({
   const form = useForm<FormSchema>({
     resolver: typeboxResolver(FormSchema),
     defaultValues: {
-      email: '',
+      email: "",
       type: platform.plan.projectRolesEnabled
         ? InvitationType.PROJECT
         : InvitationType.PLATFORM,
@@ -154,9 +154,9 @@ export const InviteUserDialog = ({
 
   const onSubmit = (data: FormSchema) => {
     if (data.type === InvitationType.PROJECT && !data.projectRole) {
-      form.setError('projectRole', {
-        type: 'required',
-        message: t('Please select a project role'),
+      form.setError("projectRole", {
+        type: "required",
+        message: t("Please select a project role"),
       });
       return;
     }
@@ -166,7 +166,7 @@ export const InviteUserDialog = ({
   const copyInvitationLink = () => {
     navigator.clipboard.writeText(invitationLink);
     toast({
-      title: t('Invitation link copied successfully'),
+      title: t("Invitation link copied successfully"),
     });
   };
 
@@ -184,22 +184,22 @@ export const InviteUserDialog = ({
             setOpen(open);
             if (open) {
               form.reset();
-              setInvitationLink('');
+              setInvitationLink("");
             }
           }}
         >
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>
-                {invitationLink ? t('Invitation Link') : t('Invite User')}
+                {invitationLink ? t("Invitation Link") : t("Invite User")}
               </DialogTitle>
               <DialogDescription>
                 {invitationLink
                   ? t(
-                      'Please copy the link below and share it with the user you want to invite, the invitation expires in 24 hours.',
+                      "Please copy the link below and share it with the user you want to invite, the invitation expires in 24 hours."
                     )
                   : t(
-                      'Type the email address of the user you want to invite, the invitation expires in 24 hours.',
+                      "Type the email address of the user you want to invite, the invitation expires in 24 hours."
                     )}
               </DialogDescription>
             </DialogHeader>
@@ -215,7 +215,7 @@ export const InviteUserDialog = ({
                     name="email"
                     render={({ field }) => (
                       <FormItem className="grid gap-2">
-                        <Label htmlFor="email">{t('Email')}</Label>
+                        <Label htmlFor="email">{t("Email")}</Label>
                         <Input
                           {...field}
                           type="text"
@@ -231,21 +231,21 @@ export const InviteUserDialog = ({
                     name="type"
                     render={({ field }) => (
                       <FormItem className="grid gap-2">
-                        <Label>{t('Invite To')}</Label>
+                        <Label>{t("Invite To")}</Label>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder={t('Invite To')} />
+                            <SelectValue placeholder={t("Invite To")} />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectLabel>{t('Invite To')}</SelectLabel>
+                              <SelectLabel>{t("Invite To")}</SelectLabel>
                               {currentUser?.platformRole ===
                                 PlatformRole.ADMIN && (
                                 <SelectItem value={InvitationType.PLATFORM}>
-                                  {t('Entire Platform')}
+                                  {t("Entire Platform")}
                                 </SelectItem>
                               )}
                               {platform.plan.projectRolesEnabled && (
@@ -270,22 +270,22 @@ export const InviteUserDialog = ({
                       name="projectRole"
                       render={({ field }) => (
                         <FormItem className="grid gap-2">
-                          <Label>{t('Select Project Role')}</Label>
+                          <Label>{t("Select Project Role")}</Label>
                           <Select
                             onValueChange={(value) => {
                               const selectedRole = roles.find(
-                                (role) => role.name === value,
+                                (role) => role.name === value
                               );
                               field.onChange(selectedRole?.name);
                             }}
                             defaultValue={field.value}
                           >
                             <SelectTrigger>
-                              <SelectValue placeholder={t('Select Role')} />
+                              <SelectValue placeholder={t("Select Role")} />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                <SelectLabel>{t('Roles')}</SelectLabel>
+                                <SelectLabel>{t("Roles")}</SelectLabel>
                                 {roles.map((role) => (
                                   <SelectItem key={role.name} value={role.name}>
                                     {role.name}
@@ -307,12 +307,12 @@ export const InviteUserDialog = ({
                   )}
                   <DialogFooter>
                     <DialogClose asChild>
-                      <Button type="button" variant={'outline'}>
-                        {t('Cancel')}
+                      <Button type="button" variant={"outline"}>
+                        {t("Cancel")}
                       </Button>
                     </DialogClose>
                     <Button type="submit" loading={isPending}>
-                      {t('Invite')}
+                      {t("Invite")}
                     </Button>
                   </DialogFooter>
                 </form>
@@ -320,7 +320,7 @@ export const InviteUserDialog = ({
             ) : (
               <>
                 <Label htmlFor="invitationLink" className="mb-2">
-                  {t('Invitation Link')}
+                  {t("Invitation Link")}
                 </Label>
                 <div className="flex">
                   <Input
@@ -328,7 +328,7 @@ export const InviteUserDialog = ({
                     type="text"
                     readOnly={true}
                     defaultValue={invitationLink}
-                    placeholder={t('Invitation Link')}
+                    placeholder={t("Invitation Link")}
                     onFocus={(event) => {
                       event.target.select();
                       copyInvitationLink();
@@ -340,7 +340,7 @@ export const InviteUserDialog = ({
                     <TooltipTrigger asChild>
                       <Button
                         type="button"
-                        variant={'outline'}
+                        variant={"outline"}
                         className=" rounded-l-none rounded-r-md"
                         onClick={copyInvitationLink}
                       >
@@ -348,7 +348,7 @@ export const InviteUserDialog = ({
                       </Button>
                     </TooltipTrigger>
 
-                    <TooltipContent side="bottom">{t('Copy')}</TooltipContent>
+                    <TooltipContent side="bottom">{t("Copy")}</TooltipContent>
                   </Tooltip>
                 </div>
               </>

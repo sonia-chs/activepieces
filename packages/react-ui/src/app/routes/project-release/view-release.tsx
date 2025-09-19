@@ -1,45 +1,45 @@
-import { useQuery } from '@tanstack/react-query';
-import { formatDistance } from 'date-fns';
-import { t } from 'i18next';
+import { useQuery } from "@tanstack/react-query";
+import { formatDistance } from "date-fns";
+import { t } from "i18next";
 import {
   ChevronRight,
   GitBranch,
   FolderOpenDot,
   RotateCcw,
-} from 'lucide-react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+} from "lucide-react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { projectReleaseApi } from '@/features/project-version/lib/project-release-api';
-import { isNil, ProjectReleaseType } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { projectReleaseApi } from "@/features/project-version/lib/project-release-api";
+import { isNil, ProjectReleaseType } from "@activepieces/shared";
 
-import { ApplyButton } from './apply-plan';
+import { ApplyButton } from "./apply-plan";
 
 const getReleaseSummaryType = (type: ProjectReleaseType) => {
   switch (type) {
     case ProjectReleaseType.GIT:
       return (
         <span className="flex items-center gap-1">
-          <GitBranch className="size-4" /> {t('Git')}
+          <GitBranch className="size-4" /> {t("Git")}
         </span>
       );
     case ProjectReleaseType.PROJECT:
       return (
         <span className="flex items-center gap-1">
-          <FolderOpenDot className="size-4" /> {t('Project')}
+          <FolderOpenDot className="size-4" /> {t("Project")}
         </span>
       );
     case ProjectReleaseType.ROLLBACK:
       return (
         <span className="flex items-center gap-1">
-          <RotateCcw className="size-4" /> {t('Rollback')}
+          <RotateCcw className="size-4" /> {t("Rollback")}
         </span>
       );
   }
@@ -49,8 +49,8 @@ const ViewRelease = () => {
   const { releaseId } = useParams();
   const navigate = useNavigate();
   const { data: release, isLoading } = useQuery({
-    queryKey: ['release', releaseId],
-    queryFn: () => projectReleaseApi.get(releaseId || ''),
+    queryKey: ["release", releaseId],
+    queryFn: () => projectReleaseApi.get(releaseId || ""),
     enabled: !!releaseId,
   });
 
@@ -72,9 +72,9 @@ const ViewRelease = () => {
           <Button
             variant="link"
             className="p-0 h-auto text-sm text-muted-foreground hover:text-primary"
-            onClick={() => navigate('/releases')}
+            onClick={() => navigate("/releases")}
           >
-            {t('Releases')}
+            {t("Releases")}
           </Button>
           <ChevronRight className="h-4 w-4" />
           <span>{release?.name}</span>
@@ -88,32 +88,32 @@ const ViewRelease = () => {
                   <TooltipTrigger asChild>
                     <ApplyButton
                       onSuccess={() => {
-                        navigate('/releases');
+                        navigate("/releases");
                       }}
                       variant="ghost"
                       className="size-8 p-0"
                       request={{
                         type: ProjectReleaseType.ROLLBACK,
-                        projectReleaseId: release?.id || '',
+                        projectReleaseId: release?.id || "",
                       }}
                       defaultName={release?.name}
                     >
-                      <Button disabled={isLoading}>{t('Rollback')}</Button>
+                      <Button disabled={isLoading}>{t("Rollback")}</Button>
                     </ApplyButton>
                   </TooltipTrigger>
-                  <TooltipContent side="bottom">{t('Rollback')}</TooltipContent>
+                  <TooltipContent side="bottom">{t("Rollback")}</TooltipContent>
                 </Tooltip>
               </div>
             </div>
             <p className="text-sm text-muted-foreground">
-              {t('Created')}: {timeAgo}
+              {t("Created")}: {timeAgo}
             </p>
           </div>
         </div>
       </div>
 
       <div className="space-y-2">
-        <span className="text-md font-semibold">{t('Summary')}</span>
+        <span className="text-md font-semibold">{t("Summary")}</span>
         {isLoading ? (
           <Skeleton className="h-24 w-full" />
         ) : (
@@ -123,14 +123,14 @@ const ViewRelease = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className="flex items-center flex-row gap-1">
-                      {t('Imported by')}
+                      {t("Imported by")}
                       <span className="font-semibold text-md">
-                        {release?.importedByUser?.firstName}{' '}
+                        {release?.importedByUser?.firstName}{" "}
                         {release?.importedByUser?.lastName}
                       </span>
-                      {t('from')}{' '}
+                      {t("from")}{" "}
                       {getReleaseSummaryType(
-                        release?.type ?? ProjectReleaseType.GIT,
+                        release?.type ?? ProjectReleaseType.GIT
                       )}
                     </span>
                   </TooltipTrigger>
@@ -144,13 +144,13 @@ const ViewRelease = () => {
         )}
       </div>
       <div className="space-y-2">
-        <span className="text-md font-semibold">{t('Description')}</span>
+        <span className="text-md font-semibold">{t("Description")}</span>
         {isLoading ? (
           <Skeleton className="h-24 w-full" />
         ) : (
           <div className="flex flex-col items-start gap-2">
             <pre className="whitespace-pre-wrap">
-              {release?.description || t('No description provided')}
+              {release?.description || t("No description provided")}
             </pre>
           </div>
         )}

@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 import {
   ArrowLeft,
   ChevronDown,
@@ -6,26 +6,26 @@ import {
   Trash2,
   Import,
   Download,
-} from 'lucide-react';
-import { useState } from 'react';
+} from "lucide-react";
+import { useState } from "react";
 
-import { ApSidebarToggle } from '@/components/custom/ap-sidebar-toggle';
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { useEmbedding } from '@/components/embed-provider';
-import { Button } from '@/components/ui/button';
+import { ApSidebarToggle } from "@/components/custom/ap-sidebar-toggle";
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { useEmbedding } from "@/components/embed-provider";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import EditableText from '@/components/ui/editable-text';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { Permission } from '@activepieces/shared';
+} from "@/components/ui/dropdown-menu";
+import EditableText from "@/components/ui/editable-text";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { Permission } from "@activepieces/shared";
 
-import { useTableState } from './ap-table-state-provider';
-import { ImportCsvDialog } from './import-csv-dialog';
+import { useTableState } from "./ap-table-state-provider";
+import { ImportCsvDialog } from "./import-csv-dialog";
 
 interface ApTableHeaderProps {
   onBack: () => void;
@@ -53,12 +53,12 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
   const [isImportCsvDialogOpen, setIsImportCsvDialogOpen] = useState(false);
   const [isEditingTableName, setIsEditingTableName] = useState(false);
   const userHasTableWritePermission = useAuthorization().checkAccess(
-    Permission.WRITE_TABLE,
+    Permission.WRITE_TABLE
   );
 
   const exportTable = async () => {
-    const { tablesApi } = await import('../lib/tables-api');
-    const { tablesUtils } = await import('../lib/utils');
+    const { tablesApi } = await import("../lib/tables-api");
+    const { tablesUtils } = await import("../lib/utils");
     const exportedTable = await tablesApi.export(table.id);
     tablesUtils.exportTables([exportedTable]);
   };
@@ -71,7 +71,7 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
           {embedState.isEmbedded && (
             <Button
               variant="basic"
-              size={'icon'}
+              size={"icon"}
               className="text-foreground"
               onClick={onBack}
             >
@@ -82,7 +82,7 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
           <div className="flex items-center gap-1">
             <EditableText
               className="text-lg font-semibold hover:cursor-text"
-              value={table?.name || t('Table Editor')}
+              value={table?.name || t("Table Editor")}
               readonly={!userHasTableWritePermission}
               onValueChange={(newName) => {
                 renameTable(newName);
@@ -90,7 +90,7 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
               isEditing={isEditingTableName}
               setIsEditing={setIsEditingTableName}
               tooltipContent={
-                userHasTableWritePermission ? t('Edit Table Name') : ''
+                userHasTableWritePermission ? t("Edit Table Name") : ""
               }
             />
             <DropdownMenu>
@@ -104,11 +104,11 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
                   onClick={() => setIsImportCsvDialogOpen(true)}
                 >
                   <Import className="mr-2 h-4 w-4" />
-                  {t('Import')}
+                  {t("Import")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={exportTable}>
                   <Download className="mr-2 h-4 w-4" />
-                  {t('Export')}
+                  {t("Export")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -118,7 +118,7 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
           {isSaving && (
             <div className="flex items-center gap-2 text-muted-foreground animate-fade-in">
               <RefreshCw className="h-4 w-4 animate-spin" />
-              <span className="text-sm">{t('Saving...')}</span>
+              <span className="text-sm">{t("Saving...")}</span>
             </div>
           )}
           {selectedRecords.size > 0 && (
@@ -126,16 +126,16 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
               hasPermission={userHasTableWritePermission}
             >
               <ConfirmationDeleteDialog
-                title={t('Delete Records')}
+                title={t("Delete Records")}
                 message={t(
-                  'Are you sure you want to delete the selected records? This action cannot be undone.',
+                  "Are you sure you want to delete the selected records? This action cannot be undone."
                 )}
                 entityName={
-                  selectedRecords.size === 1 ? t('record') : t('records')
+                  selectedRecords.size === 1 ? t("record") : t("records")
                 }
                 mutationFn={async () => {
                   const indices = Array.from(selectedRecords).map((row) =>
-                    records.findIndex((r) => r.uuid === row),
+                    records.findIndex((r) => r.uuid === row)
                   );
                   deleteRecords(indices.map((index) => index.toString()));
                   setSelectedRecords(new Set());
@@ -147,8 +147,8 @@ export function ApTableHeader({ onBack }: ApTableHeaderProps) {
                   disabled={!userHasTableWritePermission}
                 >
                   <Trash2 className="size-4" />
-                  {t('Delete Records')}{' '}
-                  {selectedRecords.size > 0 ? `(${selectedRecords.size})` : ''}
+                  {t("Delete Records")}{" "}
+                  {selectedRecords.size > 0 ? `(${selectedRecords.size})` : ""}
                 </Button>
               </ConfirmationDeleteDialog>
             </PermissionNeededTooltip>

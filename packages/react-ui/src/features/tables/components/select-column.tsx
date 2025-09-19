@@ -1,9 +1,9 @@
-import { useHeaderRowSelection, useRowSelection } from 'react-data-grid';
+import { useHeaderRowSelection, useRowSelection } from "react-data-grid";
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { cn } from '@/lib/utils';
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 
-import { Row } from '../lib/types';
+import { Row } from "../lib/types";
 
 export function SelectHeaderCell() {
   const { isRowSelected, onRowSelectionChange } = useHeaderRowSelection();
@@ -11,9 +11,9 @@ export function SelectHeaderCell() {
   return (
     <div
       className={cn(
-        'flex items-center justify-start h-full pl-4',
-        'bg-muted/50 hover:bg-muted',
-        'data-[state=open]:bg-muted',
+        "flex items-center justify-start h-full pl-4",
+        "bg-muted/50 hover:bg-muted",
+        "data-[state=open]:bg-muted"
       )}
     >
       <Checkbox
@@ -42,14 +42,14 @@ export function SelectCell({
   return (
     <div
       className={cn(
-        'flex items-center justify-start h-full pl-4 group',
-        locked && 'locked-row',
+        "flex items-center justify-start h-full pl-4 group",
+        locked && "locked-row"
       )}
       onClick={onClick}
     >
       {!locked && (
         <div
-          className={cn('group-hover:block hidden', isRowSelected && '!block')}
+          className={cn("group-hover:block hidden", isRowSelected && "!block")}
         >
           <Checkbox
             aria-label="Select row"
@@ -68,8 +68,8 @@ export function SelectCell({
       )}
       <div
         className={cn(
-          locked ? 'block select-none' : 'group-hover:hidden block select-none',
-          isRowSelected && !locked && '!hidden',
+          locked ? "block select-none" : "group-hover:hidden block select-none",
+          isRowSelected && !locked && "!hidden"
         )}
       >
         {locked ? (
@@ -77,7 +77,7 @@ export function SelectCell({
             src="https://cdn.activepieces.com/quicknew/agents/robots/robot_186.png"
             alt="Locked"
             className="w-6 h-6 rounded-full object-cover"
-            style={{ display: 'inline-block' }}
+            style={{ display: "inline-block" }}
           />
         ) : (
           rowIndex

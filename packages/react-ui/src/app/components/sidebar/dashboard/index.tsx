@@ -1,5 +1,5 @@
-import { isNil, Permission } from '@activepieces/shared';
-import { t } from 'i18next';
+import { isNil, Permission } from "@activepieces/shared";
+import { t } from "i18next";
 import {
   GitBranch,
   Link2,
@@ -9,25 +9,25 @@ import {
   Puzzle,
   Table2,
   Workflow,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+} from "lucide-react";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { HelpAndFeedback } from '../../help-and-feedback';
-import { SidebarGeneralItemType } from '../ap-sidebar-group';
-import { ApSidebarItem, SidebarItemType } from '../ap-sidebar-item';
-import { AppSidebarHeader } from '../sidebar-header';
-import { SidebarUser } from '../sidebar-user';
-import SidebarUsageLimits from '../sidebare-usage-limits';
+import { HelpAndFeedback } from "../../help-and-feedback";
+import { SidebarGeneralItemType } from "../ap-sidebar-group";
+import { ApSidebarItem, SidebarItemType } from "../ap-sidebar-item";
+import { AppSidebarHeader } from "../sidebar-header";
+import { SidebarUser } from "../sidebar-user";
+import SidebarUsageLimits from "../sidebare-usage-limits";
 
-import { McpSvg } from '@/assets/img/custom/mcp';
-import { useEmbedding } from '@/components/embed-provider';
+import { McpSvg } from "@/assets/img/custom/mcp";
+import { useEmbedding } from "@/components/embed-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -38,12 +38,12 @@ import {
   SidebarGroupContent,
   SidebarMenuItem,
   SidebarMenuButton,
-} from '@/components/ui/sidebar-shadcn';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/sidebar-shadcn";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn } from "@/lib/utils";
 
 export function ProjectDashboardSidebar() {
   const { platform } = platformHooks.useCurrentPlatform();
@@ -55,17 +55,17 @@ export function ProjectDashboardSidebar() {
   const location = useLocation();
 
   const permissionFilter = (link: SidebarGeneralItemType) => {
-    if (link.type === 'link') {
+    if (link.type === "link") {
       return isNil(link.hasPermission) || link.hasPermission;
     }
     return true;
   };
 
   const releasesLink: SidebarItemType = {
-    type: 'link',
-    to: authenticationSession.appendProjectRoutePrefix('/releases'),
+    type: "link",
+    to: authenticationSession.appendProjectRoutePrefix("/releases"),
     icon: Package,
-    label: t('Releases'),
+    label: t("Releases"),
     hasPermission:
       project.releasesEnabled && checkAccess(Permission.READ_PROJECT_RELEASE),
     show: project.releasesEnabled,
@@ -73,23 +73,23 @@ export function ProjectDashboardSidebar() {
   };
 
   const flowsLink: SidebarItemType = {
-    type: 'link',
-    to: authenticationSession.appendProjectRoutePrefix('/flows'),
+    type: "link",
+    to: authenticationSession.appendProjectRoutePrefix("/flows"),
     icon: Workflow,
-    label: t('Flows'),
+    label: t("Flows"),
     hasPermission: checkAccess(Permission.READ_FLOW),
     isSubItem: false,
     show: true,
     isActive: (pathname) =>
-      pathname.includes('/flows') ||
-      pathname.includes('/runs') ||
-      pathname.includes('/issues'),
+      pathname.includes("/flows") ||
+      pathname.includes("/runs") ||
+      pathname.includes("/issues"),
   };
 
   const tablesLink: SidebarItemType = {
-    type: 'link',
-    to: authenticationSession.appendProjectRoutePrefix('/tables'),
-    label: t('Tables'),
+    type: "link",
+    to: authenticationSession.appendProjectRoutePrefix("/tables"),
+    label: t("Tables"),
     show: platform.plan.tablesEnabled || !embedState.isEmbedded,
     icon: Table2,
     hasPermission: checkAccess(Permission.READ_TABLE),
@@ -97,9 +97,9 @@ export function ProjectDashboardSidebar() {
   };
 
   const todosLink: SidebarItemType = {
-    type: 'link',
-    to: authenticationSession.appendProjectRoutePrefix('/todos'),
-    label: t('Todos'),
+    type: "link",
+    to: authenticationSession.appendProjectRoutePrefix("/todos"),
+    label: t("Todos"),
     show: platform.plan.todosEnabled || !embedState.isEmbedded,
     icon: ListTodo,
     hasPermission: checkAccess(Permission.READ_TODOS),
@@ -107,23 +107,23 @@ export function ProjectDashboardSidebar() {
   };
 
   const items = [flowsLink, tablesLink, todosLink, releasesLink].filter(
-    permissionFilter,
+    permissionFilter
   );
 
   const otherItems: SidebarItemType[] = [
     {
-      type: 'link',
-      to: authenticationSession.appendProjectRoutePrefix('/connections'),
-      label: t('Connections'),
+      type: "link",
+      to: authenticationSession.appendProjectRoutePrefix("/connections"),
+      label: t("Connections"),
       icon: Link2,
       hasPermission: checkAccess(Permission.READ_APP_CONNECTION),
       show: true,
       isSubItem: false,
     },
     {
-      type: 'link',
-      to: authenticationSession.appendProjectRoutePrefix('/mcps'),
-      label: t('MCP'),
+      type: "link",
+      to: authenticationSession.appendProjectRoutePrefix("/mcps"),
+      label: t("MCP"),
       show: platform.plan.mcpsEnabled || !embedState.isEmbedded,
       hasPermission: checkAccess(Permission.READ_MCP),
       icon: McpSvg,
@@ -133,25 +133,25 @@ export function ProjectDashboardSidebar() {
 
   const moreItems = [
     {
-      type: 'link',
-      to: authenticationSession.appendProjectRoutePrefix('/settings/pieces'),
-      label: t('Pieces'),
+      type: "link",
+      to: authenticationSession.appendProjectRoutePrefix("/settings/pieces"),
+      label: t("Pieces"),
       icon: Puzzle,
       show: true,
     },
     {
       to: authenticationSession.appendProjectRoutePrefix(
-        '/settings/environments',
+        "/settings/environments"
       ),
-      label: t('Environments'),
+      label: t("Environments"),
       icon: GitBranch,
-      type: 'link',
+      type: "link",
       show: checkAccess(Permission.READ_PROJECT_RELEASE),
     },
   ];
 
   const urlParams = new URLSearchParams(window.location.search);
-  const hideSidebarFromUrl = urlParams.get('hideSidebar') === 'true';
+  const hideSidebarFromUrl = urlParams.get("hideSidebar") === "true";
   const shouldHideSidebar = embedState.hideSideNav || hideSidebarFromUrl;
 
   return (
@@ -161,7 +161,7 @@ export function ProjectDashboardSidebar() {
 
         <SidebarContent className="gap-y-0">
           <SidebarGroup>
-            <SidebarGroupLabel>{t('Automations')}</SidebarGroupLabel>
+            <SidebarGroupLabel>{t("Automations")}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {items.map((item) => (
@@ -172,7 +172,7 @@ export function ProjectDashboardSidebar() {
           </SidebarGroup>
 
           <SidebarGroup>
-            <SidebarGroupLabel>{t('Other')}</SidebarGroupLabel>
+            <SidebarGroupLabel>{t("Other")}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {otherItems.map((item) => (
@@ -187,7 +187,7 @@ export function ProjectDashboardSidebar() {
                       <div>
                         <SidebarMenuButton className="px-2 py-5">
                           <MoreHorizontal className="size-5" />
-                          <span className="grow">{t('More')}</span>
+                          <span className="grow">{t("More")}</span>
                         </SidebarMenuButton>
                       </div>
                     </DropdownMenuTrigger>
@@ -210,8 +210,8 @@ export function ProjectDashboardSidebar() {
                             >
                               <div className="flex items-center gap-2">
                                 <item.icon
-                                  className={cn('size-4', {
-                                    'text-primary': isActive,
+                                  className={cn("size-4", {
+                                    "text-primary": isActive,
                                   })}
                                 />
                                 <span>{item.label}</span>

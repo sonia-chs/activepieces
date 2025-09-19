@@ -1,17 +1,17 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   CreateFieldRequest,
   Field,
   UpdateFieldRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const fieldsApi = {
   list(tableId: string): Promise<Field[]> {
-    return api.get<Field[]>('/v1/fields', { tableId });
+    return api.get<Field[]>("/v1/fields", { tableId });
   },
 
   create(request: CreateFieldRequest): Promise<Field> {
-    return api.post<Field>('/v1/fields', request);
+    return api.post<Field>("/v1/fields", request);
   },
 
   getById(id: string): Promise<Field> {

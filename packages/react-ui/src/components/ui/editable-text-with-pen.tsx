@@ -1,8 +1,8 @@
-import { Pencil } from 'lucide-react';
+import { Pencil } from "lucide-react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import EditableText from './editable-text';
+import EditableText from "./editable-text";
 
 type EditableTextWithPenProps = {
   value: string;
@@ -30,7 +30,7 @@ const EditableTextWithPen = ({
           setIsEditing(true);
         }
       }}
-      className={cn('flex items-center gap-2', className)}
+      className={cn("flex items-center gap-2", className)}
     >
       <EditableText
         className={textClassName}
@@ -45,6 +45,6 @@ const EditableTextWithPen = ({
   );
 };
 
-EditableTextWithPen.displayName = 'EditableTextWithPen';
+EditableTextWithPen.displayName = "EditableTextWithPen";
 
 export default EditableTextWithPen;

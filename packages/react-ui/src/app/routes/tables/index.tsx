@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
+import { useMutation } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
 import {
   Trash2,
   Plus,
@@ -8,33 +8,33 @@ import {
   Table2,
   UploadCloud,
   EllipsisVertical,
-} from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+} from "lucide-react";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import LockedFeatureGuard from '@/app/components/locked-feature-guard';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import LockedFeatureGuard from "@/app/components/locked-feature-guard";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   BulkAction,
   DataTable,
   RowDataWithActions,
-} from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { LoadingScreen } from '@/components/ui/loading-screen';
-import { PushToGitDialog } from '@/features/git-sync/components/push-to-git-dialog';
-import { ApTableActionsMenu } from '@/features/tables/components/ap-table-actions-menu';
-import { tableHooks } from '@/features/tables/lib/table-hooks';
-import { tablesApi } from '@/features/tables/lib/tables-api';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { useNewWindow } from '@/lib/navigation-utils';
-import { formatUtils } from '@/lib/utils';
-import { Permission, Table } from '@activepieces/shared';
+} from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import { LoadingScreen } from "@/components/ui/loading-screen";
+import { PushToGitDialog } from "@/features/git-sync/components/push-to-git-dialog";
+import { ApTableActionsMenu } from "@/features/tables/components/ap-table-actions-menu";
+import { tableHooks } from "@/features/tables/lib/table-hooks";
+import { tablesApi } from "@/features/tables/lib/tables-api";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { useNewWindow } from "@/lib/navigation-utils";
+import { formatUtils } from "@/lib/utils";
+import { Permission, Table } from "@activepieces/shared";
 
 const ApTablesPage = () => {
   const openNewWindow = useNewWindow();
@@ -42,10 +42,10 @@ const ApTablesPage = () => {
   const { data: project } = projectHooks.useCurrentProject();
   const { platform } = platformHooks.useCurrentPlatform();
   const userHasTableWritePermission = useAuthorization().checkAccess(
-    Permission.WRITE_TABLE,
+    Permission.WRITE_TABLE
   );
   const userHasPermissionToPushToGit = useAuthorization().checkAccess(
-    Permission.WRITE_PROJECT_RELEASE,
+    Permission.WRITE_PROJECT_RELEASE
   );
   const { data, isLoading, refetch } = tableHooks.useTables();
   const { mutate: createTable, isPending: isCreatingTable } =
@@ -53,8 +53,8 @@ const ApTablesPage = () => {
   const navigate = useNavigate();
   const columns: ColumnDef<RowDataWithActions<Table>, unknown>[] = [
     {
-      id: 'select',
-      accessorKey: 'select',
+      id: "select",
+      accessorKey: "select",
       header: ({ table }) => (
         <Checkbox
           checked={
@@ -78,7 +78,7 @@ const ApTablesPage = () => {
       ),
       cell: ({ row }) => {
         const isChecked = selectedRows.some(
-          (selectedRow) => selectedRow.id === row.original.id,
+          (selectedRow) => selectedRow.id === row.original.id
         );
         return (
           <Checkbox
@@ -91,7 +91,7 @@ const ApTablesPage = () => {
                 newSelectedRows.push(row.original);
               } else {
                 newSelectedRows = newSelectedRows.filter(
-                  (selectedRow) => selectedRow.id !== row.original.id,
+                  (selectedRow) => selectedRow.id !== row.original.id
                 );
               }
               setSelectedRows(newSelectedRows);
@@ -102,16 +102,16 @@ const ApTablesPage = () => {
       },
     },
     {
-      accessorKey: 'name',
+      accessorKey: "name",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Name')} />
+        <DataTableColumnHeader column={column} title={t("Name")} />
       ),
       cell: ({ row }) => <div className="text-left">{row.original.name}</div>,
     },
     {
-      accessorKey: 'created',
+      accessorKey: "created",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Created')} />
+        <DataTableColumnHeader column={column} title={t("Created")} />
       ),
       cell: ({ row }) => (
         <div className="text-left">
@@ -120,7 +120,7 @@ const ApTablesPage = () => {
       ),
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => {
         return (
           <div
@@ -162,28 +162,28 @@ const ApTablesPage = () => {
         render: (_, resetSelection) => (
           <div onClick={(e) => e.stopPropagation()}>
             <ConfirmationDeleteDialog
-              title={t('Delete Tables')}
+              title={t("Delete Tables")}
               showToast={false}
               message={t(
-                'Are you sure you want to delete the selected tables? This action cannot be undone.',
+                "Are you sure you want to delete the selected tables? This action cannot be undone."
               )}
-              entityName={t('table')}
+              entityName={t("table")}
               mutationFn={async () => {
                 try {
                   await bulkDeleteMutation.mutateAsync(
-                    selectedRows.map((row) => row.id),
+                    selectedRows.map((row) => row.id)
                   );
                   resetSelection();
                   setSelectedRows([]);
                 } catch (error) {
-                  console.error('Error deleting tables:', error);
+                  console.error("Error deleting tables:", error);
                 }
               }}
             >
               {selectedRows.length > 0 && (
                 <Button className="w-full mr-2" size="sm" variant="destructive">
                   <Trash2 className="mr-2 w-4" />
-                  {`${t('Delete')} (${selectedRows.length})`}
+                  {`${t("Delete")} (${selectedRows.length})`}
                 </Button>
               )}
             </ConfirmationDeleteDialog>
@@ -200,7 +200,7 @@ const ApTablesPage = () => {
                 {selectedRows.length > 0 && (
                   <Button className="w-full mr-2" size="sm" variant="outline">
                     <UploadCloud className="mr-2 w-4" />
-                    {`${t('Push to Git')} (${selectedRows.length})`}
+                    {`${t("Push to Git")} (${selectedRows.length})`}
                   </Button>
                 )}
               </PushToGitDialog>
@@ -209,7 +209,7 @@ const ApTablesPage = () => {
         ),
       },
     ],
-    [bulkDeleteMutation, selectedRows, userHasPermissionToPushToGit],
+    [bulkDeleteMutation, selectedRows, userHasPermissionToPushToGit]
   );
   if (isCreatingTable) {
     return <LoadingScreen mode="container" />;
@@ -219,44 +219,44 @@ const ApTablesPage = () => {
     <LockedFeatureGuard
       featureKey="TABLES"
       locked={!platform.plan.tablesEnabled}
-      lockTitle={t('Tables')}
+      lockTitle={t("Tables")}
       lockDescription={t(
-        'Create and manage your tables to store your automation data',
+        "Create and manage your tables to store your automation data"
       )}
     >
       <div className="flex-col w-full gap-4">
         <DashboardPageHeader
           description={t(
-            'Create and manage your tables to store your automation data',
+            "Create and manage your tables to store your automation data"
           )}
-          title={t('Tables')}
+          title={t("Tables")}
           tutorialTab="tables"
         >
           <PermissionNeededTooltip hasPermission={userHasTableWritePermission}>
             <Button
-              onClick={() => createTable({ name: t('New Table') })}
+              onClick={() => createTable({ name: t("New Table") })}
               className="flex items-center gap-2"
               disabled={!userHasTableWritePermission}
             >
               <Plus className="h-4 w-4" />
-              {t('New Table')}
+              {t("New Table")}
             </Button>
           </PermissionNeededTooltip>
         </DashboardPageHeader>
         <DataTable
           filters={[
             {
-              accessorKey: 'name',
-              type: 'input',
-              title: t('Name'),
+              accessorKey: "name",
+              type: "input",
+              title: t("Name"),
               icon: CheckIcon,
               options: [],
             },
           ]}
           emptyStateIcon={<Table2 className="size-14" />}
-          emptyStateTextTitle={t('No tables have been created yet')}
+          emptyStateTextTitle={t("No tables have been created yet")}
           emptyStateTextDescription={t(
-            'Create a table to get started and start managing your automation data',
+            "Create a table to get started and start managing your automation data"
           )}
           columns={columns}
           page={data}
@@ -276,6 +276,6 @@ const ApTablesPage = () => {
   );
 };
 
-ApTablesPage.displayName = 'ApTablesPage';
+ApTablesPage.displayName = "ApTablesPage";
 
 export { ApTablesPage };

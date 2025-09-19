@@ -1,21 +1,21 @@
-import { useReactFlow } from '@xyflow/react';
-import { t } from 'i18next';
-import React, { useMemo } from 'react';
+import { useReactFlow } from "@xyflow/react";
+import { t } from "i18next";
+import React, { useMemo } from "react";
 
-import { BuilderState } from '@/app/builder/builder-hooks';
-import { Button } from '@/components/ui/button';
+import { BuilderState } from "@/app/builder/builder-hooks";
+import { Button } from "@/components/ui/button";
 import {
   FlowAction,
   FlowVersion,
   Step,
   flowStructureUtil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { flowCanvasUtils } from '../utils/flow-canvas-utils';
+import { flowCanvasUtils } from "../utils/flow-canvas-utils";
 
 type IncompleteSettingsButtonProps = {
   flowVersion: FlowVersion;
-  selectStepByName: BuilderState['selectStepByName'];
+  selectStepByName: BuilderState["selectStepByName"];
 };
 const filterValidOrSkippedSteps = (step: Step) =>
   (flowStructureUtil.isTrigger(step.type) && !step.valid) ||
@@ -31,7 +31,7 @@ const IncompleteSettingsButton: React.FC<IncompleteSettingsButtonProps> = ({
       flowStructureUtil
         .getAllSteps(flowVersion.trigger)
         .filter(filterValidOrSkippedSteps).length,
-    [flowVersion],
+    [flowVersion]
   );
   const { fitView } = useReactFlow();
   function onClick() {
@@ -41,7 +41,7 @@ const IncompleteSettingsButton: React.FC<IncompleteSettingsButtonProps> = ({
     if (invalidSteps.length > 0) {
       selectStepByName(invalidSteps[0].name);
       fitView(
-        flowCanvasUtils.createFocusStepInGraphParams(invalidSteps[0].name),
+        flowCanvasUtils.createFocusStepInGraphParams(invalidSteps[0].name)
       );
     }
   }
@@ -51,18 +51,18 @@ const IncompleteSettingsButton: React.FC<IncompleteSettingsButtonProps> = ({
       <Button
         variant="ghost"
         className="h-8 bg-warning-100 text-warning-300 hover:!bg-warning-100 hover:!border-warning hover:!text-warning-300 border border-solid border-warning/50 rounded-full animate-fade"
-        key={'complete-flow-button'}
+        key={"complete-flow-button"}
         onClick={(e) => {
           onClick();
           e.stopPropagation();
           e.preventDefault();
         }}
       >
-        {t('incompleteSteps', { invalidSteps: invalidSteps })}
+        {t("incompleteSteps", { invalidSteps: invalidSteps })}
       </Button>
     )
   );
 };
 
-IncompleteSettingsButton.displayName = 'IncompleteSettingsButton';
+IncompleteSettingsButton.displayName = "IncompleteSettingsButton";
 export default IncompleteSettingsButton;

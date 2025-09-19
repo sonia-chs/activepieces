@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import dayjs from 'dayjs';
-import { t } from 'i18next';
-import * as React from 'react';
-import { DateRange } from 'react-day-picker';
-import { BarChart, CartesianGrid, XAxis, Bar } from 'recharts';
+import dayjs from "dayjs";
+import { t } from "i18next";
+import * as React from "react";
+import { DateRange } from "react-day-picker";
+import { BarChart, CartesianGrid, XAxis, Bar } from "recharts";
 
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
-import { DateTimePickerWithRange } from '@/components/ui/date-time-picker-range';
-import { Skeleton } from '@/components/ui/skeleton';
-import { PlatformAnalyticsReport } from '@activepieces/shared';
+} from "@/components/ui/chart";
+import { DateTimePickerWithRange } from "@/components/ui/date-time-picker-range";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PlatformAnalyticsReport } from "@activepieces/shared";
 
 type TaskUsageProps = {
   report?: PlatformAnalyticsReport;
@@ -24,7 +24,7 @@ export function TaskUsage({ report }: TaskUsageProps) {
   const [selectedDateRange, setSelectedDateRange] = React.useState<
     DateRange | undefined
   >({
-    from: dayjs().subtract(3, 'months').toDate(),
+    from: dayjs().subtract(3, "months").toDate(),
     to: dayjs().toDate(),
   });
 
@@ -35,15 +35,15 @@ export function TaskUsage({ report }: TaskUsageProps) {
         tasks: data.totalTasks,
       }))
       .sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       ) || [];
 
   const chartConfig = {
     views: {
-      label: 'Task Executions',
+      label: "Task Executions",
     },
     tasks: {
-      color: 'hsl(var(--chart-2))',
+      color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
 
@@ -59,8 +59,8 @@ export function TaskUsage({ report }: TaskUsageProps) {
     <>
       <div className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <div className="text-xl font-semibold ">{t('Executed Tasks')}</div>
-          <p>{t('Showing total executed tasks for specified time range')}</p>
+          <div className="text-xl font-semibold ">{t("Executed Tasks")}</div>
+          <p>{t("Showing total executed tasks for specified time range")}</p>
         </div>
         <DateTimePickerWithRange
           onChange={setSelectedDateRange}
@@ -93,9 +93,9 @@ export function TaskUsage({ report }: TaskUsageProps) {
                 minTickGap={32}
                 tickFormatter={(value) => {
                   const date = new Date(value);
-                  return date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
+                  return date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
                   });
                 }}
               />
@@ -105,16 +105,16 @@ export function TaskUsage({ report }: TaskUsageProps) {
                     className="w-[150px]"
                     nameKey="views"
                     labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
+                      return new Date(value).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
                       });
                     }}
                   />
                 }
               />
-              <Bar dataKey={'tasks'} fill={`var(--color-tasks)`} />
+              <Bar dataKey={"tasks"} fill={`var(--color-tasks)`} />
             </BarChart>
           </ChartContainer>
         ) : (

@@ -1,11 +1,11 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 const toTitleCase = (str: string) => {
   return str
     .toLowerCase()
-    .split(' ')
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 };
 export type ShortcutProps = {
   //can't name it key because it conflicts with the key prop of the component
@@ -22,17 +22,17 @@ export const Shortcut = ({
   className,
 }: ShortcutProps & { className?: string }) => {
   const isMac = /(Mac)/i.test(navigator.userAgent);
-  const isEscape = shortcutKey?.toLocaleLowerCase() === 'esc';
+  const isEscape = shortcutKey?.toLocaleLowerCase() === "esc";
   return (
     <span
       className={cn(
-        'flex-grow text-xs tracking-widest text-muted-foreground',
-        className,
+        "flex-grow text-xs tracking-widest text-muted-foreground",
+        className
       )}
     >
-      {!isEscape && withCtrl && (isMac ? '⌘' : 'Ctrl')}
-      {!isEscape && withShift && 'Shift'}
-      {!isEscape && (withCtrl || withShift) && ' + '}
+      {!isEscape && withCtrl && (isMac ? "⌘" : "Ctrl")}
+      {!isEscape && withShift && "Shift"}
+      {!isEscape && (withCtrl || withShift) && " + "}
       {shortcutKey && toTitleCase(shortcutKey)}
     </span>
   );

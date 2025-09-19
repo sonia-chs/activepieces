@@ -1,31 +1,31 @@
-import { json } from '@codemirror/lang-json';
-import { githubDark, githubLight } from '@uiw/codemirror-theme-github';
+import { json } from "@codemirror/lang-json";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import CodeMirror, {
   EditorState,
   EditorView,
   ReactCodeMirrorRef,
-} from '@uiw/react-codemirror';
-import React, { RefObject, useRef, useState } from 'react';
-import { ControllerRenderProps } from 'react-hook-form';
+} from "@uiw/react-codemirror";
+import React, { RefObject, useRef, useState } from "react";
+import { ControllerRenderProps } from "react-hook-form";
 
-import { useTheme } from '@/components/theme-provider';
-import { cn } from '@/lib/utils';
+import { useTheme } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
 
 const styleTheme = EditorView.baseTheme({
-  '&.cm-editor.cm-focused': {
-    outline: 'none',
+  "&.cm-editor.cm-focused": {
+    outline: "none",
   },
 });
 
 const convertToString = (value: unknown): string => {
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     return value;
   }
   return JSON.stringify(value, null, 2);
 };
 
 const tryParseJson = (value: unknown): unknown => {
-  if (typeof value !== 'string') {
+  if (typeof value !== "string") {
     return value;
   }
   try {
@@ -46,7 +46,7 @@ const JsonEditor = React.memo(
   ({ field, readonly, onFocus, className }: JsonEditorProps) => {
     const [value, setValue] = useState(convertToString(field.value));
     const { theme } = useTheme();
-    const editorTheme = theme === 'dark' ? githubDark : githubLight;
+    const editorTheme = theme === "dark" ? githubDark : githubLight;
     const extensions = [
       styleTheme,
       EditorState.readOnly.of(readonly),
@@ -60,7 +60,7 @@ const JsonEditor = React.memo(
         <CodeMirror
           ref={ref}
           value={value}
-          className={cn('border-none', className)}
+          className={cn("border-none", className)}
           height="250px"
           width="100%"
           maxWidth="100%"
@@ -83,8 +83,8 @@ const JsonEditor = React.memo(
         />
       </div>
     );
-  },
+  }
 );
 
-JsonEditor.displayName = 'JsonEditor';
+JsonEditor.displayName = "JsonEditor";
 export { JsonEditor };

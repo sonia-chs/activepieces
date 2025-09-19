@@ -1,11 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useContext } from 'react';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useContext } from "react";
 
-import { analyticsApi } from '@/features/platform-admin/lib/analytics-api';
+import { analyticsApi } from "@/features/platform-admin/lib/analytics-api";
 
-import { RefreshAnalyticsContext } from '../components/refresh-analytics-provider';
+import { RefreshAnalyticsContext } from "../components/refresh-analytics-provider";
 
-const queryKey = ['analytics'];
+const queryKey = ["analytics"];
 export const platformAnalyticsHooks = {
   useAnalytics: () => {
     const { data, isLoading } = useQuery({

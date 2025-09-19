@@ -1,22 +1,22 @@
-import dayjs from 'dayjs';
-import { t } from 'i18next';
-import React, { useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import dayjs from "dayjs";
+import { t } from "i18next";
+import React, { useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
-import { triggerEventHooks } from '@/features/flows/lib/trigger-event-hooks';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { FlowTrigger, isNil } from '@activepieces/shared';
+import { triggerEventHooks } from "@/features/flows/lib/trigger-event-hooks";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { FlowTrigger, isNil } from "@activepieces/shared";
 
-import { ChatDrawerSource, useBuilderStateContext } from '../../builder-hooks';
-import { McpToolTestingDialog } from '../custom-test-step/mcp-tool-testing-dialog';
-import { TestSampleDataViewer } from '../test-sample-data-viewer';
-import { testStepHooks } from '../test-step-hooks';
+import { ChatDrawerSource, useBuilderStateContext } from "../../builder-hooks";
+import { McpToolTestingDialog } from "../custom-test-step/mcp-tool-testing-dialog";
+import { TestSampleDataViewer } from "../test-sample-data-viewer";
+import { testStepHooks } from "../test-step-hooks";
 
-import { FirstTimeTestingSection } from './first-time-testing-section';
-import { ManualWebhookTestButton } from './manual-webhook-test-button';
-import { SimulationNote } from './simulation-section';
-import { TriggerEventSelect } from './trigger-event-select';
-import { TestType, triggerEventUtils } from './trigger-event-utils';
+import { FirstTimeTestingSection } from "./first-time-testing-section";
+import { ManualWebhookTestButton } from "./manual-webhook-test-button";
+import { SimulationNote } from "./simulation-section";
+import { TriggerEventSelect } from "./trigger-event-select";
+import { TestType, triggerEventUtils } from "./trigger-event-utils";
 
 type TestTriggerSectionProps = {
   isSaving: boolean;
@@ -27,7 +27,7 @@ type TestTriggerSectionProps = {
 
 const TestTriggerSection = React.memo(
   ({ isSaving, flowVersionId, flowId }: TestTriggerSectionProps) => {
-    const form = useFormContext<Pick<FlowTrigger, 'name' | 'settings'>>();
+    const form = useFormContext<Pick<FlowTrigger, "name" | "settings">>();
     const formValues = form.getValues();
     const isValid = form.formState.isValid;
     const abortControllerRef = useRef<AbortController>(new AbortController());
@@ -43,7 +43,7 @@ const TestTriggerSection = React.memo(
       pieceModel?.triggers?.[formValues.settings.triggerName]?.sampleData;
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>(
-      undefined,
+      undefined
     );
 
     const { sampleData, sampleDataInput, setChatDrawerOpenSource } =
@@ -84,13 +84,13 @@ const TestTriggerSection = React.memo(
 
     const { pollResults, refetch } = triggerEventHooks.usePollResults(
       flowVersionId,
-      flowId,
+      flowId
     );
 
     const sampleDataSelected = !isNil(lastTestDate) || !isNil(errorMessage);
 
     const isTestedBefore = !isNil(
-      form.getValues().settings.sampleData?.lastTestDate,
+      form.getValues().settings.sampleData?.lastTestDate
     );
     const showFirstTimeTestingSection = !isTestedBefore && !isSimulating;
 
@@ -108,36 +108,36 @@ const TestTriggerSection = React.memo(
 
     const onTest = () => {
       switch (testType) {
-        case 'chat-trigger':
+        case "chat-trigger":
           setChatDrawerOpenSource(ChatDrawerSource.TEST_STEP);
           simulateTrigger(abortControllerRef.current.signal);
           break;
-        case 'simulation':
-        case 'webhook':
+        case "simulation":
+        case "webhook":
           simulateTrigger(abortControllerRef.current.signal);
           break;
-        case 'polling':
+        case "polling":
           pollTrigger();
           break;
-        case 'mcp-tool':
+        case "mcp-tool":
           setIsTestingDialogOpen(true);
           break;
       }
     };
     const getSimulationNote = () => {
       switch (testType) {
-        case 'simulation':
-          return t('testPieceWebhookTriggerNote', {
+        case "simulation":
+          return t("testPieceWebhookTriggerNote", {
             pieceName: pieceModel?.displayName,
             triggerName:
               pieceModel?.triggers[formValues.settings.triggerName].displayName,
           });
-        case 'webhook':
+        case "webhook":
           return (
             <div className="flex flex-col gap-2">
               <p>
                 {t(
-                  'Send Data to the webhook URL to generate sample data to use in the next steps',
+                  "Send Data to the webhook URL to generate sample data to use in the next steps"
                 )}
               </p>
               <ManualWebhookTestButton
@@ -161,7 +161,7 @@ const TestTriggerSection = React.memo(
             mockData={mockData}
             isSaving={isSaving || isSavingMockdata}
             onSimulateTrigger={() => {
-              if (testType === 'chat-trigger') {
+              if (testType === "chat-trigger") {
                 setChatDrawerOpenSource(ChatDrawerSource.TEST_STEP);
               }
               simulateTrigger(abortControllerRef.current.signal);
@@ -202,7 +202,7 @@ const TestTriggerSection = React.memo(
             )}
           </>
         )}
-        {testType === 'mcp-tool' && (
+        {testType === "mcp-tool" && (
           <McpToolTestingDialog
             open={isTestingDialogOpen}
             onOpenChange={setIsTestingDialogOpen}
@@ -211,8 +211,8 @@ const TestTriggerSection = React.memo(
         )}
       </div>
     );
-  },
+  }
 );
-TestTriggerSection.displayName = 'TestTriggerSection';
+TestTriggerSection.displayName = "TestTriggerSection";
 
 export { TestTriggerSection };

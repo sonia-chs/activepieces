@@ -1,9 +1,9 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { ApFlagId } from '@activepieces/shared';
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { ApFlagId } from "@activepieces/shared";
 
-import { useTableState } from './ap-table-state-provider';
+import { useTableState } from "./ap-table-state-provider";
 
 const ApTableFooter = ({
   fieldsCount,
@@ -13,10 +13,10 @@ const ApTableFooter = ({
   recordsCount: number;
 }) => {
   const { data: maxRecords } = flagsHooks.useFlag<number>(
-    ApFlagId.MAX_RECORDS_PER_TABLE,
+    ApFlagId.MAX_RECORDS_PER_TABLE
   );
   const { data: maxFields } = flagsHooks.useFlag<number>(
-    ApFlagId.MAX_FIELDS_PER_TABLE,
+    ApFlagId.MAX_FIELDS_PER_TABLE
   );
   const recordsPercentage = maxRecords ? (recordsCount / maxRecords) * 100 : 0;
   const fieldsPercentage = maxFields ? (fieldsCount / maxFields) * 100 : 0;
@@ -31,26 +31,26 @@ const ApTableFooter = ({
           {!areAllRecordsSelected && (
             <>
               {!hasSelectedRows &&
-                `${t('recordsCount', {
+                `${t("recordsCount", {
                   recordsCount,
-                })} (${recordsPercentage.toFixed(2)}%)`}{' '}
+                })} (${recordsPercentage.toFixed(2)}%)`}{" "}
               {hasSelectedRows &&
-                `${t('selected')} ${t('recordsCount', {
+                `${t("selected")} ${t("recordsCount", {
                   recordsCount: selectedRecords.size,
                 })}`}
             </>
           )}
-          {areAllRecordsSelected && t('All records selected')}
+          {areAllRecordsSelected && t("All records selected")}
         </div>
         |
         <div className="text-sm font-sm mt-1">
-          {t('fieldsCount', { fieldsCount })} ({fieldsPercentage.toFixed(2)}%)
+          {t("fieldsCount", { fieldsCount })} ({fieldsPercentage.toFixed(2)}%)
         </div>
       </div>
     </div>
   );
 };
 
-ApTableFooter.displayName = 'ApTableFooter';
+ApTableFooter.displayName = "ApTableFooter";
 
 export { ApTableFooter };

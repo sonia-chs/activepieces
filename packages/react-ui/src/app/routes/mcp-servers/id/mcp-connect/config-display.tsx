@@ -1,14 +1,14 @@
-import { ReloadIcon } from '@radix-ui/react-icons';
-import { t } from 'i18next';
-import { Eye, EyeOff, Copy, RefreshCw } from 'lucide-react';
-import { useState } from 'react';
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { t } from "i18next";
+import { Eye, EyeOff, Copy, RefreshCw } from "lucide-react";
+import { useState } from "react";
 
-import { ButtonWithTooltip } from '@/components/custom/button-with-tooltip';
-import { SimpleJsonViewer } from '@/components/simple-json-viewer';
-import { useToast } from '@/components/ui/use-toast';
+import { ButtonWithTooltip } from "@/components/custom/button-with-tooltip";
+import { SimpleJsonViewer } from "@/components/simple-json-viewer";
+import { useToast } from "@/components/ui/use-toast";
 
-import { McpClientType, mcpConnectUtils } from './mcp-connect-utils';
-import { SecurityNote } from './security-note';
+import { McpClientType, mcpConnectUtils } from "./mcp-connect-utils";
+import { SecurityNote } from "./security-note";
 
 export const ConfigDisplay = ({
   mcpServerUrl,
@@ -37,7 +37,7 @@ export const ConfigDisplay = ({
     const config = mcpConnectUtils.constructConfig(type, mcpServerUrl);
     navigator.clipboard.writeText(JSON.stringify(config, null, 2));
     toast({
-      description: t('Configuration copied to clipboard'),
+      description: t("Configuration copied to clipboard"),
       duration: 3000,
     });
   };
@@ -51,7 +51,7 @@ export const ConfigDisplay = ({
         <div className="flex gap-2">
           <ButtonWithTooltip
             tooltip={
-              showToken ? t('Hide sensitive data') : t('Show sensitive data')
+              showToken ? t("Hide sensitive data") : t("Show sensitive data")
             }
             onClick={toggleTokenVisibility}
             variant="outline"
@@ -64,7 +64,7 @@ export const ConfigDisplay = ({
             }
           />
           <ButtonWithTooltip
-            tooltip={t('Create a new URL. The current one will stop working.')}
+            tooltip={t("Create a new URL. The current one will stop working.")}
             onClick={onRotateToken}
             variant="outline"
             disabled={isRotating || !hasValidMcp}
@@ -78,7 +78,7 @@ export const ConfigDisplay = ({
             }
           />
           <ButtonWithTooltip
-            tooltip={t('Copy configuration')}
+            tooltip={t("Copy configuration")}
             onClick={handleCopyConfig}
             variant="outline"
             icon={<Copy className="h-4 w-4" />}

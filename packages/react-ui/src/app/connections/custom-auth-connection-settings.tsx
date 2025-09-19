@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { AutoPropertiesFormComponent } from '@/app/builder/piece-properties/auto-properties-form';
-import { CustomAuthProperty } from '@activepieces/pieces-framework';
+import { AutoPropertiesFormComponent } from "@/app/builder/piece-properties/auto-properties-form";
+import { CustomAuthProperty } from "@activepieces/pieces-framework";
 
 type CustomAuthConnectionSettingsProps = {
   authProperty: CustomAuthProperty<any>;
@@ -17,8 +17,8 @@ const CustomAuthConnectionSettings = React.memo(
         allowDynamicValues={false}
       />
     );
-  },
+  }
 );
 
-CustomAuthConnectionSettings.displayName = 'CustomAuthConnectionSettings';
+CustomAuthConnectionSettings.displayName = "CustomAuthConnectionSettings";
 export { CustomAuthConnectionSettings };

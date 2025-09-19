@@ -1,26 +1,26 @@
-import { useDraggable } from '@dnd-kit/core';
-import { Handle, NodeProps, Position } from '@xyflow/react';
-import { ChevronDown } from 'lucide-react';
-import React, { useMemo } from 'react';
+import { useDraggable } from "@dnd-kit/core";
+import { Handle, NodeProps, Position } from "@xyflow/react";
+import { ChevronDown } from "lucide-react";
+import React, { useMemo } from "react";
 
-import { useBuilderStateContext } from '@/app/builder/builder-hooks';
-import { PieceSelector } from '@/app/builder/pieces-selector';
-import { Button } from '@/components/ui/button';
-import ImageWithFallback from '@/components/ui/image-with-fallback';
-import { stepsHooks } from '@/features/pieces/lib/steps-hooks';
-import { cn } from '@/lib/utils';
+import { useBuilderStateContext } from "@/app/builder/builder-hooks";
+import { PieceSelector } from "@/app/builder/pieces-selector";
+import { Button } from "@/components/ui/button";
+import ImageWithFallback from "@/components/ui/image-with-fallback";
+import { stepsHooks } from "@/features/pieces/lib/steps-hooks";
+import { cn } from "@/lib/utils";
 import {
   FlowOperationType,
   Step,
   FlowTriggerType,
   flowStructureUtil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { flowUtilConsts, STEP_CONTEXT_MENU_ATTRIBUTE } from '../utils/consts';
-import { flowCanvasUtils } from '../utils/flow-canvas-utils';
-import { ApStepNode } from '../utils/types';
+import { flowUtilConsts, STEP_CONTEXT_MENU_ATTRIBUTE } from "../utils/consts";
+import { flowCanvasUtils } from "../utils/flow-canvas-utils";
+import { ApStepNode } from "../utils/types";
 
-import { ApStepNodeStatus } from './step-node-status';
+import { ApStepNodeStatus } from "./step-node-status";
 
 const getPieceSelectorOperationType = (step: Step) => {
   if (flowStructureUtil.isTrigger(step.type)) {
@@ -30,7 +30,7 @@ const getPieceSelectorOperationType = (step: Step) => {
 };
 
 const ApStepCanvasNode = React.memo(
-  ({ data: { step } }: NodeProps & Omit<ApStepNode, 'position'>) => {
+  ({ data: { step } }: NodeProps & Omit<ApStepNode, "position">) => {
     const [
       selectStepByName,
       isSelected,
@@ -69,7 +69,7 @@ const ApStepCanvasNode = React.memo(
     });
 
     const handleStepClick = (
-      e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
       selectStepByName(step.name);
       setSelectedBranchIndex(null);
@@ -90,14 +90,14 @@ const ApStepCanvasNode = React.memo(
           maxWidth: `${flowUtilConsts.AP_NODE_SIZE.STEP.width}px`,
         }}
         className={cn(
-          'transition-all border-box rounded-sm border border-solid border-border relative hover:border-primary/70 group',
+          "transition-all border-box rounded-sm border border-solid border-border relative hover:border-primary/70 group",
           {
-            'border-primary/70': isSelected,
-            'bg-background': !isDragging,
-            'border-none': isDragging,
-            'shadow-none': isDragging,
-            'bg-accent/90': isSkipped,
-          },
+            "border-primary/70": isSelected,
+            "bg-background": !isDragging,
+            "border-none": isDragging,
+            "shadow-none": isDragging,
+            "bg-accent/90": isSkipped,
+          }
         )}
         onClick={(e) => handleStepClick(e)}
         key={step.name}
@@ -115,11 +115,11 @@ const ApStepCanvasNode = React.memo(
         </div>
         <div
           className={cn(
-            'absolute left-0 top-0 pointer-events-none  rounded-sm w-full h-full',
+            "absolute left-0 top-0 pointer-events-none  rounded-sm w-full h-full",
             {
-              'border-t-[2px] border-primary/70 border-solid':
+              "border-t-[2px] border-primary/70 border-solid":
                 isSelected && !isDragging,
-            },
+            }
           )}
         ></div>
         <div className="px-3 h-full w-full overflow-hidden">
@@ -142,8 +142,8 @@ const ApStepCanvasNode = React.memo(
                 }}
               >
                 <div
-                  className={cn('flex items-center justify-center h-full ', {
-                    'opacity-80': isSkipped,
+                  className={cn("flex items-center justify-center h-full ", {
+                    "opacity-80": isSkipped,
                   })}
                 >
                   <ImageWithFallback
@@ -155,8 +155,8 @@ const ApStepCanvasNode = React.memo(
                 <div className="grow flex flex-col items-start justify-center min-w-0 w-full">
                   <div className=" flex items-center justify-between min-w-0 w-full">
                     <div
-                      className={cn('text-sm truncate grow shrink ', {
-                        'text-accent-foreground/70': isSkipped,
+                      className={cn("text-sm truncate grow shrink ", {
+                        "text-accent-foreground/70": isSkipped,
                       })}
                     >
                       {stepIndex}. {step.displayName}
@@ -172,7 +172,7 @@ const ApStepCanvasNode = React.memo(
                           e.preventDefault();
                           if (e.target) {
                             const rightClickEvent = new MouseEvent(
-                              'contextmenu',
+                              "contextmenu",
                               {
                                 bubbles: true,
                                 cancelable: true,
@@ -180,7 +180,7 @@ const ApStepCanvasNode = React.memo(
                                 button: 2,
                                 clientX: e.clientX,
                                 clientY: e.clientY,
-                              },
+                              }
                             );
                             e.target.dispatchEvent(rightClickEvent);
                           }
@@ -215,8 +215,8 @@ const ApStepCanvasNode = React.memo(
         </div>
       </div>
     );
-  },
+  }
 );
 
-ApStepCanvasNode.displayName = 'ApStepCanvasNode';
+ApStepCanvasNode.displayName = "ApStepCanvasNode";
 export { ApStepCanvasNode };

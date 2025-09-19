@@ -1,34 +1,34 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { FileText, Pencil, Plus, Trash } from 'lucide-react';
-import { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { FileText, Pencil, Plus, Trash } from "lucide-react";
+import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import LockedFeatureGuard from '@/app/components/locked-feature-guard';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import LockedFeatureGuard from "@/app/components/locked-feature-guard";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DataTable,
   RowDataWithActions,
   BulkAction,
-} from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+} from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useToast } from '@/components/ui/use-toast';
-import { PieceIconList } from '@/features/pieces/components/piece-icon-list';
-import { templatesApi } from '@/features/templates/lib/templates-api';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { formatUtils } from '@/lib/utils';
-import { FlowTemplate } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
+import { PieceIconList } from "@/features/pieces/components/piece-icon-list";
+import { templatesApi } from "@/features/templates/lib/templates-api";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { formatUtils } from "@/lib/utils";
+import { FlowTemplate } from "@activepieces/shared";
 
-import { UpsertTemplateDialog } from './upsert-template-dialog';
+import { UpsertTemplateDialog } from "./upsert-template-dialog";
 
 export default function TemplatesPage() {
   const { platform } = platformHooks.useCurrentPlatform();
@@ -37,7 +37,7 @@ export default function TemplatesPage() {
 
   const [searchParams] = useSearchParams();
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['templates', searchParams.toString()],
+    queryKey: ["templates", searchParams.toString()],
     staleTime: 0,
     queryFn: () => {
       return templatesApi.list({});
@@ -53,8 +53,8 @@ export default function TemplatesPage() {
     onSuccess: () => {
       refetch();
       toast({
-        title: t('Success'),
-        description: t('Templates deleted successfully'),
+        title: t("Success"),
+        description: t("Templates deleted successfully"),
         duration: 3000,
       });
     },
@@ -62,7 +62,7 @@ export default function TemplatesPage() {
 
   const columnsWithCheckbox: ColumnDef<RowDataWithActions<FlowTemplate>>[] = [
     {
-      id: 'select',
+      id: "select",
       header: ({ table }) => (
         <Checkbox
           checked={
@@ -78,7 +78,7 @@ export default function TemplatesPage() {
       ),
       cell: ({ row }) => {
         const isChecked = selectedRows.some(
-          (selectedRow) => selectedRow.id === row.original.id,
+          (selectedRow) => selectedRow.id === row.original.id
         );
 
         return (
@@ -88,14 +88,14 @@ export default function TemplatesPage() {
               let newSelectedRows = [...selectedRows];
               if (value) {
                 const exists = newSelectedRows.some(
-                  (selectedRow) => selectedRow.id === row.original.id,
+                  (selectedRow) => selectedRow.id === row.original.id
                 );
                 if (!exists) {
                   newSelectedRows.push(row.original);
                 }
               } else {
                 newSelectedRows = newSelectedRows.filter(
-                  (selectedRow) => selectedRow.id !== row.original.id,
+                  (selectedRow) => selectedRow.id !== row.original.id
                 );
               }
               setSelectedRows(newSelectedRows);
@@ -104,21 +104,21 @@ export default function TemplatesPage() {
           />
         );
       },
-      accessorKey: 'select',
+      accessorKey: "select",
     },
     {
-      accessorKey: 'name',
+      accessorKey: "name",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Name')} />
+        <DataTableColumnHeader column={column} title={t("Name")} />
       ),
       cell: ({ row }) => {
         return <div className="text-left">{row.original.name}</div>;
       },
     },
     {
-      accessorKey: 'createdAt',
+      accessorKey: "createdAt",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Created')} />
+        <DataTableColumnHeader column={column} title={t("Created")} />
       ),
       cell: ({ row }) => {
         return (
@@ -129,9 +129,9 @@ export default function TemplatesPage() {
       },
     },
     {
-      accessorKey: 'pieces',
+      accessorKey: "pieces",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Pieces')} />
+        <DataTableColumnHeader column={column} title={t("Pieces")} />
       ),
       cell: ({ row }) => {
         return (
@@ -150,14 +150,14 @@ export default function TemplatesPage() {
         render: (_, resetSelection) => (
           <div onClick={(e) => e.stopPropagation()}>
             <ConfirmationDeleteDialog
-              title={t('Delete Templates')}
+              title={t("Delete Templates")}
               message={t(
-                'Are you sure you want to delete the selected templates?',
+                "Are you sure you want to delete the selected templates?"
               )}
-              entityName={t('Templates')}
+              entityName={t("Templates")}
               mutationFn={async () => {
                 await bulkDeleteMutation.mutateAsync(
-                  selectedRows.map((row) => row.id),
+                  selectedRows.map((row) => row.id)
                 );
                 resetSelection();
                 setSelectedRows([]);
@@ -166,7 +166,7 @@ export default function TemplatesPage() {
               {selectedRows.length > 0 && (
                 <Button className="w-full mr-2" size="sm" variant="destructive">
                   <Trash className="mr-2 w-4" />
-                  {`${t('Delete')} (${selectedRows.length})`}
+                  {`${t("Delete")} (${selectedRows.length})`}
                 </Button>
               )}
             </ConfirmationDeleteDialog>
@@ -174,7 +174,7 @@ export default function TemplatesPage() {
         ),
       },
     ],
-    [selectedRows, bulkDeleteMutation],
+    [selectedRows, bulkDeleteMutation]
   );
 
   const isEnabled = platform.plan.manageTemplatesEnabled;
@@ -182,18 +182,18 @@ export default function TemplatesPage() {
     <LockedFeatureGuard
       featureKey="TEMPLATES"
       locked={!isEnabled}
-      lockTitle={t('Unlock Templates')}
+      lockTitle={t("Unlock Templates")}
       lockDescription={t(
-        'Convert the most common automations into reusable templates 1 click away from your users',
+        "Convert the most common automations into reusable templates 1 click away from your users"
       )}
       lockVideoUrl="https://cdn.activepieces.com/videos/showcase/templates.mp4"
     >
       <div className="flex flex-col w-full">
         <DashboardPageHeader
           description={t(
-            'Convert the most common automations into reusable templates',
+            "Convert the most common automations into reusable templates"
           )}
-          title={t('Templates')}
+          title={t("Templates")}
         >
           <UpsertTemplateDialog onDone={() => refetch()}>
             <Button
@@ -201,14 +201,14 @@ export default function TemplatesPage() {
               className="flex items-center justify-center gap-2"
             >
               <Plus className="size-4" />
-              {t('New Template')}
+              {t("New Template")}
             </Button>
           </UpsertTemplateDialog>
         </DashboardPageHeader>
         <DataTable
-          emptyStateTextTitle={t('No templates found')}
+          emptyStateTextTitle={t("No templates found")}
           emptyStateTextDescription={t(
-            'Create a template for your user to inspire them',
+            "Create a template for your user to inspire them"
           )}
           emptyStateIcon={<FileText className="size-14" />}
           columns={columnsWithCheckbox}
@@ -232,7 +232,7 @@ export default function TemplatesPage() {
                       </UpsertTemplateDialog>
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
-                      {t('Edit template')}
+                      {t("Edit template")}
                     </TooltipContent>
                   </Tooltip>
                 </div>

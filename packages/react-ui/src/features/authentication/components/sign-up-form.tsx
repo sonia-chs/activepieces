@@ -1,34 +1,34 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useMemo, useRef, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useMemo, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link, useSearchParams } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { CheckEmailNote } from '@/features/authentication/components/check-email-note';
-import { PasswordValidator } from '@/features/authentication/components/password-validator';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { HttpError, api } from '@/lib/api';
-import { authenticationApi } from '@/lib/authentication-api';
-import { authenticationSession } from '@/lib/authentication-session';
-import { useRedirectAfterLogin } from '@/lib/navigation-utils';
-import { cn, formatUtils } from '@/lib/utils';
-import { OtpType } from '@activepieces/ee-shared';
+} from "@/components/ui/popover";
+import { CheckEmailNote } from "@/features/authentication/components/check-email-note";
+import { PasswordValidator } from "@/features/authentication/components/password-validator";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { HttpError, api } from "@/lib/api";
+import { authenticationApi } from "@/lib/authentication-api";
+import { authenticationSession } from "@/lib/authentication-session";
+import { useRedirectAfterLogin } from "@/lib/navigation-utils";
+import { cn, formatUtils } from "@/lib/utils";
+import { OtpType } from "@activepieces/ee-shared";
 import {
   ApEdition,
   ApFlagId,
@@ -36,9 +36,9 @@ import {
   ErrorCode,
   isNil,
   SignUpRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { passwordValidation } from '../lib/password-validation-utils';
+import { passwordValidation } from "../lib/password-validation-utils";
 
 type SignUpSchema = {
   email: string;
@@ -57,17 +57,17 @@ const SignUpForm = ({
 }) => {
   const [searchParams] = useSearchParams();
   const { data: termsOfServiceUrl } = flagsHooks.useFlag<string>(
-    ApFlagId.TERMS_OF_SERVICE_URL,
+    ApFlagId.TERMS_OF_SERVICE_URL
   );
   const { data: privacyPolicyUrl } = flagsHooks.useFlag<string>(
-    ApFlagId.PRIVACY_POLICY_URL,
+    ApFlagId.PRIVACY_POLICY_URL
   );
 
   const form = useForm<SignUpSchema>({
     defaultValues: {
       newsLetter: false,
-      password: '',
-      email: searchParams.get('email') || '',
+      password: "",
+      email: searchParams.get("email") || "",
     },
   });
   const websiteName = flagsHooks.useWebsiteBranding()?.websiteName;
@@ -79,10 +79,10 @@ const SignUpForm = ({
     switch (edition) {
       case ApEdition.CLOUD: {
         if (
-          typeof websiteName === 'string' &&
-          websiteName.toLowerCase() === 'activepieces'
+          typeof websiteName === "string" &&
+          websiteName.toLowerCase() === "activepieces"
         ) {
-          form.setValue('newsLetter', true);
+          form.setValue("newsLetter", true);
           return true;
         }
         return false;
@@ -90,7 +90,7 @@ const SignUpForm = ({
       case ApEdition.ENTERPRISE:
         return false;
       case ApEdition.COMMUNITY: {
-        form.setValue('newsLetter', true);
+        form.setValue("newsLetter", true);
         return true;
       }
     }
@@ -118,8 +118,8 @@ const SignUpForm = ({
           error.response?.data as { code: ErrorCode }
         )?.code;
         if (isNil(errorCode)) {
-          form.setError('root.serverError', {
-            message: t('Something went wrong, please try again later'),
+          form.setError("root.serverError", {
+            message: t("Something went wrong, please try again later"),
           });
           return;
         }
@@ -129,34 +129,34 @@ const SignUpForm = ({
             break;
           }
           case ErrorCode.INVITATION_ONLY_SIGN_UP: {
-            form.setError('root.serverError', {
+            form.setError("root.serverError", {
               message: t(
-                'Sign up is restricted. You need an invitation to join. Please contact the administrator.',
+                "Sign up is restricted. You need an invitation to join. Please contact the administrator."
               ),
             });
             break;
           }
           case ErrorCode.EXISTING_USER: {
-            form.setError('root.serverError', {
-              message: t('Email is already used'),
+            form.setError("root.serverError", {
+              message: t("Email is already used"),
             });
             break;
           }
           case ErrorCode.EMAIL_AUTH_DISABLED: {
-            form.setError('root.serverError', {
-              message: t('Email authentication is disabled'),
+            form.setError("root.serverError", {
+              message: t("Email authentication is disabled"),
             });
             break;
           }
           case ErrorCode.DOMAIN_NOT_ALLOWED: {
-            form.setError('root.serverError', {
-              message: t('Email domain is disallowed'),
+            form.setError("root.serverError", {
+              message: t("Email domain is disallowed"),
             });
             break;
           }
           default: {
-            form.setError('root.serverError', {
-              message: t('Something went wrong, please try again later'),
+            form.setError("root.serverError", {
+              message: t("Something went wrong, please try again later"),
             });
             break;
           }
@@ -166,7 +166,7 @@ const SignUpForm = ({
   });
 
   const onSubmit: SubmitHandler<SignUpSchema> = (data) => {
-    form.setError('root.serverError', {
+    form.setError("root.serverError", {
       message: undefined,
     });
     mutate({
@@ -190,22 +190,22 @@ const SignUpForm = ({
     <>
       <Form {...form}>
         <form className="grid space-y-4">
-          <div className={'flex flex-row gap-2'}>
+          <div className={"flex flex-row gap-2"}>
             <FormField
               control={form.control}
               name="firstName"
               rules={{
-                required: t('First name is required'),
+                required: t("First name is required"),
               }}
               render={({ field }) => (
                 <FormItem className="w-full grid space-y-2">
-                  <Label htmlFor="firstName">{t('First Name')}</Label>
+                  <Label htmlFor="firstName">{t("First Name")}</Label>
                   <Input
                     {...field}
                     required
                     id="firstName"
                     type="text"
-                    placeholder={'John'}
+                    placeholder={"John"}
                     className="rounded-sm"
                   />
                   <FormMessage />
@@ -216,17 +216,17 @@ const SignUpForm = ({
               control={form.control}
               name="lastName"
               rules={{
-                required: t('Last name is required'),
+                required: t("Last name is required"),
               }}
               render={({ field }) => (
                 <FormItem className="w-full grid space-y-2">
-                  <Label htmlFor="lastName">{t('Last Name')}</Label>
+                  <Label htmlFor="lastName">{t("Last Name")}</Label>
                   <Input
                     {...field}
                     required
                     id="lastName"
                     type="text"
-                    placeholder={'Doe'}
+                    placeholder={"Doe"}
                     className="rounded-sm"
                   />
                   <FormMessage />
@@ -238,19 +238,19 @@ const SignUpForm = ({
             control={form.control}
             name="email"
             rules={{
-              required: t('Email is required'),
+              required: t("Email is required"),
               validate: (email: string) =>
-                formatUtils.emailRegex.test(email) || t('Email is invalid'),
+                formatUtils.emailRegex.test(email) || t("Email is invalid"),
             }}
             render={({ field }) => (
               <FormItem className="grid space-y-2">
-                <Label htmlFor="email">{t('Email')}</Label>
+                <Label htmlFor="email">{t("Email")}</Label>
                 <Input
                   {...field}
                   required
                   id="email"
                   type="email"
-                  placeholder={'email@example.com'}
+                  placeholder={"email@example.com"}
                   className="rounded-sm"
                 />
                 <FormMessage />
@@ -261,7 +261,7 @@ const SignUpForm = ({
             control={form.control}
             name="password"
             rules={{
-              required: t('Password is required'),
+              required: t("Password is required"),
               validate: passwordValidation,
             }}
             render={({ field }) => (
@@ -274,7 +274,7 @@ const SignUpForm = ({
                 }}
                 onBlur={() => setPasswordFocused(false)}
               >
-                <Label htmlFor="password">{t('Password')}</Label>
+                <Label htmlFor="password">{t("Password")}</Label>
                 <Popover open={isPasswordFocused}>
                   <PopoverTrigger asChild>
                     <Input
@@ -282,7 +282,7 @@ const SignUpForm = ({
                       required
                       id="password"
                       type="password"
-                      placeholder={'********'}
+                      placeholder={"********"}
                       className="rounded-sm"
                       ref={inputRef}
                       onChange={(e) => field.onChange(e)}
@@ -328,36 +328,36 @@ const SignUpForm = ({
             loading={isPending}
             onClick={(e) => form.handleSubmit(onSubmit)(e)}
           >
-            {t('Sign up')}
+            {t("Sign up")}
           </Button>
         </form>
       </Form>
 
       {edition === ApEdition.CLOUD && (
         <div
-          className={cn('text-center text-sm', {
-            'mt-4': termsOfServiceUrl || privacyPolicyUrl,
+          className={cn("text-center text-sm", {
+            "mt-4": termsOfServiceUrl || privacyPolicyUrl,
           })}
         >
           {(termsOfServiceUrl || privacyPolicyUrl) &&
-            t('By creating an account, you agree to our')}
+            t("By creating an account, you agree to our")}
           {termsOfServiceUrl && (
             <Link
-              to={termsOfServiceUrl || ''}
+              to={termsOfServiceUrl || ""}
               target="_blank"
               className="px-1 text-muted-foreground hover:text-primary text-sm transition-all duration-200"
             >
-              {t('terms of service')}
+              {t("terms of service")}
             </Link>
           )}
-          {termsOfServiceUrl && privacyPolicyUrl && t('and')}
+          {termsOfServiceUrl && privacyPolicyUrl && t("and")}
           {privacyPolicyUrl && (
             <Link
-              to={privacyPolicyUrl || ''}
+              to={privacyPolicyUrl || ""}
               target="_blank"
               className="pl-1 text-muted-foreground hover:text-primary text-sm transition-all duration-200"
             >
-              {t('privacy policy')}
+              {t("privacy policy")}
             </Link>
           )}
           .
@@ -367,6 +367,6 @@ const SignUpForm = ({
   );
 };
 
-SignUpForm.displayName = 'SignUp';
+SignUpForm.displayName = "SignUp";
 
 export { SignUpForm };

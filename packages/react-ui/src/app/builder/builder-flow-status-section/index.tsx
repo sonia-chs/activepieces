@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { useBuilderStateContext } from '@/app/builder/builder-hooks';
-import { FlowStatusToggle } from '@/features/flows/components/flow-status-toggle';
-import { FlowVersionStateDot } from '@/features/flows/components/flow-version-state-dot';
-import { FlowVersionState } from '@activepieces/shared';
+import { useBuilderStateContext } from "@/app/builder/builder-hooks";
+import { FlowStatusToggle } from "@/features/flows/components/flow-status-toggle";
+import { FlowVersionStateDot } from "@/features/flows/components/flow-version-state-dot";
+import { FlowVersionState } from "@activepieces/shared";
 
-import { PublishButton } from './publish-button';
-import { EditFlowOrViewDraftButton } from './view-draft-or-edit-flow-button';
+import { PublishButton } from "./publish-button";
+import { EditFlowOrViewDraftButton } from "./view-draft-or-edit-flow-button";
 const BuilderFlowStatusSection = React.memo(() => {
   const [flowVersion, flow] = useBuilderStateContext((state) => [
     state.flowVersion,
@@ -32,5 +32,5 @@ const BuilderFlowStatusSection = React.memo(() => {
   );
 });
 
-BuilderFlowStatusSection.displayName = 'BuilderFlowStatusSection';
+BuilderFlowStatusSection.displayName = "BuilderFlowStatusSection";
 export { BuilderFlowStatusSection };

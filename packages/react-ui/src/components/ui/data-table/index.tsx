@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
 import {
   ColumnDef as TanstackColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from '@tanstack/react-table';
-import { t } from 'i18next';
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useDeepCompareEffect } from 'react-use';
+} from "@tanstack/react-table";
+import { t } from "i18next";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useDeepCompareEffect } from "react-use";
 
 import {
   Table,
@@ -18,24 +18,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { cn } from '@/lib/utils';
-import { apId, isNil, SeekPage } from '@activepieces/shared';
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { apId, isNil, SeekPage } from "@activepieces/shared";
 
-import { Button } from '../button';
+import { Button } from "../button";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '../select';
+} from "../select";
 
-import { DataTableBulkActions } from './data-table-bulk-actions';
-import { DataTableColumnHeader } from './data-table-column-header';
-import { DataTableFacetedFilter } from './data-table-options-filter';
-import { DataTableSkeleton } from './data-table-skeleton';
-import { DataTableToolbar } from './data-table-toolbar';
+import { DataTableBulkActions } from "./data-table-bulk-actions";
+import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableFacetedFilter } from "./data-table-options-filter";
+import { DataTableSkeleton } from "./data-table-skeleton";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 export type DataWithId = {
   id?: string;
@@ -45,11 +45,11 @@ export type RowDataWithActions<TData extends DataWithId> = TData & {
   update: (payload: Partial<TData>) => void;
 };
 
-export const CURSOR_QUERY_PARAM = 'cursor';
-export const LIMIT_QUERY_PARAM = 'limit';
+export const CURSOR_QUERY_PARAM = "cursor";
+export const LIMIT_QUERY_PARAM = "limit";
 
 export type DataTableFilter<Keys extends string> = {
-  type: 'select' | 'input' | 'date';
+  type: "select" | "input" | "date";
   title: string;
   accessorKey: Keys;
   icon: React.ComponentType<{ className?: string }>;
@@ -61,7 +61,7 @@ export type DataTableFilter<Keys extends string> = {
 };
 
 type DataTableAction<TData extends DataWithId> = (
-  row: RowDataWithActions<TData>,
+  row: RowDataWithActions<TData>
 ) => JSX.Element;
 
 // Extend the ColumnDef type to include the notClickable property
@@ -73,14 +73,14 @@ interface DataTableProps<
   TData extends DataWithId,
   TValue,
   Keys extends string,
-  F extends DataTableFilter<Keys>,
+  F extends DataTableFilter<Keys>
 > {
   columns: ColumnDef<RowDataWithActions<TData>, TValue>[];
   page: SeekPage<TData> | undefined;
   onRowClick?: (
     row: RowDataWithActions<TData>,
     newWindow: boolean,
-    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => void;
   isLoading: boolean;
   filters?: F[];
@@ -97,7 +97,7 @@ interface DataTableProps<
 export type BulkAction<TData extends DataWithId> = {
   render: (
     selectedRows: RowDataWithActions<TData>[],
-    resetSelection: () => void,
+    resetSelection: () => void
   ) => React.ReactNode;
 };
 
@@ -105,7 +105,7 @@ export function DataTable<
   TData extends DataWithId,
   TValue,
   Keys extends string,
-  F extends DataTableFilter<Keys>,
+  F extends DataTableFilter<Keys>
 >({
   columns: columnsInitial,
   page,
@@ -125,7 +125,7 @@ export function DataTable<
     actions.length > 0
       ? columnsInitial.concat([
           {
-            accessorKey: '__actions',
+            accessorKey: "__actions",
             header: ({ column }) => (
               <DataTableColumnHeader column={column} title="" />
             ),
@@ -147,20 +147,20 @@ export function DataTable<
       : columnsInitial;
 
   const columnVisibility = columnsInitial.reduce((acc, column) => {
-    if (column.enableHiding && 'accessorKey' in column) {
+    if (column.enableHiding && "accessorKey" in column) {
       acc[column.accessorKey as string] = false;
     }
     return acc;
   }, {} as Record<string, boolean>);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const startingCursor = searchParams.get('cursor') || undefined;
-  const startingLimit = searchParams.get('limit') || '10';
+  const startingCursor = searchParams.get("cursor") || undefined;
+  const startingLimit = searchParams.get("limit") || "10";
   const [currentCursor, setCurrentCursor] = useState<string | undefined>(
-    startingCursor,
+    startingCursor
   );
   const [nextPageCursor, setNextPageCursor] = useState<string | undefined>(
-    page?.next ?? undefined,
+    page?.next ?? undefined
   );
   const [previousPageCursor, setPreviousPageCursor] = useState<
     string | undefined
@@ -184,7 +184,7 @@ export function DataTable<
 
   const [deletedRows, setDeletedRows] = useState<TData[]>([]);
   const [tableData, setTableData] = useState<RowDataWithActions<TData>[]>(
-    enrichPageData(page?.data ?? []),
+    enrichPageData(page?.data ?? [])
   );
 
   useDeepCompareEffect(() => {
@@ -219,7 +219,7 @@ export function DataTable<
 
   useDeepCompareEffect(() => {
     onSelectedRowsChange?.(
-      table.getSelectedRowModel().rows.map((row) => row.original),
+      table.getSelectedRowModel().rows.map((row) => row.original)
     );
   }, [table.getSelectedRowModel().rows]);
 
@@ -228,19 +228,19 @@ export function DataTable<
       (prev) => {
         const newParams = new URLSearchParams(prev);
 
-        newParams.set('cursor', currentCursor ?? '');
-        newParams.set('limit', `${table.getState().pagination.pageSize}`);
+        newParams.set("cursor", currentCursor ?? "");
+        newParams.set("limit", `${table.getState().pagination.pageSize}`);
         return newParams;
       },
-      { replace: true },
+      { replace: true }
     );
   }, [currentCursor, table.getState().pagination.pageSize]);
 
   useEffect(() => {
     setTableData(
       tableData.filter(
-        (row) => !deletedRows.some((deletedRow) => deletedRow.id === row.id),
-      ),
+        (row) => !deletedRows.some((deletedRow) => deletedRow.id === row.id)
+      )
     );
   }, [deletedRows]);
 
@@ -296,7 +296,7 @@ export function DataTable<
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -317,13 +317,13 @@ export function DataTable<
             ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className={cn('cursor-pointer', {
-                    'hover:bg-background cursor-default': isNil(onRowClick),
+                  className={cn("cursor-pointer", {
+                    "hover:bg-background cursor-default": isNil(onRowClick),
                   })}
                   onClick={(e) => {
                     // Check if the clicked cell is not clickable
                     const clickedCellIndex = (e.target as HTMLElement).closest(
-                      'td',
+                      "td"
                     )?.cellIndex;
                     if (
                       clickedCellIndex !== undefined &&
@@ -336,7 +336,7 @@ export function DataTable<
                   onAuxClick={(e) => {
                     // Similar check for auxiliary click (e.g., middle mouse button)
                     const clickedCellIndex = (e.target as HTMLElement).closest(
-                      'td',
+                      "td"
                     )?.cellIndex;
                     if (
                       clickedCellIndex !== undefined &&
@@ -347,19 +347,19 @@ export function DataTable<
                     onRowClick?.(row.original, true, e);
                   }}
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       <div
-                        className={cn('flex items-center', {
-                          'justify-end': cell.column.id === 'actions',
-                          'justify-start': cell.column.id !== 'actions',
+                        className={cn("flex items-center", {
+                          "justify-end": cell.column.id === "actions",
+                          "justify-start": cell.column.id !== "actions",
                         })}
                       >
                         <div
                           onClick={(e) => {
-                            if (cell.column.id === 'select') {
+                            if (cell.column.id === "select") {
                               e.preventDefault();
                               e.stopPropagation();
                               return;
@@ -368,7 +368,7 @@ export function DataTable<
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
-                            cell.getContext(),
+                            cell.getContext()
                           )}
                         </div>
                       </div>
@@ -426,7 +426,7 @@ export function DataTable<
             onClick={() => setCurrentCursor(previousPageCursor)}
             disabled={!previousPageCursor}
           >
-            {t('Previous')}
+            {t("Previous")}
           </Button>
           <Button
             variant="outline"
@@ -436,7 +436,7 @@ export function DataTable<
             }}
             disabled={!nextPageCursor}
           >
-            {t('Next')}
+            {t("Next")}
           </Button>
         </div>
       )}

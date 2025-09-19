@@ -1,16 +1,16 @@
-import { t } from 'i18next';
-import { Loader2, MessageSquare, Play, X } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { Loader2, MessageSquare, Play, X } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
-import { AgentTimeline } from '@/features/agents/agent-timeline';
-import { agentRunHooks } from '@/features/agents/lib/agent-hooks';
-import { useBuilderAgentState } from '@/features/agents/lib/store/builder-agent-state-provider';
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { AgentTimeline } from "@/features/agents/agent-timeline";
+import { agentRunHooks } from "@/features/agents/lib/agent-hooks";
+import { useBuilderAgentState } from "@/features/agents/lib/store/builder-agent-state-provider";
 
 export const AgentPreviewSection = () => {
-  const [testInput, setTestInput] = useState('');
+  const [testInput, setTestInput] = useState("");
   const [currentRunId, setCurrentRunId] = useState<string | null>(null);
   const [agent, setTestSectionIsOpen] = useBuilderAgentState((state) => [
     state.agent,
@@ -29,12 +29,12 @@ export const AgentPreviewSection = () => {
       {
         onSuccess: (agentRun) => {
           setCurrentRunId(agentRun.id);
-          setTestInput('');
+          setTestInput("");
         },
         onError: (error) => {
-          console.error('Failed to run agent:', error);
+          console.error("Failed to run agent:", error);
         },
-      },
+      }
     );
   };
 
@@ -48,7 +48,7 @@ export const AgentPreviewSection = () => {
         tabIndex={0}
         aria-label="Close Agent Preview"
       >
-        <h2 className="text-lg font-semibold m-0">{t('Agent Preview')}</h2>
+        <h2 className="text-lg font-semibold m-0">{t("Agent Preview")}</h2>
         <Button variant="ghost" size="icon" onClick={handleClosePreview}>
           <X className="w-5 h-5  " />
         </Button>
@@ -60,7 +60,7 @@ export const AgentPreviewSection = () => {
           <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-2">
             <MessageSquare className="w-10 h-10 mb-2" />
             <div className="text-center font-medium text-sm">
-              {t('Get started by giving your agent a task to try out.')}
+              {t("Get started by giving your agent a task to try out.")}
             </div>
           </div>
         )}
@@ -86,7 +86,7 @@ export const AgentPreviewSection = () => {
             ) : (
               <Play className="w-5 h-5" />
             )}
-            {isRunning ? t('Running...') : t('Run')}
+            {isRunning ? t("Running...") : t("Run")}
           </Button>
         </div>
       </div>

@@ -1,46 +1,46 @@
-import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { AgentOutputFieldType } from '@activepieces/shared';
+} from "@/components/ui/select";
+import { AgentOutputFieldType } from "@activepieces/shared";
 
-import { FieldTypeIcon } from './field-type-icon';
+import { FieldTypeIcon } from "./field-type-icon";
 
 interface AddFieldPopoverProps {
   onAddField: (
     type: AgentOutputFieldType,
     name: string,
-    description: string,
+    description: string
   ) => void;
 }
 
 export const AddFieldPopover = ({ onAddField }: AddFieldPopoverProps) => {
   const [fieldType, setFieldType] = useState<AgentOutputFieldType | undefined>(
-    undefined,
+    undefined
   );
-  const [fieldName, setFieldName] = useState('');
-  const [fieldDescription, setFieldDescription] = useState('');
+  const [fieldName, setFieldName] = useState("");
+  const [fieldDescription, setFieldDescription] = useState("");
   const [open, setOpen] = useState(false);
 
   const handleAdd = () => {
     if (fieldType && fieldName.trim() && fieldDescription.trim()) {
       onAddField(fieldType, fieldName.trim(), fieldDescription.trim());
       setFieldType(undefined);
-      setFieldName('');
-      setFieldDescription('');
+      setFieldName("");
+      setFieldDescription("");
       setOpen(false);
     }
   };
@@ -123,7 +123,7 @@ export const AddFieldPopover = ({ onAddField }: AddFieldPopoverProps) => {
           <Button
             className="w-full"
             onClick={handleAdd}
-            variant={'default'}
+            variant={"default"}
             disabled={
               !fieldType || !fieldName.trim() || !fieldDescription.trim()
             }

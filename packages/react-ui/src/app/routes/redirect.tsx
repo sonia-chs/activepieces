@@ -1,19 +1,19 @@
-import { t } from 'i18next';
-import React, { useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { t } from "i18next";
+import React, { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { LoadingScreen } from '@/components/ui/loading-screen';
-import { toast } from '@/components/ui/use-toast';
-import { api } from '@/lib/api';
-import { authenticationApi } from '@/lib/authentication-api';
-import { authenticationSession } from '@/lib/authentication-session';
+import { LoadingScreen } from "@/components/ui/loading-screen";
+import { toast } from "@/components/ui/use-toast";
+import { api } from "@/lib/api";
+import { authenticationApi } from "@/lib/authentication-api";
+import { authenticationSession } from "@/lib/authentication-session";
 import {
   FROM_QUERY_PARAM,
   LOGIN_QUERY_PARAM,
   PROVIDER_NAME_QUERY_PARAM,
   STATE_QUERY_PARAM,
-} from '@/lib/navigation-utils';
-import { ErrorCode } from '@activepieces/shared';
+} from "@/lib/navigation-utils";
+import { ErrorCode } from "@activepieces/shared";
 
 const RedirectPage: React.FC = React.memo(() => {
   const location = useLocation();
@@ -23,10 +23,10 @@ const RedirectPage: React.FC = React.memo(() => {
     if (hasCheckedParams.current) {
       return;
     }
-    console.log('redirection works, redirecting....');
+    console.log("redirection works, redirecting....");
     hasCheckedParams.current = true;
     const params = new URLSearchParams(location.search);
-    const code = params.get('code');
+    const code = params.get("code");
     const state = tryParseState(params.get(STATE_QUERY_PARAM));
     if (state && state[LOGIN_QUERY_PARAM] && code) {
       const providerName = state[PROVIDER_NAME_QUERY_PARAM];
@@ -46,21 +46,21 @@ const RedirectPage: React.FC = React.memo(() => {
               ErrorCode.INVITATION_ONLY_SIGN_UP
           ) {
             toast({
-              title: t('Invitation only sign up'),
+              title: t("Invitation only sign up"),
               description: t(
-                'Please ask your administrator to add you to the organization.',
+                "Please ask your administrator to add you to the organization."
               ),
             });
           } else {
             toast({
-              title: t('Something went wrong, please try again.'),
-              description: t('Please try again.'),
-              variant: 'destructive',
+              title: t("Something went wrong, please try again."),
+              description: t("Please try again."),
+              variant: "destructive",
             });
           }
           console.error(e);
 
-          navigate('/sign-in');
+          navigate("/sign-in");
         }
       };
       handleThirdPartyLogin();
@@ -71,18 +71,18 @@ const RedirectPage: React.FC = React.memo(() => {
         {
           code: code,
         },
-        '*',
+        "*"
       );
     }
     if (!window.opener && !code) {
-      navigate('/');
+      navigate("/");
     }
   }, [location.search]);
 
   return <LoadingScreen />;
 });
 
-RedirectPage.displayName = 'RedirectPage';
+RedirectPage.displayName = "RedirectPage";
 const tryParseState = (state: string | null) => {
   if (!state) {
     return null;

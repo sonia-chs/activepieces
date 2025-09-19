@@ -1,16 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
-import dayjs from 'dayjs';
-import { X } from 'lucide-react';
-import { useEffect, useState, useRef } from 'react';
-import { toast as sonnerToast } from 'sonner';
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { X } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { toast as sonnerToast } from "sonner";
 
-import { useEmbedding } from '@/components/embed-provider';
-import { Button } from '@/components/ui/button';
-import { SonnerToaster } from '@/components/ui/sonner';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { changelogApi } from '@/lib/changelog-api';
-import { isNil, Changelog, ApFlagId } from '@activepieces/shared';
+import { useEmbedding } from "@/components/embed-provider";
+import { Button } from "@/components/ui/button";
+import { SonnerToaster } from "@/components/ui/sonner";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { changelogApi } from "@/lib/changelog-api";
+import { isNil, Changelog, ApFlagId } from "@activepieces/shared";
 
 interface ChangelogToastProps {
   id: string | number;
@@ -56,7 +56,7 @@ function ChangelogToast(props: ChangelogToastProps) {
       <div className="flex justify-between items-center px-4 pb-4">
         <Button
           size="sm"
-          onClick={() => learnMoreUrl && window.open(learnMoreUrl, '_blank')}
+          onClick={() => learnMoreUrl && window.open(learnMoreUrl, "_blank")}
         >
           Learn more
         </Button>
@@ -72,7 +72,7 @@ function ChangelogToast(props: ChangelogToastProps) {
   );
 }
 
-function showChangelogToast(props: Omit<ChangelogToastProps, 'id'>) {
+function showChangelogToast(props: Omit<ChangelogToastProps, "id">) {
   return sonnerToast.custom((id) => (
     <ChangelogToast
       id={id}
@@ -90,10 +90,10 @@ export const ChangelogProvider = () => {
   const isEmbedding = useEmbedding().embedState.isEmbedded;
   const { data: user } = userHooks.useCurrentUser();
   const { data: showChangelog } = flagsHooks.useFlag<boolean>(
-    ApFlagId.SHOW_CHANGELOG,
+    ApFlagId.SHOW_CHANGELOG
   );
   const { data: changelogs, isError } = useQuery({
-    queryKey: ['changelogs'],
+    queryKey: ["changelogs"],
     queryFn: () => changelogApi.list(),
     enabled: !!user && showChangelog === true,
   });
@@ -113,7 +113,7 @@ export const ChangelogProvider = () => {
       const filteredChangelogs = [...changelogs.data].filter(
         (changelog: Changelog) =>
           isNil(user.lastChangelogDismissed) ||
-          dayjs(user.lastChangelogDismissed).isBefore(dayjs(changelog.date)),
+          dayjs(user.lastChangelogDismissed).isBefore(dayjs(changelog.date))
       );
 
       if (filteredChangelogs.length > 0) {
@@ -121,7 +121,7 @@ export const ChangelogProvider = () => {
 
         filteredChangelogs.forEach((changelog: Changelog) => {
           const contentWithLearnMoreLink =
-            changelog.markdownContent.split('LearnMoreLink:');
+            changelog.markdownContent.split("LearnMoreLink:");
           const content = contentWithLearnMoreLink[0]?.trim();
           const learnMoreLinkMarkdown = contentWithLearnMoreLink[1]?.trim();
           const learnMoreUrl =

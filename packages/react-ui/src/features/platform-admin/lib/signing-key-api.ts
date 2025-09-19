@@ -1,15 +1,15 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   AddSigningKeyRequestBody,
   AddSigningKeyResponse,
   SigningKey,
   SigningKeyId,
-} from '@activepieces/ee-shared';
-import { SeekPage } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { SeekPage } from "@activepieces/shared";
 
 export const signingKeyApi = {
   list() {
-    return api.get<SeekPage<SigningKey>>('/v1/signing-keys');
+    return api.get<SeekPage<SigningKey>>("/v1/signing-keys");
   },
   delete(keyId: SigningKeyId) {
     return api.delete<void>(`/v1/signing-keys/${keyId}`);

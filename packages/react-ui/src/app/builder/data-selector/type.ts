@@ -1,10 +1,10 @@
 export type DataSelectorTreeChunkNodeData = {
-  type: 'chunk';
+  type: "chunk";
   displayName: string;
 };
 
 export type DataSelectorTreeNodeData = {
-  type: 'value';
+  type: "value";
   value: string | unknown;
   displayName: string;
   propertyPath: string;
@@ -12,7 +12,7 @@ export type DataSelectorTreeNodeData = {
 };
 
 export type DataSelectorTestNodeData = {
-  type: 'test';
+  type: "test";
   stepName: string;
   parentDisplayName: string;
 };
@@ -22,7 +22,7 @@ export type DataSelectorTreeNodeDataUnion =
   | DataSelectorTreeChunkNodeData
   | DataSelectorTestNodeData;
 export type DataSelectorTreeNode<
-  T extends DataSelectorTreeNodeDataUnion = DataSelectorTreeNodeDataUnion,
+  T extends DataSelectorTreeNodeDataUnion = DataSelectorTreeNodeDataUnion
 > = {
   key: string;
   data: T;

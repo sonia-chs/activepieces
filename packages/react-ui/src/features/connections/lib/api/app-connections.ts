@@ -1,4 +1,4 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 import {
   AppConnectionOwners,
   AppConnectionWithoutSensitiveData,
@@ -8,23 +8,23 @@ import {
   SeekPage,
   UpdateConnectionValueRequestBody,
   UpsertAppConnectionRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 export const appConnectionsApi = {
   list(
-    request: ListAppConnectionsRequestQuery,
+    request: ListAppConnectionsRequestQuery
   ): Promise<SeekPage<AppConnectionWithoutSensitiveData>> {
     return api.get<SeekPage<AppConnectionWithoutSensitiveData>>(
-      '/v1/app-connections',
-      request,
+      "/v1/app-connections",
+      request
     );
   },
   upsert(
-    request: UpsertAppConnectionRequestBody,
+    request: UpsertAppConnectionRequestBody
   ): Promise<AppConnectionWithoutSensitiveData> {
     return api.post<AppConnectionWithoutSensitiveData>(
-      '/v1/app-connections',
-      request,
+      "/v1/app-connections",
+      request
     );
   },
   delete(id: string): Promise<void> {
@@ -32,22 +32,22 @@ export const appConnectionsApi = {
   },
   update(
     id: string,
-    request: UpdateConnectionValueRequestBody,
+    request: UpdateConnectionValueRequestBody
   ): Promise<AppConnectionWithoutSensitiveData> {
     return api.post<AppConnectionWithoutSensitiveData>(
       `/v1/app-connections/${id}`,
-      request,
+      request
     );
   },
   replace(request: ReplaceAppConnectionsRequestBody): Promise<void> {
     return api.post<void>(`/v1/app-connections/replace`, request);
   },
   getOwners(
-    request: ListAppConnectionOwnersRequestQuery,
+    request: ListAppConnectionOwnersRequestQuery
   ): Promise<SeekPage<AppConnectionOwners>> {
     return api.get<SeekPage<AppConnectionOwners>>(
-      '/v1/app-connections/owners',
-      request,
+      "/v1/app-connections/owners",
+      request
     );
   },
 };

@@ -1,13 +1,13 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { useEmbedding } from '@/components/embed-provider';
-import { api } from '@/lib/api';
-import { isNil } from '@activepieces/shared';
-const defaultFont = 'Roboto';
+import { useEmbedding } from "@/components/embed-provider";
+import { api } from "@/lib/api";
+import { isNil } from "@activepieces/shared";
+const defaultFont = "Roboto";
 const useDownloadEmbeddingFont = () => {
   const { embedState } = useEmbedding();
   useSuspenseQuery<string, Error>({
-    queryKey: ['font', embedState.fontFamily, embedState.fontUrl],
+    queryKey: ["font", embedState.fontFamily, embedState.fontUrl],
     queryFn: async () => {
       try {
         if (
@@ -16,14 +16,14 @@ const useDownloadEmbeddingFont = () => {
           !isNil(embedState.fontFamily)
         ) {
           return api.get(embedState.fontUrl).then(() => {
-            const link = document.createElement('link');
+            const link = document.createElement("link");
             link.href = embedState.fontUrl!;
-            link.rel = 'stylesheet';
+            link.rel = "stylesheet";
             document.head.appendChild(link);
             const fontFamilySplit = embedState
-              .fontFamily!.split(',')
+              .fontFamily!.split(",")
               .map((font) => `"${font}"`)
-              .join(',');
+              .join(",");
             document.body.style.fontFamily = `${fontFamilySplit}, Roboto, sans-serif`;
             return embedState.fontFamily!;
           });
@@ -33,7 +33,7 @@ const useDownloadEmbeddingFont = () => {
           ((isNil(embedState.fontUrl) && !isNil(embedState.fontFamily)) ||
             (isNil(embedState.fontFamily) && !isNil(embedState.fontUrl)))
         ) {
-          console.warn('fontUrl or fontFamily is not set, using default font', {
+          console.warn("fontUrl or fontFamily is not set, using default font", {
             fontUrl: embedState.fontUrl,
             fontFamily: embedState.fontFamily,
           });
@@ -52,6 +52,6 @@ const EmbeddingFontLoader = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-EmbeddingFontLoader.displayName = 'EmbeddingFontLoader';
+EmbeddingFontLoader.displayName = "EmbeddingFontLoader";
 
 export { EmbeddingFontLoader };

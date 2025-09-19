@@ -1,28 +1,28 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { nanoid } from 'nanoid';
-import { useEffect, useRef, useState } from 'react';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { nanoid } from "nanoid";
+import { useEffect, useRef, useState } from "react";
 
-import { ChatDrawerSource } from '@/app/builder/builder-hooks';
-import { ChatInput, ChatMessage } from '@/components/ui/chat/chat-input';
-import { ImageDialog } from '@/components/ui/chat/chat-message/image-dialog';
+import { ChatDrawerSource } from "@/app/builder/builder-hooks";
+import { ChatInput, ChatMessage } from "@/components/ui/chat/chat-input";
+import { ImageDialog } from "@/components/ui/chat/chat-message/image-dialog";
 import {
   ChatMessageList,
   Messages,
-} from '@/components/ui/chat/chat-message-list';
-import { LoadingScreen } from '@/components/ui/loading-screen';
-import { ChatIntro } from '@/features/chat/chat-intro';
-import { humanInputApi } from '@/features/forms/lib/human-input-api';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/chat/chat-message-list";
+import { LoadingScreen } from "@/components/ui/loading-screen";
+import { ChatIntro } from "@/features/chat/chat-intro";
+import { humanInputApi } from "@/features/forms/lib/human-input-api";
+import { cn } from "@/lib/utils";
 import {
   ApErrorParams,
   ChatUIResponse,
   ErrorCode,
   isNil,
   HumanInputFormResultTypes,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import NotFoundPage from '../404-page';
+import NotFoundPage from "../404-page";
 
 interface FlowChatProps {
   flowId: string;
@@ -59,14 +59,14 @@ export function FlowChat({
     isLoading,
     isError: isLoadingError,
   } = useQuery<ChatUIResponse | null, Error>({
-    queryKey: ['chat', flowId],
+    queryKey: ["chat", flowId],
     queryFn: () =>
       humanInputApi.getChatUI(
         flowId,
         mode === ChatDrawerSource.TEST_FLOW ||
           mode === ChatDrawerSource.TEST_STEP
           ? true
-          : false,
+          : false
       ),
     enabled: !isNil(flowId),
     staleTime: Infinity,
@@ -75,9 +75,9 @@ export function FlowChat({
 
   const scrollToBottom = () => {
     setTimeout(() => {
-      const lastMessage = document.getElementById('last-message');
+      const lastMessage = document.getElementById("last-message");
       if (lastMessage) {
-        lastMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        lastMessage.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 100);
   };
@@ -89,14 +89,14 @@ export function FlowChat({
     }
   }, [chatSessionId, onSetSessionId]);
 
-  const previousInputRef = useRef('');
+  const previousInputRef = useRef("");
   const previousFilesRef = useRef<File[]>([]);
   const [sendingError, setSendingError] = useState<ApErrorParams | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   const botName =
-    chatUI?.props.botName ?? `${chatUI?.platformName ?? 'Activepieces'} Bot`;
+    chatUI?.props.botName ?? `${chatUI?.platformName ?? "Activepieces"} Bot`;
 
   const { mutate: sendMessage, isPending: isSending } = useMutation({
     mutationFn: async ({
@@ -110,7 +110,7 @@ export function FlowChat({
 
       const savedInput = isRetrying
         ? previousInputRef.current
-        : message?.textContent || '';
+        : message?.textContent || "";
       const savedFiles = isRetrying
         ? previousFilesRef.current
         : message?.files || [];
@@ -120,7 +120,7 @@ export function FlowChat({
 
       if (!isRetrying && message && onAddMessage) {
         onAddMessage({
-          role: 'user',
+          role: "user",
           textContent: savedInput,
           files: savedFiles.map((file) => ({
             url: URL.createObjectURL(file),
@@ -137,7 +137,7 @@ export function FlowChat({
         chatId: chatSessionId,
         message: savedInput,
         files: savedFiles,
-        mode: isDraft ? 'draft' : isTestStep ? 'test' : 'locked',
+        mode: isDraft ? "draft" : isTestStep ? "test" : "locked",
       });
     },
 
@@ -155,15 +155,15 @@ export function FlowChat({
         return;
       }
 
-      if ('type' in result && onAddMessage) {
+      if ("type" in result && onAddMessage) {
         setSendingError(null);
         onError?.(null);
 
         switch (result.type) {
           case HumanInputFormResultTypes.FILE: {
-            if ('url' in result.value) {
+            if ("url" in result.value) {
               onAddMessage({
-                role: 'bot',
+                role: "bot",
                 files: [
                   {
                     url: result.value.url,
@@ -177,11 +177,11 @@ export function FlowChat({
 
           case HumanInputFormResultTypes.MARKDOWN: {
             const validFiles = (result.files ?? []).filter(
-              (file) => 'url' in file && 'mimeType' in file,
+              (file) => "url" in file && "mimeType" in file
             );
 
             onAddMessage({
-              role: 'bot',
+              role: "bot",
               textContent: result.value,
               files: validFiles.length > 0 ? validFiles : undefined,
             });
@@ -228,9 +228,9 @@ export function FlowChat({
   return (
     <main
       className={cn(
-        'flex w-full flex-col items-center justify-center pb-6',
-        messages.length > 0 ? 'h-screen' : 'h-screen',
-        className,
+        "flex w-full flex-col items-center justify-center pb-6",
+        messages.length > 0 ? "h-screen" : "h-screen",
+        className
       )}
     >
       {messages.length > 0 ? (

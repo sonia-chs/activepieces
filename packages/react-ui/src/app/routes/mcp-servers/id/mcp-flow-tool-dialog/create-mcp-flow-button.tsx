@@ -1,7 +1,7 @@
-import { t } from 'i18next';
-import { Plus } from 'lucide-react';
+import { t } from "i18next";
+import { Plus } from "lucide-react";
 
-import { flowsHooks } from '@/features/flows/lib/flows-hooks';
+import { flowsHooks } from "@/features/flows/lib/flows-hooks";
 
 export const CreateMcpFlowButton = () => {
   const { mutate: createMcpFlow, isPending } = flowsHooks.useCreateMcpFlow();
@@ -13,7 +13,7 @@ export const CreateMcpFlowButton = () => {
     >
       <Plus className="w-[40px] h-[40px] text-muted-foreground" />
       <div className="mt-2 text-center text-md">
-        {isPending ? t('Creating...') : t('Create New Flow')}
+        {isPending ? t("Creating...") : t("Create New Flow")}
       </div>
     </div>
   );

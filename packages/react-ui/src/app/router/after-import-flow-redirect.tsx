@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const AfterImportFlowRedirect = () => {
   const { flowId } = useParams();

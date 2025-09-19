@@ -1,30 +1,30 @@
-import { Static, Type } from '@sinclair/typebox';
-import { BotIcon } from 'lucide-react';
-import React from 'react';
+import { Static, Type } from "@sinclair/typebox";
+import { BotIcon } from "lucide-react";
+import React from "react";
 
 import {
   ChatBubble,
   ChatBubbleAvatar,
   ChatBubbleMessage,
-} from '@/components/ui/chat/chat-bubble';
-import { ChatMessage } from '@/components/ui/chat/chat-input';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/chat/chat-bubble";
+import { ChatMessage } from "@/components/ui/chat/chat-input";
+import { cn } from "@/lib/utils";
 import {
   ApErrorParams,
   ChatUIResponse,
   FileResponseInterface,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { MultiMediaMessage } from '../chat-message';
+import { MultiMediaMessage } from "../chat-message";
 
-import { ErrorBubble } from './error-bubble';
+import { ErrorBubble } from "./error-bubble";
 
 export const Messages = Type.Array(
   Type.Object({
-    role: Type.Union([Type.Literal('user'), Type.Literal('bot')]),
+    role: Type.Union([Type.Literal("user"), Type.Literal("bot")]),
     textContent: Type.Optional(Type.String()),
     files: Type.Optional(Type.Array(FileResponseInterface)),
-  }),
+  })
 );
 export type Messages = Static<typeof Messages>;
 
@@ -54,13 +54,13 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
       setSelectedImage,
       ...props
     },
-    ref,
+    ref
   ) => {
     if (messages && messages.length > 0) {
       return (
         <div className="h-full w-full flex items-center justify-center overflow-y-auto">
           <div
-            className={cn('flex flex-col w-full h-full p-4 gap-2', className)}
+            className={cn("flex flex-col w-full h-full p-4 gap-2", className)}
             ref={messagesRef || ref}
             {...props}
           >
@@ -68,15 +68,15 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
               const isLastMessage = index === messages.length - 1;
               return (
                 <ChatBubble
-                  id={isLastMessage ? 'last-message' : undefined}
+                  id={isLastMessage ? "last-message" : undefined}
                   key={index}
-                  variant={message.role === 'user' ? 'sent' : 'received'}
+                  variant={message.role === "user" ? "sent" : "received"}
                   className={cn(
-                    'flex items-start',
-                    isLastMessage ? 'pb-8' : '',
+                    "flex items-start",
+                    isLastMessage ? "pb-8" : ""
                   )}
                 >
-                  {message.role === 'bot' && (
+                  {message.role === "bot" && (
                     <ChatBubbleAvatar
                       src={chatUI?.platformLogoUrl}
                       fallback={<BotIcon className="size-5" />}
@@ -84,8 +84,8 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
                   )}
                   <ChatBubbleMessage
                     className={cn(
-                      'flex flex-col gap-2',
-                      message.role === 'bot' ? 'w-full' : '',
+                      "flex flex-col gap-2",
+                      message.role === "bot" ? "w-full" : ""
                     )}
                   >
                     <MultiMediaMessage
@@ -123,7 +123,7 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
     return (
       <div className="h-full w-full flex items-center justify-center overflow-y-auto">
         <div
-          className={cn('flex flex-col w-full h-full p-4 gap-2', className)}
+          className={cn("flex flex-col w-full h-full p-4 gap-2", className)}
           ref={ref}
           {...props}
         >
@@ -131,9 +131,9 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
-ChatMessageList.displayName = 'ChatMessageList';
+ChatMessageList.displayName = "ChatMessageList";
 
 export { ChatMessageList };

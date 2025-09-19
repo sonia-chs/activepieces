@@ -1,21 +1,21 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { MailCheck } from 'lucide-react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { MailCheck } from "lucide-react";
 
-import { toast } from '@/components/ui/use-toast';
-import { authenticationApi } from '@/lib/authentication-api';
-import { CreateOtpRequestBody, OtpType } from '@activepieces/ee-shared';
+import { toast } from "@/components/ui/use-toast";
+import { authenticationApi } from "@/lib/authentication-api";
+import { CreateOtpRequestBody, OtpType } from "@activepieces/ee-shared";
 
 const CheckEmailNote = ({ email, type }: CreateOtpRequestBody) => {
   const { mutate: resendVerification } = useMutation({
     mutationFn: authenticationApi.sendOtpEmail,
     onSuccess: () => {
       toast({
-        title: t('Success'),
+        title: t("Success"),
         description:
           type === OtpType.EMAIL_VERIFICATION
-            ? t('Verification email resent, if previous one expired.')
-            : t('Password reset link resent, if previous one expired.'),
+            ? t("Verification email resent, if previous one expired.")
+            : t("Password reset link resent, if previous one expired."),
       });
     },
   });
@@ -25,8 +25,8 @@ const CheckEmailNote = ({ email, type }: CreateOtpRequestBody) => {
         <MailCheck className="w-16 h-16" />
         <span className="text-left w-fit">
           {type === OtpType.EMAIL_VERIFICATION
-            ? t('We sent you a link to complete your registration to')
-            : t('We sent you a link to reset your password to')}
+            ? t("We sent you a link to complete your registration to")
+            : t("We sent you a link to reset your password to")}
           <strong>&nbsp;{email}</strong>.
         </span>
       </div>
@@ -41,12 +41,12 @@ const CheckEmailNote = ({ email, type }: CreateOtpRequestBody) => {
             })
           }
         >
-          {t('Resend')}
+          {t("Resend")}
         </button>
       </div>
     </div>
   );
 };
 
-CheckEmailNote.displayName = 'CheckEmailNote';
+CheckEmailNote.displayName = "CheckEmailNote";
 export { CheckEmailNote };

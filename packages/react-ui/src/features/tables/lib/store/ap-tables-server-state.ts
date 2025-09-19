@@ -1,23 +1,23 @@
-import { PromiseQueue } from '@/lib/promise-queue';
+import { PromiseQueue } from "@/lib/promise-queue";
 import {
   CreateFieldRequest,
   Field,
   PopulatedRecord,
   Table,
   UpdateTableRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { fieldsApi } from '../fields-api';
-import { recordsApi } from '../records-api';
-import { tablesApi } from '../tables-api';
+import { fieldsApi } from "../fields-api";
+import { recordsApi } from "../records-api";
+import { tablesApi } from "../tables-api";
 
-import { ClientRecordData } from './ap-tables-client-state';
+import { ClientRecordData } from "./ap-tables-client-state";
 
 export const createServerState = (
   _table: Table,
   _fields: Field[],
   _records: PopulatedRecord[],
-  updateSavingStatus: (isSaving: boolean) => void,
+  updateSavingStatus: (isSaving: boolean) => void
 ) => {
   const queue = new PromiseQueue();
 
@@ -42,7 +42,7 @@ export const createServerState = (
           return {
             ...record,
             cells: Object.fromEntries(
-              Object.entries(record.cells).filter(([key]) => key !== fieldId),
+              Object.entries(record.cells).filter(([key]) => key !== fieldId)
             ),
           };
         });
@@ -75,7 +75,7 @@ export const createServerState = (
     },
     updateRecord: (
       recordIndex: number,
-      record: Pick<ClientRecordData, 'values'>,
+      record: Pick<ClientRecordData, "values">
     ) => {
       addPromiseToQueue(async () => {
         clonedRecords[recordIndex] = await recordsApi.update(
@@ -86,14 +86,14 @@ export const createServerState = (
               fieldId: clonedFields[c.fieldIndex].id,
               value: String(c.value),
             })),
-          },
+          }
         );
       });
     },
     deleteRecords: (recordIndices: string[]) => {
       addPromiseToQueue(async () => {
         const recordIds = recordIndices.map(
-          (index) => clonedRecords[parseInt(index)].id,
+          (index) => clonedRecords[parseInt(index)].id
         );
         await recordsApi.delete({
           ids: recordIds,

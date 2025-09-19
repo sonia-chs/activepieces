@@ -1,22 +1,22 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
 
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { formatUtils } from '@/lib/utils';
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import { formatUtils } from "@/lib/utils";
 import {
   AIUsageMetadata,
   ListAICreditsUsageResponse,
-} from '@activepieces/common-ai';
+} from "@activepieces/common-ai";
 
 export const aiCreditUsageTableColumns: ColumnDef<ListAICreditsUsageResponse>[] =
   [
     {
-      accessorKey: 'created',
+      accessorKey: "created",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Date')} />
+        <DataTableColumnHeader column={column} title={t("Date")} />
       ),
       cell: ({ row }) => {
-        const date = row.getValue('created') as string;
+        const date = row.getValue("created") as string;
         return (
           <div className="text-left">
             {formatUtils.formatDate(new Date(date))}
@@ -25,49 +25,49 @@ export const aiCreditUsageTableColumns: ColumnDef<ListAICreditsUsageResponse>[] 
       },
     },
     {
-      accessorKey: 'projectName',
+      accessorKey: "projectName",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Project')} />
+        <DataTableColumnHeader column={column} title={t("Project")} />
       ),
       cell: ({ row }) => {
-        return <div className="text-left">{row.getValue('projectName')}</div>;
+        return <div className="text-left">{row.getValue("projectName")}</div>;
       },
     },
     {
-      accessorKey: 'provider',
+      accessorKey: "provider",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Provider')} />
+        <DataTableColumnHeader column={column} title={t("Provider")} />
       ),
       cell: ({ row }) => {
-        return <div className="text-left">{row.getValue('provider')}</div>;
+        return <div className="text-left">{row.getValue("provider")}</div>;
       },
     },
     {
-      accessorKey: 'model',
+      accessorKey: "model",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Model')} />
+        <DataTableColumnHeader column={column} title={t("Model")} />
       ),
       cell: ({ row }) => {
-        return <div className="text-left">{row.getValue('model')}</div>;
+        return <div className="text-left">{row.getValue("model")}</div>;
       },
     },
     {
-      accessorKey: 'metadata',
+      accessorKey: "metadata",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Feature')} />
+        <DataTableColumnHeader column={column} title={t("Feature")} />
       ),
       cell: ({ row }) => {
-        const metadata = row.getValue('metadata') as AIUsageMetadata;
+        const metadata = row.getValue("metadata") as AIUsageMetadata;
         return <div className="text-left">{t(metadata.feature)}</div>;
       },
     },
     {
-      accessorKey: 'credits',
+      accessorKey: "credits",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Credits')} />
+        <DataTableColumnHeader column={column} title={t("Credits")} />
       ),
       cell: ({ row }) => {
-        const credits = row.getValue('credits') as number;
+        const credits = row.getValue("credits") as number;
         return (
           <div className="text-left">{formatUtils.formatNumber(credits)}</div>
         );

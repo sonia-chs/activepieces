@@ -1,21 +1,21 @@
-import { t } from 'i18next';
-import { Workflow, Trash2, EllipsisVertical } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { Workflow, Trash2, EllipsisVertical } from "lucide-react";
+import { useState } from "react";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Card, CardContent } from '@/components/ui/card';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useAuthorization } from '@/hooks/authorization-hooks';
+} from "@/components/ui/dropdown-menu";
+import { useAuthorization } from "@/hooks/authorization-hooks";
 import {
   McpFlowTool as McpFlowToolType,
   Permission,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type McpFlowToolProps = {
   tool: McpFlowToolType;
@@ -28,7 +28,7 @@ export const McpFlowTool = ({ tool, removeTool }: McpFlowToolProps) => {
   const hasPermissionToWriteMcp = checkAccess(Permission.WRITE_MCP);
 
   const openFlow = () => {
-    window.open(`/flows/${tool.flow?.id}`, '_blank');
+    window.open(`/flows/${tool.flow?.id}`, "_blank");
   };
 
   return (
@@ -44,7 +44,7 @@ export const McpFlowTool = ({ tool, removeTool }: McpFlowToolProps) => {
           <div className="min-w-0">
             <h3 className="text-sm font-medium truncate">
               <span className="group-hover:underline">
-                {tool.flow?.version?.displayName || t('Flow')}
+                {tool.flow?.version?.displayName || t("Flow")}
               </span>
             </h3>
           </div>
@@ -64,10 +64,10 @@ export const McpFlowTool = ({ tool, removeTool }: McpFlowToolProps) => {
             >
               <PermissionNeededTooltip hasPermission={hasPermissionToWriteMcp}>
                 <ConfirmationDeleteDialog
-                  title={`${t('Delete')} ${tool.flow?.version?.displayName}`}
-                  message={t('Are you sure you want to delete this tool?')}
+                  title={`${t("Delete")} ${tool.flow?.version?.displayName}`}
+                  message={t("Are you sure you want to delete this tool?")}
                   mutationFn={async () => await removeTool([tool.id])}
-                  entityName={t('Tool')}
+                  entityName={t("Tool")}
                 >
                   <DropdownMenuItem
                     disabled={!hasPermissionToWriteMcp}
@@ -75,7 +75,7 @@ export const McpFlowTool = ({ tool, removeTool }: McpFlowToolProps) => {
                   >
                     <div className="flex cursor-pointer flex-row gap-2 items-center">
                       <Trash2 className="h-4 w-4 text-destructive" />
-                      <span className="text-destructive">{t('Delete')}</span>
+                      <span className="text-destructive">{t("Delete")}</span>
                     </div>
                   </DropdownMenuItem>
                 </ConfirmationDeleteDialog>

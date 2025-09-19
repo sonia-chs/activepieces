@@ -1,13 +1,13 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import React from 'react';
+import { cva, type VariantProps } from "class-variance-authority";
+import React from "react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-const dotVariants = cva('size-2 rounded-full', {
+const dotVariants = cva("size-2 rounded-full", {
   variants: {
     variant: {
-      destructive: 'bg-destructive',
-      primary: 'bg-primary',
+      destructive: "bg-destructive",
+      primary: "bg-primary",
     },
   },
   defaultVariants: {},
@@ -26,15 +26,15 @@ const Dot = React.forwardRef<HTMLDivElement, DotProps>(
         ref={ref}
         className={cn(
           dotVariants({ variant }),
-          animation && 'animate-pulse',
-          className,
+          animation && "animate-pulse",
+          className
         )}
         {...props}
       />
     );
-  },
+  }
 );
 
-Dot.displayName = 'Dot';
+Dot.displayName = "Dot";
 
 export { Dot };

@@ -1,11 +1,11 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { agentsApi } from '@/features/agents/lib/agents-api';
+import { agentsApi } from "@/features/agents/lib/agents-api";
 import {
   ErrorHandlingOptionsParam,
   PieceMetadataModel,
   PieceMetadataModelSummary,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   FlowAction,
   FlowActionType,
@@ -17,43 +17,43 @@ import {
   FlowTrigger,
   StepOutput,
   StepRunResponse,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 import {
   PieceStepMetadata,
   PrimitiveStepMetadata,
   StepMetadata,
   StepMetadataWithActionOrTriggerOrAgentDisplayName,
-} from '../../../lib/types';
+} from "../../../lib/types";
 
-import { piecesApi } from './pieces-api';
+import { piecesApi } from "./pieces-api";
 
 export const CORE_STEP_METADATA: Record<
   Exclude<FlowActionType, FlowActionType.PIECE> | FlowTriggerType.EMPTY,
   PrimitiveStepMetadata
 > = {
   [FlowActionType.CODE]: {
-    displayName: t('Code'),
-    logoUrl: 'https://cdn.activepieces.com/pieces/code.svg',
-    description: t('Powerful Node.js & TypeScript code with npm'),
+    displayName: t("Code"),
+    logoUrl: "https://cdn.activepieces.com/pieces/code.svg",
+    description: t("Powerful Node.js & TypeScript code with npm"),
     type: FlowActionType.CODE as const,
   },
   [FlowActionType.LOOP_ON_ITEMS]: {
-    displayName: t('Loop on Items'),
-    logoUrl: 'https://cdn.activepieces.com/pieces/loop.svg',
-    description: 'Iterate over a list of items',
+    displayName: t("Loop on Items"),
+    logoUrl: "https://cdn.activepieces.com/pieces/loop.svg",
+    description: "Iterate over a list of items",
     type: FlowActionType.LOOP_ON_ITEMS as const,
   },
   [FlowActionType.ROUTER]: {
-    displayName: t('Router'),
-    logoUrl: 'https://cdn.activepieces.com/pieces/branch.svg',
-    description: t('Split your flow into branches depending on condition(s)'),
+    displayName: t("Router"),
+    logoUrl: "https://cdn.activepieces.com/pieces/branch.svg",
+    description: t("Split your flow into branches depending on condition(s)"),
     type: FlowActionType.ROUTER as const,
   },
   [FlowTriggerType.EMPTY]: {
-    displayName: t('Empty Trigger'),
-    logoUrl: 'https://cdn.activepieces.com/pieces/empty-trigger.svg',
-    description: t('Empty Trigger'),
+    displayName: t("Empty Trigger"),
+    logoUrl: "https://cdn.activepieces.com/pieces/empty-trigger.svg",
+    description: t("Empty Trigger"),
     type: FlowTriggerType.EMPTY as const,
   },
 } as const;
@@ -64,14 +64,14 @@ export const CORE_ACTIONS_METADATA = [
 ] as const;
 
 export const TODO_ACTIONS = {
-  createTodo: 'createTodo',
-  createTodoAndWait: 'createTodoAndWait',
-  waitForApproval: 'wait_for_approval',
+  createTodo: "createTodo",
+  createTodoAndWait: "createTodoAndWait",
+  waitForApproval: "wait_for_approval",
 };
 
 export const HIDDEN_ACTIONS = [
   {
-    pieceName: '@activepieces/piece-todos',
+    pieceName: "@activepieces/piece-todos",
     actions: [TODO_ACTIONS.createTodoAndWait, TODO_ACTIONS.waitForApproval],
   },
 ];
@@ -79,14 +79,14 @@ export const HIDDEN_ACTIONS = [
 export const stepUtils = {
   getKeys(
     step: FlowAction | FlowTrigger,
-    locale: LocalesEnum,
+    locale: LocalesEnum
   ): (string | undefined)[] {
     const isPieceStep =
       step.type === FlowActionType.PIECE || step.type === FlowTriggerType.PIECE;
     const pieceName = isPieceStep ? step.settings.pieceName : undefined;
     const pieceVersion = isPieceStep ? step.settings.pieceVersion : undefined;
     const customLogoUrl = isPieceStep
-      ? 'customLogoUrl' in step
+      ? "customLogoUrl" in step
         ? step.customLogoUrl
         : undefined
       : undefined;
@@ -95,10 +95,10 @@ export const stepUtils = {
   },
   async getMetadata(
     step: FlowAction | FlowTrigger,
-    locale: LocalesEnum,
+    locale: LocalesEnum
   ): Promise<StepMetadataWithActionOrTriggerOrAgentDisplayName> {
     const customLogoUrl =
-      'customLogoUrl' in step ? step.customLogoUrl : undefined;
+      "customLogoUrl" in step ? step.customLogoUrl : undefined;
     switch (step.type) {
       case FlowActionType.ROUTER:
       case FlowActionType.LOOP_ON_ITEMS:
@@ -106,8 +106,8 @@ export const stepUtils = {
       case FlowTriggerType.EMPTY:
         return {
           ...CORE_STEP_METADATA[step.type],
-          ...spreadIfDefined('logoUrl', customLogoUrl),
-          actionOrTriggerOrAgentDisplayName: '',
+          ...spreadIfDefined("logoUrl", customLogoUrl),
+          actionOrTriggerOrAgentDisplayName: "",
         };
       case FlowActionType.PIECE:
       case FlowTriggerType.PIECE: {
@@ -118,7 +118,7 @@ export const stepUtils = {
         });
         const metadata = stepUtils.mapPieceToMetadata({
           piece,
-          type: step.type === FlowActionType.PIECE ? 'action' : 'trigger',
+          type: step.type === FlowActionType.PIECE ? "action" : "trigger",
         });
         const agentMetadata = await getAgentMetadata(step);
         const agentDisplayName = agentMetadata.displayName;
@@ -128,10 +128,10 @@ export const stepUtils = {
             : piece.triggers[step.settings.triggerName!].displayName;
         return {
           ...metadata,
-          ...spreadIfDefined('logoUrl', agentMetadata.logoUrl ?? customLogoUrl),
+          ...spreadIfDefined("logoUrl", agentMetadata.logoUrl ?? customLogoUrl),
           ...spreadIfDefined(
-            'description',
-            agentMetadata.description ?? piece.description,
+            "description",
+            agentMetadata.description ?? piece.description
           ),
           errorHandlingOptions: mapErrorHandlingOptions(piece, step),
           actionOrTriggerOrAgentDisplayName:
@@ -145,13 +145,13 @@ export const stepUtils = {
     type,
   }: {
     piece: PieceMetadataModelSummary | PieceMetadataModel;
-    type: 'action' | 'trigger';
-  }): Omit<PieceStepMetadata, 'stepDisplayName'> {
+    type: "action" | "trigger";
+  }): Omit<PieceStepMetadata, "stepDisplayName"> {
     return {
       displayName: piece.displayName,
       logoUrl: piece.logoUrl,
       description: piece.description,
-      type: type === 'action' ? FlowActionType.PIECE : FlowTriggerType.PIECE,
+      type: type === "action" ? FlowActionType.PIECE : FlowTriggerType.PIECE,
       pieceType: piece.pieceType,
       pieceName: piece.name,
       pieceVersion: piece.version,
@@ -164,17 +164,17 @@ export const stepUtils = {
     if (!output) {
       return undefined;
     }
-    return 'output' in output &&
-      'agentRunId' in (output.output as { agentRunId: string })
+    return "output" in output &&
+      "agentRunId" in (output.output as { agentRunId: string })
       ? (output.output as { agentRunId: string }).agentRunId
       : undefined;
   },
 };
 
 async function getAgentMetadata(
-  step: FlowAction | FlowTrigger,
+  step: FlowAction | FlowTrigger
 ): Promise<
-  Partial<Pick<StepMetadata, 'displayName' | 'logoUrl' | 'description'>>
+  Partial<Pick<StepMetadata, "displayName" | "logoUrl" | "description">>
 > {
   if (flowStructureUtil.isAgentPiece(step)) {
     const externalAgentId = flowStructureUtil.getExternalAgentId(step);
@@ -196,7 +196,7 @@ async function getAgentMetadata(
 
 function mapErrorHandlingOptions(
   piece: PieceMetadataModel,
-  step: Step,
+  step: Step
 ): ErrorHandlingOptionsParam {
   if (flowStructureUtil.isTrigger(step.type)) {
     return {

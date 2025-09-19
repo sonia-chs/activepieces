@@ -1,13 +1,13 @@
-import { pieceSelectorUtils } from '@/features/pieces/lib/piece-selector-utils';
-import { TriggerBase, TriggerStrategy } from '@activepieces/pieces-framework';
-import { TriggerTestStrategy } from '@activepieces/shared';
+import { pieceSelectorUtils } from "@/features/pieces/lib/piece-selector-utils";
+import { TriggerBase, TriggerStrategy } from "@activepieces/pieces-framework";
+import { TriggerTestStrategy } from "@activepieces/shared";
 
 export type TestType =
-  | 'mcp-tool'
-  | 'chat-trigger'
-  | 'simulation'
-  | 'webhook'
-  | 'polling';
+  | "mcp-tool"
+  | "chat-trigger"
+  | "simulation"
+  | "webhook"
+  | "polling";
 
 export const triggerEventUtils = {
   getTestType: ({
@@ -20,16 +20,16 @@ export const triggerEventUtils = {
     trigger: TriggerBase;
   }): TestType => {
     if (pieceSelectorUtils.isMcpToolTrigger(pieceName, triggerName)) {
-      return 'mcp-tool';
+      return "mcp-tool";
     }
     if (pieceSelectorUtils.isChatTrigger(pieceName, triggerName)) {
-      return 'chat-trigger';
+      return "chat-trigger";
     }
     if (
-      pieceName === '@activepieces/piece-webhook' &&
-      triggerName === 'catch_webhook'
+      pieceName === "@activepieces/piece-webhook" &&
+      triggerName === "catch_webhook"
     ) {
-      return 'webhook';
+      return "webhook";
     }
 
     if (
@@ -38,12 +38,12 @@ export const triggerEventUtils = {
     ) {
       switch (trigger.testStrategy) {
         case TriggerTestStrategy.TEST_FUNCTION:
-          return 'polling';
+          return "polling";
         case TriggerTestStrategy.SIMULATION:
-          return 'simulation';
+          return "simulation";
       }
     }
 
-    return 'polling';
+    return "polling";
   },
 };

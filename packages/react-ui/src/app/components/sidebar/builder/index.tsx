@@ -1,5 +1,5 @@
-import { BUILDER_NAVIGATION_SIDEBAR_ID } from '@/app/builder/flow-canvas/utils/consts';
-import { useEmbedding } from '@/components/embed-provider';
+import { BUILDER_NAVIGATION_SIDEBAR_ID } from "@/app/builder/flow-canvas/utils/consts";
+import { useEmbedding } from "@/components/embed-provider";
 import {
   Sidebar,
   SidebarContent,
@@ -7,14 +7,14 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarSeparator,
-} from '@/components/ui/sidebar-shadcn';
+} from "@/components/ui/sidebar-shadcn";
 
-import { AllowOnlyLoggedInUserOnlyGuard } from '../../allow-logged-in-user-only-guard';
-import { AppSidebarHeader } from '../sidebar-header';
-import { SidebarUser } from '../sidebar-user';
+import { AllowOnlyLoggedInUserOnlyGuard } from "../../allow-logged-in-user-only-guard";
+import { AppSidebarHeader } from "../sidebar-header";
+import { SidebarUser } from "../sidebar-user";
 
-import { FlowsNavigation } from './flows-navigation';
-import { TablesNavigation } from './tables-navigation';
+import { FlowsNavigation } from "./flows-navigation";
+import { TablesNavigation } from "./tables-navigation";
 
 export function BuilderNavigationSidebar({
   children,

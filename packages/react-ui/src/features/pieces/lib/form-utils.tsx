@@ -1,5 +1,5 @@
-import { TSchema, Type } from '@sinclair/typebox';
-import { t } from 'i18next';
+import { TSchema, Type } from "@sinclair/typebox";
+import { t } from "i18next";
 
 import {
   CONNECTION_REGEX,
@@ -11,7 +11,7 @@ import {
   PieceMetadataModelSummary,
   PiecePropertyMap,
   PropertyType,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   CodeActionSchema,
   isEmpty,
@@ -39,16 +39,16 @@ import {
   PropertyExecutionType,
   PropertySettings,
   PieceTriggerSettings,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 const addAuthToPieceProps = (
   props: PiecePropertyMap,
   auth: PieceAuthProperty | undefined,
-  requireAuth: boolean,
+  requireAuth: boolean
 ): PiecePropertyMap => {
   if (!requireAuth || isNil(auth)) {
     const newProps = Object.keys(props).reduce((acc, key) => {
-      if (key !== 'auth') {
+      if (key !== "auth") {
         acc[key] = props[key];
       }
       return acc;
@@ -57,14 +57,14 @@ const addAuthToPieceProps = (
   }
   return {
     ...props,
-    ...spreadIfDefined('auth', auth),
+    ...spreadIfDefined("auth", auth),
   };
 };
 
 const buildInputSchemaForStep = (
   type: FlowActionType | FlowTriggerType,
   piece: PieceMetadata | null,
-  actionNameOrTriggerName: string,
+  actionNameOrTriggerName: string
 ): TSchema => {
   switch (type) {
     case FlowActionType.PIECE: {
@@ -77,8 +77,8 @@ const buildInputSchemaForStep = (
           addAuthToPieceProps(
             piece.actions[actionNameOrTriggerName].props,
             piece.auth,
-            piece.actions[actionNameOrTriggerName].requireAuth,
-          ),
+            piece.actions[actionNameOrTriggerName].requireAuth
+          )
         );
       }
       return Type.Object({});
@@ -93,14 +93,14 @@ const buildInputSchemaForStep = (
           addAuthToPieceProps(
             piece.triggers[actionNameOrTriggerName].props,
             piece.auth,
-            piece.triggers[actionNameOrTriggerName].requireAuth ?? true,
-          ),
+            piece.triggers[actionNameOrTriggerName].requireAuth ?? true
+          )
         );
       }
       return Type.Object({});
     }
     default:
-      throw new Error('Unsupported type: ' + type);
+      throw new Error("Unsupported type: " + type);
   }
 };
 
@@ -179,26 +179,26 @@ const createPropertySettingsForStep = ({
         type: propertySettings[key]?.type ?? PropertyExecutionType.MANUAL,
         schema: propertySettings[key]?.schema,
       },
-    ]),
+    ])
   );
 };
 
 const buildConnectionSchema = (
-  piece: PieceMetadataModelSummary | PieceMetadataModel,
+  piece: PieceMetadataModelSummary | PieceMetadataModel
 ) => {
   const auth = piece.auth;
   if (isNil(auth)) {
     return Type.Object({
       request: Type.Composite([
-        Type.Omit(UpsertAppConnectionRequestBody, ['externalId']),
+        Type.Omit(UpsertAppConnectionRequestBody, ["externalId"]),
       ]),
     });
   }
   const connectionSchema = Type.Object({
     externalId: Type.String({
-      pattern: '^[A-Za-z0-9_\\-@\\+\\.]*$',
+      pattern: "^[A-Za-z0-9_\\-@\\+\\.]*$",
       minLength: 1,
-      errorMessage: t('Name can only contain letters, numbers and underscores'),
+      errorMessage: t("Name can only contain letters, numbers and underscores"),
     }),
   });
 
@@ -206,14 +206,14 @@ const buildConnectionSchema = (
     case PropertyType.SECRET_TEXT:
       return Type.Object({
         request: Type.Composite([
-          Type.Omit(UpsertSecretTextRequest, ['externalId', 'displayName']),
+          Type.Omit(UpsertSecretTextRequest, ["externalId", "displayName"]),
           connectionSchema,
         ]),
       });
     case PropertyType.BASIC_AUTH:
       return Type.Object({
         request: Type.Composite([
-          Type.Omit(UpsertBasicAuthRequest, ['externalId', 'displayName']),
+          Type.Omit(UpsertBasicAuthRequest, ["externalId", "displayName"]),
           connectionSchema,
         ]),
       });
@@ -221,15 +221,15 @@ const buildConnectionSchema = (
       return Type.Object({
         request: Type.Composite([
           Type.Omit(UpsertCustomAuthRequest, [
-            'externalId',
-            'value',
-            'displayName',
+            "externalId",
+            "value",
+            "displayName",
           ]),
           connectionSchema,
           Type.Object({
             value: Type.Object({
               props: formUtils.buildSchema(
-                (piece.auth as CustomAuthProperty<any>).props,
+                (piece.auth as CustomAuthProperty<any>).props
               ),
             }),
           }),
@@ -244,7 +244,7 @@ const buildConnectionSchema = (
               UpsertCloudOAuth2Request,
               UpsertPlatformOAuth2Request,
             ]),
-            ['externalId', 'displayName'],
+            ["externalId", "displayName"]
           ),
           connectionSchema,
         ]),
@@ -253,8 +253,8 @@ const buildConnectionSchema = (
       return Type.Object({
         request: Type.Composite([
           Type.Omit(UpsertAppConnectionRequestBody, [
-            'externalId',
-            'displayName',
+            "externalId",
+            "displayName",
           ]),
           connectionSchema,
         ]),
@@ -275,15 +275,15 @@ export const formUtils = {
 
     copiedStep.settings.input = Object.fromEntries(
       Object.entries(copiedStep.settings.input).filter(
-        ([_, value]) => value !== undefined,
-      ),
+        ([_, value]) => value !== undefined
+      )
     );
     return copiedStep;
   },
   buildPieceDefaultValue: (
     selectedStep: FlowAction | FlowTrigger,
     piece: PieceMetadata | null | undefined,
-    includeCurrentInput: boolean,
+    includeCurrentInput: boolean
   ): FlowAction | FlowTrigger => {
     const { type } = selectedStep;
     const defaultErrorOptions = {
@@ -304,7 +304,7 @@ export const formUtils = {
           ...selectedStep,
           settings: {
             ...selectedStep.settings,
-            items: selectedStep.settings.items ?? '',
+            items: selectedStep.settings.items ?? "",
           },
         };
       case FlowActionType.ROUTER:
@@ -321,7 +321,7 @@ export const formUtils = {
             ...selectedStep.settings,
             sourceCode: {
               code: selectedStep.settings.sourceCode.code ?? defaultCode,
-              packageJson: selectedStep.settings.sourceCode.packageJson ?? '{}',
+              packageJson: selectedStep.settings.sourceCode.packageJson ?? "{}",
             },
             errorHandlingOptions: defaultErrorOptions,
           },
@@ -339,7 +339,7 @@ export const formUtils = {
         const props = addAuthToPieceProps(
           actionPropsWithoutAuth,
           piece?.auth,
-          requireAuth,
+          requireAuth
         );
         const input = (selectedStep?.settings?.input ?? {}) as Record<
           string,
@@ -376,7 +376,7 @@ export const formUtils = {
         const props = addAuthToPieceProps(
           triggerPropsWithoutAuth,
           piece?.auth,
-          requireAuth,
+          requireAuth
         );
         const input = (selectedStep?.settings?.input ?? {}) as Record<
           string,
@@ -401,13 +401,13 @@ export const formUtils = {
         };
       }
       default:
-        throw new Error('Unsupported type: ' + type);
+        throw new Error("Unsupported type: " + type);
     }
   },
   buildPieceSchema: (
     type: FlowActionType | FlowTriggerType,
     actionNameOrTriggerName: string,
-    piece: PieceMetadataModel | null,
+    piece: PieceMetadataModel | null
   ) => {
     switch (type) {
       case FlowActionType.LOOP_ON_ITEMS:
@@ -423,7 +423,7 @@ export const formUtils = {
         ]);
       case FlowActionType.ROUTER:
         return Type.Intersect([
-          Type.Omit(RouterActionSchema, ['settings']),
+          Type.Omit(RouterActionSchema, ["settings"]),
           Type.Object({
             settings: Type.Object({
               branches: RouterBranchesSchema(true),
@@ -436,10 +436,10 @@ export const formUtils = {
         return CodeActionSchema;
       case FlowActionType.PIECE: {
         return Type.Composite([
-          Type.Omit(PieceActionSchema, ['settings']),
+          Type.Omit(PieceActionSchema, ["settings"]),
           Type.Object({
             settings: Type.Composite([
-              Type.Omit(PieceActionSettings, ['input', 'actionName']),
+              Type.Omit(PieceActionSettings, ["input", "actionName"]),
               Type.Object({
                 actionName: Type.String({
                   minLength: 1,
@@ -447,7 +447,7 @@ export const formUtils = {
                 input: buildInputSchemaForStep(
                   type,
                   piece,
-                  actionNameOrTriggerName,
+                  actionNameOrTriggerName
                 ),
               }),
             ]),
@@ -456,10 +456,10 @@ export const formUtils = {
       }
       case FlowTriggerType.PIECE: {
         return Type.Composite([
-          Type.Omit(PieceTrigger, ['settings']),
+          Type.Omit(PieceTrigger, ["settings"]),
           Type.Object({
             settings: Type.Composite([
-              Type.Omit(PieceTriggerSettings, ['input', 'triggerName']),
+              Type.Omit(PieceTriggerSettings, ["input", "triggerName"]),
               Type.Object({
                 triggerName: Type.String({
                   minLength: 1,
@@ -467,7 +467,7 @@ export const formUtils = {
                 input: buildInputSchemaForStep(
                   type,
                   piece,
-                  actionNameOrTriggerName,
+                  actionNameOrTriggerName
                 ),
               }),
             ]),
@@ -475,7 +475,7 @@ export const formUtils = {
         ]);
       }
       default: {
-        throw new Error('Unsupported type: ' + type);
+        throw new Error("Unsupported type: " + type);
       }
     }
   },
@@ -484,7 +484,7 @@ export const formUtils = {
     const nullableType: TSchema[] = [Type.Null(), Type.Undefined()];
     const nonNullableUnknownPropType = Type.Not(
       Type.Union(nullableType),
-      Type.Unknown(),
+      Type.Unknown()
     );
     const propsSchema: Record<string, TSchema> = {};
     for (const [name, property] of entries) {
@@ -496,7 +496,7 @@ export const formUtils = {
               Type.Undefined(),
               Type.Never(),
               Type.Unknown(),
-            ]),
+            ])
           );
           break;
         case PropertyType.DATE_TIME:
@@ -605,8 +605,8 @@ export const formUtils = {
           Type.Union(
             isEmpty(propsSchema[name])
               ? [Type.Any(), ...nullableType]
-              : [propsSchema[name], ...nullableType],
-          ),
+              : [propsSchema[name], ...nullableType]
+          )
         );
       }
     }

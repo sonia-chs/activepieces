@@ -1,14 +1,14 @@
-import { ChevronDown } from 'lucide-react';
-import { useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
+import { ChevronDown } from "lucide-react";
+import { useEffect } from "react";
+import { createRoot } from "react-dom/client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-import { NODE_SELECTION_RECT_CLASS_NAME } from '../../builder-hooks';
-import { SELECTION_RECT_CHEVRON_ATTRIBUTE } from '../utils/consts';
+import { NODE_SELECTION_RECT_CLASS_NAME } from "../../builder-hooks";
+import { SELECTION_RECT_CHEVRON_ATTRIBUTE } from "../utils/consts";
 
 const showChevronNextToSelection = (targetDiv: HTMLElement) => {
-  const container = document.createElement('div');
+  const container = document.createElement("div");
   targetDiv.appendChild(container);
   const root = createRoot(container);
   root.render(
@@ -18,7 +18,7 @@ const showChevronNextToSelection = (targetDiv: HTMLElement) => {
       className="absolute top-0 -left-10 z-50"
       {...{ [`data-${SELECTION_RECT_CHEVRON_ATTRIBUTE}`]: true }}
       onClick={(e) => {
-        const rightClickEvent = new MouseEvent('contextmenu', {
+        const rightClickEvent = new MouseEvent("contextmenu", {
           bubbles: true,
           cancelable: true,
           view: window,
@@ -30,7 +30,7 @@ const showChevronNextToSelection = (targetDiv: HTMLElement) => {
       }}
     >
       <ChevronDown className="w-4 h-4" />
-    </Button>,
+    </Button>
   );
   return root;
 };

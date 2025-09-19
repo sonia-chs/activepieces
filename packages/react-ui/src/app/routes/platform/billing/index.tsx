@@ -1,32 +1,32 @@
-import { t } from 'i18next';
-import { Wand, Zap } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { t } from "i18next";
+import { Wand, Zap } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { toast } from '@/components/ui/use-toast';
-import { ActivateLicenseDialog } from '@/features/billing/components/activate-license-dialog';
-import { ActiveFlowAddon } from '@/features/billing/components/active-flow-addon';
-import { AICreditUsage } from '@/features/billing/components/ai-credit-usage';
-import { AiCreditsUsageTable } from '@/features/billing/components/ai-credits-usage-table';
-import { FeatureStatus } from '@/features/billing/components/features-status';
-import { LicenseKey } from '@/features/billing/components/lisence-key';
-import { ProjectAddon } from '@/features/billing/components/project-addon';
-import { SubscriptionInfo } from '@/features/billing/components/subscription-info';
-import { useManagePlanDialogStore } from '@/features/billing/components/upgrade-dialog/store';
-import { UsageCards } from '@/features/billing/components/usage-cards';
-import { UserSeatAddon } from '@/features/billing/components/user-seat-addon';
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { toast } from "@/components/ui/use-toast";
+import { ActivateLicenseDialog } from "@/features/billing/components/activate-license-dialog";
+import { ActiveFlowAddon } from "@/features/billing/components/active-flow-addon";
+import { AICreditUsage } from "@/features/billing/components/ai-credit-usage";
+import { AiCreditsUsageTable } from "@/features/billing/components/ai-credits-usage-table";
+import { FeatureStatus } from "@/features/billing/components/features-status";
+import { LicenseKey } from "@/features/billing/components/lisence-key";
+import { ProjectAddon } from "@/features/billing/components/project-addon";
+import { SubscriptionInfo } from "@/features/billing/components/subscription-info";
+import { useManagePlanDialogStore } from "@/features/billing/components/upgrade-dialog/store";
+import { UsageCards } from "@/features/billing/components/usage-cards";
+import { UserSeatAddon } from "@/features/billing/components/user-seat-addon";
 import {
   billingMutations,
   billingQueries,
-} from '@/features/billing/lib/billing-hooks';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { ApSubscriptionStatus, PlanName } from '@activepieces/ee-shared';
-import { ApEdition, ApFlagId, isNil } from '@activepieces/shared';
+} from "@/features/billing/lib/billing-hooks";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { ApSubscriptionStatus, PlanName } from "@activepieces/ee-shared";
+import { ApEdition, ApFlagId, isNil } from "@activepieces/shared";
 
 export default function Billing() {
   const [isActivateLicenseKeyDialogOpen, setIsActivateLicenseKeyDialogOpen] =
@@ -48,7 +48,7 @@ export default function Billing() {
   const { data: edition } = flagsHooks.useFlag<ApEdition>(ApFlagId.EDITION);
   const status = platformPlanInfo?.plan?.stripeSubscriptionStatus;
   const isSubscriptionActive = [ApSubscriptionStatus.ACTIVE].includes(
-    status as ApSubscriptionStatus,
+    status as ApSubscriptionStatus
   );
   const isBusinessPlan = platformPlanInfo?.plan.plan === PlanName.BUSINESS;
   const isPlus = platformPlanInfo?.plan.plan === PlanName.PLUS;
@@ -63,16 +63,16 @@ export default function Billing() {
       { plan: PlanName.BUSINESS },
       {
         onSuccess: () => {
-          navigate('/platform/setup/billing/success');
+          navigate("/platform/setup/billing/success");
           toast({
-            title: t('Success'),
-            description: t('Business trial started successfully'),
+            title: t("Success"),
+            description: t("Business trial started successfully"),
           });
         },
         onError: () => {
           navigate(`/platform/setup/billing/error`);
         },
-      },
+      }
     );
   };
 
@@ -87,7 +87,7 @@ export default function Billing() {
   if (isError) {
     return (
       <article className="h-full flex items-center justify-center w-full">
-        {t('Failed to load billing information')}
+        {t("Failed to load billing information")}
       </article>
     );
   }
@@ -95,8 +95,8 @@ export default function Billing() {
   return (
     <>
       <DashboardPageHeader
-        title={t('Billing')}
-        description={t('Manage billing, usage and limits')}
+        title={t("Billing")}
+        description={t("Manage billing, usage and limits")}
         beta={true}
       >
         <div className="flex items-center gap-2">
@@ -107,7 +107,7 @@ export default function Billing() {
               disabled={startingBusinessTrial}
             >
               {startingBusinessTrial && <LoadingSpinner className="size-4" />}
-              {t('Start Business Trial')}
+              {t("Start Business Trial")}
             </Button>
           )}
 
@@ -118,8 +118,8 @@ export default function Billing() {
             >
               <Zap className="w-4 h-4" />
               {platform.plan.licenseKey
-                ? t('Update License')
-                : t('Activate License')}
+                ? t("Update License")
+                : t("Activate License")}
             </Button>
           ) : (
             isSubscriptionActive && (
@@ -127,13 +127,13 @@ export default function Billing() {
                 variant="outline"
                 onClick={() => redirectToPortalSession()}
               >
-                {t('Access Billing Portal')}
+                {t("Access Billing Portal")}
               </Button>
             )
           )}
           {!isEnterprise && (
             <Button variant="default" onClick={() => openDialog()}>
-              {t('Upgrade Plan')}
+              {t("Upgrade Plan")}
             </Button>
           )}
         </div>
@@ -160,7 +160,7 @@ export default function Billing() {
 
         {isEnterprise && (
           <>
-            <h3 className="text-lg font-semibold">{t('AI Credits')}</h3>
+            <h3 className="text-lg font-semibold">{t("AI Credits")}</h3>
             <AiCreditsUsageTable />
           </>
         )}
@@ -177,11 +177,11 @@ export default function Billing() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">
-                      {t('Enabled Features')}
+                      {t("Enabled Features")}
                     </h3>
                     <p className="text-sm text-muted-foreground">
                       {t(
-                        'The following features are currently enabled as part of your platform plan.',
+                        "The following features are currently enabled as part of your platform plan."
                       )}
                     </p>
                   </div>
@@ -197,7 +197,7 @@ export default function Billing() {
           isOpen={isActivateLicenseKeyDialogOpen}
           onOpenChange={setIsActivateLicenseKeyDialogOpen}
         />
-      </section>{' '}
+      </section>{" "}
     </>
   );
 }

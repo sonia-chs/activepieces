@@ -1,16 +1,16 @@
-import { t } from 'i18next';
-import { CreditCard } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
+import { t } from "i18next";
+import { CreditCard } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 
 import {
   DataTable,
   LIMIT_QUERY_PARAM,
   CURSOR_QUERY_PARAM,
-} from '@/components/ui/data-table';
-import { billingQueries } from '@/features/billing/lib/billing-hooks';
-import { ListAICreditsUsageRequest } from '@activepieces/common-ai';
+} from "@/components/ui/data-table";
+import { billingQueries } from "@/features/billing/lib/billing-hooks";
+import { ListAICreditsUsageRequest } from "@activepieces/common-ai";
 
-import { aiCreditUsageTableColumns } from './columns';
+import { aiCreditUsageTableColumns } from "./columns";
 
 export function AiCreditsUsageTable() {
   const [searchParams] = useSearchParams();
@@ -30,9 +30,9 @@ export function AiCreditsUsageTable() {
   return (
     <div className="flex-col w-full">
       <DataTable
-        emptyStateTextTitle={t('No AI credits have been used yet')}
+        emptyStateTextTitle={t("No AI credits have been used yet")}
         emptyStateTextDescription={t(
-          'Use Agents and Universal AI pieces to start using AI credits.',
+          "Use Agents and Universal AI pieces to start using AI credits."
         )}
         emptyStateIcon={<CreditCard className="size-14" />}
         page={data as any}

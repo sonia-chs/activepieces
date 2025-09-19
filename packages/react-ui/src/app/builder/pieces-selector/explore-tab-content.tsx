@@ -1,18 +1,18 @@
 import {
   CardListItem,
   CardListItemSkeleton,
-} from '@/components/custom/card-list';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { PieceIcon } from '@/features/pieces/components/piece-icon';
+} from "@/components/custom/card-list";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { PieceIcon } from "@/features/pieces/components/piece-icon";
 import {
   PieceSelectorTabType,
   usePieceSelectorTabs,
-} from '@/features/pieces/lib/piece-selector-tabs-provider';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { PieceSelectorOperation } from '@/lib/types';
-import { FlowOperationType } from '@activepieces/shared';
+} from "@/features/pieces/lib/piece-selector-tabs-provider";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { PieceSelectorOperation } from "@/lib/types";
+import { FlowOperationType } from "@activepieces/shared";
 
-import { PieceActionsOrTriggersList } from './piece-actions-or-triggers-list';
+import { PieceActionsOrTriggersList } from "./piece-actions-or-triggers-list";
 
 const ExploreTabContent = ({
   operation,
@@ -23,11 +23,11 @@ const ExploreTabContent = ({
     usePieceSelectorTabs();
   const { data: categories, isLoading: isLoadingPieces } =
     piecesHooks.usePiecesSearch({
-      searchQuery: '',
+      searchQuery: "",
       type:
         operation.type === FlowOperationType.UPDATE_TRIGGER
-          ? 'trigger'
-          : 'action',
+          ? "trigger"
+          : "action",
     });
   if (selectedTab !== PieceSelectorTabType.EXPLORE) {
     return null;
@@ -72,12 +72,12 @@ const ExploreTabContent = ({
                     logoUrl={pieceMetadata.logoUrl}
                     displayName={pieceMetadata.displayName}
                     showTooltip={false}
-                    size={'sm'}
+                    size={"sm"}
                   />
                   <div className="flex-grow h-full flex items-center justify-left text-sm">
                     {pieceMetadata.displayName}
                   </div>
-                </div>{' '}
+                </div>{" "}
               </CardListItem>
             ))}
           </div>

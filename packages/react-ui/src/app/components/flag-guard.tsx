@@ -1,5 +1,5 @@
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { ApFlagId } from '@activepieces/shared';
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { ApFlagId } from "@activepieces/shared";
 
 type FlagGuardProps = {
   children: React.ReactNode;
@@ -13,5 +13,5 @@ const FlagGuard = ({ children, flag }: FlagGuardProps) => {
   return children;
 };
 
-FlagGuard.displayName = 'FlagGuard';
+FlagGuard.displayName = "FlagGuard";
 export { FlagGuard };

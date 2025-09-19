@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { flagsHooks } from '@/hooks/flags-hooks';
+import { Skeleton } from "@/components/ui/skeleton";
+import { flagsHooks } from "@/hooks/flags-hooks";
 import {
   ApFlagId,
   isNil,
@@ -9,12 +9,12 @@ import {
   PieceActionSettings,
   PieceTrigger,
   PieceTriggerSettings,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { AutoPropertiesFormComponent } from '../../piece-properties/auto-properties-form';
-import { useStepSettingsContext } from '../step-settings-context';
+import { AutoPropertiesFormComponent } from "../../piece-properties/auto-properties-form";
+import { useStepSettingsContext } from "../step-settings-context";
 
-import { ConnectionSelect } from './connection-select';
+import { ConnectionSelect } from "./connection-select";
 
 type PieceSettingsProps = {
   step: PieceAction | PieceTrigger;
@@ -23,7 +23,7 @@ type PieceSettingsProps = {
 };
 
 const removeAuthFromProps = (
-  props: Record<string, any>,
+  props: Record<string, any>
 ): Record<string, any> => {
   const { auth, ...rest } = props;
   return rest;
@@ -42,22 +42,22 @@ const PieceSettings = React.memo((props: PieceSettingsProps) => {
     : undefined;
 
   const actionPropsWithoutAuth = removeAuthFromProps(
-    selectedAction?.props ?? {},
+    selectedAction?.props ?? {}
   );
   const triggerPropsWithoutAuth = removeAuthFromProps(
-    selectedTrigger?.props ?? {},
+    selectedTrigger?.props ?? {}
   );
 
   const { data: webhookPrefixUrl } = flagsHooks.useFlag<string>(
-    ApFlagId.WEBHOOK_URL_PREFIX,
+    ApFlagId.WEBHOOK_URL_PREFIX
   );
 
   const { data: pausedFlowTimeoutDays } = flagsHooks.useFlag<number>(
-    ApFlagId.PAUSED_FLOW_TIMEOUT_DAYS,
+    ApFlagId.PAUSED_FLOW_TIMEOUT_DAYS
   );
 
   const { data: webhookTimeoutSeconds } = flagsHooks.useFlag<number>(
-    ApFlagId.WEBHOOK_TIMEOUT_SECONDS,
+    ApFlagId.WEBHOOK_TIMEOUT_SECONDS
   );
 
   const { data: frontendUrl } = flagsHooks.useFlag<string>(ApFlagId.PUBLIC_URL);
@@ -65,8 +65,8 @@ const PieceSettings = React.memo((props: PieceSettingsProps) => {
     webhookUrl: `${webhookPrefixUrl}/${props.flowId}`,
     formUrl: `${frontendUrl}forms/${props.flowId}`,
     chatUrl: `${frontendUrl}chats/${props.flowId}`,
-    pausedFlowTimeoutDays: pausedFlowTimeoutDays?.toString() ?? '',
-    webhookTimeoutSeconds: webhookTimeoutSeconds?.toString() ?? '',
+    pausedFlowTimeoutDays: pausedFlowTimeoutDays?.toString() ?? "",
+    webhookTimeoutSeconds: webhookTimeoutSeconds?.toString() ?? "",
   };
 
   const showAuthForAction =
@@ -95,7 +95,7 @@ const PieceSettings = React.memo((props: PieceSettingsProps) => {
           {selectedAction && (
             <AutoPropertiesFormComponent
               key={selectedAction.name}
-              prefixValue={'settings.input'}
+              prefixValue={"settings.input"}
               props={actionPropsWithoutAuth}
               allowDynamicValues={true}
               disabled={props.readonly}
@@ -106,7 +106,7 @@ const PieceSettings = React.memo((props: PieceSettingsProps) => {
           {selectedTrigger && (
             <AutoPropertiesFormComponent
               key={selectedTrigger.name}
-              prefixValue={'settings.input'}
+              prefixValue={"settings.input"}
               props={triggerPropsWithoutAuth}
               useMentionTextInput={false}
               allowDynamicValues={true}
@@ -120,5 +120,5 @@ const PieceSettings = React.memo((props: PieceSettingsProps) => {
   );
 });
 
-PieceSettings.displayName = 'PieceSettings';
+PieceSettings.displayName = "PieceSettings";
 export { PieceSettings };

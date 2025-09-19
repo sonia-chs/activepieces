@@ -1,11 +1,11 @@
-import { PencilIcon, Plus, TrashIcon } from 'lucide-react';
-import React from 'react';
+import { PencilIcon, Plus, TrashIcon } from "lucide-react";
+import React from "react";
 
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   FlowProjectOperationType,
   FlowProjectOperation,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 const renderDiffInfo = (flowName: string, icon: React.ReactNode) => (
   <div className="flex items-center justify-between text-sm hover:bg-accent/20 rounded-md py-1">
@@ -31,7 +31,7 @@ export const OperationChange = React.memo(
             <Checkbox checked={selected} onCheckedChange={onSelect} />
             {renderDiffInfo(
               change.flow.displayName,
-              <Plus className="w-4 h-4 shrink-0" />,
+              <Plus className="w-4 h-4 shrink-0" />
             )}
           </div>
         )}
@@ -40,7 +40,7 @@ export const OperationChange = React.memo(
             <Checkbox checked={selected} onCheckedChange={onSelect} />
             {renderDiffInfo(
               change.targetFlow.displayName,
-              <PencilIcon className="w-4 h-4 shrink-0" />,
+              <PencilIcon className="w-4 h-4 shrink-0" />
             )}
           </div>
         )}
@@ -49,12 +49,12 @@ export const OperationChange = React.memo(
             <Checkbox checked={selected} onCheckedChange={onSelect} />
             {renderDiffInfo(
               change.flow.displayName,
-              <TrashIcon className="w-4 h-4 shrink-0" />,
+              <TrashIcon className="w-4 h-4 shrink-0" />
             )}
           </div>
         )}
       </>
     );
-  },
+  }
 );
-OperationChange.displayName = 'OperationChange';
+OperationChange.displayName = "OperationChange";

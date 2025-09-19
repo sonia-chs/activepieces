@@ -1,37 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { CardListItemSkeleton } from '@/components/custom/card-list';
-import { Separator } from '@/components/ui/separator';
-import { VirtualizedScrollArea } from '@/components/ui/virtualized-scroll-area';
-import { agentHooks } from '@/features/agents/lib/agent-hooks';
+import { CardListItemSkeleton } from "@/components/custom/card-list";
+import { Separator } from "@/components/ui/separator";
+import { VirtualizedScrollArea } from "@/components/ui/virtualized-scroll-area";
+import { agentHooks } from "@/features/agents/lib/agent-hooks";
 import {
   PieceSelectorTabType,
   usePieceSelectorTabs,
-} from '@/features/pieces/lib/piece-selector-tabs-provider';
+} from "@/features/pieces/lib/piece-selector-tabs-provider";
 import {
   PIECE_SELECTOR_ELEMENTS_HEIGHTS,
   pieceSelectorUtils,
-} from '@/features/pieces/lib/piece-selector-utils';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { useIsMobile } from '@/hooks/use-mobile';
+} from "@/features/pieces/lib/piece-selector-utils";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   PieceSelectorOperation,
   StepMetadataWithSuggestions,
   CategorizedStepMetadataWithSuggestions,
-} from '@/lib/types';
+} from "@/lib/types";
 import {
   FlowActionType,
   Agent,
   FlowOperationType,
   FlowTriggerType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { cn } from '../../../lib/utils';
-import { useBuilderStateContext } from '../builder-hooks';
+import { cn } from "../../../lib/utils";
+import { useBuilderStateContext } from "../builder-hooks";
 
-import { NoResultsFound } from './no-results-found';
-import { PieceActionsOrTriggersList } from './piece-actions-or-triggers-list';
-import { PieceCardListItem } from './piece-card-item';
+import { NoResultsFound } from "./no-results-found";
+import { PieceActionsOrTriggersList } from "./piece-actions-or-triggers-list";
+import { PieceCardListItem } from "./piece-card-item";
 
 type PiecesCardListProps = {
   searchQuery: string;
@@ -48,15 +48,15 @@ export const PiecesCardList: React.FC<PiecesCardListProps> = ({
 }) => {
   const isMobile = useIsMobile();
   const [selectedPieceMetadataInPieceSelector] = useBuilderStateContext(
-    (state) => [state.selectedPieceMetadataInPieceSelector],
+    (state) => [state.selectedPieceMetadataInPieceSelector]
   );
   const { isLoading: isLoadingPieces, data: categories } =
     piecesHooks.usePiecesSearch({
       searchQuery,
       type:
         operation.type === FlowOperationType.UPDATE_TRIGGER
-          ? 'trigger'
-          : 'action',
+          ? "trigger"
+          : "action",
     });
 
   const noResultsFound = !isLoadingPieces && categories.length === 0;
@@ -67,11 +67,11 @@ export const PiecesCardList: React.FC<PiecesCardListProps> = ({
   const virtualizedItems = transformPiecesMetadataToVirtualizedItems(
     categories,
     showActionsOrTriggersInsidePiecesList,
-    agentsPage?.data,
+    agentsPage?.data
   );
 
   const initialIndexToScrollToInPiecesList = virtualizedItems.findIndex(
-    (item) => item.displayName === stepToReplacePieceDisplayName,
+    (item) => item.displayName === stepToReplacePieceDisplayName
   );
   const { selectedTab } = usePieceSelectorTabs();
 
@@ -88,8 +88,8 @@ export const PiecesCardList: React.FC<PiecesCardListProps> = ({
         onMouseMove={() => {
           setMouseMoved(!isLoadingPieces);
         }}
-        className={cn('w-full md:w-[250px] md:min-w-[250px] transition-all ', {
-          'w-full md:w-full': searchQuery.length > 0 || noResultsFound,
+        className={cn("w-full md:w-[250px] md:min-w-[250px] transition-all ", {
+          "w-full md:w-full": searchQuery.length > 0 || noResultsFound,
         })}
       >
         {isLoading && (
@@ -113,7 +113,7 @@ export const PiecesCardList: React.FC<PiecesCardListProps> = ({
               if (item.isCategory) {
                 return (
                   <div
-                    className={cn('p-2 pb-0 text-sm text-muted-foreground')}
+                    className={cn("p-2 pb-0 text-sm text-muted-foreground")}
                     id={item.displayName}
                   >
                     {item.displayName}
@@ -158,7 +158,7 @@ type VirtualizedItem = {
 const transformPiecesMetadataToVirtualizedItems = (
   searchResult: CategorizedStepMetadataWithSuggestions[],
   showActionsOrTriggersInsidePiecesList: boolean,
-  agents: Agent[] | undefined,
+  agents: Agent[] | undefined
 ) => {
   return searchResult.reduce<VirtualizedItem[]>((result, category) => {
     if (!showActionsOrTriggersInsidePiecesList) {
@@ -176,7 +176,7 @@ const transformPiecesMetadataToVirtualizedItems = (
         height: getItemHeight(
           pieceMetadata,
           showActionsOrTriggersInsidePiecesList,
-          agents,
+          agents
         ),
         isCategory: false,
       });
@@ -188,7 +188,7 @@ const transformPiecesMetadataToVirtualizedItems = (
 const getItemHeight = (
   pieceMetadata: StepMetadataWithSuggestions,
   showActionsOrTriggersInsidePiecesList: boolean,
-  agents: Agent[] | undefined,
+  agents: Agent[] | undefined
 ) => {
   const { ACTION_OR_TRIGGER_ITEM_HEIGHT, PIECE_ITEM_HEIGHT } =
     PIECE_SELECTOR_ELEMENTS_HEIGHTS;
@@ -228,11 +228,11 @@ const getItemHeight = (
 
 const getNumberOfExtraActions = (
   pieceMetadata: StepMetadataWithSuggestions,
-  agents: Agent[] | undefined,
+  agents: Agent[] | undefined
 ) => {
   if (
     pieceMetadata.type === FlowActionType.PIECE &&
-    pieceMetadata.pieceName === '@activepieces/piece-agent'
+    pieceMetadata.pieceName === "@activepieces/piece-agent"
   ) {
     return agents?.length ?? 0;
   }

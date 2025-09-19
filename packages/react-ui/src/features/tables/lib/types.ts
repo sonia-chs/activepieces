@@ -6,9 +6,9 @@ export type Row = {
 };
 
 export enum RowHeight {
-  COMPACT = 'compact',
-  DEFAULT = 'default',
-  EXPANDED = 'expanded',
+  COMPACT = "compact",
+  DEFAULT = "default",
+  EXPANDED = "expanded",
 }
 
 export const ROW_HEIGHT_MAP: Record<RowHeight, number> = {

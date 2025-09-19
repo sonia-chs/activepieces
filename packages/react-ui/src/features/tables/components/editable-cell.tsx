@@ -1,19 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
-import { CalculatedColumn } from 'react-data-grid';
-import { ErrorBoundary } from 'react-error-boundary';
+import { useEffect, useRef, useState } from "react";
+import { CalculatedColumn } from "react-data-grid";
+import { ErrorBoundary } from "react-error-boundary";
 
-import { cn } from '@/lib/utils';
-import { FieldType } from '@activepieces/shared';
+import { cn } from "@/lib/utils";
+import { FieldType } from "@activepieces/shared";
 
-import { ClientField } from '../lib/store/ap-tables-client-state';
-import { Row } from '../lib/types';
+import { ClientField } from "../lib/store/ap-tables-client-state";
+import { Row } from "../lib/types";
 
-import { useTableState } from './ap-table-state-provider';
-import { CellProvider } from './cell-context';
-import { DateEditor } from './date-editor';
-import { DropdownEditor } from './dropdown-editor';
-import { NumberEditor } from './number-editor';
-import { TextEditor } from './text-editor';
+import { useTableState } from "./ap-table-state-provider";
+import { CellProvider } from "./cell-context";
+import { DateEditor } from "./date-editor";
+import { DropdownEditor } from "./dropdown-editor";
+import { NumberEditor } from "./number-editor";
+import { TextEditor } from "./text-editor";
 
 type EditableCellProps = {
   field: ClientField;
@@ -66,18 +66,18 @@ export function EditableCell({
       state.setSelectedCell,
       state.records,
       state.fields,
-    ],
+    ]
   );
   const [isEditing, setIsEditing] = useState(false);
   const isSelected =
     selectedCell?.rowIdx === rowIdx && selectedCell?.columnIdx === column.idx;
   const containerRef = useSetInitialFocus(isSelected);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const isTypingKey = e.key.length === 1 || e.key === 'Enter';
+    const isTypingKey = e.key.length === 1 || e.key === "Enter";
     if (isTypingKey && !disabled && !isEditing) {
       setIsEditing(true);
       setSelectedCell({ rowIdx, columnIdx: column.idx });
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         e.stopPropagation();
       }
@@ -86,27 +86,27 @@ export function EditableCell({
     // react data grid cells are all focusable and they have no api to prevent focus
     // so we need to prevent the default behavior of the arrow keys
     switch (e.key) {
-      case 'ArrowUp': {
+      case "ArrowUp": {
         if (rowIdx === 0) {
           e.preventDefault();
           e.stopPropagation();
         }
         break;
       }
-      case 'ArrowDown': {
+      case "ArrowDown": {
         if (rowIdx === records.length - 1) {
           e.preventDefault();
           e.stopPropagation();
         }
         break;
       }
-      case 'ArrowLeft':
+      case "ArrowLeft":
         if (column.idx === 1) {
           e.preventDefault();
           e.stopPropagation();
         }
         break;
-      case 'ArrowRight': {
+      case "ArrowRight": {
         if (column.idx === fields.length) {
           e.preventDefault();
           e.stopPropagation();
@@ -121,13 +121,13 @@ export function EditableCell({
       id={`editable-cell-${rowIdx}-${column.idx}`}
       className={
         isEditing
-          ? 'h-full w-full'
+          ? "h-full w-full"
           : cn(
-              'h-full flex items-center justify-between gap-2  focus:outline-none  ',
-              'group cursor-pointer border',
-              isSelected && !locked ? 'border-primary' : 'border-transparent',
-              locked && 'locked-row',
-              !isDropdown && 'pl-2 py-2',
+              "h-full flex items-center justify-between gap-2  focus:outline-none  ",
+              "group cursor-pointer border",
+              isSelected && !locked ? "border-primary" : "border-transparent",
+              locked && "locked-row",
+              !isDropdown && "pl-2 py-2"
             )
       }
       tabIndex={0}
@@ -150,7 +150,7 @@ export function EditableCell({
           rowIdx={rowIdx}
           columnIdx={column.idx - 1}
           fieldType={field.type}
-          value={value ?? ''}
+          value={value ?? ""}
           handleCellChange={() => {}}
           containerRef={containerRef}
           isEditing={isEditing}

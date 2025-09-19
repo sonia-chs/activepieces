@@ -1,11 +1,11 @@
-import { FileIcon, VideoIcon } from 'lucide-react';
-import React from 'react';
+import { FileIcon, VideoIcon } from "lucide-react";
+import React from "react";
 
 interface FileMessageProps {
   content: string;
   mimeType?: string;
   fileName?: string;
-  role?: 'user' | 'bot';
+  role?: "user" | "bot";
 }
 
 export const FileMessage: React.FC<FileMessageProps> = ({
@@ -14,12 +14,12 @@ export const FileMessage: React.FC<FileMessageProps> = ({
   fileName,
   role,
 }) => {
-  const isVideo = mimeType?.startsWith('video/');
+  const isVideo = mimeType?.startsWith("video/");
   return (
     <a
       className="p-2 w-80 rounded-lg border px-2 max-w-full hover:bg-muted transition-colors cursor-pointer"
       href={content}
-      download={fileName ?? 'file'}
+      download={fileName ?? "file"}
     >
       <div className="flex flex-row items-center gap-2">
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md">
@@ -33,11 +33,11 @@ export const FileMessage: React.FC<FileMessageProps> = ({
         </div>
         <div className="overflow-hidden flex flex-col gap-1">
           <div className="truncate font-semibold text-sm leading-none">
-            {fileName ?? (role === 'user' ? 'Untitled File' : 'Download File')}
+            {fileName ?? (role === "user" ? "Untitled File" : "Download File")}
           </div>
           {fileName && (
             <div className="truncate text-sm text-token-text-tertiary leading-none">
-              {role === 'user' ? 'View File' : 'Download File'}
+              {role === "user" ? "View File" : "Download File"}
             </div>
           )}
         </div>

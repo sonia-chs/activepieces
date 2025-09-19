@@ -1,32 +1,32 @@
-import { useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
 import {
   ArrowDownZA,
   ArrowUpAz,
   Folder,
   Shapes,
   TableProperties,
-} from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
-import { TextWithIcon } from '@/components/ui/text-with-icon';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn } from '@/lib/utils';
-import { FolderDto, isNil, Permission } from '@activepieces/shared';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TextWithIcon } from "@/components/ui/text-with-icon";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn } from "@/lib/utils";
+import { FolderDto, isNil, Permission } from "@activepieces/shared";
 
-import { foldersHooks } from '../lib/folders-hooks';
-import { foldersUtils } from '../lib/folders-utils';
+import { foldersHooks } from "../lib/folders-hooks";
+import { foldersUtils } from "../lib/folders-utils";
 
-import { CreateFolderDialog } from './create-folder-dialog';
-import { FolderActions } from './folder-actions';
+import { CreateFolderDialog } from "./create-folder-dialog";
+import { FolderActions } from "./folder-actions";
 
 const FolderIcon = () => {
   return <Folder className="w-4 h-4" />;
@@ -50,10 +50,10 @@ const FolderItem = ({
       <Button
         variant="ghost"
         className={cn(
-          'w-full  items-center justify-start group/item gap-2 pl-4 pr-0',
+          "w-full  items-center justify-start group/item gap-2 pl-4 pr-0",
           {
-            'bg-accent dark:bg-accent/50': selectedFolderId === folder.id,
-          },
+            "bg-accent dark:bg-accent/50": selectedFolderId === folder.id,
+          }
         )}
         onClick={() => updateSearchParams(folder.id)}
       >
@@ -63,10 +63,10 @@ const FolderItem = ({
           text={
             <div
               className={cn(
-                'flex-grow max-w-[150px] text-start truncate whitespace-nowrap overflow-hidden',
+                "flex-grow max-w-[150px] text-start truncate whitespace-nowrap overflow-hidden",
                 {
-                  'font-medium': selectedFolderId === folder.id,
-                },
+                  "font-medium": selectedFolderId === folder.id,
+                }
               )}
             >
               {folder.displayName}
@@ -93,14 +93,14 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
 
   const updateSearchParams = (folderId: string | undefined) => {
     const newQueryParameters: URLSearchParams = new URLSearchParams(
-      searchParams,
+      searchParams
     );
     if (folderId) {
       newQueryParameters.set(folderIdParamName, folderId);
     } else {
       newQueryParameters.delete(folderIdParamName);
     }
-    newQueryParameters.delete('cursor');
+    newQueryParameters.delete("cursor");
 
     setSearchParams(newQueryParameters);
   };
@@ -112,7 +112,7 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
   } = foldersHooks.useFolders();
 
   const { data: allFlowsCount, refetch: refetchAllFlowsCount } = useQuery({
-    queryKey: ['flowsCount', authenticationSession.getProjectId()],
+    queryKey: ["flowsCount", authenticationSession.getProjectId()],
     queryFn: flowsApi.count,
   });
 
@@ -131,13 +131,13 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
     refetchAllFlowsCount();
   }, [refresh]);
 
-  const isInUncategorized = selectedFolderId === 'NULL';
+  const isInUncategorized = selectedFolderId === "NULL";
   const isInAllFlows = isNil(selectedFolderId);
 
   return (
     <div className="mt-4">
       <div className="flex flex-row items-center mb-2">
-        <span className="flex">{t('Folders')}</span>
+        <span className="flex">{t("Folders")}</span>
         <div className="grow"></div>
         <div className="flex items-center justify-center">
           <Button
@@ -145,7 +145,7 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
             size="icon"
             onClick={() =>
               setSortedAlphabeticallyIncreasingly(
-                !sortedAlphabeticallyIncreasingly,
+                !sortedAlphabeticallyIncreasingly
               )
             }
           >
@@ -168,8 +168,8 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
       <div className="flex w-[250px] h-full flex-col gap-y-1">
         <Button
           variant="accent"
-          className={cn('flex w-full justify-start bg-background pl-4 pr-0', {
-            'bg-muted': isInAllFlows,
+          className={cn("flex w-full justify-start bg-background pl-4 pr-0", {
+            "bg-muted": isInAllFlows,
           })}
           onClick={() => updateSearchParams(undefined)}
         >
@@ -177,7 +177,7 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
             icon={<TableProperties className="w-4 h-4"></TableProperties>}
             text={
               <div className="flex-grow whitespace-break-spaces break-all text-start truncate">
-                {t('All flows')}
+                {t("All flows")}
               </div>
             }
           />
@@ -190,16 +190,16 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
         </Button>
         <Button
           variant="ghost"
-          className={cn('flex w-full justify-start bg-background pl-4 pr-0', {
-            'bg-accent dark:bg-accent/50': isInUncategorized,
+          className={cn("flex w-full justify-start bg-background pl-4 pr-0", {
+            "bg-accent dark:bg-accent/50": isInUncategorized,
           })}
-          onClick={() => updateSearchParams('NULL')}
+          onClick={() => updateSearchParams("NULL")}
         >
           <TextWithIcon
             icon={<Shapes className="w-4 h-4"></Shapes>}
             text={
               <div className="flex-grow whitespace-break-spaces break-all text-start truncate">
-                {t('Uncategorized')}
+                {t("Uncategorized")}
               </div>
             }
           />
@@ -239,5 +239,5 @@ const FolderFilterList = ({ refresh }: { refresh: number }) => {
   );
 };
 
-const folderIdParamName = 'folderId';
+const folderIdParamName = "folderId";
 export { FolderFilterList, folderIdParamName };

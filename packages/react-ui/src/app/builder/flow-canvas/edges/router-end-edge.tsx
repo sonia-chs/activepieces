@@ -1,11 +1,11 @@
-import { BaseEdge, EdgeProps } from '@xyflow/react';
+import { BaseEdge, EdgeProps } from "@xyflow/react";
 
-import { StepLocationRelativeToParent } from '@activepieces/shared';
+import { StepLocationRelativeToParent } from "@activepieces/shared";
 
-import { flowUtilConsts } from '../utils/consts';
-import { ApRouterEndEdge } from '../utils/types';
+import { flowUtilConsts } from "../utils/consts";
+import { ApRouterEndEdge } from "../utils/types";
 
-import { ApAddButton } from './add-button';
+import { ApAddButton } from "./add-button";
 
 export const ApRouterEndCanvasEdge = ({
   sourceX,
@@ -14,7 +14,7 @@ export const ApRouterEndCanvasEdge = ({
   sourceY,
   data,
   id,
-}: EdgeProps & Omit<ApRouterEndEdge, 'position'>) => {
+}: EdgeProps & Omit<ApRouterEndEdge, "position">) => {
   const verticalLineLength =
     flowUtilConsts.VERTICAL_SPACE_BETWEEN_STEPS -
     2 * flowUtilConsts.VERTICAL_SPACE_BETWEEN_STEP_AND_LINE;

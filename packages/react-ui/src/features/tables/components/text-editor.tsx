@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
-import { useCellContext } from './cell-context';
+import { useCellContext } from "./cell-context";
 
 const TextEditor = () => {
   const { value, handleCellChange, setIsEditing, isEditing } = useCellContext();
@@ -21,7 +21,7 @@ const TextEditor = () => {
     <div className="h-full relative w-full relative">
       <div
         className={cn({
-          'h-min-[300px] w-min-[calc(100%+50px)] w-full absolute top-0  z-50 border-2 border-primary  drop-shadow-md':
+          "h-min-[300px] w-min-[calc(100%+50px)] w-full absolute top-0  z-50 border-2 border-primary  drop-shadow-md":
             isEditing,
         })}
       >
@@ -38,11 +38,11 @@ const TextEditor = () => {
             onKeyDown={(e) => {
               e.stopPropagation();
               e.stopPropagation();
-              if (e.key === 'Enter' && !e.shiftKey) {
+              if (e.key === "Enter" && !e.shiftKey) {
                 handleCellChange(inputValue);
                 e.preventDefault();
               }
-              if (e.key === 'Escape') {
+              if (e.key === "Escape") {
                 setIsEditing(false);
                 e.preventDefault();
               }
@@ -50,22 +50,22 @@ const TextEditor = () => {
             minRows={4}
             maxRows={6}
             className={cn(
-              'flex-1 h-full min-w-0 rounded-none',
-              'border-none text-sm px-2 resize-none ',
-              'focus:outline-none',
-              'placeholder:text-muted-foreground',
+              "flex-1 h-full min-w-0 rounded-none",
+              "border-none text-sm px-2 resize-none ",
+              "focus:outline-none",
+              "placeholder:text-muted-foreground"
             )}
             autoComplete="off"
           />
         )}
         {!isEditing && (
           <div className="flex grow h-full w-full ">
-            {value?.replaceAll('\n', ' ')}
+            {value?.replaceAll("\n", " ")}
           </div>
         )}
       </div>
     </div>
   );
 };
-TextEditor.displayName = 'TextEditor';
+TextEditor.displayName = "TextEditor";
 export { TextEditor };

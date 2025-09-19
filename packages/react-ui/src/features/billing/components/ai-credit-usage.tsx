@@ -1,28 +1,28 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Sparkles, Info, Loader2 } from 'lucide-react';
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Sparkles, Info, Loader2 } from "lucide-react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { ApSubscriptionStatus, PlanName } from '@activepieces/ee-shared';
+} from "@/components/ui/tooltip";
+import { ApSubscriptionStatus, PlanName } from "@activepieces/ee-shared";
 import {
   AiOverageState,
   PlatformBillingInformation,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { billingMutations } from '../lib/billing-hooks';
+import { billingMutations } from "../lib/billing-hooks";
 
-import { AiCreditsUsageTable } from './ai-credits-usage-table';
+import { AiCreditsUsageTable } from "./ai-credits-usage-table";
 
 interface AiCreditUsageProps {
   platformSubscription: PlatformBillingInformation;
@@ -56,7 +56,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
   }, [aiOverrageState, isFreePlan, isTrial]);
 
   const [usageBasedEnabled, setUsageBasedEnabled] = useState(
-    overageConfig.enabled,
+    overageConfig.enabled
   );
   const [usageLimit, setUsageLimit] = useState<number>(overageLimit ?? 500);
 
@@ -74,12 +74,12 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
     const creditsUsedFromPlan = Math.min(totalCreditsUsed, planIncludedCredits);
     const overageCreditsUsed = Math.max(
       0,
-      totalCreditsUsed - planIncludedCredits,
+      totalCreditsUsed - planIncludedCredits
     );
 
     const planUsagePercentage = Math.min(
       100,
-      Math.round((creditsUsedFromPlan / planIncludedCredits) * 100),
+      Math.round((creditsUsedFromPlan / planIncludedCredits) * 100)
     );
 
     const overageUsagePercentage =
@@ -113,7 +113,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
         onSuccess: () => {
           setUsageBasedEnabled(!usageBasedEnabled);
         },
-      },
+      }
     );
   }, [usageBasedEnabled, toggleAiCreditsOverageEnabled]);
 
@@ -134,7 +134,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{t('AI Credits')}</h3>
+              <h3 className="text-lg font-semibold">{t("AI Credits")}</h3>
               <p className="text-sm text-muted-foreground">
                 Manage your AI usage and limits
               </p>
@@ -143,7 +143,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
           {overageConfig.canToggle && (
             <div className="flex items-center gap-3 py-2">
               <span className="text-sm font-medium">
-                {t('Usage Based Billing')}
+                {t("Usage Based Billing")}
               </span>
               <Switch
                 checked={usageBasedEnabled}
@@ -158,7 +158,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
       <CardContent className="p-6 space-y-10">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <h4 className="text-base font-medium">{t('Plan Credits Usage')}</h4>
+            <h4 className="text-base font-medium">{t("Plan Credits Usage")}</h4>
             <Tooltip>
               <TooltipTrigger>
                 <Info className="w-4 h-4 text-muted-foreground" />
@@ -172,11 +172,11 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
           <div className="rounded-lg space-y-3">
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">
-                {Math.round(creditMetrics.creditsUsedFromPlan)} /{' '}
+                {Math.round(creditMetrics.creditsUsedFromPlan)} /{" "}
                 {planIncludedCredits}
               </span>
               <span className="text-xs font-medium text-muted-foreground">
-                {t('Plan Included')}
+                {t("Plan Included")}
               </span>
             </div>
             <Progress
@@ -209,7 +209,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <h4 className="text-base font-medium">
-                  {t('Additional Credits Usage')}
+                  {t("Additional Credits Usage")}
                 </h4>
                 <Tooltip>
                   <TooltipTrigger>
@@ -224,11 +224,11 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
               <div className="rounded-lg space-y-3">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">
-                    {creditMetrics.overageCreditsUsed} /{' '}
-                    {overageLimit ?? 'unknown'}
+                    {creditMetrics.overageCreditsUsed} /{" "}
+                    {overageLimit ?? "unknown"}
                   </span>
                   <span className="text-xs font-medium text-muted-foreground">
-                    {t('Usage Limit')}
+                    {t("Usage Limit")}
                   </span>
                 </div>
                 <Progress
@@ -253,7 +253,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
             <div className="space-y-4">
               <div>
                 <h5 className="text-base font-medium mb-1">
-                  {t('Set Usage Limit')}
+                  {t("Set Usage Limit")}
                 </h5>
                 <p className="text-sm text-muted-foreground">
                   Set a maximum number of additional AI credits to prevent
@@ -281,7 +281,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
                     {settingAiCreditsOverageLimit && (
                       <Loader2 className="w-4 h-4 animate-spin mr-2" />
                     )}
-                    {t('Save Limit')}
+                    {t("Save Limit")}
                   </Button>
                 </div>
 
@@ -293,7 +293,7 @@ export function AICreditUsage({ platformSubscription }: AiCreditUsageProps) {
             </div>
 
             <div className="text-sm text-muted-foreground bg-muted/30 rounded-lg p-3">
-              {t('$1 per 1000 additional credits beyond plan limit')}
+              {t("$1 per 1000 additional credits beyond plan limit")}
             </div>
           </>
         )}

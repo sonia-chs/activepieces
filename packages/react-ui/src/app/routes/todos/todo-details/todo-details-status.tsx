@@ -1,18 +1,18 @@
-import { CheckCircle, X, CircleDot, Loader } from 'lucide-react';
+import { CheckCircle, X, CircleDot, Loader } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
+import { Button } from "@/components/ui/button";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
 import {
   Todo,
   UNRESOLVED_STATUS,
   STATUS_VARIANT,
   STATUS_COLORS,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type TodoDetailsStatusProps = {
   todo: Todo;
   isUpdatingStatus: boolean;
-  onStatusChange: (status: Todo['status'], source: 'agent' | 'manual') => void;
+  onStatusChange: (status: Todo["status"], source: "agent" | "manual") => void;
 };
 
 export const TodoDetailsStatus = ({
@@ -60,7 +60,7 @@ export const TodoDetailsStatus = ({
               variant="ghost"
               size="sm"
               className="h-8 px-2 flex gap-2 items-center"
-              onClick={() => onStatusChange(status, 'manual')}
+              onClick={() => onStatusChange(status, "manual")}
               disabled={isUpdatingStatus || status.name === todo.status.name}
             >
               {isUpdatingStatus && status.name === todo.status.name ? (

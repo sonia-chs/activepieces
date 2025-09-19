@@ -1,111 +1,111 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState, ReactNode } from 'react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState, ReactNode } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { toast } from '@/components/ui/use-toast';
-import { projectRoleApi } from '@/features/platform-admin/lib/project-role-api';
-import { Permission, ProjectRole, RoleType } from '@activepieces/shared';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "@/components/ui/use-toast";
+import { projectRoleApi } from "@/features/platform-admin/lib/project-role-api";
+import { Permission, ProjectRole, RoleType } from "@activepieces/shared";
 
 const initialPermissions = [
   {
-    name: 'Project',
-    description: 'Project settings and configuration',
+    name: "Project",
+    description: "Project settings and configuration",
     read: [Permission.READ_PROJECT],
     write: [Permission.READ_PROJECT, Permission.WRITE_PROJECT],
     disableNone: true,
   },
   {
-    name: 'Flows',
-    description: 'Read and write flows',
+    name: "Flows",
+    description: "Read and write flows",
     read: [Permission.READ_FLOW],
     write: [Permission.READ_FLOW, Permission.WRITE_FLOW],
     disableNone: true,
   },
   {
-    name: 'Flow Status',
-    description: 'Update flow status',
+    name: "Flow Status",
+    description: "Update flow status",
     disableRead: true,
     read: [],
     write: [Permission.UPDATE_FLOW_STATUS],
   },
   {
-    name: 'App Connections',
-    description: 'Read and write app connections',
+    name: "App Connections",
+    description: "Read and write app connections",
     read: [Permission.READ_APP_CONNECTION],
     write: [Permission.READ_APP_CONNECTION, Permission.WRITE_APP_CONNECTION],
   },
   {
-    name: 'Runs',
-    description: 'Read and write runs',
+    name: "Runs",
+    description: "Read and write runs",
     read: [Permission.READ_RUN],
     write: [Permission.READ_RUN, Permission.WRITE_RUN],
   },
   {
-    name: 'Issues',
-    description: 'Read and write issues',
+    name: "Issues",
+    description: "Read and write issues",
     read: [Permission.READ_ISSUES],
     write: [Permission.READ_ISSUES, Permission.WRITE_ISSUES],
   },
   {
-    name: 'Alerts',
-    description: 'Read and write alerts',
+    name: "Alerts",
+    description: "Read and write alerts",
     read: [Permission.READ_ALERT],
     write: [Permission.READ_ALERT, Permission.WRITE_ALERT],
   },
   {
-    name: 'Folders',
-    description: 'Read and write folders',
+    name: "Folders",
+    description: "Read and write folders",
     read: [Permission.READ_FOLDER],
     write: [Permission.READ_FOLDER, Permission.WRITE_FOLDER],
   },
   {
-    name: 'Project Members',
-    description: 'Read and write project members',
+    name: "Project Members",
+    description: "Read and write project members",
     read: [Permission.READ_PROJECT_MEMBER],
     write: [Permission.READ_PROJECT_MEMBER, Permission.WRITE_PROJECT_MEMBER],
   },
   {
-    name: 'Invitations',
-    description: 'Read and write invitations',
+    name: "Invitations",
+    description: "Read and write invitations",
     read: [Permission.READ_INVITATION],
     write: [Permission.READ_INVITATION, Permission.WRITE_INVITATION],
   },
   {
-    name: 'Project Releases',
-    description: 'Read and write project releases',
+    name: "Project Releases",
+    description: "Read and write project releases",
     read: [Permission.READ_PROJECT_RELEASE],
     write: [Permission.READ_PROJECT_RELEASE, Permission.WRITE_PROJECT_RELEASE],
   },
   {
-    name: 'Tables',
-    description: 'Read and write tables',
+    name: "Tables",
+    description: "Read and write tables",
     read: [Permission.READ_TABLE],
     write: [Permission.READ_TABLE, Permission.WRITE_TABLE],
   },
   {
-    name: 'Todos',
-    description: 'Read and write todos',
+    name: "Todos",
+    description: "Read and write todos",
     read: [Permission.READ_TODOS],
     write: [Permission.READ_TODOS, Permission.WRITE_TODOS],
   },
   {
-    name: 'MCP',
-    description: 'Read and write MCP',
+    name: "MCP",
+    description: "Read and write MCP",
     read: [Permission.READ_MCP],
     write: [Permission.READ_MCP, Permission.WRITE_MCP],
   },
 ];
 interface ProjectRoleDialogProps {
-  mode: 'create' | 'edit';
+  mode: "create" | "edit";
   projectRole?: ProjectRole;
   platformId: string;
   onSave: () => void;
@@ -121,7 +121,7 @@ export const ProjectRoleDialog = ({
   disabled = false,
 }: ProjectRoleDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [roleName, setRoleName] = useState(projectRole?.name || '');
+  const [roleName, setRoleName] = useState(projectRole?.name || "");
   const [permissions, setPermissions] = useState<string[]>(() => {
     if (!projectRole?.permissions) {
       // Set default Read permissions for any permission with disableNone
@@ -139,13 +139,13 @@ export const ProjectRoleDialog = ({
 
   const { mutate } = useMutation({
     mutationFn: async () => {
-      if (mode === 'create') {
+      if (mode === "create") {
         await projectRoleApi.create({
           name: roleName,
           permissions,
           type: RoleType.CUSTOM,
         });
-      } else if (mode === 'edit' && projectRole) {
+      } else if (mode === "edit" && projectRole) {
         await projectRoleApi.update(projectRole.id, {
           name: roleName,
           permissions,
@@ -158,15 +158,15 @@ export const ProjectRoleDialog = ({
     },
     onError: (error) => {
       toast({
-        title: 'Error',
-        description: 'Role name already exists',
+        title: "Error",
+        description: "Role name already exists",
       });
     },
   });
 
   const handlePermissionChange = (permission: string, level: string) => {
     const currentPermission = initialPermissions.find(
-      (p) => p.name === permission,
+      (p) => p.name === permission
     );
     const updatedPermissions = new Set(permissions);
 
@@ -174,19 +174,19 @@ export const ProjectRoleDialog = ({
       currentPermission.read.forEach((p) => updatedPermissions.delete(p));
       currentPermission.write.forEach((p) => updatedPermissions.delete(p));
 
-      if (level === 'Read') {
+      if (level === "Read") {
         currentPermission.read.forEach((p) => updatedPermissions.add(p));
-      } else if (level === 'Write') {
+      } else if (level === "Write") {
         currentPermission.write.forEach((p) => updatedPermissions.add(p));
       }
     } else {
-      if (level === 'None') {
+      if (level === "None") {
         currentPermission?.read.forEach((p) => updatedPermissions.delete(p));
         currentPermission?.write.forEach((p) => updatedPermissions.delete(p));
-      } else if (level === 'Read') {
+      } else if (level === "Read") {
         currentPermission?.write.forEach((p) => updatedPermissions.delete(p));
         currentPermission?.read.forEach((p) => updatedPermissions.add(p));
-      } else if (level === 'Write') {
+      } else if (level === "Write") {
         currentPermission?.write.forEach((p) => updatedPermissions.add(p));
       }
     }
@@ -195,7 +195,7 @@ export const ProjectRoleDialog = ({
 
   const getButtonVariant = (permission: string, level: string) => {
     const currentPermission = initialPermissions.find(
-      (p) => p.name === permission,
+      (p) => p.name === permission
     );
     const writePermissions = new Set(currentPermission?.write || []);
     const readPermissions = new Set(currentPermission?.read || []);
@@ -210,18 +210,18 @@ export const ProjectRoleDialog = ({
       [...readPermissions].every((p) => currentPermissionsSet.has(p)) &&
       !hasWritePermissions;
 
-    if (level === 'Write' && hasWritePermissions) {
-      return 'default';
-    } else if (level === 'Read' && hasReadPermissions) {
-      return 'default';
+    if (level === "Write" && hasWritePermissions) {
+      return "default";
+    } else if (level === "Read" && hasReadPermissions) {
+      return "default";
     } else if (
-      level === 'None' &&
+      level === "None" &&
       !hasReadPermissions &&
       !hasWritePermissions
     ) {
-      return 'default';
+      return "default";
     }
-    return 'ghost';
+    return "ghost";
   };
   const handleSubmit = () => {
     if (!disabled) {
@@ -234,16 +234,16 @@ export const ProjectRoleDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="w-full max-w-3xl">
         <DialogTitle>
-          {mode === 'create'
-            ? t('Create New Role')
+          {mode === "create"
+            ? t("Create New Role")
             : (projectRole?.type === RoleType.DEFAULT
-                ? t('View ')
-                : t('Edit ')) + projectRole?.name}
+                ? t("View ")
+                : t("Edit ")) + projectRole?.name}
         </DialogTitle>
         <div className="grid space-y-4 mt-4">
           <div>
             <span className="text-sm font-medium text-foreground">
-              {t('Name')}
+              {t("Name")}
             </span>
             <Input
               value={roleName}
@@ -251,14 +251,14 @@ export const ProjectRoleDialog = ({
               required
               id="name"
               type="text"
-              placeholder={t('Role Name')}
+              placeholder={t("Role Name")}
               className="rounded-sm mt-2"
               disabled={disabled}
             />
           </div>
           <div>
             <span className="text-sm font-medium text-foreground">
-              {t('Permissions')}
+              {t("Permissions")}
             </span>
             <div className="overflow-y-auto p-2 rounded-md">
               <ScrollArea className="h-[70vh] pr-4">
@@ -266,7 +266,7 @@ export const ProjectRoleDialog = ({
                   <div
                     key={permission.name}
                     className={`w-full flex flex-col justify-between py-2 ${
-                      index !== initialPermissions.length - 1 ? 'border-b' : ''
+                      index !== initialPermissions.length - 1 ? "border-b" : ""
                     }`}
                   >
                     <div className="w-full flex flex-row justify-between">
@@ -277,36 +277,36 @@ export const ProjectRoleDialog = ({
                         {!permission.disableNone && (
                           <Button
                             className="h-9 px-4"
-                            variant={getButtonVariant(permission.name, 'None')}
+                            variant={getButtonVariant(permission.name, "None")}
                             onClick={() =>
-                              handlePermissionChange(permission.name, 'None')
+                              handlePermissionChange(permission.name, "None")
                             }
                             disabled={disabled}
                           >
-                            {t('None')}
+                            {t("None")}
                           </Button>
                         )}
                         {!permission.disableRead && (
                           <Button
                             className="h-9 px-4"
-                            variant={getButtonVariant(permission.name, 'Read')}
+                            variant={getButtonVariant(permission.name, "Read")}
                             onClick={() =>
-                              handlePermissionChange(permission.name, 'Read')
+                              handlePermissionChange(permission.name, "Read")
                             }
                             disabled={disabled}
                           >
-                            {t('Read')}
+                            {t("Read")}
                           </Button>
                         )}
                         <Button
                           className="h-9 px-4"
-                          variant={getButtonVariant(permission.name, 'Write')}
+                          variant={getButtonVariant(permission.name, "Write")}
                           onClick={() =>
-                            handlePermissionChange(permission.name, 'Write')
+                            handlePermissionChange(permission.name, "Write")
                           }
                           disabled={disabled}
                         >
-                          {t('Write')}
+                          {t("Write")}
                         </Button>
                       </div>
                     </div>
@@ -320,7 +320,7 @@ export const ProjectRoleDialog = ({
           </div>
           {!disabled && (
             <Button onClick={handleSubmit}>
-              {mode === 'create' ? t('Create') : t('Save')}
+              {mode === "create" ? t("Create") : t("Save")}
             </Button>
           )}
         </div>

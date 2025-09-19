@@ -1,15 +1,15 @@
 import {
   DismissChangelogRequest,
   ListChangelogsResponse,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { api } from './api';
+import { api } from "./api";
 
 export const changelogApi = {
   list(): Promise<ListChangelogsResponse> {
-    return api.get<ListChangelogsResponse>('/v1/changelogs');
+    return api.get<ListChangelogsResponse>("/v1/changelogs");
   },
   dismiss(request: DismissChangelogRequest): Promise<void> {
-    return api.post<void>('/v1/changelogs/dismiss', request);
+    return api.post<void>("/v1/changelogs/dismiss", request);
   },
 };

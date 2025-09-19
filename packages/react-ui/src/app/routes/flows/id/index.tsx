@@ -1,18 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
-import { ReactFlowProvider } from '@xyflow/react';
-import { t } from 'i18next';
-import { FileX } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import { ReactFlowProvider } from "@xyflow/react";
+import { t } from "i18next";
+import { FileX } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 
-import { BuilderPage } from '@/app/builder';
-import { BuilderStateProvider } from '@/app/builder/builder-state-provider';
-import { buttonVariants } from '@/components/ui/button';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { sampleDataHooks } from '@/features/flows/lib/sample-data-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn } from '@/lib/utils';
-import { isNil, PopulatedFlow } from '@activepieces/shared';
+import { BuilderPage } from "@/app/builder";
+import { BuilderStateProvider } from "@/app/builder/builder-state-provider";
+import { buttonVariants } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { sampleDataHooks } from "@/features/flows/lib/sample-data-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn } from "@/lib/utils";
+import { isNil, PopulatedFlow } from "@activepieces/shared";
 
 const FlowBuilderPage = () => {
   const { flowId } = useParams();
@@ -22,7 +22,7 @@ const FlowBuilderPage = () => {
     isLoading,
     isError,
   } = useQuery<PopulatedFlow, Error>({
-    queryKey: ['flow', flowId, authenticationSession.getProjectId()],
+    queryKey: ["flow", flowId, authenticationSession.getProjectId()],
     queryFn: () => flowsApi.get(flowId!),
     gcTime: 0,
     retry: false,
@@ -51,17 +51,17 @@ const FlowBuilderPage = () => {
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold">{t('Flow not found')}</h2>
+          <h2 className="text-lg font-semibold">{t("Flow not found")}</h2>
           <p className="text-sm text-muted-foreground">
             {t("The flow you are looking for doesn't exist or was removed.")}
           </p>
         </div>
 
         <Link
-          className={cn(buttonVariants({ variant: 'outline' }))}
+          className={cn(buttonVariants({ variant: "outline" }))}
           to="/dashboard"
         >
-          {t('Go to Dashboard')}
+          {t("Go to Dashboard")}
         </Link>
       </div>
     );

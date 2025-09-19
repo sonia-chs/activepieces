@@ -1,22 +1,22 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { LockIcon, MailIcon, Earth } from 'lucide-react';
-import React from 'react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { LockIcon, MailIcon, Earth } from "lucide-react";
+import React from "react";
 
-import LockedFeatureGuard from '@/app/components/locked-feature-guard';
-import { AllowedDomainDialog } from '@/app/routes/platform/security/sso/allowed-domain';
-import { NewOAuth2Dialog } from '@/app/routes/platform/security/sso/oauth2-dialog';
-import { ConfigureSamlDialog } from '@/app/routes/platform/security/sso/saml-dialog';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
-import { toast } from '@/components/ui/use-toast';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { platformApi } from '@/lib/platforms-api';
-import { isNil } from '@activepieces/shared';
+import LockedFeatureGuard from "@/app/components/locked-feature-guard";
+import { AllowedDomainDialog } from "@/app/routes/platform/security/sso/allowed-domain";
+import { NewOAuth2Dialog } from "@/app/routes/platform/security/sso/oauth2-dialog";
+import { ConfigureSamlDialog } from "@/app/routes/platform/security/sso/saml-dialog";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "@/components/ui/use-toast";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { platformApi } from "@/lib/platforms-api";
+import { isNil } from "@activepieces/shared";
 
-import GoogleIcon from '../../../../../assets/img/custom/auth/google-icon.svg';
+import GoogleIcon from "../../../../../assets/img/custom/auth/google-icon.svg";
 
 type ProviderCardProps = {
   providerName: string;
@@ -44,13 +44,13 @@ const ProviderCard = ({
             {providerDescription ??
               t(
                 "Allow logins through {providerName}'s single sign-on functionality.",
-                { providerName: providerName.toLowerCase() },
+                { providerName: providerName.toLowerCase() }
               )}
           </div>
           {badgesText && (
             <div className="mt-2 gap-2 flex ">
               {badgesText.map((text, index) => (
-                <Badge key={index} variant={'outline'}>
+                <Badge key={index} variant={"outline"}>
                   {text}
                 </Badge>
               ))}
@@ -78,14 +78,14 @@ const SSOPage = () => {
         {
           emailAuthEnabled: !platform.emailAuthEnabled,
         },
-        platform.id,
+        platform.id
       );
       await refetch();
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Email authentication updated'),
+        title: t("Success"),
+        description: t("Email authentication updated"),
         duration: 3000,
       });
     },
@@ -95,21 +95,21 @@ const SSOPage = () => {
     <LockedFeatureGuard
       featureKey="SSO"
       locked={!platform.plan.ssoEnabled}
-      lockTitle={t('Enable Single Sign On')}
+      lockTitle={t("Enable Single Sign On")}
       lockDescription={t(
-        'Let your users sign in with your current SSO provider or give them self serve sign up access',
+        "Let your users sign in with your current SSO provider or give them self serve sign up access"
       )}
     >
       <div className="flex-col w-full">
         <DashboardPageHeader
-          title={t('Single Sign On')}
-          description={t('Manage signle sign on providers')}
+          title={t("Single Sign On")}
+          description={t("Manage signle sign on providers")}
         ></DashboardPageHeader>
         <div className="flex flex-col gap-4">
           <ProviderCard
-            providerName={t('Allowed Domains')}
+            providerName={t("Allowed Domains")}
             providerDescription={t(
-              'Allow users to authenticate with specific domains. Leave empty to allow all domains.',
+              "Allow users to authenticate with specific domains. Leave empty to allow all domains."
             )}
             providerIcon={<Earth className="w-[32px] h-[32px]" />}
             badgesText={platform?.allowedAuthDomains ?? []}
@@ -133,7 +133,7 @@ const SSOPage = () => {
             }
           />
           <ProviderCard
-            providerName={t('SAML 2.0')}
+            providerName={t("SAML 2.0")}
             providerIcon={<LockIcon className="w-[32px] h-[32px]" />}
             button={
               <ConfigureSamlDialog
@@ -144,8 +144,8 @@ const SSOPage = () => {
             }
           />
           <ProviderCard
-            providerName={t('Allowed Email Login')}
-            providerDescription={t('Allow logins through email and password.')}
+            providerName={t("Allowed Email Login")}
+            providerDescription={t("Allow logins through email and password.")}
             providerIcon={<MailIcon className="w-[32px] h-[32px]" />}
             button={
               <div className="mr-7">
@@ -163,5 +163,5 @@ const SSOPage = () => {
   );
 };
 
-SSOPage.displayName = 'SSOPage';
+SSOPage.displayName = "SSOPage";
 export { SSOPage };

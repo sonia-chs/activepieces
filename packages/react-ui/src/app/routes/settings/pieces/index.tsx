@@ -1,41 +1,41 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { CheckIcon, Package, Trash } from 'lucide-react';
-import { useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { CheckIcon, Package, Trash } from "lucide-react";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { RequestTrial } from '@/app/components/request-trial';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
+import { RequestTrial } from "@/app/components/request-trial";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
 import {
   BulkAction,
   DataTable,
   RowDataWithActions,
-} from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { LockedAlert } from '@/components/ui/locked-alert';
-import { PieceIcon } from '@/features/pieces/components/piece-icon';
-import { piecesApi } from '@/features/pieces/lib/pieces-api';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { PieceMetadataModelSummary } from '@activepieces/pieces-framework';
-import { isNil, PieceType } from '@activepieces/shared';
+} from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import { LockedAlert } from "@/components/ui/locked-alert";
+import { PieceIcon } from "@/features/pieces/components/piece-icon";
+import { piecesApi } from "@/features/pieces/lib/pieces-api";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { PieceMetadataModelSummary } from "@activepieces/pieces-framework";
+import { isNil, PieceType } from "@activepieces/shared";
 
-import { ManagePiecesDialog } from './manage-pieces-dialog';
+import { ManagePiecesDialog } from "./manage-pieces-dialog";
 
 const columns: ColumnDef<RowDataWithActions<PieceMetadataModelSummary>>[] = [
   {
-    accessorKey: 'name',
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('App')} />
+      <DataTableColumnHeader column={column} title={t("App")} />
     ),
     cell: ({ row }) => {
       return (
         <div className="text-left">
           <PieceIcon
             circle={true}
-            size={'md'}
+            size={"md"}
             border={true}
             displayName={row.original.displayName}
             logoUrl={row.original.logoUrl}
@@ -46,34 +46,34 @@ const columns: ColumnDef<RowDataWithActions<PieceMetadataModelSummary>>[] = [
     },
   },
   {
-    accessorKey: 'displayName',
+    accessorKey: "displayName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Display Name')} />
+      <DataTableColumnHeader column={column} title={t("Display Name")} />
     ),
     cell: ({ row }) => {
       return <div className="text-left">{row.original.displayName}</div>;
     },
   },
   {
-    accessorKey: 'packageName',
+    accessorKey: "packageName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Package Name')} />
+      <DataTableColumnHeader column={column} title={t("Package Name")} />
     ),
     cell: ({ row }) => {
       return <div className="text-left">{row.original.name}</div>;
     },
   },
   {
-    accessorKey: 'version',
+    accessorKey: "version",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Version')} />
+      <DataTableColumnHeader column={column} title={t("Version")} />
     ),
     cell: ({ row }) => {
       return <div className="text-left">{row.original.version}</div>;
     },
   },
   {
-    accessorKey: 'actions',
+    accessorKey: "actions",
     header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     cell: ({ row }) => {
       if (
@@ -82,10 +82,10 @@ const columns: ColumnDef<RowDataWithActions<PieceMetadataModelSummary>>[] = [
       ) {
         return (
           <ConfirmationDeleteDialog
-            title={t('Delete {name}', { name: row.original.name })}
-            entityName={t('Piece')}
+            title={t("Delete {name}", { name: row.original.name })}
+            entityName={t("Piece")}
             message={t(
-              'This will permanently delete this piece, all steps using it will fail.',
+              "This will permanently delete this piece, all steps using it will fail."
             )}
             mutationFn={async () => {
               row.original.delete();
@@ -108,7 +108,7 @@ const columns: ColumnDef<RowDataWithActions<PieceMetadataModelSummary>>[] = [
 const ProjectPiecesPage = () => {
   const { platform } = platformHooks.useCurrentPlatform();
   const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get('name') ?? '';
+  const searchQuery = searchParams.get("name") ?? "";
   const { pieces, isLoading, refetch } = piecesHooks.usePieces({
     searchQuery,
   });
@@ -121,20 +121,20 @@ const ProjectPiecesPage = () => {
         },
       },
     ],
-    [refetch],
+    [refetch]
   );
 
   return (
     <div className="w-fullj flex-col">
       <DashboardPageHeader
-        title={t('Pieces')}
-        description={'Manage project pieces'}
+        title={t("Pieces")}
+        description={"Manage project pieces"}
       />
       {!platform.plan.managePiecesEnabled && (
         <LockedAlert
-          title={t('Control Pieces')}
+          title={t("Control Pieces")}
           description={t(
-            "Show the pieces that matter most to your users and hide the ones you don't like.",
+            "Show the pieces that matter most to your users and hide the ones you don't like."
           )}
           button={
             <RequestTrial
@@ -145,17 +145,17 @@ const ProjectPiecesPage = () => {
         />
       )}
       <DataTable
-        emptyStateTextTitle={t('No pieces found')}
+        emptyStateTextTitle={t("No pieces found")}
         emptyStateTextDescription={t(
-          'Add a piece to your project that you want to use in your automations',
+          "Add a piece to your project that you want to use in your automations"
         )}
         emptyStateIcon={<Package className="size-14" />}
         columns={columns}
         filters={[
           {
-            type: 'input',
-            title: t('Piece Name'),
-            accessorKey: 'name',
+            type: "input",
+            title: t("Piece Name"),
+            accessorKey: "name",
             options: [],
             icon: CheckIcon,
           } as const,
@@ -173,5 +173,5 @@ const ProjectPiecesPage = () => {
   );
 };
 
-ProjectPiecesPage.displayName = 'ProjectPiecesPage';
+ProjectPiecesPage.displayName = "ProjectPiecesPage";
 export { ProjectPiecesPage };

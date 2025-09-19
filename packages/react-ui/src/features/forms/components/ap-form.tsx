@@ -1,29 +1,29 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Separator } from '@radix-ui/react-dropdown-menu';
-import { TSchema, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import { TSchema, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 
-import { ApMarkdown } from '@/components/custom/markdown';
-import { ShowPoweredBy } from '@/components/show-powered-by';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { ShowPoweredBy } from "@/components/show-powered-by";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormLabel,
   FormItem,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ReadMoreDescription } from '@/components/ui/read-more-description';
-import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/components/ui/use-toast';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { api } from '@/lib/api';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { ReadMoreDescription } from "@/components/ui/read-more-description";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { api } from "@/lib/api";
 import {
   ApFlagId,
   FileResponseInterface,
@@ -33,10 +33,10 @@ import {
   HumanInputFormResultTypes,
   HumanInputFormResult,
   createKeyForFormInput,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { Checkbox } from '../../../components/ui/checkbox';
-import { humanInputApi } from '../lib/human-input-api';
+import { Checkbox } from "../../../components/ui/checkbox";
+import { humanInputApi } from "../lib/human-input-api";
 
 type ApFormProps = {
   form: FormResponse;
@@ -49,7 +49,7 @@ type FormInputWithName = FormInput & {
 /**We do this because it was the behaviour in previous versions of Activepieces.*/
 const putBackQuotesForInputNames = (
   value: Record<string, unknown>,
-  inputs: FormInputWithName[],
+  inputs: FormInputWithName[]
 ) => {
   return inputs.reduce((acc, input) => {
     const key = createKeyForFormInput(input.displayName);
@@ -60,7 +60,7 @@ const putBackQuotesForInputNames = (
 
 const requiredPropertySettings = {
   minLength: 1,
-  errorMessage: t('This field is required'),
+  errorMessage: t("This field is required"),
 };
 
 const createPropertySchema = (input: FormInputWithName) => {
@@ -82,28 +82,28 @@ function buildSchema(inputs: FormInputWithName[]) {
       inputs.reduce<Record<string, TSchema>>((acc, input) => {
         acc[input.name] = createPropertySchema(input);
         return acc;
-      }, {}),
+      }, {})
     ),
     defaultValues: inputs.reduce<Record<string, string | boolean>>(
       (acc, input) => {
-        acc[input.name] = input.type === FormInputType.TOGGLE ? false : '';
+        acc[input.name] = input.type === FormInputType.TOGGLE ? false : "";
         return acc;
       },
-      {},
+      {}
     ),
   };
 }
 const handleDownloadFile = (fileBase: FileResponseInterface) => {
-  const link = document.createElement('a');
-  if ('url' in fileBase) {
+  const link = document.createElement("a");
+  if ("url" in fileBase) {
     link.href = fileBase.url;
   } else {
     link.download = fileBase.fileName;
     link.href = fileBase.base64Url;
     URL.revokeObjectURL(fileBase.base64Url);
   }
-  link.target = '_blank';
-  link.rel = 'noreferrer noopener';
+  link.target = "_blank";
+  link.rel = "noreferrer noopener";
 
   link.click();
 };
@@ -116,7 +116,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
       acc[key.toLowerCase()] = value;
       return acc;
     },
-    {} as Record<string, string>,
+    {} as Record<string, string>
   );
 
   const inputs = useRef<FormInputWithName[]>(
@@ -125,7 +125,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
         ...input,
         name: createKeyForFormInput(input.displayName),
       };
-    }),
+    })
   );
 
   const schema = buildSchema(inputs.current);
@@ -140,7 +140,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
 
   const [markdownResponse, setMarkdownResponse] = useState<string | null>(null);
   const { data: showPoweredBy } = flagsHooks.useFlag<boolean>(
-    ApFlagId.SHOW_POWERED_BY_IN_FORM,
+    ApFlagId.SHOW_POWERED_BY_IN_FORM
   );
   const reactForm = useForm({
     defaultValues,
@@ -153,7 +153,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
         humanInputApi.submitForm(
           form,
           useDraft,
-          putBackQuotesForInputNames(reactForm.getValues(), inputs.current),
+          putBackQuotesForInputNames(reactForm.getValues(), inputs.current)
         ),
       onSuccess: (formResult) => {
         switch (formResult?.type) {
@@ -171,8 +171,8 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
             break;
           default:
             toast({
-              title: t('Success'),
-              description: t('Your submission was successfully received.'),
+              title: t("Success"),
+              description: t("Your submission was successfully received."),
               duration: 3000,
             });
             break;
@@ -183,23 +183,23 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
           const status = error.response?.status;
           if (status === 404) {
             toast({
-              title: t('Flow not found'),
+              title: t("Flow not found"),
               description: t(
-                'The flow you are trying to submit to does not exist.',
+                "The flow you are trying to submit to does not exist."
               ),
               duration: 3000,
             });
           } else {
             toast({
-              title: t('Error'),
-              description: t('The flow failed to execute.'),
+              title: t("Error"),
+              description: t("The flow failed to execute."),
               duration: 3000,
             });
           }
         }
         console.error(error);
       },
-    },
+    }
   );
   return (
     <div className="w-full h-full flex">
@@ -237,7 +237,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
                                   </FormLabel>
                                 </FormItem>
                                 <ReadMoreDescription
-                                  text={input.description ?? ''}
+                                  text={input.description ?? ""}
                                 />
                               </>
                             )}
@@ -247,7 +247,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
                                   htmlFor={input.name}
                                   className="flex items-center justify-between"
                                 >
-                                  {input.displayName} {input.required && '*'}
+                                  {input.displayName} {input.required && "*"}
                                 </FormLabel>
                                 <FormControl className="flex flex-col gap-1">
                                   <>
@@ -288,7 +288,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
                                       />
                                     )}
                                     <ReadMoreDescription
-                                      text={input.description ?? ''}
+                                      text={input.description ?? ""}
                                     />
                                   </>
                                 </FormControl>
@@ -305,7 +305,7 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
                   className="w-full mt-4"
                   loading={isPending}
                 >
-                  {t('Submit')}
+                  {t("Submit")}
                 </Button>
 
                 {markdownResponse && (
@@ -326,5 +326,5 @@ const ApForm = ({ form, useDraft }: ApFormProps) => {
   );
 };
 
-ApForm.displayName = 'ApForm';
+ApForm.displayName = "ApForm";
 export { ApForm };

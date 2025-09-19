@@ -1,9 +1,9 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { projectHooks } from '@/hooks/project-hooks';
-import { isNil } from '@activepieces/shared';
+import { projectHooks } from "@/hooks/project-hooks";
+import { isNil } from "@activepieces/shared";
 
-import { LimitAlert } from './limit-alert';
+import { LimitAlert } from "./limit-alert";
 
 export const AiCreditsLimitAlert = () => {
   const { project } = projectHooks.useCurrentProject();
@@ -16,16 +16,16 @@ export const AiCreditsLimitAlert = () => {
   return (
     <LimitAlert
       fullUsageWarningNote={t(
-        'When a project AI credits limit is reached, all flows using universal AI pieces or agents and MCP servers will fail.',
+        "When a project AI credits limit is reached, all flows using universal AI pieces or agents and MCP servers will fail."
       )}
       usagePercentage={aiCreditsUsagePercentage}
       getPercentageNote={(limitWarningPercentage) => {
-        return `${t('AI Credits Usage Exceeded')} ${
+        return `${t("AI Credits Usage Exceeded")} ${
           limitWarningPercentage * 100
-        }% ${t('of the Allowed Limit.')} `;
+        }% ${t("of the Allowed Limit.")} `;
       }}
     />
   );
 };
 
-AiCreditsLimitAlert.displayName = 'AiCreditsLimitAlert';
+AiCreditsLimitAlert.displayName = "AiCreditsLimitAlert";

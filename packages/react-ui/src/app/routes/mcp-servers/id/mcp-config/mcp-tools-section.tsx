@@ -1,20 +1,20 @@
-import { t } from 'i18next';
-import { Hammer } from 'lucide-react';
+import { t } from "i18next";
+import { Hammer } from "lucide-react";
 
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
-import { piecesHooks } from '@/features/pieces/lib/pieces-hooks';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+import { piecesHooks } from "@/features/pieces/lib/pieces-hooks";
 import type {
   McpTool,
   McpToolRequest,
   McpWithTools,
-} from '@activepieces/shared';
-import { isNil, McpToolType } from '@activepieces/shared';
+} from "@activepieces/shared";
+import { isNil, McpToolType } from "@activepieces/shared";
 
-import { McpAddToolDropdown } from '../mcp-add-tool-actions';
+import { McpAddToolDropdown } from "../mcp-add-tool-actions";
 
-import { McpFlowTool } from './mcp-flow-tool';
-import { McpPieceTool } from './mcp-piece-tool';
+import { McpFlowTool } from "./mcp-flow-tool";
+import { McpPieceTool } from "./mcp-piece-tool";
 
 interface McpToolsSectionProps {
   mcp: McpWithTools | undefined;
@@ -36,7 +36,7 @@ export const McpToolsSection = ({
   const removeTool = async (toolIds: string[]): Promise<void> => {
     if (!mcp || !onToolsUpdate) return;
     const newTools = mcp.tools.filter(
-      (tool: McpTool) => !toolIds.includes(tool.id),
+      (tool: McpTool) => !toolIds.includes(tool.id)
     );
     onToolsUpdate(newTools);
   };
@@ -88,7 +88,7 @@ export const McpToolsSection = ({
         <div className="space-y-0">
           <h1 className="text-lg flex items-center gap-2">
             <Hammer className="w-4 h-4" />
-            <span>{t('Tools')}</span>
+            <span>{t("Tools")}</span>
           </h1>
           <p className="text-sm text-muted-foreground">{description}</p>
         </div>

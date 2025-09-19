@@ -1,7 +1,7 @@
-import { Download, X } from 'lucide-react';
-import React, { useEffect } from 'react';
+import { Download, X } from "lucide-react";
+import React, { useEffect } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 interface ImageDialogProps {
   open: boolean;
@@ -16,25 +16,25 @@ export const ImageDialog: React.FC<ImageDialogProps> = ({
 }) => {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onOpenChange(false);
+      if (e.key === "Escape") onOpenChange(false);
     };
-    document.addEventListener('keydown', handler);
+    document.addEventListener("keydown", handler);
 
     return () => {
-      document.removeEventListener('keydown', handler);
+      document.removeEventListener("keydown", handler);
     };
   }, []);
   return open ? (
     <div
       className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center transition-colors duration-300"
       onKeyDown={(e) => {
-        if (e.key === 'Escape') onOpenChange(false);
+        if (e.key === "Escape") onOpenChange(false);
       }}
     >
       <div className="bg-transparent border-none shadow-none flex items-center justify-center px-4">
         <div className="relative">
           <img
-            src={imageUrl || ''}
+            src={imageUrl || ""}
             alt="Full size image"
             className="h-auto object-contain max-h-[90vh] sm:max-w-[90vw] shadow-sm rounded-md"
           />
@@ -44,9 +44,9 @@ export const ImageDialog: React.FC<ImageDialogProps> = ({
             size="icon"
             variant="accent"
             onClick={() => {
-              const link = document.createElement('a');
-              link.href = imageUrl || '';
-              link.download = 'image';
+              const link = document.createElement("a");
+              link.href = imageUrl || "";
+              link.download = "image";
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);

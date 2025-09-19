@@ -1,18 +1,18 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import deepEqual from 'deep-equal';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import deepEqual from "deep-equal";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { useBuilderStateContext } from '@/app/builder/builder-hooks';
-import { Form } from '@/components/ui/form';
+import { useBuilderStateContext } from "@/app/builder/builder-hooks";
+import { Form } from "@/components/ui/form";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from '@/components/ui/resizable-panel';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { stepsHooks } from '@/features/pieces/lib/steps-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
+} from "@/components/ui/resizable-panel";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { stepsHooks } from "@/features/pieces/lib/steps-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
 import {
   FlowAction,
   FlowActionType,
@@ -21,21 +21,21 @@ import {
   FlowTriggerType,
   debounce,
   isNil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { formUtils } from '../../../features/pieces/lib/form-utils';
-import { ActionErrorHandlingForm } from '../piece-properties/action-error-handling';
-import { DynamicPropertiesProvider } from '../piece-properties/dynamic-properties-context';
-import { SidebarHeader } from '../sidebar-header';
-import { TestStepContainer } from '../test-step';
+import { formUtils } from "../../../features/pieces/lib/form-utils";
+import { ActionErrorHandlingForm } from "../piece-properties/action-error-handling";
+import { DynamicPropertiesProvider } from "../piece-properties/dynamic-properties-context";
+import { SidebarHeader } from "../sidebar-header";
+import { TestStepContainer } from "../test-step";
 
-import { CodeSettings } from './code-settings';
-import EditableStepName from './editable-step-name';
-import { LoopsSettings } from './loops-settings';
-import { PieceSettings } from './piece-settings';
-import { RouterSettings } from './router-settings';
-import { StepCard } from './step-card';
-import { useStepSettingsContext } from './step-settings-context';
+import { CodeSettings } from "./code-settings";
+import EditableStepName from "./editable-step-name";
+import { LoopsSettings } from "./loops-settings";
+import { PieceSettings } from "./piece-settings";
+import { RouterSettings } from "./router-settings";
+import { StepCard } from "./step-card";
+import { useStepSettingsContext } from "./step-settings-context";
 
 const StepSettingsContainer = () => {
   const { selectedStep, pieceModel, formSchema } = useStepSettingsContext();
@@ -71,7 +71,7 @@ const StepSettingsContainer = () => {
     if (defaultValues.type === FlowActionType.LOOP_ON_ITEMS) {
       //TODO: fix this, for some reason if the form is not triggered, the items input error is not shown
       setTimeout(() => {
-        form.trigger('settings.items');
+        form.trigger("settings.items");
       }, 1);
     }
   }, [defaultValues]);
@@ -106,19 +106,19 @@ const StepSettingsContainer = () => {
   }, [applyOperation]);
   const currentValuesRef = useRef<FlowAction | FlowTrigger>(defaultValues);
   const form = useForm<FlowAction | FlowTrigger>({
-    mode: 'all',
+    mode: "all",
     disabled: readonly,
-    reValidateMode: 'onChange',
+    reValidateMode: "onChange",
     defaultValues,
     resolver: async (values, context, options) => {
       const result = await typeboxResolver(formSchema)(
         values,
         context,
-        options,
+        options
       );
       const cleanedNewValues = formUtils.removeUndefinedFromInput(values);
       const cleanedCurrentValues = formUtils.removeUndefinedFromInput(
-        currentValuesRef.current,
+        currentValuesRef.current
       );
       if (
         cleanedNewValues.type === FlowTriggerType.EMPTY ||
@@ -149,7 +149,7 @@ const StepSettingsContainer = () => {
     useState(false);
   const showActionErrorHandlingForm =
     [FlowActionType.CODE, FlowActionType.PIECE].includes(
-      modifiedStep.type as FlowActionType,
+      modifiedStep.type as FlowActionType
     ) && !isNil(stepMetadata);
   return (
     <Form {...form}>
@@ -163,7 +163,7 @@ const StepSettingsContainer = () => {
             <EditableStepName
               selectedBranchIndex={selectedBranchIndex}
               setDisplayName={(value) => {
-                form.setValue('displayName', value, {
+                form.setValue("displayName", value, {
                   shouldValidate: true,
                 });
               }}
@@ -182,7 +182,7 @@ const StepSettingsContainer = () => {
                     value,
                     {
                       shouldValidate: true,
-                    },
+                    }
                   );
                 }
               }}
@@ -271,5 +271,5 @@ const StepSettingsContainer = () => {
     </Form>
   );
 };
-StepSettingsContainer.displayName = 'StepSettingsContainer';
+StepSettingsContainer.displayName = "StepSettingsContainer";
 export { StepSettingsContainer };

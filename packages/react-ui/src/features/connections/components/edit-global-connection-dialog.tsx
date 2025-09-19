@@ -1,31 +1,31 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { DialogTrigger } from '@radix-ui/react-dialog';
-import { Static, Type } from '@sinclair/typebox';
-import { t } from 'i18next';
-import { Pencil } from 'lucide-react';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Static, Type } from "@sinclair/typebox";
+import { t } from "i18next";
+import { Pencil } from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
-import { globalConnectionsMutations } from '../lib/global-connections-hooks';
+import { globalConnectionsMutations } from "../lib/global-connections-hooks";
 
-import { AssignConnectionToProjectsControl } from './assign-global-connection-to-projects';
+import { AssignConnectionToProjectsControl } from "./assign-global-connection-to-projects";
 
 const EditGlobalConnectionSchema = Type.Object({
   displayName: Type.String(),
@@ -65,7 +65,7 @@ const EditGlobalConnectionDialog: React.FC<EditGlobalConnectionDialogProps> = ({
   } = globalConnectionsMutations.useUpdateGlobalConnection(
     onEdit,
     setIsOpen,
-    editConnectionForm,
+    editConnectionForm
   );
 
   return (
@@ -88,13 +88,13 @@ const EditGlobalConnectionDialog: React.FC<EditGlobalConnectionDialogProps> = ({
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              {!userHasPermissionToEdit ? t('Permission needed') : t('Edit')}
+              {!userHasPermissionToEdit ? t("Permission needed") : t("Edit")}
             </TooltipContent>
           </>
         </DialogTrigger>
         <DialogContent onInteractOutside={(event) => event.preventDefault()}>
           <DialogHeader>
-            <DialogTitle>{t('Edit Global Connection')}</DialogTitle>
+            <DialogTitle>{t("Edit Global Connection")}</DialogTitle>
           </DialogHeader>
           <Form {...editConnectionForm}>
             <form
@@ -104,7 +104,7 @@ const EditGlobalConnectionDialog: React.FC<EditGlobalConnectionDialogProps> = ({
                   displayName: data.displayName,
                   projectIds: data.projectIds,
                   currentName: currentName,
-                }),
+                })
               )}
             >
               <div className="grid space-y-4">
@@ -113,11 +113,11 @@ const EditGlobalConnectionDialog: React.FC<EditGlobalConnectionDialogProps> = ({
                   name="displayName"
                   render={({ field }) => (
                     <FormItem className="grid space-y-2">
-                      <Label htmlFor="displayName">{t('Name')}</Label>
+                      <Label htmlFor="displayName">{t("Name")}</Label>
                       <Input
                         {...field}
                         id="displayName"
-                        placeholder={t('Connection Name')}
+                        placeholder={t("Connection Name")}
                         className="rounded-sm"
                       />
                       <FormMessage />
@@ -148,10 +148,10 @@ const EditGlobalConnectionDialog: React.FC<EditGlobalConnectionDialogProps> = ({
                     setIsOpen(false);
                   }}
                 >
-                  {t('Cancel')}
+                  {t("Cancel")}
                 </Button>
                 <Button loading={isUpdatingGlobalConnection}>
-                  {t('Save')}
+                  {t("Save")}
                 </Button>
               </DialogFooter>
             </form>

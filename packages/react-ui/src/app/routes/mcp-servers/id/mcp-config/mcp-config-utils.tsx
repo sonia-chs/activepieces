@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
 const formatNames = (names: string[]) => {
   const slicedNames = names.slice(0, 3);
@@ -9,11 +9,11 @@ const formatNames = (names: string[]) => {
     return name;
   });
   if (names.length > 3) {
-    return `${formattedNames.join('')} ${t('and')} ${names.length - 3} ${t(
-      'more',
+    return `${formattedNames.join("")} ${t("and")} ${names.length - 3} ${t(
+      "more"
     )}`;
   }
-  return formattedNames.join('');
+  return formattedNames.join("");
 };
 
 export const mcpConfigUtils = {

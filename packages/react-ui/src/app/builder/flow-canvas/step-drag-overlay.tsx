@@ -1,14 +1,14 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { useSidebar } from '@/components/ui/sidebar-shadcn';
-import { stepsHooks } from '@/features/pieces/lib/steps-hooks';
-import { FlowAction, FlowTrigger } from '@activepieces/shared';
+import { useSidebar } from "@/components/ui/sidebar-shadcn";
+import { stepsHooks } from "@/features/pieces/lib/steps-hooks";
+import { FlowAction, FlowTrigger } from "@activepieces/shared";
 
 import {
   BUILDER_NAVIGATION_SIDEBAR_ID,
   flowUtilConsts,
   LEFT_SIDEBAR_ID,
-} from './utils/consts';
+} from "./utils/consts";
 
 const StepDragOverlay = ({
   step,
@@ -23,7 +23,7 @@ const StepDragOverlay = ({
   const builderLeftSidebar = document.getElementById(LEFT_SIDEBAR_ID);
   const builderLeftSidebarWidth = builderLeftSidebar?.clientWidth ?? 0;
   const builderNavigationBar = document.getElementById(
-    BUILDER_NAVIGATION_SIDEBAR_ID,
+    BUILDER_NAVIGATION_SIDEBAR_ID
   );
   const builderNavigationBarWidth = open
     ? builderNavigationBar?.clientWidth ?? 0
@@ -42,7 +42,7 @@ const StepDragOverlay = ({
   return (
     <div
       className={
-        'p-4 absolute left-0 top-0  opacity-75  flex items-center justify-center rounded-lg border border-solid border bg-white'
+        "p-4 absolute left-0 top-0  opacity-75  flex items-center justify-center rounded-lg border border-solid border bg-white"
       }
       style={{
         left,
@@ -52,10 +52,10 @@ const StepDragOverlay = ({
       }}
     >
       <img
-        id={t('logo')}
-        className={'object-contain left-0 right-0 static'}
+        id={t("logo")}
+        className={"object-contain left-0 right-0 static"}
         src={step?.settings?.customLogoUrl ?? stepMetadata?.logoUrl}
-        alt={t('Step Icon')}
+        alt={t("Step Icon")}
       />
     </div>
   );

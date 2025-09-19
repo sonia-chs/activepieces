@@ -1,25 +1,25 @@
-import { useMutation } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { Eye, Pencil, Trash, Users } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { Eye, Pencil, Trash, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
-import { DataTable, RowDataWithActions } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
+import { DataTable, RowDataWithActions } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { useToast } from '@/components/ui/use-toast';
-import { projectRoleApi } from '@/features/platform-admin/lib/project-role-api';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { formatUtils } from '@/lib/utils';
-import { ProjectRole, RoleType, SeekPage } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
+import { projectRoleApi } from "@/features/platform-admin/lib/project-role-api";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { formatUtils } from "@/lib/utils";
+import { ProjectRole, RoleType, SeekPage } from "@activepieces/shared";
 
-import { ProjectRoleDialog } from './project-role-dialog';
+import { ProjectRoleDialog } from "./project-role-dialog";
 
 interface ProjectRolesTableProps {
   projectRoles: SeekPage<ProjectRole> | undefined;
@@ -37,13 +37,13 @@ export const ProjectRolesTable = ({
   const { platform } = platformHooks.useCurrentPlatform();
 
   const { mutate: deleteProjectRole, isPending: isDeleting } = useMutation({
-    mutationKey: ['delete-project-role'],
+    mutationKey: ["delete-project-role"],
     mutationFn: (name: string) => projectRoleApi.delete(name),
     onSuccess: () => {
       refetch();
       toast({
-        title: t('Success'),
-        description: t('Project Role entry deleted successfully'),
+        title: t("Success"),
+        description: t("Project Role entry deleted successfully"),
         duration: 3000,
       });
     },
@@ -51,18 +51,18 @@ export const ProjectRolesTable = ({
 
   const columns: ColumnDef<RowDataWithActions<ProjectRole>>[] = [
     {
-      accessorKey: 'name',
+      accessorKey: "name",
       accessorFn: (row) => row.name,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Name')} />
+        <DataTableColumnHeader column={column} title={t("Name")} />
       ),
       cell: ({ row }) => <div className="text-left">{row.original.name}</div>,
     },
     {
-      accessorKey: 'updated',
+      accessorKey: "updated",
       accessorFn: (row) => row.updated,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Updated')} />
+        <DataTableColumnHeader column={column} title={t("Updated")} />
       ),
       cell: ({ row }) => (
         <div className="text-left">
@@ -71,12 +71,12 @@ export const ProjectRolesTable = ({
       ),
     },
     {
-      accessorKey: 'userCount',
+      accessorKey: "userCount",
       accessorFn: (row) => row.userCount,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('Users')}
+          title={t("Users")}
           className="text-center"
         />
       ),
@@ -88,9 +88,9 @@ export const ProjectRolesTable = ({
 
   return (
     <DataTable
-      emptyStateTextTitle={t('No project roles found')}
+      emptyStateTextTitle={t("No project roles found")}
       emptyStateTextDescription={t(
-        'Create custom project roles to manage permissions for platform users',
+        "Create custom project roles to manage permissions for platform users"
       )}
       emptyStateIcon={<Users className="size-14" />}
       columns={columns}
@@ -114,7 +114,7 @@ export const ProjectRolesTable = ({
                     <Users className="size-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">{t('Show Users')}</TooltipContent>
+                <TooltipContent side="bottom">{t("Show Users")}</TooltipContent>
               </Tooltip>
 
               <Tooltip>
@@ -137,8 +137,8 @@ export const ProjectRolesTable = ({
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   {row.type === RoleType.DEFAULT
-                    ? t('View Role')
-                    : t('Edit Role')}
+                    ? t("View Role")
+                    : t("Edit Role")}
                 </TooltipContent>
               </Tooltip>
 
@@ -147,15 +147,15 @@ export const ProjectRolesTable = ({
                   <TooltipTrigger>
                     <ConfirmationDeleteDialog
                       isDanger={true}
-                      title={t('Delete Role')}
+                      title={t("Delete Role")}
                       message={t(
                         `Deleting this role will remove ${
                           row.userCount
                         } project member${
-                          row.userCount === 1 ? '' : 's'
-                        } and all associated invitations. Are you sure you want to proceed?`,
+                          row.userCount === 1 ? "" : "s"
+                        } and all associated invitations. Are you sure you want to proceed?`
                       )}
-                      entityName={`${t('Project Role')} ${row.name}`}
+                      entityName={`${t("Project Role")} ${row.name}`}
                       mutationFn={async () => deleteProjectRole(row.name)}
                     >
                       <Button
@@ -168,7 +168,7 @@ export const ProjectRolesTable = ({
                     </ConfirmationDeleteDialog>
                   </TooltipTrigger>
                   <TooltipContent side="bottom">
-                    {t('Delete Role')}
+                    {t("Delete Role")}
                   </TooltipContent>
                 </Tooltip>
               )}

@@ -1,27 +1,27 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState, useEffect, useRef } from 'react';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState, useEffect, useRef } from "react";
 
-import { CreateTagDialog } from '@/app/routes/platform/setup/pieces/create-tag-dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { CreateTagDialog } from "@/app/routes/platform/setup/pieces/create-tag-dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { toast } from '@/components/ui/use-toast';
-import { piecesTagsApi } from '@/features/platform-admin/lib/pieces-tags';
-import { PieceMetadataModelSummary } from '@activepieces/pieces-framework';
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
+import { piecesTagsApi } from "@/features/platform-admin/lib/pieces-tags";
+import { PieceMetadataModelSummary } from "@activepieces/pieces-framework";
 
 type ApplyTagsProps = {
   selectedPieces: PieceMetadataModelSummary[];
@@ -30,7 +30,7 @@ type ApplyTagsProps = {
 
 const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
   const { data: tags = [] } = useQuery({
-    queryKey: ['tags'],
+    queryKey: ["tags"],
     queryFn: async () => {
       const response = await piecesTagsApi.list({ limit: 100 });
       return response.data;
@@ -46,9 +46,9 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
         tags
           .map((tag) => tag.name)
           .filter((tag) =>
-            selectedPieces.every((piece) => piece.tags?.includes(tag)),
-          ),
-      ),
+            selectedPieces.every((piece) => piece.tags?.includes(tag))
+          )
+      )
     );
   }, [selectedPieces, tags]);
 
@@ -56,8 +56,8 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
     mutationFn: async (tags: string[]) => {
       setSelectedTags(new Set(tags));
       toast({
-        title: t('Applying Tags...'),
-        variant: 'default',
+        title: t("Applying Tags..."),
+        variant: "default",
       });
       await piecesTagsApi.tagPieces({
         piecesName: selectedPieces.map((piece) => piece.name),
@@ -66,8 +66,8 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
     },
     onSuccess: () => {
       toast({
-        title: t('Tags applied.'),
-        variant: 'default',
+        title: t("Tags applied."),
+        variant: "default",
       });
       onApplyTags();
     },
@@ -81,7 +81,7 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
       tags.map((tag) => ({
         label: tag.name,
         value: tag.name,
-      })),
+      }))
     );
   }, [tags]);
 
@@ -99,14 +99,14 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
           size="sm"
           disabled={selectedPieces.length === 0}
         >
-          {t('Apply Tags')}
+          {t("Apply Tags")}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
           <CommandList>
             {tagOptions.length === 0 ? (
-              <CommandEmpty>{t('No tags created.')}</CommandEmpty>
+              <CommandEmpty>{t("No tags created.")}</CommandEmpty>
             ) : (
               <ScrollArea viewPortClassName="max-h-[200px]">
                 <CommandGroup>
@@ -114,10 +114,10 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
                     const isSelected = selectedTags.has(option.value);
                     const isIndeterminate =
                       selectedPieces.some((piece) =>
-                        piece.tags?.includes(option.value),
+                        piece.tags?.includes(option.value)
                       ) &&
                       !selectedPieces.every((piece) =>
-                        piece.tags?.includes(option.value),
+                        piece.tags?.includes(option.value)
                       ) &&
                       !tagsThatHaveBeenClickedRef.current.has(option.value);
                     return (
@@ -136,7 +136,7 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
                       >
                         <Checkbox
                           checked={
-                            isIndeterminate ? 'indeterminate' : isSelected
+                            isIndeterminate ? "indeterminate" : isSelected
                           }
                           className="mr-2"
                         ></Checkbox>
@@ -168,7 +168,7 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
                   setCreateDialogOpen(true);
                 }}
               >
-                + {t('New Tag')}
+                + {t("New Tag")}
               </CommandItem>
             </CreateTagDialog>
             <Separator />
@@ -180,7 +180,7 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
                   setOpen(false);
                 }}
               >
-                {t('Apply Tags')}
+                {t("Apply Tags")}
               </CommandItem>
             </CommandGroup>
           </CommandList>
@@ -190,5 +190,5 @@ const ApplyTags = ({ selectedPieces, onApplyTags }: ApplyTagsProps) => {
   );
 };
 
-ApplyTags.displayName = 'ApplyTags';
+ApplyTags.displayName = "ApplyTags";
 export { ApplyTags };

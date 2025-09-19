@@ -1,6 +1,6 @@
-import { Static, Type } from '@sinclair/typebox';
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Static, Type } from "@sinclair/typebox";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
 import {
   FormControl,
@@ -8,10 +8,10 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { BasicAuthProperty } from '@activepieces/pieces-framework';
-import { UpsertBasicAuthRequest } from '@activepieces/shared';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { BasicAuthProperty } from "@activepieces/pieces-framework";
+import { UpsertBasicAuthRequest } from "@activepieces/shared";
 
 type BasicAuthConnectionSettingsProps = {
   authProperty: BasicAuthProperty;
@@ -58,8 +58,8 @@ const BasicAuthConnectionSettings = React.memo(
         ></FormField>
       </>
     );
-  },
+  }
 );
 
-BasicAuthConnectionSettings.displayName = 'BasicAuthConnectionSettings';
+BasicAuthConnectionSettings.displayName = "BasicAuthConnectionSettings";
 export { BasicAuthConnectionSettings };

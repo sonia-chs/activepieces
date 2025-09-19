@@ -1,37 +1,37 @@
-import { useMutation } from '@tanstack/react-query';
-import { Settings, History, Link2, ChevronLeft } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useMutation } from "@tanstack/react-query";
+import { Settings, History, Link2, ChevronLeft } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-import { Drawer, DrawerContent, DrawerHeader } from '@/components/ui/drawer';
-import EditableTextWithPen from '@/components/ui/editable-text-with-pen';
-import { LoadingScreen } from '@/components/ui/loading-screen';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { mcpApi } from '@/features/mcp/lib/mcp-api';
-import { mcpHooks } from '@/features/mcp/lib/mcp-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { NEW_MCP_QUERY_PARAM } from '@/lib/utils';
-import { isNil } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
+import EditableTextWithPen from "@/components/ui/editable-text-with-pen";
+import { LoadingScreen } from "@/components/ui/loading-screen";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { mcpApi } from "@/features/mcp/lib/mcp-api";
+import { mcpHooks } from "@/features/mcp/lib/mcp-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { NEW_MCP_QUERY_PARAM } from "@/lib/utils";
+import { isNil } from "@activepieces/shared";
 
-import { McpConfigPage } from './mcp-config';
-import { McpConnectPage } from './mcp-connect';
-import { McpHistoryPage } from './runs/mcp-runs';
+import { McpConfigPage } from "./mcp-config";
+import { McpConnectPage } from "./mcp-connect";
+import { McpHistoryPage } from "./runs/mcp-runs";
 
 const tabs = [
   {
-    name: 'Configure',
-    value: 'configure',
+    name: "Configure",
+    value: "configure",
     icon: Settings,
   },
   {
-    name: 'Connect',
-    value: 'connect',
+    name: "Connect",
+    value: "connect",
     icon: Link2,
   },
   {
-    name: 'History',
-    value: 'history',
+    name: "History",
+    value: "history",
     icon: History,
   },
 ];
@@ -47,15 +47,15 @@ const McpServerPage = () => {
   const projectId = authenticationSession.getProjectId();
   const [searchParams] = useSearchParams();
   const [isEditingName, setIsEditingName] = useState(
-    searchParams.get(NEW_MCP_QUERY_PARAM) === 'true',
+    searchParams.get(NEW_MCP_QUERY_PARAM) === "true"
   );
-  const [mcpName, setMcpName] = useState('');
+  const [mcpName, setMcpName] = useState("");
 
   useEffect(() => {
     if (isNil(mcp)) {
       return;
     }
-    setMcpName(mcp?.name || '');
+    setMcpName(mcp?.name || "");
   }, [mcp?.name]);
 
   const handleNameChange = (newName: string) => {
@@ -131,9 +131,9 @@ const McpServerPage = () => {
                       value={tab.value}
                       className="w-full mt-0"
                     >
-                      {tab.value === 'configure' && <McpConfigPage />}
-                      {tab.value === 'connect' && <McpConnectPage />}
-                      {tab.value === 'history' && <McpHistoryPage />}
+                      {tab.value === "configure" && <McpConfigPage />}
+                      {tab.value === "connect" && <McpConnectPage />}
+                      {tab.value === "history" && <McpHistoryPage />}
                     </TabsContent>
                   ))}
                 </div>
@@ -146,6 +146,6 @@ const McpServerPage = () => {
   );
 };
 
-McpServerPage.displayName = 'McpServerPage';
+McpServerPage.displayName = "McpServerPage";
 
 export default McpServerPage;

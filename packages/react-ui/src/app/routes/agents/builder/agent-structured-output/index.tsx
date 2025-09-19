@@ -1,14 +1,14 @@
-import { t } from 'i18next';
-import { Database, X } from 'lucide-react';
+import { t } from "i18next";
+import { Database, X } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
-import { useBuilderAgentState } from '@/features/agents/lib/store/builder-agent-state-provider';
-import { AgentOutputType, AgentOutputFieldType } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { useBuilderAgentState } from "@/features/agents/lib/store/builder-agent-state-provider";
+import { AgentOutputType, AgentOutputFieldType } from "@activepieces/shared";
 
-import { AddFieldPopover } from './add-field-popover';
-import { FieldTypeIcon } from './field-type-icon';
+import { AddFieldPopover } from "./add-field-popover";
+import { FieldTypeIcon } from "./field-type-icon";
 
 export const AgentStructuredOutput = () => {
   const { agent, updateAgent } = useBuilderAgentState((state) => ({
@@ -31,7 +31,7 @@ export const AgentStructuredOutput = () => {
   const handleAddField = (
     type: AgentOutputFieldType,
     name: string,
-    description: string,
+    description: string
   ) => {
     const newField = {
       displayName: name,
@@ -56,7 +56,7 @@ export const AgentStructuredOutput = () => {
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-base font-medium flex items-center gap-2">
           <Database className="w-4 h-4" />
-          {t('Structured Output')}
+          {t("Structured Output")}
         </h2>
         <div className="flex items-center gap-2">
           <Switch

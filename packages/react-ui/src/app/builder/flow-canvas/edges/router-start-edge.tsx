@@ -1,12 +1,12 @@
-import { BaseEdge, EdgeProps } from '@xyflow/react';
+import { BaseEdge, EdgeProps } from "@xyflow/react";
 
-import { StepLocationRelativeToParent } from '@activepieces/shared';
+import { StepLocationRelativeToParent } from "@activepieces/shared";
 
-import { flowUtilConsts } from '../utils/consts';
-import { ApRouterStartEdge } from '../utils/types';
+import { flowUtilConsts } from "../utils/consts";
+import { ApRouterStartEdge } from "../utils/types";
 
-import { ApAddButton } from './add-button';
-import { BranchLabel } from './branch-label';
+import { ApAddButton } from "./add-button";
+import { BranchLabel } from "./branch-label";
 
 export const ApRouterStartCanvasEdge = ({
   sourceX,
@@ -16,7 +16,7 @@ export const ApRouterStartCanvasEdge = ({
   source,
   target,
   id,
-}: EdgeProps & Omit<ApRouterStartEdge, 'position'>) => {
+}: EdgeProps & Omit<ApRouterStartEdge, "position">) => {
   const verticalLineLength =
     flowUtilConsts.VERTICAL_SPACE_BETWEEN_STEPS -
     flowUtilConsts.VERTICAL_SPACE_BETWEEN_STEP_AND_LINE +
@@ -41,7 +41,7 @@ export const ApRouterStartCanvasEdge = ({
     if (distanceBetweenSourceAndTarget >= flowUtilConsts.ARC_LENGTH) {
       // Add appropriate arc based on source position
       path +=
-        sourceX > targetX ? ' a12,12 0 0,1 12,-12' : ' a-12,-12 0 0,0 -12,-12';
+        sourceX > targetX ? " a12,12 0 0,1 12,-12" : " a-12,-12 0 0,0 -12,-12";
 
       if (data.drawHorizontalLine) {
         // Calculate horizontal line length
@@ -130,11 +130,11 @@ export const ApRouterStartCanvasEdge = ({
       )}
 
       <foreignObject
-        width={flowUtilConsts.AP_NODE_SIZE.STEP.width - 10 + 'px'}
+        width={flowUtilConsts.AP_NODE_SIZE.STEP.width - 10 + "px"}
         height={
           flowUtilConsts.LABEL_HEIGHT +
           flowUtilConsts.LABEL_VERTICAL_PADDING +
-          'px'
+          "px"
         }
         x={targetX - (flowUtilConsts.AP_NODE_SIZE.STEP.width - 10) / 2}
         y={

@@ -1,11 +1,11 @@
-import { Handle, Position } from '@xyflow/react';
-import { t } from 'i18next';
-import { useRef } from 'react';
+import { Handle, Position } from "@xyflow/react";
+import { t } from "i18next";
+import { useRef } from "react";
 
-import { flowUtilConsts } from '../utils/consts';
-import { ApGraphEndNode } from '../utils/types';
+import { flowUtilConsts } from "../utils/consts";
+import { ApGraphEndNode } from "../utils/types";
 
-const ApGraphEndWidgetNode = ({ data }: Omit<ApGraphEndNode, 'position'>) => {
+const ApGraphEndWidgetNode = ({ data }: Omit<ApGraphEndNode, "position">) => {
   const elementRef = useRef<HTMLDivElement>(null);
   return (
     <>
@@ -15,9 +15,9 @@ const ApGraphEndWidgetNode = ({ data }: Omit<ApGraphEndNode, 'position'>) => {
             ref={elementRef}
             style={{ left: `-${(elementRef.current?.clientWidth || 0) / 2}px` }}
             className="px-2.5 absolute  py-1.5 bg-accent text-foreground/70 rounded-full animate-fade"
-            key={'flow-end-button'}
+            key={"flow-end-button"}
           >
-            {t('End')}
+            {t("End")}
           </div>
         )}
       </div>
@@ -36,5 +36,5 @@ const ApGraphEndWidgetNode = ({ data }: Omit<ApGraphEndNode, 'position'>) => {
   );
 };
 
-ApGraphEndWidgetNode.displayName = 'ApGraphEndWidgetNode';
+ApGraphEndWidgetNode.displayName = "ApGraphEndWidgetNode";
 export default ApGraphEndWidgetNode;

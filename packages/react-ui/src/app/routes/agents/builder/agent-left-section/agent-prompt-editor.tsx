@@ -1,30 +1,30 @@
-import BulletList from '@tiptap/extension-bullet-list';
-import Document from '@tiptap/extension-document';
-import HardBreak from '@tiptap/extension-hard-break';
-import Heading from '@tiptap/extension-heading';
-import History from '@tiptap/extension-history';
-import ListItem from '@tiptap/extension-list-item';
-import OrderedList from '@tiptap/extension-ordered-list';
-import Paragraph from '@tiptap/extension-paragraph';
-import Placeholder from '@tiptap/extension-placeholder';
-import Text from '@tiptap/extension-text';
-import { Typography } from '@tiptap/extension-typography';
-import { useEditor, EditorContent } from '@tiptap/react';
-import { t } from 'i18next';
-import { Sparkles } from 'lucide-react';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Markdown } from 'tiptap-markdown';
+import BulletList from "@tiptap/extension-bullet-list";
+import Document from "@tiptap/extension-document";
+import HardBreak from "@tiptap/extension-hard-break";
+import Heading from "@tiptap/extension-heading";
+import History from "@tiptap/extension-history";
+import ListItem from "@tiptap/extension-list-item";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Paragraph from "@tiptap/extension-paragraph";
+import Placeholder from "@tiptap/extension-placeholder";
+import Text from "@tiptap/extension-text";
+import { Typography } from "@tiptap/extension-typography";
+import { useEditor, EditorContent } from "@tiptap/react";
+import { t } from "i18next";
+import { Sparkles } from "lucide-react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Markdown } from "tiptap-markdown";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { agentHooks } from '@/features/agents/lib/agent-hooks';
-import { useBuilderAgentState } from '@/features/agents/lib/store/builder-agent-state-provider';
-import { isNil } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { agentHooks } from "@/features/agents/lib/agent-hooks";
+import { useBuilderAgentState } from "@/features/agents/lib/store/builder-agent-state-provider";
+import { isNil } from "@activepieces/shared";
 
 type FormValues = {
   systemPrompt: string;
@@ -37,35 +37,35 @@ const extensions = (placeholder: string) => {
     HardBreak,
     Paragraph.configure({
       HTMLAttributes: {
-        class: 'mb-3 last:mb-0',
+        class: "mb-3 last:mb-0",
       },
     }),
     Text,
     Heading.configure({
       levels: [1, 2, 3, 4, 5, 6],
       HTMLAttributes: {
-        class: 'font-bold leading-tight mb-4 mt-6 first:mt-0',
+        class: "font-bold leading-tight mb-4 mt-6 first:mt-0",
       },
     }),
     BulletList.configure({
       HTMLAttributes: {
-        class: 'list-disc ml-6 mb-3 space-y-1',
+        class: "list-disc ml-6 mb-3 space-y-1",
       },
     }),
     OrderedList.configure({
       HTMLAttributes: {
-        class: 'list-decimal ml-6 mb-3 space-y-1',
+        class: "list-decimal ml-6 mb-3 space-y-1",
       },
     }),
     ListItem.configure({
       HTMLAttributes: {
-        class: 'leading-relaxed',
+        class: "leading-relaxed",
       },
     }),
     Typography,
     Placeholder.configure({
       placeholder,
-      emptyEditorClass: 'is-editor-empty',
+      emptyEditorClass: "is-editor-empty",
     }),
     Markdown.configure({
       html: false,
@@ -86,15 +86,15 @@ export const AgentPromptEditor = () => {
 
   const { setValue, watch } = useForm<FormValues>({
     defaultValues: {
-      systemPrompt: agent?.systemPrompt ?? '',
+      systemPrompt: agent?.systemPrompt ?? "",
     },
   });
 
   useEffect(() => {
-    setValue('systemPrompt', agent?.systemPrompt ?? '');
+    setValue("systemPrompt", agent?.systemPrompt ?? "");
   }, [agent?.systemPrompt, setValue]);
 
-  const systemPromptValue = watch('systemPrompt');
+  const systemPromptValue = watch("systemPrompt");
 
   const handleEnhancePrompt = () => {
     enhancePrompt(
@@ -102,10 +102,10 @@ export const AgentPromptEditor = () => {
       {
         onSuccess: (data) => {
           updateAgent({ ...data });
-          setValue('systemPrompt', data.systemPrompt, { shouldDirty: true });
+          setValue("systemPrompt", data.systemPrompt, { shouldDirty: true });
           editor?.chain().focus().insertContent(data.systemPrompt).run();
         },
-      },
+      }
     );
   };
 
@@ -113,14 +113,14 @@ export const AgentPromptEditor = () => {
     editable: !isNil(agent) && !isPending,
     extensions: extensions(
       t(
-        "Describe this agent's purpose, responsibilities, and any special instructions.",
-      ),
+        "Describe this agent's purpose, responsibilities, and any special instructions."
+      )
     ),
     content: systemPromptValue,
     editorProps: {
       attributes: {
-        class: 'prose prose-sm max-w-none focus:outline-none p-4 min-h-[200px]',
-        style: 'word-wrap: break-word; white-space: pre-wrap;',
+        class: "prose prose-sm max-w-none focus:outline-none p-4 min-h-[200px]",
+        style: "word-wrap: break-word; white-space: pre-wrap;",
       },
     },
     onUpdate: ({ editor }) => {
@@ -136,10 +136,10 @@ export const AgentPromptEditor = () => {
           <div className="flex flex-col items-center gap-3 text-center">
             <Sparkles className="w-6 h-6 animate-pulse text-primary" />
             <div className="text-sm font-medium text-foreground">
-              {t('Enhancing prompt...')}
+              {t("Enhancing prompt...")}
             </div>
             <div className="text-xs text-muted-foreground">
-              {t('Please wait while we improve your prompt')}
+              {t("Please wait while we improve your prompt")}
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ export const AgentPromptEditor = () => {
               )}
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{t('Enhance prompt')}</TooltipContent>
+          <TooltipContent>{t("Enhance prompt")}</TooltipContent>
         </Tooltip>
       </div>
     </div>

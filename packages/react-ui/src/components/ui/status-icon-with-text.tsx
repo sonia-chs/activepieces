@@ -1,23 +1,23 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import React from 'react';
+import { cva, type VariantProps } from "class-variance-authority";
+import React from "react";
 
-import { isNil } from '@activepieces/shared';
+import { isNil } from "@activepieces/shared";
 
 const statusCodeVariants = cva(
-  'inline-flex gap-1 rounded px-2.5 py-1 text-xs font-semibold',
+  "inline-flex gap-1 rounded px-2.5 py-1 text-xs font-semibold",
   {
     variants: {
       variant: {
-        success: 'bg-success-100 text-success-300',
-        error: 'bg-destructive-100 text-destructive-300',
-        default: 'bg-accent text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground',
+        success: "bg-success-100 text-success-300",
+        error: "bg-destructive-100 text-destructive-300",
+        default: "bg-accent text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground",
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: "default",
     },
-  },
+  }
 );
 
 interface StatusIconWithTextProps
@@ -53,8 +53,8 @@ const StatusIconWithText = React.memo(
         <span style={{ color: textColor }}>{text}</span>
       </span>
     );
-  },
+  }
 );
 
-StatusIconWithText.displayName = 'StatusIconWithText';
+StatusIconWithText.displayName = "StatusIconWithText";
 export { StatusIconWithText };

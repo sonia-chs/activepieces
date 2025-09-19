@@ -1,17 +1,17 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
 import {
   QueryObserverResult,
   RefetchOptions,
   useMutation,
-} from '@tanstack/react-query';
-import { HttpStatusCode } from 'axios';
-import { t } from 'i18next';
-import { Plus } from 'lucide-react';
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+} from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
+import { t } from "i18next";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -19,34 +19,34 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/dialog";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { api } from '@/lib/api';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn } from '@/lib/utils';
-import { FolderDto, Permission } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { api } from "@/lib/api";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn } from "@/lib/utils";
+import { FolderDto, Permission } from "@activepieces/shared";
 
-import { foldersApi } from '../lib/folders-api';
+import { foldersApi } from "../lib/folders-api";
 
 type CreateFolderDialogProps = {
   updateSearchParams: (_folderId?: string) => void;
   refetchFolders: (
-    options?: RefetchOptions,
+    options?: RefetchOptions
   ) => Promise<QueryObserverResult<FolderDto[], Error>>;
   className?: string;
 };
 
 const CreateFolderFormSchema = Type.Object({
   displayName: Type.String({
-    errorMessage: t('Please enter folder name'),
+    errorMessage: t("Please enter folder name"),
   }),
 });
 
@@ -81,15 +81,15 @@ export const CreateFolderDialog = ({
       updateSearchParams(folder.id);
       refetchFolders();
       toast({
-        title: t('Added folder successfully'),
+        title: t("Added folder successfully"),
       });
     },
     onError: (error) => {
       if (api.isError(error)) {
         switch (error.response?.status) {
           case HttpStatusCode.Conflict: {
-            form.setError('root.serverError', {
-              message: t('The folder name already exists.'),
+            form.setError("root.serverError", {
+              message: t("The folder name already exists."),
             });
             break;
           }
@@ -117,12 +117,12 @@ export const CreateFolderDialog = ({
             </Button>
           </DialogTrigger>
         </TooltipTrigger>
-        <TooltipContent side="right">{t('New folder')}</TooltipContent>
+        <TooltipContent side="right">{t("New folder")}</TooltipContent>
       </Tooltip>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('New Folder')}</DialogTitle>
+          <DialogTitle>{t("New Folder")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit((data) => mutate(data))}>
@@ -135,7 +135,7 @@ export const CreateFolderDialog = ({
                     {...field}
                     required
                     id="folder"
-                    placeholder={t('Folder Name')}
+                    placeholder={t("Folder Name")}
                     className="rounded-sm"
                   />
                   <FormMessage />
@@ -149,14 +149,14 @@ export const CreateFolderDialog = ({
             )}
             <DialogFooter>
               <Button
-                variant={'outline'}
+                variant={"outline"}
                 onClick={() => setIsDialogOpen(false)}
                 type="button"
               >
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button type="submit" loading={isPending}>
-                {t('Confirm')}
+                {t("Confirm")}
               </Button>
             </DialogFooter>
           </form>

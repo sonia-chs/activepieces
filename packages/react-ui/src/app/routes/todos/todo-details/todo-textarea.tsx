@@ -1,12 +1,12 @@
-import { ArrowRight } from 'lucide-react';
-import { useState, KeyboardEvent } from 'react';
+import { ArrowRight } from "lucide-react";
+import { useState, KeyboardEvent } from "react";
 
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
-import { UserAvatar } from '@/components/ui/user-avatar';
-import { userHooks } from '@/hooks/user-hooks';
-import { cn } from '@/lib/utils';
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { userHooks } from "@/hooks/user-hooks";
+import { cn } from "@/lib/utils";
 
 type TodoTextareaProps = {
   onSubmit: (content: string) => Promise<void>;
@@ -17,11 +17,11 @@ type TodoTextareaProps = {
 
 export const TodoTextarea = ({
   onSubmit,
-  placeholder = 'You can use markdown to format your comment',
+  placeholder = "You can use markdown to format your comment",
   disabled = false,
   title,
 }: TodoTextareaProps) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data: currentUser } = userHooks.useCurrentUser();
@@ -32,14 +32,14 @@ export const TodoTextarea = ({
     setIsSubmitting(true);
     try {
       await onSubmit(content);
-      setContent('');
+      setContent("");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
@@ -57,7 +57,7 @@ export const TodoTextarea = ({
             <UserAvatar
               size={32}
               email={currentUser?.email}
-              name={currentUser?.firstName + ' ' + currentUser?.lastName}
+              name={currentUser?.firstName + " " + currentUser?.lastName}
             />
           )}
         </div>
@@ -69,7 +69,7 @@ export const TodoTextarea = ({
             <div className="h-[155px] w-full p-[1px] rounded-lg border border-input-border">
               <div
                 className={cn(
-                  'relative rounded-md bg-background w-full h-full flex flex-col justify-between',
+                  "relative rounded-md bg-background w-full h-full flex flex-col justify-between"
                 )}
               >
                 <ScrollArea className="w-full flex-grow overflow-auto">

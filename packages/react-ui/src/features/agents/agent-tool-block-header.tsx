@@ -1,5 +1,5 @@
-import { Loader2, Wrench, CircleCheck, CircleX } from 'lucide-react';
-import React from 'react';
+import { Loader2, Wrench, CircleCheck, CircleX } from "lucide-react";
+import React from "react";
 
 interface AgentToolBlockHeaderProps {
   metadata?: { logoUrl?: string; displayName?: string };
@@ -42,7 +42,7 @@ export const AgentToolBlockHeader: React.FC<AgentToolBlockHeaderProps> = ({
     <span className="flex gap-1 items-center">
       <span className="text-sm text-muted-foreground">Using Tool:</span>
       <span className="text-sm font-semibold">
-        {isLoading ? 'Loading...' : metadata?.displayName ?? 'Unknown Tool'}
+        {isLoading ? "Loading..." : metadata?.displayName ?? "Unknown Tool"}
       </span>
     </span>
   </div>

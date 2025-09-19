@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import ImageWithFallback from '@/components/ui/image-with-fallback';
-import { Skeleton } from '@/components/ui/skeleton';
-import { stepsHooks } from '@/features/pieces/lib/steps-hooks';
-import { PieceStepMetadata } from '@/lib/types';
+import ImageWithFallback from "@/components/ui/image-with-fallback";
+import { Skeleton } from "@/components/ui/skeleton";
+import { stepsHooks } from "@/features/pieces/lib/steps-hooks";
+import { PieceStepMetadata } from "@/lib/types";
 import {
   FlowAction,
   FlowActionType,
@@ -11,9 +11,9 @@ import {
   isNil,
   FlowTrigger,
   FlowTriggerType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { EditAgentInFlowBuilderButton } from './edit-agent-inside-flow-builder-button';
+import { EditAgentInFlowBuilderButton } from "./edit-agent-inside-flow-builder-button";
 
 type StepCardProps = {
   step: FlowAction | FlowTrigger;
@@ -34,7 +34,7 @@ const StepCard: React.FC<StepCardProps> = ({ step }) => {
     stepMetadata?.actionOrTriggerOrAgentDisplayName;
   const modifiedTitle = stepMetadata
     ? `${stepMetadata?.displayName} ${
-        actionOrTriggerDisplayName ? `(${actionOrTriggerDisplayName})` : ''
+        actionOrTriggerDisplayName ? `(${actionOrTriggerDisplayName})` : ""
       }`
     : null;
   const externalAgentId = flowStructureUtil.getExternalAgentId(step);
@@ -45,7 +45,7 @@ const StepCard: React.FC<StepCardProps> = ({ step }) => {
         {stepMetadata?.logoUrl && (
           <ImageWithFallback
             src={stepMetadata.logoUrl}
-            alt={modifiedTitle ?? ''}
+            alt={modifiedTitle ?? ""}
             className="w-12 h-12"
           />
         )}

@@ -1,6 +1,6 @@
-import { ApEdition, ApFlagId } from '@activepieces/shared';
+import { ApEdition, ApFlagId } from "@activepieces/shared";
 
-import { flagsHooks } from './flags-hooks';
+import { flagsHooks } from "./flags-hooks";
 
 interface Growsumo {
   data: {
@@ -21,8 +21,8 @@ export const usePartnerStack = () => {
   const { data: edition } = flagsHooks.useFlag<ApEdition>(ApFlagId.EDITION);
   const reportSignup = (email: string, firstName: string) => {
     const hasPartnerCookie = document.cookie
-      .split('; ')
-      .some((c) => c.startsWith('_ps'));
+      .split("; ")
+      .some((c) => c.startsWith("_ps"));
     if (edition !== ApEdition.CLOUD || !hasPartnerCookie) return;
     window.growsumo.data.email = email;
     window.growsumo.data.name = firstName;

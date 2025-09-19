@@ -1,12 +1,12 @@
-import { t } from 'i18next';
-import { useEffect } from 'react';
+import { t } from "i18next";
+import { useEffect } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
 type TestButtonProps = {
   onClick: () => void;
@@ -28,8 +28,8 @@ const TestButton = ({
   useEffect(() => {
     const keydownHandler = (event: KeyboardEvent) => {
       if (
-        (isMac && event.metaKey && event.key.toLocaleLowerCase() === 'd') ||
-        (!isMac && event.ctrlKey && event.key.toLocaleLowerCase() === 'd')
+        (isMac && event.metaKey && event.key.toLocaleLowerCase() === "d") ||
+        (!isMac && event.ctrlKey && event.key.toLocaleLowerCase() === "d")
       ) {
         event.preventDefault();
         event.stopPropagation();
@@ -40,10 +40,10 @@ const TestButton = ({
       }
     };
 
-    window.addEventListener('keydown', keydownHandler, { capture: true });
+    window.addEventListener("keydown", keydownHandler, { capture: true });
 
     return () => {
-      window.removeEventListener('keydown', keydownHandler, { capture: true });
+      window.removeEventListener("keydown", keydownHandler, { capture: true });
     };
   }, [isMac, loading, disabled, onClick]);
 
@@ -61,7 +61,7 @@ const TestButton = ({
             {text}
             {showKeyboardShortcut && (
               <span className="text-[10px] tracking-widest whitespace-nowrap">
-                {isMac ? '⌘ + D' : 'Ctrl + D'}
+                {isMac ? "⌘ + D" : "Ctrl + D"}
               </span>
             )}
           </div>
@@ -69,13 +69,13 @@ const TestButton = ({
       </TooltipTrigger>
       {disabled && (
         <TooltipContent side="bottom">
-          {t('Please test the trigger first')}
+          {t("Please test the trigger first")}
         </TooltipContent>
       )}
     </Tooltip>
   );
 };
 
-TestButton.displayName = 'TestButton';
+TestButton.displayName = "TestButton";
 
 export { TestButton };

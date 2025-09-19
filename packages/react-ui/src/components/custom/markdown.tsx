@@ -1,25 +1,25 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Check, Copy, Info, AlertTriangle, Lightbulb } from 'lucide-react';
-import React, { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import breaks from 'remark-breaks';
-import gfm from 'remark-gfm';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Check, Copy, Info, AlertTriangle, Lightbulb } from "lucide-react";
+import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import breaks from "remark-breaks";
+import gfm from "remark-gfm";
 
-import { cn } from '@/lib/utils';
-import { MarkdownVariant } from '@activepieces/shared';
+import { cn } from "@/lib/utils";
+import { MarkdownVariant } from "@activepieces/shared";
 
-import { Alert, AlertDescription } from '../ui/alert';
-import { Button } from '../ui/button';
-import { useToast } from '../ui/use-toast';
+import { Alert, AlertDescription } from "../ui/alert";
+import { Button } from "../ui/button";
+import { useToast } from "../ui/use-toast";
 
 function applyVariables(markdown: string, variables: Record<string, string>) {
-  if (typeof markdown !== 'string') {
-    return '';
+  if (typeof markdown !== "string") {
+    return "";
   }
-  let result = markdown.split('<br>').join('\n');
+  let result = markdown.split("<br>").join("\n");
   result = result.replace(/\{\{(.*?)\}\}/g, (_, variableName) => {
-    return variables[variableName] ?? '';
+    return variables[variableName] ?? "";
   });
   return result;
 }
@@ -41,12 +41,12 @@ const Container = ({
 }) => {
   return (
     <Alert
-      className={cn('rounded-md border', {
-        'bg-warning-100 text-warning-300 border-none':
+      className={cn("rounded-md border", {
+        "bg-warning-100 text-warning-300 border-none":
           variant === MarkdownVariant.WARNING,
-        'bg-success-100 text-success-300 border-none':
+        "bg-success-100 text-success-300 border-none":
           variant === MarkdownVariant.TIP,
-        'p-0 bg-transparent border-none':
+        "p-0 bg-transparent border-none":
           variant === MarkdownVariant.BORDERLESS,
       })}
     >
@@ -84,7 +84,7 @@ const ApMarkdown = React.memo(
       },
       onError: () => {
         toast({
-          title: t('Failed to copy to clipboard'),
+          title: t("Failed to copy to clipboard"),
           duration: 3000,
         });
       },
@@ -107,11 +107,11 @@ const ApMarkdown = React.memo(
     return (
       <Container variant={variant}>
         <ReactMarkdown
-          className={cn('flex-grow w-full ', className)}
+          className={cn("flex-grow w-full ", className)}
           remarkPlugins={[gfm, breaks]}
           components={{
             code(props) {
-              const isLanguageText = props.className?.includes('language-text');
+              const isLanguageText = props.className?.includes("language-text");
               if (!isLanguageText) {
                 return <code {...props} className="text-wrap" />;
               }
@@ -209,8 +209,8 @@ const ApMarkdown = React.memo(
         </ReactMarkdown>
       </Container>
     );
-  },
+  }
 );
 
-ApMarkdown.displayName = 'ApMarkdown';
+ApMarkdown.displayName = "ApMarkdown";
 export { ApMarkdown };

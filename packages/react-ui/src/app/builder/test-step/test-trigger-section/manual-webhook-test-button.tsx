@@ -1,11 +1,11 @@
-import { t } from 'i18next';
-import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
-import { FlowTrigger } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { FlowTrigger } from "@activepieces/shared";
 
-import TestWebhookDialog from '../custom-test-step/test-webhook-dialog';
+import TestWebhookDialog from "../custom-test-step/test-webhook-dialog";
 
 type ManualWebhookTestButtonProps = {
   isWebhookTestingDialogOpen: boolean;
@@ -29,7 +29,7 @@ export const ManualWebhookTestButton = ({
           setIsWebhookTestingDialogOpen(true);
         }}
       >
-        {t('Generate Sample Data')}
+        {t("Generate Sample Data")}
       </Button>
 
       <TestWebhookDialog

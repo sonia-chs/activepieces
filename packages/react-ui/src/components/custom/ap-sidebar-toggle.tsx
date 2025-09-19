@@ -1,13 +1,13 @@
-import { t } from 'i18next';
-import { PanelRightClose, PanelRightOpen } from 'lucide-react';
+import { t } from "i18next";
+import { PanelRightClose, PanelRightOpen } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { useSidebar } from '@/components/ui/sidebar-shadcn';
+import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar-shadcn";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
 export const ApSidebarToggle = () => {
   const { open, setOpen } = useSidebar();
@@ -19,7 +19,7 @@ export const ApSidebarToggle = () => {
         </Button>
       </TooltipTrigger>
       <TooltipContent>
-        {open ? t('Close Sidebar') : t('Open Sidebar')}
+        {open ? t("Close Sidebar") : t("Open Sidebar")}
       </TooltipContent>
     </Tooltip>
   );

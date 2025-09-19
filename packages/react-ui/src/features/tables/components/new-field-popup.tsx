@@ -1,24 +1,24 @@
-import { t } from 'i18next';
-import { nanoid } from 'nanoid';
-import { useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { t } from "i18next";
+import { nanoid } from "nanoid";
+import { useState } from "react";
+import { FieldErrors, useForm } from "react-hook-form";
 
-import { ArrayInput } from '@/components/custom/array-input';
-import { Button } from '@/components/ui/button';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { ArrayInput } from "@/components/custom/array-input";
+import { Button } from "@/components/ui/button";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useTableState } from '@/features/tables/components/ap-table-state-provider';
-import { tablesUtils } from '@/features/tables/lib/utils';
-import { cn } from '@/lib/utils';
-import { FieldType, isNil } from '@activepieces/shared';
+} from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTableState } from "@/features/tables/components/ap-table-state-provider";
+import { tablesUtils } from "@/features/tables/lib/utils";
+import { cn } from "@/lib/utils";
+import { FieldType, isNil } from "@activepieces/shared";
 
 type NewFieldDialogProps = {
   children: React.ReactNode;
@@ -39,10 +39,10 @@ type NewFieldFormData =
     };
 
 const FIELD_TYPE_FRIENDLY_NAME: Record<FieldType, string> = {
-  [FieldType.TEXT]: 'Text',
-  [FieldType.NUMBER]: 'Number',
-  [FieldType.DATE]: 'Date',
-  [FieldType.STATIC_DROPDOWN]: 'Dropdown',
+  [FieldType.TEXT]: "Text",
+  [FieldType.NUMBER]: "Number",
+  [FieldType.DATE]: "Date",
+  [FieldType.STATIC_DROPDOWN]: "Dropdown",
 };
 
 export function NewFieldPopup({ children }: NewFieldDialogProps) {
@@ -54,22 +54,22 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
     resolver: (data) => {
       const errors: FieldErrors<NewFieldFormData> = {};
       if (data.name.length === 0) {
-        errors['name'] = {
-          message: t('Name is required'),
-          type: 'required',
+        errors["name"] = {
+          message: t("Name is required"),
+          type: "required",
         };
       } else {
         if (fields?.find((field) => field.name === data.name)) {
-          errors['name'] = {
-            message: t('Name must be unique'),
-            type: 'unique',
+          errors["name"] = {
+            message: t("Name must be unique"),
+            type: "unique",
           };
         }
       }
       if (isNil(data.type)) {
-        errors['type'] = {
-          message: t('Type is required'),
-          type: 'required',
+        errors["type"] = {
+          message: t("Type is required"),
+          type: "required",
         };
       }
       if (
@@ -78,10 +78,10 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
           data.data?.options.length === 0 ||
           !data.data?.options.some((option) => option.length > 0))
       ) {
-        errors['data'] = {
+        errors["data"] = {
           options: {
-            message: t('Please add at least one option'),
-            type: 'required',
+            message: t("Please add at least one option"),
+            type: "required",
           },
         };
       }
@@ -93,7 +93,7 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
     defaultValues: {
       type: FieldType.TEXT,
       data: null,
-      name: '',
+      name: "",
     },
   });
 
@@ -101,7 +101,7 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
     <Popover open={open} modal={false} onOpenChange={setOpen}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent className="w-[400px] py-4 px-2 drop-shadow-xl">
-        <div className="text-lg font-semibold mb-4 px-3">{t('New Field')}</div>
+        <div className="text-lg font-semibold mb-4 px-3">{t("New Field")}</div>
 
         <Form {...form}>
           <form
@@ -137,7 +137,7 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
                 name="name"
                 render={({ field }) => (
                   <FormItem className="grid space-y-3">
-                    <Label htmlFor="name">{t('Name')}</Label>
+                    <Label htmlFor="name">{t("Name")}</Label>
                     <Input thin={true} {...field} id="name" />
                     <FormMessage />
                   </FormItem>
@@ -148,17 +148,17 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
                 name="type"
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
-                    <Label>{t('Type')}</Label>
+                    <Label>{t("Type")}</Label>
                     <ScrollArea className="max-h-[200px] rounded-md border">
                       <RadioGroup
                         value={field.value}
                         onValueChange={(value) => {
                           if (value === FieldType.STATIC_DROPDOWN) {
-                            form.setValue('data', {
-                              options: [''],
+                            form.setValue("data", {
+                              options: [""],
                             });
                           } else {
-                            form.setValue('data', null);
+                            form.setValue("data", null);
                           }
                           field.onChange(value);
                         }}
@@ -174,9 +174,9 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
                             <Label
                               htmlFor={type}
                               className={cn(
-                                'flex items-center gap-2 w-full px-3 py-2 rounded-sm',
-                                'text-left text-accent-foreground cursor-pointer hover:bg-muted',
-                                field.value === type && 'bg-muted text-primary',
+                                "flex items-center gap-2 w-full px-3 py-2 rounded-sm",
+                                "text-left text-accent-foreground cursor-pointer hover:bg-muted",
+                                field.value === type && "bg-muted text-primary"
                               )}
                             >
                               {tablesUtils.getColumnIcon(type)}
@@ -192,14 +192,14 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
                   </FormItem>
                 )}
               />
-              {form.watch('type') === FieldType.STATIC_DROPDOWN && (
+              {form.watch("type") === FieldType.STATIC_DROPDOWN && (
                 <FormField
                   control={form.control}
                   name="data.options"
                   render={({ field }) => (
                     //needs to be wrapped in form field to show the error message
                     <FormItem className="grid space-y-3">
-                      <Label>{t('Options')}</Label>
+                      <Label>{t("Options")}</Label>
                       <ArrayInput
                         inputName="data.options"
                         disabled={false}
@@ -219,10 +219,10 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
                 variant="ghost"
                 onClick={() => setOpen(false)}
               >
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button type="submit" size="sm">
-                {t('Create')}
+                {t("Create")}
               </Button>
             </div>
           </form>

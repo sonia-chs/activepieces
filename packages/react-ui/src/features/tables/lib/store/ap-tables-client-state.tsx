@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid';
-import { create } from 'zustand';
+import { nanoid } from "nanoid";
+import { create } from "zustand";
 
 import {
   Field,
@@ -7,9 +7,9 @@ import {
   PopulatedRecord,
   Table,
   TableAutomationStatus,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { createServerState } from './ap-tables-server-state';
+import { createServerState } from "./ap-tables-server-state";
 
 export type ClientCellData = {
   fieldIndex: number;
@@ -38,7 +38,7 @@ export type ClientField = {
 );
 const mapRecorddToClientRecordsData = (
   records: PopulatedRecord[],
-  fields: Field[],
+  fields: Field[]
 ): ClientRecordData[] => {
   return records.map((record) => ({
     uuid: nanoid(),
@@ -62,14 +62,14 @@ export type TableState = {
     columnIdx: number;
   } | null;
   setSelectedCell: (
-    selectedCell: { rowIdx: number; columnIdx: number } | null,
+    selectedCell: { rowIdx: number; columnIdx: number } | null
   ) => void;
   selectedAgentRunId: string | null;
   setSelectedAgentRunId: (agentRunId: string | null) => void;
   createRecord: (recordData: ClientRecordData) => void;
   updateRecord: (
     recordIndex: number,
-    recordData: Pick<ClientRecordData, 'values'>,
+    recordData: Pick<ClientRecordData, "values">
   ) => void;
   deleteRecords: (recordIndices: string[]) => void;
   createField: (field: ClientField) => void;
@@ -86,14 +86,14 @@ export type TableState = {
 export const createApTableStore = (
   table: Table,
   fields: Field[],
-  records: PopulatedRecord[],
+  records: PopulatedRecord[]
 ) => {
   return create<TableState>((set) => {
     const serverState = createServerState(
       table,
       fields,
       records,
-      (isSaving: boolean) => set({ isSaving }),
+      (isSaving: boolean) => set({ isSaving })
     );
     const selectedCell =
       records.length > 0
@@ -126,7 +126,7 @@ export const createApTableStore = (
           };
         }),
       setSelectedCell: (
-        selectedCell: { rowIdx: number; columnIdx: number } | null,
+        selectedCell: { rowIdx: number; columnIdx: number } | null
       ) => set({ selectedCell }),
       fields: fields.map((field) => {
         if (field.type === FieldType.STATIC_DROPDOWN) {
@@ -154,13 +154,13 @@ export const createApTableStore = (
       },
       updateRecord: (
         recordIndex: number,
-        recordData: Pick<ClientRecordData, 'values'>,
+        recordData: Pick<ClientRecordData, "values">
       ) => {
         serverState.updateRecord(recordIndex, recordData);
         return set((state) => {
           return {
             records: state.records.map((record, index) =>
-              index === recordIndex ? { ...record, ...recordData } : record,
+              index === recordIndex ? { ...record, ...recordData } : record
             ),
           };
         });
@@ -170,7 +170,7 @@ export const createApTableStore = (
           serverState.deleteRecords(recordIndices);
           return {
             records: state.records.filter(
-              (_, index) => !recordIndices.includes(index.toString()),
+              (_, index) => !recordIndices.includes(index.toString())
             ),
           };
         }),
@@ -186,7 +186,7 @@ export const createApTableStore = (
                 ...record.values,
                 {
                   fieldIndex: state.fields.length,
-                  value: '',
+                  value: "",
                 },
               ],
             })),
@@ -211,7 +211,7 @@ export const createApTableStore = (
         return set((state) => {
           return {
             fields: state.fields.map((field, index) =>
-              index === fieldIndex ? { ...field, name: newName } : field,
+              index === fieldIndex ? { ...field, name: newName } : field
             ),
           };
         });
@@ -226,11 +226,11 @@ export const createApTableStore = (
       },
       setAgentRunId: (recordId: string, agentRunId: string | null) => {
         const recordIndex = serverState.records.findIndex(
-          (record) => record.id === recordId,
+          (record) => record.id === recordId
         );
         set((state) => ({
           records: state.records.map((record, index) =>
-            index === recordIndex ? { ...record, agentRunId } : record,
+            index === recordIndex ? { ...record, agentRunId } : record
           ),
         }));
       },

@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { t } from 'i18next';
-import { Plus } from 'lucide-react';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { t } from "i18next";
+import { Plus } from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,23 +14,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { FormField, FormItem, Form, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { FormField, FormItem, Form, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@/components/ui/tooltip';
-import { alertMutations } from '@/features/alerts/lib/alert-hooks';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { formatUtils } from '@/lib/utils';
-import { Permission } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { alertMutations } from "@/features/alerts/lib/alert-hooks";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { formatUtils } from "@/lib/utils";
+import { Permission } from "@activepieces/shared";
 
 const FormSchema = Type.Object({
   email: Type.String({
-    errorMessage: t('Please enter a valid email address'),
+    errorMessage: t("Please enter a valid email address"),
     pattern: formatUtils.emailRegex.source,
   }),
 });
@@ -63,21 +63,21 @@ const AddAlertEmailDialog = React.memo(() => {
               disabled={writeAlertPermission === false}
             >
               <Plus className="size-4" />
-              <span>{t('Add email')}</span>
+              <span>{t("Add email")}</span>
             </Button>
           </DialogTrigger>
         </TooltipTrigger>
         {writeAlertPermission === false && (
           <TooltipContent side="bottom">
-            {t('Only project admins can do this')}
+            {t("Only project admins can do this")}
           </TooltipContent>
         )}
       </Tooltip>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('Add Alert Email')}</DialogTitle>
+          <DialogTitle>{t("Add Alert Email")}</DialogTitle>
           <DialogDescription>
-            {t('Enter the email address to receive alerts.')}
+            {t("Enter the email address to receive alerts.")}
           </DialogDescription>
           <Form {...form}>
             <form
@@ -85,7 +85,7 @@ const AddAlertEmailDialog = React.memo(() => {
                 (data) => mutate(data),
                 () => {
                   setOpen(true);
-                },
+                }
               )}
               className="gap- grid"
             >
@@ -94,7 +94,7 @@ const AddAlertEmailDialog = React.memo(() => {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="grid gap-3">
-                    <Label htmlFor="email">{t('Email')}</Label>
+                    <Label htmlFor="email">{t("Email")}</Label>
                     <Input
                       {...field}
                       id="email"
@@ -112,7 +112,7 @@ const AddAlertEmailDialog = React.memo(() => {
               )}
               <DialogFooter>
                 <Button type="submit" loading={isPending}>
-                  {t('Add Email')}
+                  {t("Add Email")}
                 </Button>
               </DialogFooter>
             </form>
@@ -122,5 +122,5 @@ const AddAlertEmailDialog = React.memo(() => {
     </Dialog>
   );
 });
-AddAlertEmailDialog.displayName = 'AddAlertEmailDialog';
+AddAlertEmailDialog.displayName = "AddAlertEmailDialog";
 export { AddAlertEmailDialog };

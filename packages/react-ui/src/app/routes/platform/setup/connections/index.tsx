@@ -1,47 +1,47 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { CheckIcon, Trash, Globe } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { CheckIcon, Trash, Globe } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import { LockedFeatureGuard } from '@/app/components/locked-feature-guard';
-import { NewConnectionDialog } from '@/app/connections/new-connection-dialog';
-import { ReconnectButtonDialog } from '@/app/connections/reconnect-button-dialog';
-import { CopyTextTooltip } from '@/components/custom/clipboard/copy-text-tooltip';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { LockedFeatureGuard } from "@/app/components/locked-feature-guard";
+import { NewConnectionDialog } from "@/app/connections/new-connection-dialog";
+import { ReconnectButtonDialog } from "@/app/connections/reconnect-button-dialog";
+import { CopyTextTooltip } from "@/components/custom/clipboard/copy-text-tooltip";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   BulkAction,
   CURSOR_QUERY_PARAM,
   DataTable,
   LIMIT_QUERY_PARAM,
   RowDataWithActions,
-} from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
-import { EditGlobalConnectionDialog } from '@/features/connections/components/edit-global-connection-dialog';
+} from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
+import { EditGlobalConnectionDialog } from "@/features/connections/components/edit-global-connection-dialog";
 import {
   globalConnectionsMutations,
   globalConnectionsQueries,
-} from '@/features/connections/lib/global-connections-hooks';
-import { appConnectionUtils } from '@/features/connections/lib/utils';
-import PieceIconWithPieceName from '@/features/pieces/components/piece-icon-from-name';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { formatUtils } from '@/lib/utils';
+} from "@/features/connections/lib/global-connections-hooks";
+import { appConnectionUtils } from "@/features/connections/lib/utils";
+import PieceIconWithPieceName from "@/features/pieces/components/piece-icon-from-name";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { formatUtils } from "@/lib/utils";
 import {
   AppConnectionStatus,
   AppConnectionWithoutSensitiveData,
   Permission,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-const STATUS_QUERY_PARAM = 'status';
+const STATUS_QUERY_PARAM = "status";
 const filters = [
   {
-    type: 'select',
-    title: t('Status'),
+    type: "select",
+    title: t("Status"),
     accessorKey: STATUS_QUERY_PARAM,
     options: Object.values(AppConnectionStatus).map((status) => {
       return {
@@ -67,7 +67,7 @@ const GlobalConnectionsTable = () => {
     unknown
   >[] = [
     {
-      id: 'select',
+      id: "select",
       header: ({ table }) => (
         <Checkbox
           variant="secondary"
@@ -86,9 +86,7 @@ const GlobalConnectionsTable = () => {
 
               const newSelectedRows = [...allRows, ...selectedRows];
               const uniqueRows = Array.from(
-                new Map(
-                  newSelectedRows.map((item) => [item.id, item]),
-                ).values(),
+                new Map(newSelectedRows.map((item) => [item.id, item])).values()
               );
               setSelectedRows(uniqueRows);
             } else {
@@ -104,7 +102,7 @@ const GlobalConnectionsTable = () => {
       ),
       cell: ({ row }) => {
         const isChecked = selectedRows.some(
-          (selectedRow) => selectedRow.id === row.original.id,
+          (selectedRow) => selectedRow.id === row.original.id
         );
         return (
           <Checkbox
@@ -115,14 +113,14 @@ const GlobalConnectionsTable = () => {
               let newSelectedRows = [...selectedRows];
               if (isChecked) {
                 const exists = newSelectedRows.some(
-                  (selectedRow) => selectedRow.id === row.original.id,
+                  (selectedRow) => selectedRow.id === row.original.id
                 );
                 if (!exists) {
                   newSelectedRows.push(row.original);
                 }
               } else {
                 newSelectedRows = newSelectedRows.filter(
-                  (selectedRow) => selectedRow.id !== row.original.id,
+                  (selectedRow) => selectedRow.id !== row.original.id
                 );
               }
               setSelectedRows(newSelectedRows);
@@ -131,12 +129,12 @@ const GlobalConnectionsTable = () => {
           />
         );
       },
-      accessorKey: 'select',
+      accessorKey: "select",
     },
     {
-      accessorKey: 'pieceName',
+      accessorKey: "pieceName",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('App')} />
+        <DataTableColumnHeader column={column} title={t("App")} />
       ),
       cell: ({ row }) => {
         return (
@@ -147,15 +145,15 @@ const GlobalConnectionsTable = () => {
       },
     },
     {
-      accessorKey: 'displayName',
+      accessorKey: "displayName",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Name')} />
+        <DataTableColumnHeader column={column} title={t("Name")} />
       ),
       cell: ({ row }) => {
         return (
           <CopyTextTooltip
-            title={t('External ID')}
-            text={row.original.externalId || ''}
+            title={t("External ID")}
+            text={row.original.externalId || ""}
           >
             <div className="text-left">{row.original.displayName}</div>
           </CopyTextTooltip>
@@ -163,9 +161,9 @@ const GlobalConnectionsTable = () => {
       },
     },
     {
-      accessorKey: 'status',
+      accessorKey: "status",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Status')} />
+        <DataTableColumnHeader column={column} title={t("Status")} />
       ),
       cell: ({ row }) => {
         const status = row.original.status;
@@ -183,9 +181,9 @@ const GlobalConnectionsTable = () => {
       },
     },
     {
-      accessorKey: 'updated',
+      accessorKey: "updated",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Connected At')} />
+        <DataTableColumnHeader column={column} title={t("Connected At")} />
       ),
       cell: ({ row }) => {
         return (
@@ -196,9 +194,9 @@ const GlobalConnectionsTable = () => {
       },
     },
     {
-      accessorKey: 'projectsCount',
+      accessorKey: "projectsCount",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Projects')} />
+        <DataTableColumnHeader column={column} title={t("Projects")} />
       ),
       cell: ({ row }) => {
         return (
@@ -207,7 +205,7 @@ const GlobalConnectionsTable = () => {
       },
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-2 justify-end">
@@ -255,12 +253,12 @@ const GlobalConnectionsTable = () => {
   });
 
   const userHasPermissionToWriteAppConnection = checkAccess(
-    Permission.WRITE_APP_CONNECTION,
+    Permission.WRITE_APP_CONNECTION
   );
 
   const bulkDeleteGlobalConnections =
     globalConnectionsMutations.useBulkDeleteGlobalConnections(
-      refetchGlobalConnections,
+      refetchGlobalConnections
     );
 
   const bulkActions: BulkAction<AppConnectionWithoutSensitiveData>[] = useMemo(
@@ -270,20 +268,20 @@ const GlobalConnectionsTable = () => {
           return (
             <div onClick={(e) => e.stopPropagation()}>
               <ConfirmationDeleteDialog
-                title={t('Confirm Deletion')}
+                title={t("Confirm Deletion")}
                 message={t(
-                  'Are you sure you want to delete the selected connections? This action cannot be undone.',
+                  "Are you sure you want to delete the selected connections? This action cannot be undone."
                 )}
                 entityName="connections"
                 mutationFn={async () => {
                   try {
                     await bulkDeleteGlobalConnections.mutateAsync(
-                      selectedRows.map((row) => row.id),
+                      selectedRows.map((row) => row.id)
                     );
                     resetSelection();
                     setSelectedRows([]);
                   } catch (error) {
-                    console.error('Error deleting connections:', error);
+                    console.error("Error deleting connections:", error);
                   }
                 }}
               >
@@ -295,7 +293,7 @@ const GlobalConnectionsTable = () => {
                     variant="destructive"
                   >
                     <Trash className="mr-2 w-4" />
-                    {`${t('Delete')} (${selectedRows.length})`}
+                    {`${t("Delete")} (${selectedRows.length})`}
                   </Button>
                 )}
               </ConfirmationDeleteDialog>
@@ -304,7 +302,7 @@ const GlobalConnectionsTable = () => {
         },
       },
     ],
-    [bulkDeleteGlobalConnections, selectedRows, refresh],
+    [bulkDeleteGlobalConnections, selectedRows, refresh]
   );
 
   return (
@@ -312,17 +310,17 @@ const GlobalConnectionsTable = () => {
       <LockedFeatureGuard
         featureKey="GLOBAL_CONNECTIONS"
         locked={!platform.plan.globalConnectionsEnabled}
-        lockTitle={t('Enable Global Connections')}
+        lockTitle={t("Enable Global Connections")}
         lockDescription={t(
-          'Manage platform-wide connections to external systems.',
+          "Manage platform-wide connections to external systems."
         )}
         lockVideoUrl="https://cdn.activepieces.com/videos/showcase/global-connections.mp4"
       >
         <DashboardPageHeader
           description={t(
-            'Manage platform-wide connections to external systems.',
+            "Manage platform-wide connections to external systems."
           )}
-          title={t('Global Connections')}
+          title={t("Global Connections")}
         >
           <NewConnectionDialog
             isGlobalConnection={true}
@@ -332,14 +330,14 @@ const GlobalConnectionsTable = () => {
             }}
           >
             <Button variant="default" size="sm">
-              {t('New Connection')}
+              {t("New Connection")}
             </Button>
           </NewConnectionDialog>
         </DashboardPageHeader>
         <DataTable
-          emptyStateTextTitle={t('No global connections found')}
+          emptyStateTextTitle={t("No global connections found")}
           emptyStateTextDescription={t(
-            'Create a global connection that can be shared to multiple projects',
+            "Create a global connection that can be shared to multiple projects"
           )}
           emptyStateIcon={<Globe className="size-14" />}
           columns={columns}

@@ -1,22 +1,22 @@
-import { t } from 'i18next';
-import { CircleHelp, Users } from 'lucide-react';
+import { t } from "i18next";
+import { CircleHelp, Users } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   TooltipContent,
   TooltipProvider,
   Tooltip,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 import {
   BillingCycle,
   PRICE_PER_EXTRA_USER_MAP,
-} from '@activepieces/ee-shared';
-import { PlatformBillingInformation } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { PlatformBillingInformation } from "@activepieces/shared";
 
-import { useManagePlanDialogStore } from './upgrade-dialog/store';
+import { useManagePlanDialogStore } from "./upgrade-dialog/store";
 
 type BusinessUserSeatsProps = {
   platformSubscription: PlatformBillingInformation;
@@ -46,7 +46,7 @@ export function UserSeatAddon({
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{t('User Seats')}</h3>
+              <h3 className="text-lg font-semibold">{t("User Seats")}</h3>
               <p className="text-sm text-muted-foreground">
                 Monitor your user seats usage
               </p>
@@ -54,7 +54,7 @@ export function UserSeatAddon({
           </div>
 
           <Button variant="link" onClick={() => openDialog({ step: 2 })}>
-            {t('Extra Seats?')}
+            {t("Extra Seats?")}
           </Button>
         </div>
       </CardHeader>
@@ -62,7 +62,7 @@ export function UserSeatAddon({
       <CardContent className="p-6">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <h4 className="text-base font-medium">{t('User Seats Usage')}</h4>
+            <h4 className="text-base font-medium">{t("User Seats Usage")}</h4>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -70,7 +70,7 @@ export function UserSeatAddon({
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   {t(
-                    `Count of user seats $${PRICE_PER_EXTRA_USER} for extra 1 user seat`,
+                    `Count of user seats $${PRICE_PER_EXTRA_USER} for extra 1 user seat`
                   )}
                 </TooltipContent>
               </Tooltip>
@@ -80,11 +80,11 @@ export function UserSeatAddon({
           <div className="rounded-lg space-y-3">
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">
-                {currentSeats.toLocaleString()}{' '}
+                {currentSeats.toLocaleString()}{" "}
                 {`/ ${seatsLimit.toLocaleString()}`}
               </span>
               <span className="text-xs font-medium text-muted-foreground">
-                {t('Plan Limit')}
+                {t("Plan Limit")}
               </span>
             </div>
 

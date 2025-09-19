@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
+import { useQuery } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
 import {
   ChevronDown,
   Undo2,
@@ -8,64 +8,64 @@ import {
   RotateCcw,
   FolderOpenDot,
   Package,
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { Button } from '@/components/ui/button';
-import { DataTable, RowDataWithActions } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { Button } from "@/components/ui/button";
+import { DataTable, RowDataWithActions } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { projectReleaseApi } from '@/features/project-version/lib/project-release-api';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { formatUtils } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { projectReleaseApi } from "@/features/project-version/lib/project-release-api";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { formatUtils } from "@/lib/utils";
 import {
   ProjectRelease,
   ProjectReleaseType,
   Permission,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { ApplyButton } from './apply-plan';
-import { PushEverythingDialog } from './push-everything-dialog';
-import { SelectionButton } from './selection-dialog';
+import { ApplyButton } from "./apply-plan";
+import { PushEverythingDialog } from "./push-everything-dialog";
+import { SelectionButton } from "./selection-dialog";
 
 const ProjectReleasesPage = () => {
   const navigate = useNavigate();
   const { checkAccess } = useAuthorization();
   const doesUserHavePermissionToWriteRelease = checkAccess(
-    Permission.WRITE_PROJECT_RELEASE,
+    Permission.WRITE_PROJECT_RELEASE
   );
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['project-releases'],
+    queryKey: ["project-releases"],
     queryFn: () => projectReleaseApi.list(),
   });
   const { data: projects } = projectHooks.useProjects();
   const columns: ColumnDef<RowDataWithActions<ProjectRelease>>[] = [
     {
-      accessorKey: 'name',
+      accessorKey: "name",
       accessorFn: (row) => row.name,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Name')} />
+        <DataTableColumnHeader column={column} title={t("Name")} />
       ),
       cell: ({ row }) => <div className="text-left">{row.original.name}</div>,
     },
     {
-      accessorKey: 'type',
+      accessorKey: "type",
       accessorFn: (row) => row.type,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Source')} />
+        <DataTableColumnHeader column={column} title={t("Source")} />
       ),
       cell: ({ row }) => {
         const isGit = row.original.type === ProjectReleaseType.GIT;
@@ -78,22 +78,22 @@ const ProjectReleasesPage = () => {
               <div className="flex items-center gap-2">
                 <FolderOpenDot className="size-4" />
                 {projects?.find(
-                  (project) => project.id === row.original.projectId,
-                )?.displayName ?? t('Project')}
+                  (project) => project.id === row.original.projectId
+                )?.displayName ?? t("Project")}
               </div>
             ) : (
               <RotateCcw className="size-4" />
             )}
-            {isGit ? 'Git' : isProject ? '' : t('Rollback')}
+            {isGit ? "Git" : isProject ? "" : t("Rollback")}
           </div>
         );
       },
     },
     {
-      accessorKey: 'created',
+      accessorKey: "created",
       accessorFn: (row) => row.created,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t('Imported At')} />
+        <DataTableColumnHeader column={column} title={t("Imported At")} />
       ),
       cell: ({ row }) => (
         <div className="text-left">
@@ -102,12 +102,12 @@ const ProjectReleasesPage = () => {
       ),
     },
     {
-      accessorKey: 'importedBy',
+      accessorKey: "importedBy",
       accessorFn: (row) => row.importedBy,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={t('Imported By')}
+          title={t("Imported By")}
           className="text-center"
         />
       ),
@@ -116,8 +116,8 @@ const ProjectReleasesPage = () => {
       ),
     },
     {
-      accessorKey: 'actions',
-      id: 'select',
+      accessorKey: "actions",
+      id: "select",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="" />
       ),
@@ -142,7 +142,7 @@ const ProjectReleasesPage = () => {
                   <Undo2 className="size-4" />
                 </ApplyButton>
               </TooltipTrigger>
-              <TooltipContent side="bottom">{t('Rollback')}</TooltipContent>
+              <TooltipContent side="bottom">{t("Rollback")}</TooltipContent>
             </Tooltip>
           </div>
         );
@@ -153,11 +153,11 @@ const ProjectReleasesPage = () => {
   return (
     <div className="flex-col w-full gap-4">
       <DashboardPageHeader
-        title={t('Project Releases')}
+        title={t("Project Releases")}
         description={
           <>
             {t(
-              'Track and manage your project version history and deployments. ',
+              "Track and manage your project version history and deployments. "
             )}
             <a
               href="https://www.activepieces.com/docs/operations/git-sync"
@@ -165,7 +165,7 @@ const ProjectReleasesPage = () => {
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-              {t('Environments & Releases')}
+              {t("Environments & Releases")}
             </a>
           </>
         }
@@ -177,7 +177,7 @@ const ProjectReleasesPage = () => {
               variant="outline"
               disabled={!doesUserHavePermissionToWriteRelease}
             >
-              {t('Push Everything')}
+              {t("Push Everything")}
             </Button>
           </PushEverythingDialog>
           <PermissionNeededTooltip
@@ -189,7 +189,7 @@ const ProjectReleasesPage = () => {
                   className="h-9 w-full"
                   disabled={!doesUserHavePermissionToWriteRelease}
                 >
-                  {t('Create Release')}
+                  {t("Create Release")}
                   <ChevronDown className="h-3 w-4 ml-2" />
                 </Button>
               </DropdownMenuTrigger>
@@ -203,7 +203,7 @@ const ProjectReleasesPage = () => {
                   >
                     <div className="flex flex-row gap-2 items-center">
                       <GitBranch className="size-4" />
-                      <span>{t('From Git')}</span>
+                      <span>{t("From Git")}</span>
                     </div>
                   </ApplyButton>
                 </DropdownMenuItem>
@@ -216,7 +216,7 @@ const ProjectReleasesPage = () => {
                   >
                     <div className="flex flex-row gap-2 items-center">
                       <FolderOpenDot className="size-4" />
-                      <span>{t('From Project')}</span>
+                      <span>{t("From Project")}</span>
                     </div>
                   </SelectionButton>
                 </DropdownMenuItem>
@@ -226,8 +226,8 @@ const ProjectReleasesPage = () => {
         </div>
       </DashboardPageHeader>
       <DataTable
-        emptyStateTextTitle={t('No project releases found')}
-        emptyStateTextDescription={t('Create a project release to get started')}
+        emptyStateTextTitle={t("No project releases found")}
+        emptyStateTextDescription={t("Create a project release to get started")}
         emptyStateIcon={<Package className="size-14" />}
         columns={columns}
         page={data}
@@ -240,5 +240,5 @@ const ProjectReleasesPage = () => {
   );
 };
 
-ProjectReleasesPage.displayName = 'ProjectReleasesPage';
+ProjectReleasesPage.displayName = "ProjectReleasesPage";
 export { ProjectReleasesPage };

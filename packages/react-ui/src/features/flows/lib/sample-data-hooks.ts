@@ -1,20 +1,20 @@
-import { useQuery, QueryClient } from '@tanstack/react-query';
+import { useQuery, QueryClient } from "@tanstack/react-query";
 
 import {
   flowStructureUtil,
   FlowVersion,
   SampleDataFileType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { sampleDataApi } from './sample-data-api';
+import { sampleDataApi } from "./sample-data-api";
 
 export const sampleDataHooks = {
   useSampleDataForFlow: (
     flowVersion: FlowVersion | undefined,
-    projectId: string | undefined,
+    projectId: string | undefined
   ) => {
     return useQuery({
-      queryKey: ['sampleData', flowVersion?.id],
+      queryKey: ["sampleData", flowVersion?.id],
       enabled: !!flowVersion,
       staleTime: 0,
       retry: 4,
@@ -28,10 +28,10 @@ export const sampleDataHooks = {
                 flowVersion!,
                 step.name,
                 projectId!,
-                SampleDataFileType.OUTPUT,
+                SampleDataFileType.OUTPUT
               ),
             };
-          }),
+          })
         );
         const sampleData: Record<string, unknown> = {};
         singleStepSampleData.forEach((stepData) => {
@@ -43,10 +43,10 @@ export const sampleDataHooks = {
   },
   useSampleDataInputForFlow: (
     flowVersion: FlowVersion | undefined,
-    projectId: string | undefined,
+    projectId: string | undefined
   ) => {
     return useQuery({
-      queryKey: ['sampleDataInput', flowVersion?.id],
+      queryKey: ["sampleDataInput", flowVersion?.id],
       enabled: !!flowVersion,
       staleTime: 0,
       retry: 4,
@@ -61,11 +61,11 @@ export const sampleDataHooks = {
                     flowVersion!,
                     step.name,
                     projectId!,
-                    SampleDataFileType.INPUT,
+                    SampleDataFileType.INPUT
                   )
                 : undefined,
             };
-          }),
+          })
         );
         const sampleDataInput: Record<string, unknown> = {};
         singleStepSampleDataInput.forEach((stepData) => {
@@ -76,9 +76,9 @@ export const sampleDataHooks = {
     });
   },
   invalidateSampleData: (flowVersionId: string, queryClient: QueryClient) => {
-    queryClient.invalidateQueries({ queryKey: ['sampleData', flowVersionId] });
+    queryClient.invalidateQueries({ queryKey: ["sampleData", flowVersionId] });
     queryClient.invalidateQueries({
-      queryKey: ['sampleDataInput', flowVersionId],
+      queryKey: ["sampleDataInput", flowVersionId],
     });
   },
 };
@@ -87,7 +87,7 @@ async function getSampleData(
   flowVersion: FlowVersion,
   stepName: string,
   projectId: string,
-  type: SampleDataFileType,
+  type: SampleDataFileType
 ): Promise<unknown> {
   return sampleDataApi
     .get({

@@ -1,16 +1,16 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
 
-import { useSocket } from '@/components/socket-provider';
-import { toast } from '@/components/ui/use-toast';
-import { flowRunsApi } from '@/features/flow-runs/lib/flow-runs-api';
-import { pieceSelectorUtils } from '@/features/pieces/lib/piece-selector-utils';
-import { piecesApi } from '@/features/pieces/lib/pieces-api';
-import { stepUtils } from '@/features/pieces/lib/step-utils';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { downloadFile } from '@/lib/utils';
+import { useSocket } from "@/components/socket-provider";
+import { toast } from "@/components/ui/use-toast";
+import { flowRunsApi } from "@/features/flow-runs/lib/flow-runs-api";
+import { pieceSelectorUtils } from "@/features/pieces/lib/piece-selector-utils";
+import { piecesApi } from "@/features/pieces/lib/pieces-api";
+import { stepUtils } from "@/features/pieces/lib/step-utils";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { downloadFile } from "@/lib/utils";
 import {
   ApFlagId,
   FlowOperationType,
@@ -22,15 +22,15 @@ import {
   PopulatedFlow,
   FlowTrigger,
   FlowTriggerType,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { flowsApi } from './flows-api';
-import { flowsUtils } from './flows-utils';
+import { flowsApi } from "./flows-api";
+import { flowsUtils } from "./flows-utils";
 
 export const flowsHooks = {
-  useFlows: (request: Omit<ListFlowsRequest, 'projectId'>) => {
+  useFlows: (request: Omit<ListFlowsRequest, "projectId">) => {
     return useQuery({
-      queryKey: ['flows', authenticationSession.getProjectId()],
+      queryKey: ["flows", authenticationSession.getProjectId()],
       queryFn: async () => {
         return await flowsApi.list({
           ...request,
@@ -52,7 +52,7 @@ export const flowsHooks = {
     setIsPublishing: (isPublishing: boolean) => void;
   }) => {
     const { data: enableFlowOnPublish } = flagsHooks.useFlag<boolean>(
-      ApFlagId.ENABLE_FLOW_ON_PUBLISH,
+      ApFlagId.ENABLE_FLOW_ON_PUBLISH
     );
 
     return useMutation({
@@ -69,8 +69,8 @@ export const flowsHooks = {
       },
       onSuccess: (flow) => {
         toast({
-          title: t('Success'),
-          description: t('Flow has been published.'),
+          title: t("Success"),
+          description: t("Flow has been published."),
         });
         setFlow(flow);
         setVersion(flow.version);
@@ -78,11 +78,11 @@ export const flowsHooks = {
       },
       onError: (err: Error) => {
         toast({
-          title: t('Error'),
-          description: t('Failed to publish flow, please contact support.'),
-          variant: 'destructive',
+          title: t("Error"),
+          description: t("Failed to publish flow, please contact support."),
+          variant: "destructive",
         });
-        console.error('Failed to publish flow', err);
+        console.error("Failed to publish flow", err);
         setIsPublishing(false);
       },
     });
@@ -99,19 +99,19 @@ export const flowsHooks = {
         }
         await downloadFile({
           obj: await flowsUtils.zipFlows(flows),
-          fileName: 'flows',
-          extension: 'zip',
+          fileName: "flows",
+          extension: "zip",
         });
         return flows;
       },
       onSuccess: (res) => {
         if (res.length > 0) {
           toast({
-            title: t('Success'),
+            title: t("Success"),
             description:
               res.length === 1
                 ? t(`${res[0].version.displayName} has been exported.`)
-                : t('Flows have been exported.'),
+                : t("Flows have been exported."),
             duration: 3000,
           });
         }
@@ -158,23 +158,23 @@ export const flowsHooks = {
       mutationFn: async () => {
         const flow = await flowsApi.create({
           projectId: authenticationSession.getProjectId()!,
-          displayName: t('Untitled'),
+          displayName: t("Untitled"),
         });
         const mcpPiece = await piecesApi.get({
-          name: '@activepieces/piece-mcp',
+          name: "@activepieces/piece-mcp",
         });
-        const trigger = mcpPiece.triggers['mcp_tool'];
+        const trigger = mcpPiece.triggers["mcp_tool"];
         if (!trigger) {
-          throw new Error('MCP trigger not found');
+          throw new Error("MCP trigger not found");
         }
         const stepData = pieceSelectorUtils.getDefaultStepValues({
-          stepName: 'trigger',
+          stepName: "trigger",
           pieceSelectorItem: {
             actionOrTrigger: trigger,
             type: FlowTriggerType.PIECE,
             pieceMetadata: stepUtils.mapPieceToMetadata({
               piece: mcpPiece,
-              type: 'trigger',
+              type: "trigger",
             }),
           },
         }) as FlowTrigger;
@@ -191,7 +191,7 @@ export const flowsHooks = {
   },
   useGetFlow: (flowId: string) => {
     return useQuery({
-      queryKey: ['flow', flowId],
+      queryKey: ["flow", flowId],
       queryFn: async () => {
         try {
           return await flowsApi.get(flowId);
@@ -218,7 +218,7 @@ export const flowsHooks = {
           {
             flowVersionId,
           },
-          onUpdateRun,
+          onUpdateRun
         ),
     });
   },

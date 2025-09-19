@@ -1,16 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import deepEqual from 'deep-equal';
-import { t } from 'i18next';
-import { useFormContext } from 'react-hook-form';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import deepEqual from "deep-equal";
+import { t } from "i18next";
+import { useFormContext } from "react-hook-form";
 
-import { useSocket } from '@/components/socket-provider';
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
-import { flowRunsApi } from '@/features/flow-runs/lib/flow-runs-api';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { sampleDataHooks } from '@/features/flows/lib/sample-data-hooks';
-import { triggerEventsApi } from '@/features/flows/lib/trigger-events-api';
-import { api } from '@/lib/api';
-import { wait } from '@/lib/utils';
+import { useSocket } from "@/components/socket-provider";
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
+import { flowRunsApi } from "@/features/flow-runs/lib/flow-runs-api";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { sampleDataHooks } from "@/features/flows/lib/sample-data-hooks";
+import { triggerEventsApi } from "@/features/flows/lib/trigger-events-api";
+import { api } from "@/lib/api";
+import { wait } from "@/lib/utils";
 import {
   FlowAction,
   ApErrorParams,
@@ -24,16 +24,16 @@ import {
   flowStructureUtil,
   SampleDataFileType,
   TriggerTestStrategy,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
-import { testStepUtils } from './test-step-utils';
+import { testStepUtils } from "./test-step-utils";
 
 export const testStepHooks = {
   useUpdateSampleData: (
     stepName: string,
-    onSuccess?: (step: FlowTrigger | FlowAction) => void,
+    onSuccess?: (step: FlowTrigger | FlowAction) => void
   ) => {
     const queryClient = useQueryClient();
     const { setSampleData, flowVersionId, applyOperation, flowId, step } =
@@ -72,7 +72,7 @@ export const testStepHooks = {
           });
           const modifiedStep = flowStructureUtil.getStep(
             stepName,
-            updatedFlowVersion.version.trigger,
+            updatedFlowVersion.version.trigger
           );
           if (!isNil(modifiedStep)) {
             if (flowStructureUtil.isTrigger(modifiedStep?.type)) {
@@ -109,7 +109,7 @@ export const testStepHooks = {
     const flowId = builderState.flow.id;
     const flowVersionId = builderState.flowVersionId;
     const { mutate: updateSampleData } = testStepHooks.useUpdateSampleData(
-      form.getValues().name,
+      form.getValues().name
     );
 
     return useMutation<TriggerEventWithPayload[], Error, AbortSignal>({
@@ -156,8 +156,8 @@ export const testStepHooks = {
         console.error(error);
         setErrorMessage?.(
           testStepUtils.formatErrorMessage(
-            t('There is no sample data available found for this trigger.'),
-          ),
+            t("There is no sample data available found for this trigger.")
+          )
         );
       },
     });
@@ -166,7 +166,7 @@ export const testStepHooks = {
     const { form, builderState } = useRequiredStateToTestSteps();
     const flowId = builderState.flow.id;
     const { mutate: updateSampleData } = testStepHooks.useUpdateSampleData(
-      form.getValues().name,
+      form.getValues().name
     );
 
     return useMutation({
@@ -194,7 +194,7 @@ export const testStepHooks = {
     const flowId = builderState.flow.id;
     const flowVersionId = builderState.flowVersionId;
     const { mutate: updateSampleData } = testStepHooks.useUpdateSampleData(
-      form.getValues().name,
+      form.getValues().name
     );
 
     return useMutation<TriggerEventWithPayload[], Error, void>({
@@ -221,24 +221,24 @@ export const testStepHooks = {
         if (api.isError(error)) {
           const apError = error.response?.data as ApErrorParams;
           let message =
-            'Failed to run test step, please ensure settings are correct.';
+            "Failed to run test step, please ensure settings are correct.";
           if (apError.code === ErrorCode.TEST_TRIGGER_FAILED) {
             message = JSON.stringify(
               {
                 message:
-                  'Failed to run test step, please ensure settings are correct.',
+                  "Failed to run test step, please ensure settings are correct.",
                 error: parseToJsonIfPossible(apError.params.message),
               },
               null,
-              2,
+              2
             );
           }
           setErrorMessage(message);
         } else {
           setErrorMessage(
             testStepUtils.formatErrorMessage(
-              t('Internal error, please try again later.'),
-            ),
+              t("Internal error, please try again later.")
+            )
           );
         }
       },
@@ -263,7 +263,7 @@ export const testStepHooks = {
     const socket = useSocket();
     const { flowVersionId } = useRequiredStateToTestSteps().builderState;
     const { mutate: updateSampleData } = testStepHooks.useUpdateSampleData(
-      currentStep.name,
+      currentStep.name
     );
 
     return useMutation<StepRunResponse, Error, TestActionMutationParams>({
@@ -283,7 +283,7 @@ export const testStepHooks = {
               throw new Error(CANCEL_TEST_STEP_ERROR_MESSAGE);
             }
             onProgress?.(progress);
-          },
+          }
         );
         if (params?.abortSignal?.aborted) {
           throw new Error(CANCEL_TEST_STEP_ERROR_MESSAGE);
@@ -305,9 +305,9 @@ export const testStepHooks = {
             testStepUtils.formatErrorMessage(
               errorMessage ??
                 t(
-                  'Failed to run test step, please ensure settings are correct.',
-                ),
-            ),
+                  "Failed to run test step, please ensure settings are correct."
+                )
+            )
           );
         }
       },
@@ -338,4 +338,4 @@ type TestActionMutationParams =
     }
   | undefined;
 
-const CANCEL_TEST_STEP_ERROR_MESSAGE = 'Test step aborted';
+const CANCEL_TEST_STEP_ERROR_MESSAGE = "Test step aborted";

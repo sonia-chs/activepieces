@@ -1,12 +1,12 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { X } from 'lucide-react';
-import { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { X } from "lucide-react";
+import { useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,15 +14,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
-import { platformApi } from '@/lib/platforms-api';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
+import { platformApi } from "@/lib/platforms-api";
 import {
   PlatformWithoutSensitiveData,
   UpdatePlatformRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 type AllowedDomainDialogProps = {
   platform: PlatformWithoutSensitiveData;
@@ -35,7 +35,7 @@ const AllowedDomainsFormValues = Type.Object({
       domain: Type.String({
         minLength: 1,
       }),
-    }),
+    })
   ),
 });
 type AllowedDomainsFormValues = Static<typeof AllowedDomainsFormValues>;
@@ -50,7 +50,7 @@ export const AllowedDomainDialog = ({
       allowedAuthDomains: (platform?.allowedAuthDomains ?? []).map(
         (domain) => ({
           domain,
-        }),
+        })
       ),
     },
     resolver: typeboxResolver(AllowedDomainsFormValues),
@@ -58,7 +58,7 @@ export const AllowedDomainDialog = ({
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: 'allowedAuthDomains',
+    name: "allowedAuthDomains",
   });
 
   const { mutate, isPending } = useMutation({
@@ -68,8 +68,8 @@ export const AllowedDomainDialog = ({
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Allowed domains updated'),
+        title: t("Success"),
+        description: t("Allowed domains updated"),
         duration: 3000,
       });
       setOpen(false);
@@ -88,17 +88,17 @@ export const AllowedDomainDialog = ({
     >
       <DialogTrigger asChild>
         <Button
-          size={'sm'}
+          size={"sm"}
           className="w-32"
-          variant={'basic'}
+          variant={"basic"}
           onClick={() => setOpen(true)}
         >
-          {platform.allowedAuthDomains.length > 0 ? t('Update') : t('Enable')}
+          {platform.allowedAuthDomains.length > 0 ? t("Update") : t("Enable")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Configure Allowed Domains')}</DialogTitle>
+          <DialogTitle>{t("Configure Allowed Domains")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -106,7 +106,7 @@ export const AllowedDomainDialog = ({
             onSubmit={form.handleSubmit((data) => {
               mutate({
                 allowedAuthDomains: data.allowedAuthDomains.map(
-                  (d) => d.domain,
+                  (d) => d.domain
                 ),
                 enforceAllowedAuthDomains:
                   data.allowedAuthDomains.length === 0 ? false : true,
@@ -116,7 +116,7 @@ export const AllowedDomainDialog = ({
             <div className="flex flex-col gap-1">
               <div className="text-muted-foreground text-sm">
                 {t(
-                  'Enter the allowed domains for the users to authenticate with, Empty list will allow all domains.',
+                  "Enter the allowed domains for the users to authenticate with, Empty list will allow all domains."
                 )}
               </div>
             </div>
@@ -148,11 +148,11 @@ export const AllowedDomainDialog = ({
             ))}
             <Button
               type="button"
-              onClick={() => append({ domain: '' })}
+              onClick={() => append({ domain: "" })}
               variant="outline"
               size="sm"
             >
-              {t('Add Domain')}
+              {t("Add Domain")}
             </Button>
             {form?.formState?.errors?.root?.serverError && (
               <FormMessage>
@@ -166,14 +166,14 @@ export const AllowedDomainDialog = ({
                 onClick={() => setOpen(false)}
                 type="button"
               >
-                {t('Cancel')}
+                {t("Cancel")}
               </Button>
               <Button
                 loading={isPending}
                 disabled={!form.formState.isValid}
                 type="submit"
               >
-                {t('Save')}
+                {t("Save")}
               </Button>
             </DialogFooter>
           </form>

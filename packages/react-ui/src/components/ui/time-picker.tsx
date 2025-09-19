@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { cn } from '@/lib/utils';
-import { isNil } from '@activepieces/shared';
+import { cn } from "@/lib/utils";
+import { isNil } from "@activepieces/shared";
 
-import { TimePeriodSelect } from './time-period-select';
-import { Period } from './time-picker-utils';
-import { TimeUnitPickerInput } from './time-unit-input';
+import { TimePeriodSelect } from "./time-period-select";
+import { Period } from "./time-picker-utils";
+import { TimeUnitPickerInput } from "./time-unit-input";
 
 interface TimePickerProps {
   date: Date | undefined;
@@ -30,25 +30,25 @@ export function TimePicker({
   date,
   setDate,
   showSeconds,
-  name = 'from',
+  name = "from",
 }: TimePickerProps) {
   const [period, setPeriod] = React.useState<Period>(() => {
     if (date) {
-      return date.getHours() >= 12 ? 'PM' : 'AM';
+      return date.getHours() >= 12 ? "PM" : "AM";
     }
-    return name === 'from' ? 'AM' : 'PM';
+    return name === "from" ? "AM" : "PM";
   });
   React.useEffect(() => {
     if (date && date.getHours() >= 12) {
-      setPeriod('PM');
+      setPeriod("PM");
     } else if (!date) {
-      setPeriod(name === 'from' ? 'AM' : 'PM');
+      setPeriod(name === "from" ? "AM" : "PM");
     }
   }, [date]);
   const hasValueChanged =
-    name === 'from'
-      ? date?.getHours() !== 0 || date?.getMinutes() !== 0 || period !== 'AM'
-      : date?.getHours() !== 23 || date?.getMinutes() !== 59 || period !== 'PM';
+    name === "from"
+      ? date?.getHours() !== 0 || date?.getMinutes() !== 0 || period !== "AM"
+      : date?.getHours() !== 23 || date?.getMinutes() !== 59 || period !== "PM";
   const isActive = !isNil(date) && hasValueChanged;
   const minuteRef = React.useRef<HTMLInputElement>(null);
   const hourRef = React.useRef<HTMLInputElement>(null);
@@ -58,10 +58,10 @@ export function TimePicker({
   return (
     <div
       className={cn(
-        'flex items-center transition-all  gap-2 w-full text-muted-foreground justify-center bg-accent/50 py-1 px-2 rounded-sm h-[43px] border border-solid border-border',
+        "flex items-center transition-all  gap-2 w-full text-muted-foreground justify-center bg-accent/50 py-1 px-2 rounded-sm h-[43px] border border-solid border-border",
         {
-          'text-foreground': isActive,
-        },
+          "text-foreground": isActive,
+        }
       )}
     >
       <div className="grid gap-1 text-center">

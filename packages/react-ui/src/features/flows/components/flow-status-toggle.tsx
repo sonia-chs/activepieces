@@ -1,26 +1,26 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useEffect, useState } from 'react';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useEffect, useState } from "react";
 
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { toast } from '@/components/ui/use-toast';
-import { useAuthorization } from '@/hooks/authorization-hooks';
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { toast } from "@/components/ui/use-toast";
+import { useAuthorization } from "@/hooks/authorization-hooks";
 import {
   FlowOperationType,
   FlowStatus,
   Permission,
   PopulatedFlow,
   isNil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { Switch } from '../../../components/ui/switch';
+import { Switch } from "../../../components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '../../../components/ui/tooltip';
-import { flowsApi } from '../lib/flows-api';
-import { flowsUtils } from '../lib/flows-utils';
+} from "../../../components/ui/tooltip";
+import { flowsApi } from "../lib/flows-api";
+import { flowsUtils } from "../lib/flows-utils";
 
 type FlowStatusToggleProps = {
   flow: PopulatedFlow;
@@ -28,11 +28,11 @@ type FlowStatusToggleProps = {
 
 const FlowStatusToggle = ({ flow }: FlowStatusToggleProps) => {
   const [isFlowPublished, setIsChecked] = useState(
-    flow.status === FlowStatus.ENABLED,
+    flow.status === FlowStatus.ENABLED
   );
   const { checkAccess } = useAuthorization();
   const userHasPermissionToToggleFlowStatus = checkAccess(
-    Permission.UPDATE_FLOW_STATUS,
+    Permission.UPDATE_FLOW_STATUS
   );
 
   useEffect(() => {
@@ -57,11 +57,11 @@ const FlowStatusToggle = ({ flow }: FlowStatusToggleProps) => {
     },
     onError: (err: Error) => {
       toast({
-        title: t('Error'),
-        description: t('Failed to change flow status, please contact support.'),
-        variant: 'destructive',
+        title: t("Error"),
+        description: t("Failed to change flow status, please contact support."),
+        variant: "destructive",
       });
-      console.error('Failed to change flow status', err);
+      console.error("Failed to change flow status", err);
     },
   });
 
@@ -84,11 +84,11 @@ const FlowStatusToggle = ({ flow }: FlowStatusToggleProps) => {
         <TooltipContent side="bottom">
           {userHasPermissionToToggleFlowStatus
             ? isNil(flow.publishedVersionId)
-              ? t('Please publish flow first')
+              ? t("Please publish flow first")
               : isFlowPublished
-              ? t('Flow is on')
-              : t('Flow is off')
-            : t('Permission Needed')}
+              ? t("Flow is on")
+              : t("Flow is off")
+            : t("Permission Needed")}
         </TooltipContent>
       </Tooltip>
       {isLoading ? (
@@ -111,5 +111,5 @@ const FlowStatusToggle = ({ flow }: FlowStatusToggleProps) => {
   );
 };
 
-FlowStatusToggle.displayName = 'FlowStatusToggle';
+FlowStatusToggle.displayName = "FlowStatusToggle";
 export { FlowStatusToggle };

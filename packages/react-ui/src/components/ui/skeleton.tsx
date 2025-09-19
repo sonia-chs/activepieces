@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 function Skeleton({
   className,
@@ -6,7 +6,7 @@ function Skeleton({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('animate-pulse rounded-md bg-muted/50', className)}
+      className={cn("animate-pulse rounded-md bg-muted/50", className)}
       {...props}
     />
   );
@@ -25,13 +25,13 @@ function SkeletonList({
       {array.map((_, index) => (
         <Skeleton
           key={index}
-          className={cn('h-4 w-full', className)}
+          className={cn("h-4 w-full", className)}
           {...props}
         />
       ))}
     </div>
   );
 }
-SkeletonList.displayName = 'SkeletonList';
-Skeleton.displayName = 'Skeleton';
+SkeletonList.displayName = "SkeletonList";
+Skeleton.displayName = "Skeleton";
 export { Skeleton, SkeletonList };

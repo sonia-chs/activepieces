@@ -1,13 +1,13 @@
-import { t } from 'i18next';
-import React, { useState } from 'react';
+import { t } from "i18next";
+import React, { useState } from "react";
 
-import { CreateOrEditConnectionDialog } from '@/app/connections/create-edit-connection-dialog';
-import { SearchableSelect } from '@/components/custom/searchable-select';
-import { Label } from '@/components/ui/label';
-import { appConnectionsQueries } from '@/features/connections/lib/app-connections-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { PieceMetadataModelSummary } from '@activepieces/pieces-framework';
-import { isNil } from '@activepieces/shared';
+import { CreateOrEditConnectionDialog } from "@/app/connections/create-edit-connection-dialog";
+import { SearchableSelect } from "@/components/custom/searchable-select";
+import { Label } from "@/components/ui/label";
+import { appConnectionsQueries } from "@/features/connections/lib/app-connections-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { PieceMetadataModelSummary } from "@activepieces/pieces-framework";
+import { isNil } from "@activepieces/shared";
 
 type ConnectionDropdownProps = {
   piece: PieceMetadataModelSummary;
@@ -27,8 +27,8 @@ export const ConnectionDropdown = React.memo(
     value,
     onChange,
     disabled = false,
-    label = t('Connection'),
-    placeholder = t('Select a connection'),
+    label = t("Connection"),
+    placeholder = t("Select a connection"),
     showLabel = true,
     required = false,
     showError = false,
@@ -42,7 +42,7 @@ export const ConnectionDropdown = React.memo(
       isRefetching: isRefetchingConnections,
     } = appConnectionsQueries.useAppConnections({
       request: {
-        pieceName: piece?.name || '',
+        pieceName: piece?.name || "",
         projectId: authenticationSession.getProjectId()!,
         limit: 1000,
       },
@@ -66,7 +66,7 @@ export const ConnectionDropdown = React.memo(
       })) ?? [];
 
     const connectionOptionsWithNewConnectionOption = [
-      { label: t('+ New Connection'), value: '' },
+      { label: t("+ New Connection"), value: "" },
       ...connectionOptions,
     ];
 
@@ -105,18 +105,18 @@ export const ConnectionDropdown = React.memo(
             disabled={disabled}
             showDeselect={!required && !disabled && value !== null}
             triggerClassName={
-              shouldShowError ? 'border-destructive' : undefined
+              shouldShowError ? "border-destructive" : undefined
             }
           />
           {shouldShowError && (
             <p className="text-sm font-medium text-destructive break-words">
-              {t('Connection is required')}
+              {t("Connection is required")}
             </p>
           )}
         </div>
       </>
     );
-  },
+  }
 );
 
-ConnectionDropdown.displayName = 'ConnectionDropdown';
+ConnectionDropdown.displayName = "ConnectionDropdown";

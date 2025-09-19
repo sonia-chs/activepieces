@@ -1,26 +1,26 @@
-import { t } from 'i18next';
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
-import { ApMarkdown } from '@/components/custom/markdown';
+import { ApMarkdown } from "@/components/custom/markdown";
 import {
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { platformHooks } from '@/hooks/platform-hooks';
+} from "@/components/ui/form";
+import { platformHooks } from "@/hooks/platform-hooks";
 import {
   CodeAction,
   FlowOperationType,
   MarkdownVariant,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../../builder-hooks';
-import { DictionaryProperty } from '../../piece-properties/dictionary-property';
-import { AskAiButton } from '../ask-ai';
+import { useBuilderStateContext } from "../../builder-hooks";
+import { DictionaryProperty } from "../../piece-properties/dictionary-property";
+import { AskAiButton } from "../ask-ai";
 
-import { CodeEditor } from './code-editor';
+import { CodeEditor } from "./code-editor";
 
 const markdown = `
 To use data from previous steps in your code, include them as pairs of keys and values below. 
@@ -39,7 +39,7 @@ type CodeSettingsProps = {
 const CodeSettings = React.memo(({ readonly }: CodeSettingsProps) => {
   const form = useFormContext<CodeAction>();
   const [selectedStep, refreshStepFormSettingsToggle] = useBuilderStateContext(
-    (state) => [state.selectedStep || '', state.refreshStepFormSettingsToggle],
+    (state) => [state.selectedStep || "", state.refreshStepFormSettingsToggle]
   );
   const isCopilotEnabled = platformHooks.isCopilotEnabled();
   return (
@@ -53,11 +53,11 @@ const CodeSettings = React.memo(({ readonly }: CodeSettingsProps) => {
               <ApMarkdown markdown={markdown} variant={MarkdownVariant.INFO} />
             </div>
             <div className="flex items-center justify-between">
-              <FormLabel>{t('Inputs')}</FormLabel>
+              <FormLabel>{t("Inputs")}</FormLabel>
               {isCopilotEnabled && !readonly && (
                 <AskAiButton
                   onClick={() => {}}
-                  varitant={'ghost'}
+                  varitant={"ghost"}
                   operation={{
                     type: FlowOperationType.UPDATE_ACTION,
                     stepName: selectedStep,
@@ -101,5 +101,5 @@ const CodeSettings = React.memo(({ readonly }: CodeSettingsProps) => {
     </div>
   );
 });
-CodeSettings.displayName = 'CodeSettings';
+CodeSettings.displayName = "CodeSettings";
 export { CodeSettings };

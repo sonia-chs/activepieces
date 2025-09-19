@@ -1,29 +1,29 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { DialogClose, DialogTrigger } from '@radix-ui/react-dialog';
-import { Static, Type } from '@sinclair/typebox';
-import { t } from 'i18next';
-import { Pencil } from 'lucide-react';
-import { useState, forwardRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { DialogClose, DialogTrigger } from "@radix-ui/react-dialog";
+import { Static, Type } from "@sinclair/typebox";
+import { t } from "i18next";
+import { Pencil } from "lucide-react";
+import { useState, forwardRef } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
-import { appConnectionsMutations } from '../lib/app-connections-hooks';
+import { appConnectionsMutations } from "../lib/app-connections-hooks";
 
 const RenameConnectionSchema = Type.Object({
   displayName: Type.String(),
@@ -81,14 +81,14 @@ const RenameConnectionDialog = forwardRef<
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              {!userHasPermissionToRename ? t('Permission needed') : t('Edit')}
+              {!userHasPermissionToRename ? t("Permission needed") : t("Edit")}
             </TooltipContent>
           </>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {t('Rename')} {currentName}
+              {t("Rename")} {currentName}
             </DialogTitle>
           </DialogHeader>
           <Form {...renameConnectionForm}>
@@ -98,7 +98,7 @@ const RenameConnectionDialog = forwardRef<
                 renameConnection({
                   connectionId,
                   displayName: data.displayName,
-                }),
+                })
               )}
             >
               <FormField
@@ -106,11 +106,11 @@ const RenameConnectionDialog = forwardRef<
                 name="displayName"
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
-                    <Label htmlFor="displayName">{t('Name')}</Label>
+                    <Label htmlFor="displayName">{t("Name")}</Label>
                     <Input
                       {...field}
                       id="displayName"
-                      placeholder={t('New Connection Name')}
+                      placeholder={t("New Connection Name")}
                       className="rounded-sm"
                     />
                     <FormMessage />
@@ -127,10 +127,10 @@ const RenameConnectionDialog = forwardRef<
               )}
               <DialogFooter className="justify-end">
                 <DialogClose asChild>
-                  <Button variant={'outline'}>{t('Cancel')}</Button>
+                  <Button variant={"outline"}>{t("Cancel")}</Button>
                 </DialogClose>
 
-                <Button loading={isPending}>{t('Confirm')}</Button>
+                <Button loading={isPending}>{t("Confirm")}</Button>
               </DialogFooter>
             </form>
           </Form>
@@ -140,6 +140,6 @@ const RenameConnectionDialog = forwardRef<
   );
 });
 
-RenameConnectionDialog.displayName = 'RenameConnectionDialog';
+RenameConnectionDialog.displayName = "RenameConnectionDialog";
 
 export { RenameConnectionDialog };

@@ -1,16 +1,16 @@
 import {
   PlatformWithoutSensitiveData,
   UpdatePlatformRequestBody,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { api } from './api';
-import { authenticationSession } from './authentication-session';
+import { api } from "./api";
+import { authenticationSession } from "./authentication-session";
 
 export const platformApi = {
   getCurrentPlatform() {
     const platformId = authenticationSession.getPlatformId();
     if (!platformId) {
-      throw Error('No platform id found');
+      throw Error("No platform id found");
     }
     return api.get<PlatformWithoutSensitiveData>(`/v1/platforms/${platformId}`);
   },
@@ -18,7 +18,7 @@ export const platformApi = {
   verifyLicenseKey(licenseKey: string) {
     const platformId = authenticationSession.getPlatformId();
     if (!platformId) {
-      throw Error('No platform id found');
+      throw Error("No platform id found");
     }
     return api.post<void>(`/v1/license-keys/verify`, {
       platformId,
@@ -29,7 +29,7 @@ export const platformApi = {
   update(req: UpdatePlatformRequestBody, platformId: string) {
     return api.post<PlatformWithoutSensitiveData>(
       `/v1/platforms/${platformId}`,
-      req,
+      req
     );
   },
 };

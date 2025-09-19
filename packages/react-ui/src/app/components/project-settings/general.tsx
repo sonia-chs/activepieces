@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
 import {
   Check,
   ChevronsUpDown,
@@ -8,20 +8,20 @@ import {
   Moon,
   Palette,
   Sun,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+} from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
-import { useTheme } from '@/components/theme-provider';
-import { Button } from '@/components/ui/button';
+import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Command,
   CommandEmpty,
@@ -29,45 +29,45 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Form,
   FormDescription,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { INTERNAL_ERROR_TOAST, useToast } from '@/components/ui/use-toast';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { api } from '@/lib/api';
-import { projectApi } from '@/lib/project-api';
-import { cn, localesMap } from '@/lib/utils';
+} from "@/components/ui/select";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { INTERNAL_ERROR_TOAST, useToast } from "@/components/ui/use-toast";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { api } from "@/lib/api";
+import { projectApi } from "@/lib/project-api";
+import { cn, localesMap } from "@/lib/utils";
 import {
   ApErrorParams,
   ApFlagId,
   ErrorCode,
   PlatformRole,
   ProjectWithLimits,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
@@ -76,7 +76,7 @@ const ThemeToggle = () => {
     <div className="space-y-2">
       <Label className="text-sm font-medium flex items-center gap-2">
         <Palette className="w-4 h-4" />
-        {t('Theme')}
+        {t("Theme")}
       </Label>
       <Select value={theme} onValueChange={setTheme}>
         <SelectTrigger className="h-9">
@@ -111,10 +111,10 @@ export function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { data: showCommunity } = flagsHooks.useFlag<boolean>(
-    ApFlagId.SHOW_COMMUNITY,
+    ApFlagId.SHOW_COMMUNITY
   );
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(
-    i18n.language ?? 'en',
+    i18n.language ?? "en"
   );
 
   const { mutate, isPending } = useMutation({
@@ -131,7 +131,7 @@ export function LanguageSwitcher() {
     <div className="space-y-2">
       <Label className="text-sm font-medium flex items-center gap-2">
         <Globe className="w-4 h-4" />
-        {t('Language')}
+        {t("Language")}
       </Label>
       <Popover modal={true} open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
@@ -139,8 +139,8 @@ export function LanguageSwitcher() {
             variant="outline"
             role="combobox"
             className={cn(
-              'w-full justify-between h-9',
-              !selectedLanguage && 'text-muted-foreground',
+              "w-full justify-between h-9",
+              !selectedLanguage && "text-muted-foreground"
             )}
             disabled={isPending}
           >
@@ -149,7 +149,7 @@ export function LanguageSwitcher() {
             ) : selectedLanguage ? (
               localesMap[selectedLanguage as keyof typeof localesMap]
             ) : (
-              t('Select language')
+              t("Select language")
             )}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -157,13 +157,13 @@ export function LanguageSwitcher() {
         <PopoverContent className="w-full p-0" align="start">
           <Command>
             <CommandInput
-              placeholder={i18n.t('Search language...')}
+              placeholder={i18n.t("Search language...")}
               className="h-9 text-sm"
             />
             <CommandList>
               <ScrollArea className="h-[200px] w-[300px]">
                 <CommandEmpty className="py-4 text-center text-sm">
-                  {i18n.t('No language found.')}
+                  {i18n.t("No language found.")}
                 </CommandEmpty>
                 <CommandGroup>
                   {Object.entries(localesMap).map(([value, label]) => (
@@ -179,10 +179,10 @@ export function LanguageSwitcher() {
                       </div>
                       <Check
                         className={cn(
-                          'h-4 w-4',
+                          "h-4 w-4",
                           value === selectedLanguage
-                            ? 'opacity-100'
-                            : 'opacity-0',
+                            ? "opacity-100"
+                            : "opacity-0"
                         )}
                       />
                     </CommandItem>
@@ -201,7 +201,7 @@ export function LanguageSwitcher() {
             target="_blank"
             to="https://www.activepieces.com/docs/about/i18n"
           >
-            {t('Help translate Activepieces →')}
+            {t("Help translate Activepieces →")}
           </Link>
         </div>
       )}
@@ -237,17 +237,17 @@ export const GeneralSettings = ({
       return projectApi.update(projectId!, {
         ...request,
         externalId:
-          request.externalId?.trim() !== '' ? request.externalId : undefined,
+          request.externalId?.trim() !== "" ? request.externalId : undefined,
       });
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Your changes have been saved.'),
+        title: t("Success"),
+        description: t("Your changes have been saved."),
         duration: 3000,
       });
       queryClient.invalidateQueries({
-        queryKey: ['current-project'],
+        queryKey: ["current-project"],
       });
     },
     onError: (error) => {
@@ -255,8 +255,8 @@ export const GeneralSettings = ({
         const apError = error.response?.data as ApErrorParams;
         switch (apError.code) {
           case ErrorCode.PROJECT_EXTERNAL_ID_ALREADY_EXISTS: {
-            form.setError('root.serverError', {
-              message: t('The external ID is already taken.'),
+            form.setError("root.serverError", {
+              message: t("The external ID is already taken."),
             });
             break;
           }
@@ -274,10 +274,10 @@ export const GeneralSettings = ({
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
-            {t('Appearance')}
+            {t("Appearance")}
           </CardTitle>
           <CardDescription className="text-sm">
-            {t('Customize how the interface looks and feels.')}
+            {t("Customize how the interface looks and feels.")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -291,10 +291,10 @@ export const GeneralSettings = ({
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
-            {t('Project Configuration')}
+            {t("Project Configuration")}
           </CardTitle>
           <CardDescription className="text-sm">
-            {t('Manage your project settings and limits.')}
+            {t("Manage your project settings and limits.")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -308,12 +308,12 @@ export const GeneralSettings = ({
                       htmlFor="projectName"
                       className="text-sm font-medium"
                     >
-                      {t('Project Name')}
+                      {t("Project Name")}
                     </Label>
                     <Input
                       {...field}
                       id="projectName"
-                      placeholder={t('Project Name')}
+                      placeholder={t("Project Name")}
                       className="h-9"
                     />
                     <FormMessage />
@@ -328,14 +328,14 @@ export const GeneralSettings = ({
                     render={({ field }) => (
                       <FormItem>
                         <Label htmlFor="tasks" className="text-sm font-medium">
-                          {t('Tasks')}
+                          {t("Tasks")}
                         </Label>
                         <div className="relative">
                           <Input
                             {...field}
                             type="number"
                             id="tasks"
-                            placeholder={t('Tasks')}
+                            placeholder={t("Tasks")}
                             className="h-9 pr-16"
                           />
                           {!field.disabled && (
@@ -345,9 +345,9 @@ export const GeneralSettings = ({
                               tabIndex={-1}
                               size="sm"
                               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 px-2 text-xs"
-                              onClick={() => form.setValue('tasks', '')}
+                              onClick={() => form.setValue("tasks", "")}
                             >
-                              {t('Clear')}
+                              {t("Clear")}
                             </Button>
                           )}
                         </div>
@@ -364,14 +364,14 @@ export const GeneralSettings = ({
                           htmlFor="aiCredits"
                           className="text-sm font-medium"
                         >
-                          {t('AI Credits')}
+                          {t("AI Credits")}
                         </Label>
                         <div className="relative">
                           <Input
                             {...field}
                             type="number"
                             id="aiCredits"
-                            placeholder={t('AI Credits')}
+                            placeholder={t("AI Credits")}
                             className="h-9 pr-16"
                           />
                           {!field.disabled && (
@@ -381,9 +381,9 @@ export const GeneralSettings = ({
                               tabIndex={-1}
                               size="sm"
                               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 px-2 text-xs"
-                              onClick={() => form.setValue('aiCredits', '')}
+                              onClick={() => form.setValue("aiCredits", "")}
                             >
-                              {t('Clear')}
+                              {t("Clear")}
                             </Button>
                           )}
                         </div>
@@ -404,17 +404,17 @@ export const GeneralSettings = ({
                           htmlFor="externalId"
                           className="text-sm font-medium"
                         >
-                          {t('External ID')}
+                          {t("External ID")}
                         </Label>
                         <FormDescription className="text-xs">
                           {t(
-                            'Used to identify the project based on your SaaS ID',
+                            "Used to identify the project based on your SaaS ID"
                           )}
                         </FormDescription>
                         <Input
                           {...field}
                           id="externalId"
-                          placeholder={t('org-3412321')}
+                          placeholder={t("org-3412321")}
                           className="h-9 font-mono"
                         />
                         <FormMessage />
@@ -439,16 +439,16 @@ export const GeneralSettings = ({
                           ? parseInt(values.aiCredits)
                           : undefined,
                       },
-                    }),
+                    })
                   )}
                 >
                   {projectMutation.isPending ? (
                     <>
                       <LoadingSpinner className="w-4 h-4 mr-2" />
-                      {t('Saving...')}
+                      {t("Saving...")}
                     </>
                   ) : (
-                    t('Save Changes')
+                    t("Save Changes")
                   )}
                 </Button>
               </div>

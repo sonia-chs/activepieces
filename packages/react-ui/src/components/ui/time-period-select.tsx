@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { t } from 'i18next';
-import * as React from 'react';
+import { t } from "i18next";
+import * as React from "react";
 
 import {
   Select,
@@ -9,10 +9,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
-import { Period, display12HourValue, setDateByType } from './time-picker-utils';
+import { Period, display12HourValue, setDateByType } from "./time-picker-utils";
 
 export interface PeriodSelectorProps {
   period: Period;
@@ -30,11 +30,11 @@ export const TimePeriodSelect = React.forwardRef<
 >(
   (
     { period, setPeriod, date, setDate, onLeftFocus, onRightFocus, isActive },
-    ref,
+    ref
   ) => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      if (e.key === 'ArrowRight') onRightFocus?.();
-      if (e.key === 'ArrowLeft') onLeftFocus?.();
+      if (e.key === "ArrowRight") onRightFocus?.();
+      if (e.key === "ArrowLeft") onLeftFocus?.();
     };
     const handleValueChange = (value: Period) => {
       setPeriod(value);
@@ -50,9 +50,9 @@ export const TimePeriodSelect = React.forwardRef<
           setDateByType(
             tempDate,
             hours.toString(),
-            '12hours',
-            period === 'AM' ? 'PM' : 'AM',
-          ),
+            "12hours",
+            period === "AM" ? "PM" : "AM"
+          )
         );
       }
     };
@@ -65,23 +65,23 @@ export const TimePeriodSelect = React.forwardRef<
           <SelectTrigger
             ref={ref}
             className={cn(
-              ' hover:bg-accent w-[73px] h-[29px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1  rounded-xs justify-center p-0 transition-all border-none text-sm shadow-none gap-3 ',
+              " hover:bg-accent w-[73px] h-[29px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1  rounded-xs justify-center p-0 transition-all border-none text-sm shadow-none gap-3 ",
               {
-                'bg-background': isActive,
-              },
+                "bg-background": isActive,
+              }
             )}
             onKeyDown={handleKeyDown}
           >
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="AM">{t('AM')}</SelectItem>
-            <SelectItem value="PM">{t('PM')}</SelectItem>
+            <SelectItem value="AM">{t("AM")}</SelectItem>
+            <SelectItem value="PM">{t("PM")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
     );
-  },
+  }
 );
 
-TimePeriodSelect.displayName = 'TimePeriodSelect';
+TimePeriodSelect.displayName = "TimePeriodSelect";

@@ -1,22 +1,22 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { ChevronDown } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { ChevronDown } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { RowDataWithActions } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RowDataWithActions } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
-import { flowRunUtils } from '@/features/flow-runs/lib/flow-run-utils';
-import { formatUtils } from '@/lib/utils';
-import { FlowRun, FlowRunStatus, SeekPage } from '@activepieces/shared';
+} from "@/components/ui/dropdown-menu";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
+import { flowRunUtils } from "@/features/flow-runs/lib/flow-run-utils";
+import { formatUtils } from "@/lib/utils";
+import { FlowRun, FlowRunStatus, SeekPage } from "@activepieces/shared";
 
 type SelectedRow = {
   id: string;
@@ -42,7 +42,7 @@ export const runsTableColumns = ({
   data,
 }: RunsTableColumnsProps): ColumnDef<RowDataWithActions<FlowRun>>[] => [
   {
-    id: 'select',
+    id: "select",
     header: ({ table }) => (
       <div className="flex items-center">
         <Checkbox
@@ -62,7 +62,7 @@ export const runsTableColumns = ({
                 const uniqueRows = new Map<string, SelectedRow>([
                   ...prev.map((row) => [row.id, row] as [string, SelectedRow]),
                   ...currentPageRows.map(
-                    (row) => [row.id, row] as [string, SelectedRow],
+                    (row) => [row.id, row] as [string, SelectedRow]
                   ),
                 ]);
 
@@ -98,7 +98,7 @@ export const runsTableColumns = ({
                   table.toggleAllPageRowsSelected(true);
                 }}
               >
-                {t('Select shown')}
+                {t("Select shown")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -115,7 +115,7 @@ export const runsTableColumns = ({
                   }
                 }}
               >
-                {t('Select all')}
+                {t("Select all")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -127,7 +127,7 @@ export const runsTableColumns = ({
       const isSelected = selectedAll
         ? !isExcluded
         : selectedRows.some(
-            (selectedRow) => selectedRow.id === row.original.id,
+            (selectedRow) => selectedRow.id === row.original.id
           );
 
       return (
@@ -157,8 +157,8 @@ export const runsTableColumns = ({
               } else {
                 setSelectedRows((prev) =>
                   prev.filter(
-                    (selectedRow) => selectedRow.id !== row.original.id,
-                  ),
+                    (selectedRow) => selectedRow.id !== row.original.id
+                  )
                 );
               }
             }
@@ -169,18 +169,18 @@ export const runsTableColumns = ({
     },
   },
   {
-    accessorKey: 'flowId',
+    accessorKey: "flowId",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Flow')} />
+      <DataTableColumnHeader column={column} title={t("Flow")} />
     ),
     cell: ({ row }) => {
       return <div className="text-left">{row.original.flowDisplayName}</div>;
     },
   },
   {
-    accessorKey: 'status',
+    accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Status')} />
+      <DataTableColumnHeader column={column} title={t("Status")} />
     ),
     cell: ({ row }) => {
       const status = row.original.status;
@@ -197,9 +197,9 @@ export const runsTableColumns = ({
     },
   },
   {
-    accessorKey: 'created',
+    accessorKey: "created",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Start Time')} />
+      <DataTableColumnHeader column={column} title={t("Start Time")} />
     ),
     cell: ({ row }) => {
       return (
@@ -210,9 +210,9 @@ export const runsTableColumns = ({
     },
   },
   {
-    accessorKey: 'duration',
+    accessorKey: "duration",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Duration')} />
+      <DataTableColumnHeader column={column} title={t("Duration")} />
     ),
     cell: ({ row }) => {
       return (

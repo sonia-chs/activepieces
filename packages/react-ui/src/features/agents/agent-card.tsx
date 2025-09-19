@@ -1,11 +1,11 @@
-import { Pencil, Activity } from 'lucide-react';
-import React, { useState } from 'react';
+import { Pencil, Activity } from "lucide-react";
+import React, { useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 
-import { AgentCardMenu } from './agent-card-menu';
+import { AgentCardMenu } from "./agent-card-menu";
 
 interface AgentCardProps {
   picture: string;

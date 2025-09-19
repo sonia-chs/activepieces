@@ -1,10 +1,10 @@
-import { AlertCircle, SparklesIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { AlertCircle, SparklesIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 
-import { notificationHooks } from './hooks/notifications-hooks';
+import { notificationHooks } from "./hooks/notifications-hooks";
 
 export const PlatformMessages = () => {
   const messages = notificationHooks.useNotifications();
@@ -18,7 +18,7 @@ export const PlatformMessages = () => {
           variant={message.type}
           className="flex items-start"
         >
-          {message.type === 'destructive' ? (
+          {message.type === "destructive" ? (
             <AlertCircle className="h-4 w-4" />
           ) : (
             <SparklesIcon className="h-4 w-4" />
@@ -31,9 +31,9 @@ export const PlatformMessages = () => {
             <Button
               variant="link"
               className={
-                message.type === 'destructive'
-                  ? ' text-destructive-300'
-                  : 'text-primary-300'
+                message.type === "destructive"
+                  ? " text-destructive-300"
+                  : "text-primary-300"
               }
               onClick={() => navigate(message.actionLink)}
             >

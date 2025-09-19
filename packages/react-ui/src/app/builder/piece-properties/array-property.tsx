@@ -1,21 +1,21 @@
-import { t } from 'i18next';
-import { Plus, TrashIcon } from 'lucide-react';
-import { nanoid } from 'nanoid';
-import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import { Plus, TrashIcon } from "lucide-react";
+import { nanoid } from "nanoid";
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
-import { ArrayInput } from '@/components/custom/array-input';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { TextWithIcon } from '@/components/ui/text-with-icon';
+import { ArrayInput } from "@/components/custom/array-input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { TextWithIcon } from "@/components/ui/text-with-icon";
 import {
   ArrayProperty,
   ArraySubProps,
   PropertyType,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 
-import { AutoPropertiesFormComponent } from './auto-properties-form';
-import { TextInputWithMentions } from './text-input-with-mentions';
+import { AutoPropertiesFormComponent } from "./auto-properties-form";
+import { TextInputWithMentions } from "./text-input-with-mentions";
 
 type ArrayPropertyProps = {
   inputName: string;
@@ -39,7 +39,7 @@ const getDefaultValuesForInputs = (arrayProperties: ArraySubProps<boolean>) => {
       case PropertyType.COLOR:
         return {
           ...acc,
-          [key]: '',
+          [key]: "",
         };
       case PropertyType.CHECKBOX:
         return {
@@ -87,7 +87,7 @@ const ArrayPieceProperty = React.memo(
       form.setValue(
         inputName,
         newFields.map((f) => f.value),
-        { shouldValidate: true },
+        { shouldValidate: true }
       );
     };
 
@@ -95,7 +95,7 @@ const ArrayPieceProperty = React.memo(
       //passing empty object will result in react form putting in the initial values when the user first started editing
       const value = arrayProperty.properties
         ? getDefaultValuesForInputs(arrayProperty.properties)
-        : '';
+        : "";
       const formValues = form.getValues(inputName) || [];
       const newFields = [
         ...formValues.map((value: string | Record<string, unknown>) => ({
@@ -129,7 +129,7 @@ const ArrayPieceProperty = React.memo(
               {fields.map((field, index) => (
                 <div
                   className="p-4 border rounded-md flex flex-col gap-4"
-                  key={'array-item-' + field.id}
+                  key={"array-item-" + field.id}
                 >
                   <div className="flex justify-between">
                     <div className="font-semibold"> #{index + 1}</div>
@@ -146,7 +146,7 @@ const ArrayPieceProperty = React.memo(
                         className="size-4 text-destructive"
                         aria-hidden="true"
                       />
-                      <span className="sr-only">{t('Remove')}</span>
+                      <span className="sr-only">{t("Remove")}</span>
                     </Button>
                   </div>
                   <AutoPropertiesFormComponent
@@ -172,7 +172,7 @@ const ArrayPieceProperty = React.memo(
                 }}
                 type="button"
               >
-                <TextWithIcon icon={<Plus size={18} />} text={t('Add Item')} />
+                <TextWithIcon icon={<Plus size={18} />} text={t("Add Item")} />
               </Button>
             )}
           </>
@@ -205,8 +205,8 @@ const ArrayPieceProperty = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 
-ArrayPieceProperty.displayName = 'ArrayPieceProperty';
+ArrayPieceProperty.displayName = "ArrayPieceProperty";
 export { ArrayPieceProperty };

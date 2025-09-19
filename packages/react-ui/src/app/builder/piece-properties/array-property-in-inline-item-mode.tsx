@@ -1,14 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 
-import { ArraySubProps } from '@activepieces/pieces-framework';
+import { ArraySubProps } from "@activepieces/pieces-framework";
 
 import {
   useBuilderStateContext,
   useIsFocusInsideListMapperModeInput,
-} from '../builder-hooks';
+} from "../builder-hooks";
 
-import { AutoPropertiesFormComponent } from './auto-properties-form';
-import { TextInputWithMentions } from './text-input-with-mentions';
+import { AutoPropertiesFormComponent } from "./auto-properties-form";
+import { TextInputWithMentions } from "./text-input-with-mentions";
 
 type BaseArrayPropertyProps = {
   inputName: string;
@@ -63,9 +63,9 @@ const ArrayPiecePropertyInInlineItemMode = React.memo(
         )}
       </div>
     );
-  },
+  }
 );
 
 ArrayPiecePropertyInInlineItemMode.displayName =
-  'ArrayPiecePropertyInInlineItemMode';
+  "ArrayPiecePropertyInInlineItemMode";
 export { ArrayPiecePropertyInInlineItemMode };

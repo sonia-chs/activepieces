@@ -1,18 +1,18 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { EllipsisVertical } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { EllipsisVertical } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 
-import FlowActionMenu from '@/app/components/flow-actions-menu';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { RowDataWithActions } from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { FlowStatusToggle } from '@/features/flows/components/flow-status-toggle';
-import { FolderBadge } from '@/features/folders/component/folder-badge';
-import { PieceIconList } from '@/features/pieces/components/piece-icon-list';
-import { formatUtils } from '@/lib/utils';
-import { PopulatedFlow } from '@activepieces/shared';
+import FlowActionMenu from "@/app/components/flow-actions-menu";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RowDataWithActions } from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import { FlowStatusToggle } from "@/features/flows/components/flow-status-toggle";
+import { FolderBadge } from "@/features/folders/component/folder-badge";
+import { PieceIconList } from "@/features/pieces/components/piece-icon-list";
+import { formatUtils } from "@/lib/utils";
+import { PopulatedFlow } from "@activepieces/shared";
 
 type FlowsTableColumnsProps = {
   refetch: () => void;
@@ -32,7 +32,7 @@ export const flowsTableColumns = ({
   accessorKey: string;
 })[] => [
   {
-    id: 'select',
+    id: "select",
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -51,9 +51,7 @@ export const flowsTableColumns = ({
             const newSelectedRowIds = [...allRowIds, ...selectedRows];
 
             const uniqueRowIds = Array.from(
-              new Map(
-                newSelectedRowIds.map((item) => [item.id, item]),
-              ).values(),
+              new Map(newSelectedRowIds.map((item) => [item.id, item])).values()
             );
 
             setSelectedRows(uniqueRowIds);
@@ -72,7 +70,7 @@ export const flowsTableColumns = ({
       const isChecked = selectedRows.some(
         (selectedRow) =>
           selectedRow.id === row.original.id &&
-          selectedRow.status === row.original.status,
+          selectedRow.status === row.original.status
       );
       return (
         <Checkbox
@@ -83,14 +81,14 @@ export const flowsTableColumns = ({
             let newSelectedRows = [...selectedRows];
             if (isChecked) {
               const exists = newSelectedRows.some(
-                (selectedRow) => selectedRow.id === row.original.id,
+                (selectedRow) => selectedRow.id === row.original.id
               );
               if (!exists) {
                 newSelectedRows.push(row.original);
               }
             } else {
               newSelectedRows = newSelectedRows.filter(
-                (selectedRow) => selectedRow.id !== row.original.id,
+                (selectedRow) => selectedRow.id !== row.original.id
               );
             }
             setSelectedRows(newSelectedRows);
@@ -99,12 +97,12 @@ export const flowsTableColumns = ({
         />
       );
     },
-    accessorKey: 'select',
+    accessorKey: "select",
   },
   {
-    accessorKey: 'name',
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Name')} />
+      <DataTableColumnHeader column={column} title={t("Name")} />
     ),
     cell: ({ row }) => {
       const status = row.original.version.displayName;
@@ -112,9 +110,9 @@ export const flowsTableColumns = ({
     },
   },
   {
-    accessorKey: 'steps',
+    accessorKey: "steps",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Steps')} />
+      <DataTableColumnHeader column={column} title={t("Steps")} />
     ),
     cell: ({ row }) => {
       return (
@@ -126,9 +124,9 @@ export const flowsTableColumns = ({
     },
   },
   {
-    accessorKey: 'folderId',
+    accessorKey: "folderId",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Folder')} />
+      <DataTableColumnHeader column={column} title={t("Folder")} />
     ),
     cell: ({ row }) => {
       const folderId = row.original.folderId;
@@ -137,16 +135,16 @@ export const flowsTableColumns = ({
           {folderId ? (
             <FolderBadge folderId={folderId} />
           ) : (
-            <span>{t('Uncategorized')}</span>
+            <span>{t("Uncategorized")}</span>
           )}
         </div>
       );
     },
   },
   {
-    accessorKey: 'updated',
+    accessorKey: "updated",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Last modified')} />
+      <DataTableColumnHeader column={column} title={t("Last modified")} />
     ),
     cell: ({ row }) => {
       const updated = row.original.updated;
@@ -158,9 +156,9 @@ export const flowsTableColumns = ({
     },
   },
   {
-    accessorKey: 'status',
+    accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Status')} />
+      <DataTableColumnHeader column={column} title={t("Status")} />
     ),
     cell: ({ row }) => {
       return (
@@ -174,7 +172,7 @@ export const flowsTableColumns = ({
     },
   },
   {
-    accessorKey: 'actions',
+    accessorKey: "actions",
     header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     cell: ({ row }) => {
       const flow = row.original;
@@ -211,7 +209,7 @@ export const flowsTableColumns = ({
     },
   },
   {
-    accessorKey: 'connectionExternalId',
+    accessorKey: "connectionExternalId",
     enableHiding: true,
   },
 ];

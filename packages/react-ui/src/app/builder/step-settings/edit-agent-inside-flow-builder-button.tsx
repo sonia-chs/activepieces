@@ -1,18 +1,18 @@
-import { t } from 'i18next';
-import { Settings } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { Settings } from "lucide-react";
+import { useState } from "react";
 
-import { AgentBuilder } from '@/app/routes/agents/builder';
-import { Button } from '@/components/ui/button';
+import { AgentBuilder } from "@/app/routes/agents/builder";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { agentHooks } from '@/features/agents/lib/agent-hooks';
-import { isNil } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { agentHooks } from "@/features/agents/lib/agent-hooks";
+import { isNil } from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../builder-hooks';
+import { useBuilderStateContext } from "../builder-hooks";
 
 type EditAgentInFlowBuilderButtonProps = {
   externalAgentId: string;
@@ -24,7 +24,7 @@ const EditAgentInFlowBuilderButton = ({
   const [isAgentBuilderOpen, setIsAgentBuilderOpen] = useState(false);
   const { data: agent } = agentHooks.useGetByExternalId(externalAgentId);
   const [setLastRerenderPieceSettingsTimeStamp] = useBuilderStateContext(
-    (state) => [state.setLastRerenderPieceSettingsTimeStamp],
+    (state) => [state.setLastRerenderPieceSettingsTimeStamp]
   );
 
   if (isNil(agent)) {
@@ -56,13 +56,13 @@ const EditAgentInFlowBuilderButton = ({
               </div>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{t('Agent Settings')}</TooltipContent>
+          <TooltipContent>{t("Agent Settings")}</TooltipContent>
         </Tooltip>
       }
     ></AgentBuilder>
   );
 };
 
-EditAgentInFlowBuilderButton.displayName = 'EditAgentInFlowBuilderButton';
+EditAgentInFlowBuilderButton.displayName = "EditAgentInFlowBuilderButton";
 
 export { EditAgentInFlowBuilderButton };

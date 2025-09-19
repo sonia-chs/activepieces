@@ -7,14 +7,14 @@ const hexToHslString = (hex: string) => {
 
 const parseToHsl = (hex: string) => {
   // Remove the '#' character if it exists
-  hex = hex.replace(/^#/, '');
+  hex = hex.replace(/^#/, "");
 
   // Convert 3-digit hex to 6-digit hex
   if (hex.length === 3) {
     hex = hex
-      .split('')
+      .split("")
       .map((char) => char + char)
-      .join('');
+      .join("");
   }
 
   // Convert hex to RGB

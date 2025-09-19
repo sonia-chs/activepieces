@@ -1,9 +1,9 @@
-import { t } from 'i18next';
-import React from 'react';
-import { useFormContext, useFieldArray } from 'react-hook-form';
+import { t } from "i18next";
+import React from "react";
+import { useFormContext, useFieldArray } from "react-hook-form";
 
-import { BranchConditionGroup } from '@/app/builder/step-settings/branch-settings/branch-condition-group';
-import { emptyCondition } from '@activepieces/shared';
+import { BranchConditionGroup } from "@/app/builder/step-settings/branch-settings/branch-condition-group";
+import { emptyCondition } from "@activepieces/shared";
 
 type BranchSettingsProps = {
   readonly: boolean;
@@ -20,7 +20,7 @@ const BranchSettings = React.memo(
 
     const handleDelete = (groupIndex: number, conditionIndex: number) => {
       const conditions = form.getValues(
-        `settings.branches.${branchIndex}.conditions`,
+        `settings.branches.${branchIndex}.conditions`
       );
       const newConditionsGroup = [...conditions[groupIndex]];
       const isSingleGroup = conditions.length === 1;
@@ -38,7 +38,7 @@ const BranchSettings = React.memo(
 
     const handleAnd = (groupIndex: number) => {
       const conditions = form.getValues(
-        `settings.branches.${branchIndex}.conditions`,
+        `settings.branches.${branchIndex}.conditions`
       );
       conditions[groupIndex] = [...conditions[groupIndex], emptyCondition];
       update(groupIndex, conditions[groupIndex]);
@@ -50,7 +50,7 @@ const BranchSettings = React.memo(
 
     return (
       <div className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
-        <div className="text-md ">{t('Execute If')}</div>
+        <div className="text-md ">{t("Execute If")}</div>
         {fields.map((fieldGroup, groupIndex) => (
           <BranchConditionGroup
             key={fieldGroup.id}
@@ -67,8 +67,8 @@ const BranchSettings = React.memo(
         ))}
       </div>
     );
-  },
+  }
 );
 
-BranchSettings.displayName = 'BranchSettings';
+BranchSettings.displayName = "BranchSettings";
 export { BranchSettings };

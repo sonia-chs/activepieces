@@ -1,10 +1,10 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -22,15 +22,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { platformUserApi } from '@/lib/platform-user-api';
+} from "@/components/ui/select";
+import { platformUserApi } from "@/lib/platform-user-api";
 import {
   PlatformRole,
   UpdateUserRequestBody,
   User,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { Input } from '../../../../components/ui/input';
+import { Input } from "../../../../components/ui/input";
 
 export const UpdateUserDialog = ({
   children,
@@ -55,13 +55,13 @@ export const UpdateUserDialog = ({
   });
   const { mutate, isPending } = useMutation<User, Error, UpdateUserRequestBody>(
     {
-      mutationKey: ['update-user'],
+      mutationKey: ["update-user"],
       mutationFn: (request) => platformUserApi.update(userId, request),
       onSuccess: (user) => {
         onUpdate(user.platformRole);
         setOpen(false);
       },
-    },
+    }
   );
 
   return (
@@ -75,7 +75,7 @@ export const UpdateUserDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('Update User Role')}</DialogTitle>
+          <DialogTitle>{t("Update User Role")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form className="grid space-y-4" onSubmit={(e) => e.preventDefault()}>
@@ -83,7 +83,7 @@ export const UpdateUserDialog = ({
               name="role"
               render={({ field }) => (
                 <FormItem className="grid space-y-2">
-                  <Label htmlFor="role">{t('Role')}</Label>
+                  <Label htmlFor="role">{t("Role")}</Label>
                   <Select
                     name="role"
                     defaultValue={field.value}
@@ -98,10 +98,10 @@ export const UpdateUserDialog = ({
                         {Object.values(PlatformRole).map((role) => (
                           <SelectItem value={role} key={role}>
                             {role === PlatformRole.ADMIN
-                              ? t('Admin')
+                              ? t("Admin")
                               : role === PlatformRole.OPERATOR
-                              ? t('Operator')
-                              : t('Member')}
+                              ? t("Operator")
+                              : t("Member")}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -115,7 +115,7 @@ export const UpdateUserDialog = ({
               name="externalId"
               render={({ field }) => (
                 <FormItem className="grid space-y-2">
-                  <Label htmlFor="externalId">{t('External ID')}</Label>
+                  <Label htmlFor="externalId">{t("External ID")}</Label>
                   <Input
                     id="externalId"
                     value={field.value}
@@ -134,14 +134,14 @@ export const UpdateUserDialog = ({
         </Form>
         <DialogFooter>
           <Button
-            variant={'outline'}
+            variant={"outline"}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
               setOpen(false);
             }}
           >
-            {t('Cancel')}
+            {t("Cancel")}
           </Button>
           <Button
             disabled={isPending}
@@ -155,7 +155,7 @@ export const UpdateUserDialog = ({
               });
             }}
           >
-            {t('Save')}
+            {t("Save")}
           </Button>
         </DialogFooter>
       </DialogContent>

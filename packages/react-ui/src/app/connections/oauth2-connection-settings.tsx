@@ -1,27 +1,27 @@
-import { t } from 'i18next';
-import { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { t } from "i18next";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { SkeletonList } from '@/components/ui/skeleton';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { oauth2Utils } from '@/lib/oauth2-utils';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { SkeletonList } from "@/components/ui/skeleton";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { oauth2Utils } from "@/lib/oauth2-utils";
 import {
   OAuth2Property,
   OAuth2Props,
   PieceMetadataModel,
   PieceMetadataModelSummary,
   PropertyType,
-} from '@activepieces/pieces-framework';
+} from "@activepieces/pieces-framework";
 import {
   resolveValueFromProps,
   ApEdition,
@@ -34,14 +34,14 @@ import {
   UpsertOAuth2Request,
   UpsertPlatformOAuth2Request,
   isNil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 import {
   oauthAppsQueries,
   PieceToClientIdMap,
-} from '../../features/connections/lib/oauth-apps-hooks';
-import { formUtils } from '../../features/pieces/lib/form-utils';
-import { AutoPropertiesFormComponent } from '../builder/piece-properties/auto-properties-form';
+} from "../../features/connections/lib/oauth-apps-hooks";
+import { formUtils } from "../../features/pieces/lib/form-utils";
+import { AutoPropertiesFormComponent } from "../builder/piece-properties/auto-properties-form";
 
 type OAuth2ConnectionSettingsProps = {
   piece: PieceMetadataModelSummary | PieceMetadataModel;
@@ -51,7 +51,7 @@ type OAuth2ConnectionSettingsProps = {
 const getOAuth2TypeAndApp = (
   pieceToClientIdMap: PieceToClientIdMap,
   reconnectConnection: AppConnectionWithoutSensitiveData | null,
-  pieceName: string,
+  pieceName: string
 ) => {
   const platformApp =
     pieceToClientIdMap[`${pieceName}-${AppConnectionType.PLATFORM_OAUTH2}`] ??
@@ -118,12 +118,12 @@ const OAuth2ConnectionSettingsImplementation = ({
 }) => {
   const [currentOAuth2Type, setOAuth2Type] = useState<OAuth2Type>(
     getOAuth2TypeAndApp(pieceToClientIdMap, reconnectConnection, piece.name)
-      .type,
+      .type
   );
   const [grantType, setGrantType] = useState<OAuth2GrantType>(
     authProperty.grantType === BOTH_CLIENT_CREDENTIALS_AND_AUTHORIZATION_CODE
       ? OAuth2GrantType.AUTHORIZATION_CODE
-      : authProperty.grantType ?? OAuth2GrantType.AUTHORIZATION_CODE,
+      : authProperty.grantType ?? OAuth2GrantType.AUTHORIZATION_CODE
   );
 
   return (
@@ -145,8 +145,8 @@ const OAuth2ConnectionSettingsImplementation = ({
           getOAuth2TypeAndApp(
             pieceToClientIdMap,
             reconnectConnection,
-            piece.name,
-          ).type,
+            piece.name
+          ).type
         )
       }
     />
@@ -154,7 +154,7 @@ const OAuth2ConnectionSettingsImplementation = ({
 };
 
 const doesPieceAllowSwitchingGrantType = (
-  piece: PieceMetadataModelSummary | PieceMetadataModel,
+  piece: PieceMetadataModelSummary | PieceMetadataModel
 ) => {
   return (
     piece.auth?.type === PropertyType.OAUTH2 &&
@@ -189,12 +189,12 @@ const OAuth2ConnectionSettingsForm = ({
   resetOAuth2Type,
 }: OAuth2ConnectionSettingsFormParams) => {
   const { data: thirdPartyUrl } = flagsHooks.useFlag<string>(
-    ApFlagId.THIRD_PARTY_AUTH_PROVIDER_REDIRECT_URL,
+    ApFlagId.THIRD_PARTY_AUTH_PROVIDER_REDIRECT_URL
   );
   const [readyToConnect, setReadyToConnect] = useState(false);
   const redirectUrl =
     currentOAuth2Type === AppConnectionType.CLOUD_OAUTH2
-      ? 'https://secrets.activepieces.com/redirect'
+      ? "https://secrets.activepieces.com/redirect"
       : thirdPartyUrl;
 
   const form = useFormContext<{
@@ -207,50 +207,50 @@ const OAuth2ConnectionSettingsForm = ({
   const hasCode = form.getValues().request.value.code;
   useEffect(() => {
     form.setValue(
-      'request.value.redirect_url',
-      redirectUrl ?? 'no_redirect_url_found',
+      "request.value.redirect_url",
+      redirectUrl ?? "no_redirect_url_found",
       {
         shouldValidate: true,
-      },
+      }
     );
     const defaultValuesForProps = Object.fromEntries(
       Object.entries(
         formUtils.getDefaultValueForStep({
           props: authProperty.props ?? {},
           existingInput: {},
-        }),
-      ).map(([key, value]) => [key, value === undefined ? '' : value]),
+        })
+      ).map(([key, value]) => [key, value === undefined ? "" : value])
     );
-    form.setValue('request.value.props', defaultValuesForProps, {
+    form.setValue("request.value.props", defaultValuesForProps, {
       shouldValidate: true,
     });
     form.setValue(
-      'request.value.client_secret',
-      currentOAuth2Type === AppConnectionType.OAUTH2 ? '' : 'FAKE_SECRET',
-      { shouldValidate: true },
+      "request.value.client_secret",
+      currentOAuth2Type === AppConnectionType.OAUTH2 ? "" : "FAKE_SECRET",
+      { shouldValidate: true }
     );
     form.setValue(
-      'request.value.client_id',
+      "request.value.client_id",
       currentOAuth2Type === AppConnectionType.OAUTH2
-        ? ''
-        : predefinedApp?.clientId ?? '',
-      { shouldValidate: true },
+        ? ""
+        : predefinedApp?.clientId ?? "",
+      { shouldValidate: true }
     );
-    form.setValue('request.value.grant_type', currentGrantType, {
+    form.setValue("request.value.grant_type", currentGrantType, {
       shouldValidate: true,
     });
     form.setValue(
-      'request.value.code',
+      "request.value.code",
       currentGrantType === OAuth2GrantType.CLIENT_CREDENTIALS
-        ? 'FAKE_CODE'
-        : '',
-      { shouldValidate: true },
+        ? "FAKE_CODE"
+        : "",
+      { shouldValidate: true }
     );
-    form.setValue('request.value.code_challenge', '', { shouldValidate: true });
-    form.setValue('request.value.type', currentOAuth2Type, {
+    form.setValue("request.value.code_challenge", "", { shouldValidate: true });
+    form.setValue("request.value.type", currentOAuth2Type, {
       shouldValidate: true,
     });
-    form.setValue('request.type', currentOAuth2Type, { shouldValidate: true });
+    form.setValue("request.type", currentOAuth2Type, { shouldValidate: true });
   }, []);
 
   form.watch((values) => {
@@ -264,7 +264,7 @@ const OAuth2ConnectionSettingsForm = ({
       ? Object.keys(authProperty.props).reduce((acc, key) => {
           return (
             acc &&
-            ((!isNil(propsValues[key]) && propsValues[key] !== '') ||
+            ((!isNil(propsValues[key]) && propsValues[key] !== "") ||
               !authProperty.props?.[key]?.required)
           );
         }, true)
@@ -272,16 +272,16 @@ const OAuth2ConnectionSettingsForm = ({
     setReadyToConnect(
       baseCriteria &&
         (currentOAuth2Type !== AppConnectionType.OAUTH2 || hasClientSecret) &&
-        arePropsValid,
+        arePropsValid
     );
   });
   const [refresh, setRefresh] = useState(0);
   const openPopup = async (
     redirectUrl: string,
     clientId: string,
-    props: Record<string, string> | undefined,
+    props: Record<string, string> | undefined
   ) => {
-    const scope = resolveValueFromProps(props, authProperty.scope.join(' '));
+    const scope = resolveValueFromProps(props, authProperty.scope.join(" "));
     const authUrl = resolveValueFromProps(props, authProperty.authUrl);
     const { code, codeChallenge } = await oauth2Utils.openOAuth2Popup({
       authUrl,
@@ -290,11 +290,11 @@ const OAuth2ConnectionSettingsForm = ({
       scope,
       prompt: authProperty.prompt,
       pkce: authProperty.pkce ?? false,
-      pkceMethod: authProperty.pkceMethod ?? 'plain',
+      pkceMethod: authProperty.pkceMethod ?? "plain",
       extraParams: authProperty.extra ?? {},
     });
-    form.setValue('request.value.code', code, { shouldValidate: true });
-    form.setValue('request.value.code_challenge', codeChallenge, {
+    form.setValue("request.value.code", code, { shouldValidate: true });
+    form.setValue("request.value.code_challenge", codeChallenge, {
       shouldValidate: true,
     });
     setRefresh(refresh + 1);
@@ -305,9 +305,9 @@ const OAuth2ConnectionSettingsForm = ({
       {currentOAuth2Type === AppConnectionType.OAUTH2 &&
         authProperty.grantType !== OAuth2GrantType.CLIENT_CREDENTIALS && (
           <div className="flex flex-col gap-2">
-            <FormLabel>{t('Redirect URL')}</FormLabel>
+            <FormLabel>{t("Redirect URL")}</FormLabel>
             <FormControl>
-              <Input disabled type="text" value={redirectUrl ?? ''} />
+              <Input disabled type="text" value={redirectUrl ?? ""} />
             </FormControl>
             <FormMessage />
           </div>
@@ -320,9 +320,9 @@ const OAuth2ConnectionSettingsForm = ({
             control={form.control}
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>{t('Client ID')}</FormLabel>
+                <FormLabel>{t("Client ID")}</FormLabel>
                 <FormControl>
-                  <Input {...field} type="text" placeholder={t('Client ID')} />
+                  <Input {...field} type="text" placeholder={t("Client ID")} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -333,12 +333,12 @@ const OAuth2ConnectionSettingsForm = ({
             control={form.control}
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>{t('Client Secret')}</FormLabel>
+                <FormLabel>{t("Client Secret")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="password"
-                    placeholder={t('Client Secret')}
+                    placeholder={t("Client Secret")}
                   />
                 </FormControl>
                 <FormMessage />
@@ -365,36 +365,36 @@ const OAuth2ConnectionSettingsForm = ({
           <div className="flex-grow"></div>
           {!hasCode && (
             <Button
-              size={'sm'}
-              variant={'basic'}
+              size={"sm"}
+              variant={"basic"}
               disabled={!readyToConnect}
               type="button"
               onClick={async () =>
                 openPopup(
                   redirectUrl!,
                   form.getValues().request.value.client_id,
-                  form.getValues().request.value.props,
+                  form.getValues().request.value.props
                 )
               }
             >
-              {t('Connect')}
+              {t("Connect")}
             </Button>
           )}
           {hasCode && (
             <Button
-              size={'sm'}
-              variant={'basic'}
+              size={"sm"}
+              variant={"basic"}
               className="text-destructive"
               onClick={() => {
-                form.setValue('request.value.code', '', {
+                form.setValue("request.value.code", "", {
                   shouldValidate: true,
                 });
-                form.setValue('request.value.code_challenge', '', {
+                form.setValue("request.value.code_challenge", "", {
                   shouldValidate: true,
                 });
               }}
             >
-              {t('Disconnect')}
+              {t("Disconnect")}
             </Button>
           )}
         </div>
@@ -406,12 +406,12 @@ const OAuth2ConnectionSettingsForm = ({
           <div>
             <Button
               size="sm"
-              variant={'link'}
+              variant={"link"}
               className="text-xs"
               type="button"
               onClick={() => setOAuth2Type(AppConnectionType.OAUTH2)}
             >
-              {t('I would like to use my own App Credentials')}
+              {t("I would like to use my own App Credentials")}
             </Button>
           </div>
         )}
@@ -422,12 +422,12 @@ const OAuth2ConnectionSettingsForm = ({
           <div>
             <Button
               size="sm"
-              variant={'link'}
+              variant={"link"}
               className="text-xs"
               type="button"
               onClick={() => setOAuth2Type(predefinedApp.type)}
             >
-              {t('I would like to use predefined App Credentials')}
+              {t("I would like to use predefined App Credentials")}
             </Button>
           </div>
         )}
@@ -437,7 +437,7 @@ const OAuth2ConnectionSettingsForm = ({
             <div>
               <Button
                 size="sm"
-                variant={'link'}
+                variant={"link"}
                 className="text-xs"
                 type="button"
                 onClick={() => {
@@ -445,7 +445,7 @@ const OAuth2ConnectionSettingsForm = ({
                   setOAuth2Type(AppConnectionType.OAUTH2);
                 }}
               >
-                {t('I would like to use Client Credentials')}
+                {t("I would like to use Client Credentials")}
               </Button>
             </div>
           )}
@@ -453,7 +453,7 @@ const OAuth2ConnectionSettingsForm = ({
             <div>
               <Button
                 size="sm"
-                variant={'link'}
+                variant={"link"}
                 type="button"
                 className="text-xs"
                 onClick={() => {
@@ -461,7 +461,7 @@ const OAuth2ConnectionSettingsForm = ({
                   resetOAuth2Type();
                 }}
               >
-                {t('I would like to use Authorization Code')}
+                {t("I would like to use Authorization Code")}
               </Button>
             </div>
           )}
@@ -471,5 +471,5 @@ const OAuth2ConnectionSettingsForm = ({
   );
 };
 
-OAuth2ConnectionSettings.displayName = 'OAuth2ConnectionSettings';
+OAuth2ConnectionSettings.displayName = "OAuth2ConnectionSettings";
 export { OAuth2ConnectionSettings };

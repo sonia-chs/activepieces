@@ -1,9 +1,9 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Pencil } from 'lucide-react';
-import { useState } from 'react';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Pencil } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,19 +11,19 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { toast } from '@/components/ui/use-toast';
-import { projectRoleApi } from '@/features/platform-admin/lib/project-role-api';
-import { ProjectMemberWithUser } from '@activepieces/ee-shared';
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+import { projectRoleApi } from "@/features/platform-admin/lib/project-role-api";
+import { ProjectMemberWithUser } from "@activepieces/ee-shared";
 
-import { projectMembersApi } from '../lib/project-members-api';
+import { projectMembersApi } from "../lib/project-members-api";
 
 interface EditRoleDialogProps {
   member: ProjectMemberWithUser;
@@ -39,7 +39,7 @@ export function EditRoleDialog({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState(member.projectRole.name);
   const { data: rolesData } = useQuery({
-    queryKey: ['project-roles'],
+    queryKey: ["project-roles"],
     queryFn: () => projectRoleApi.list(),
   });
 
@@ -53,15 +53,15 @@ export function EditRoleDialog({
     },
     onSuccess: () => {
       toast({
-        title: t('Role updated successfully'),
+        title: t("Role updated successfully"),
       });
       onSave();
       setIsOpen(false);
     },
     onError: () => {
       toast({
-        title: t('Error updating role'),
-        description: t('Please try again later'),
+        title: t("Error updating role"),
+        description: t("Please try again later"),
       });
     },
   });
@@ -84,13 +84,13 @@ export function EditRoleDialog({
       <DialogContent className="w-full max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {t('Edit Role for')} {member.user.firstName} {member.user.lastName}
+            {t("Edit Role for")} {member.user.firstName} {member.user.lastName}
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-2">
           <Select onValueChange={handleRoleChange} defaultValue={selectedRole}>
             <SelectTrigger>
-              <SelectValue placeholder={t('Select Role')} />
+              <SelectValue placeholder={t("Select Role")} />
             </SelectTrigger>
             <SelectContent>
               {roles.map((role) => (
@@ -103,7 +103,7 @@ export function EditRoleDialog({
         </div>
         <DialogFooter>
           <Button onClick={handleSave} loading={isPending}>
-            {t('Save')}
+            {t("Save")}
           </Button>
         </DialogFooter>
       </DialogContent>

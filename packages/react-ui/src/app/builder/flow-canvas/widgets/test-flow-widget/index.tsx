@@ -1,16 +1,16 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
 import {
   ChatDrawerSource,
   useBuilderStateContext,
-} from '@/app/builder/builder-hooks';
-import { flowsHooks } from '@/features/flows/lib/flows-hooks';
-import { pieceSelectorUtils } from '@/features/pieces/lib/piece-selector-utils';
-import { isNil, FlowTriggerType } from '@activepieces/shared';
+} from "@/app/builder/builder-hooks";
+import { flowsHooks } from "@/features/flows/lib/flows-hooks";
+import { pieceSelectorUtils } from "@/features/pieces/lib/piece-selector-utils";
+import { isNil, FlowTriggerType } from "@activepieces/shared";
 
-import ViewOnlyWidget from '../view-only-widget';
+import ViewOnlyWidget from "../view-only-widget";
 
-import { TestButton } from './test-button';
+import { TestButton } from "./test-button";
 
 const TestFlowWidget = () => {
   const [setChatDrawerOpenSource, flowVersion, readonly, setRun] =
@@ -27,7 +27,7 @@ const TestFlowWidget = () => {
 
   const isChatTrigger = pieceSelectorUtils.isChatTrigger(
     flowVersion.trigger.settings.pieceName,
-    flowVersion.trigger.settings.triggerName,
+    flowVersion.trigger.settings.triggerName
   );
 
   const { mutate: runFlow, isPending } = flowsHooks.useTestFlow({
@@ -47,7 +47,7 @@ const TestFlowWidget = () => {
         onClick={() => {
           setChatDrawerOpenSource(ChatDrawerSource.TEST_FLOW);
         }}
-        text={t('Open Chat')}
+        text={t("Open Chat")}
         loading={isPending}
       />
     );
@@ -62,13 +62,13 @@ const TestFlowWidget = () => {
       onClick={() => {
         runFlow();
       }}
-      text={t('Test Flow')}
+      text={t("Test Flow")}
       disabled={!triggerHasSampleData}
       loading={isPending}
     />
   );
 };
 
-TestFlowWidget.displayName = 'TestFlowWidget';
+TestFlowWidget.displayName = "TestFlowWidget";
 
 export { TestFlowWidget };

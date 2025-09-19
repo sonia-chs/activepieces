@@ -1,14 +1,14 @@
-import { t } from 'i18next';
-import { CheckIcon, Crown, Sparkle, StarIcon, Zap } from 'lucide-react';
-import { FC } from 'react';
+import { t } from "i18next";
+import { CheckIcon, Crown, Sparkle, StarIcon, Zap } from "lucide-react";
+import { FC } from "react";
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { BillingCycle, PlanName } from '@activepieces/ee-shared';
-import { isNil } from '@activepieces/shared';
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { BillingCycle, PlanName } from "@activepieces/ee-shared";
+import { isNil } from "@activepieces/shared";
 
-import { planData } from './data';
+import { planData } from "./data";
 
 export const PlanSelectionStep: FC<{
   selectedPlan: string;
@@ -30,7 +30,7 @@ export const PlanSelectionStep: FC<{
   };
 
   const availablePlans = planData.plans.filter(
-    (plan) => plan.name !== PlanName.ENTERPRISE,
+    (plan) => plan.name !== PlanName.ENTERPRISE
   );
 
   const getInheritedFeatures = (currentPlanIndex: number) => {
@@ -43,7 +43,7 @@ export const PlanSelectionStep: FC<{
           feature.values[plan.name as keyof typeof feature.values];
         return (
           !isNil(featureValue) &&
-          (typeof featureValue !== 'boolean' || featureValue === true)
+          (typeof featureValue !== "boolean" || featureValue === true)
         );
       });
       allFeatures = [...allFeatures, ...planFeatures];
@@ -51,7 +51,7 @@ export const PlanSelectionStep: FC<{
 
     const uniqueFeatures = allFeatures.filter(
       (feature, index, self) =>
-        index === self.findIndex((f) => f.key === feature.key),
+        index === self.findIndex((f) => f.key === feature.key)
     );
 
     return uniqueFeatures;
@@ -71,9 +71,9 @@ export const PlanSelectionStep: FC<{
           <Card
             key={plan.name}
             className={cn(
-              'relative cursor-pointer transition-all duration-200 hover:shadow-md',
-              isSelected && 'ring-2 ring-primary shadow-lg',
-              hightlightPlan && 'border-primary/50',
+              "relative cursor-pointer transition-all duration-200 hover:shadow-md",
+              isSelected && "ring-2 ring-primary shadow-lg",
+              hightlightPlan && "border-primary/50"
             )}
             onClick={() => onPlanSelect(plan.name)}
           >
@@ -81,7 +81,7 @@ export const PlanSelectionStep: FC<{
               <div className="absolute -top-2.5 left-1/2 transform -translate-x-1/2">
                 <Badge className="px-2 py-1 text-xs bg-primary">
                   <StarIcon className="h-3 w-3 mr-1 fill-current" />
-                  {t('Popular')}
+                  {t("Popular")}
                 </Badge>
               </div>
             )}
@@ -106,7 +106,7 @@ export const PlanSelectionStep: FC<{
                       ${plan.price[selectedCycle]}
                     </span>
                     <span className="text-muted-foreground text-sm">
-                      /{t('month')}
+                      /{t("month")}
                     </span>
                   </div>
                 </div>
@@ -114,7 +114,7 @@ export const PlanSelectionStep: FC<{
                 <div className="space-y-3">
                   {index > 0 && (
                     <div className="text-sm text-muted-foreground mb-2">
-                      Everything in{' '}
+                      Everything in{" "}
                       {availablePlans[index - 1].name.charAt(0).toUpperCase() +
                         availablePlans[index - 1].name.slice(1)}
                       , plus:
@@ -140,13 +140,13 @@ export const PlanSelectionStep: FC<{
                           </div>
                         </div>
                         <div className="flex-1 leading-relaxed">
-                          {typeof featureValue !== 'boolean' && (
+                          {typeof featureValue !== "boolean" && (
                             <span className="font-semibold text-foreground mr-1">
                               {featureValue}
                             </span>
                           )}
                           <span>
-                            {featureValue === '1'
+                            {featureValue === "1"
                               ? feature.label.slice(0, -1)
                               : feature.label}
                           </span>

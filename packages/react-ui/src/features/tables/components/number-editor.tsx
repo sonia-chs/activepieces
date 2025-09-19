@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import { useCellContext } from './cell-context';
+import { useCellContext } from "./cell-context";
 
 const NumberEditor = () => {
   const { value, handleCellChange, setIsEditing, isEditing } = useCellContext();
@@ -24,36 +24,36 @@ const NumberEditor = () => {
   return (
     <div className="h-full relative w-full">
       <div
-        className={cn('h-full flex items-center gap-2', {
-          'border-2 border-primary': isEditing,
-          'border-transparent': !isEditing,
+        className={cn("h-full flex items-center gap-2", {
+          "border-2 border-primary": isEditing,
+          "border-transparent": !isEditing,
         })}
       >
         {isEditing && (
           <input
             ref={inputRef}
             value={inputValue}
-            type={'number'}
+            type={"number"}
             onChange={handleChange}
             onBlur={() => {
               handleCellChange(inputValue);
             }}
             onKeyDown={(e) => {
               e.stopPropagation();
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 handleCellChange(inputValue);
                 e.preventDefault();
               }
-              if (e.key === 'Escape') {
+              if (e.key === "Escape") {
                 setIsEditing(false);
                 e.preventDefault();
               }
             }}
             className={cn(
-              'flex-1 h-full min-w-0',
-              'border-none text-sm px-2',
-              'focus:outline-none',
-              'placeholder:text-muted-foreground',
+              "flex-1 h-full min-w-0",
+              "border-none text-sm px-2",
+              "focus:outline-none",
+              "placeholder:text-muted-foreground"
             )}
             autoComplete="off"
           />
@@ -63,5 +63,5 @@ const NumberEditor = () => {
     </div>
   );
 };
-NumberEditor.displayName = 'NumberEditor';
+NumberEditor.displayName = "NumberEditor";
 export { NumberEditor };

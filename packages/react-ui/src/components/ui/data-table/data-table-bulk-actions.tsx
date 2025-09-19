@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 interface DataTableBulkActionsProps<TData> {
   selectedRows: TData[];
   actions: Array<{
     render: (
       selectedRows: TData[],
-      resetSelection: () => void,
+      resetSelection: () => void
     ) => React.ReactNode;
   }>;
 }

@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,16 +14,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { PiecesFilterType } from '@activepieces/shared';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { PiecesFilterType } from "@activepieces/shared";
 
-import { MultiSelectPieceProperty } from '../../../../components/custom/multi-select-piece-property';
-import { piecesHooks } from '../../../../features/pieces/lib/pieces-hooks';
-import { authenticationSession } from '../../../../lib/authentication-session';
-import { projectApi } from '../../../../lib/project-api';
+import { MultiSelectPieceProperty } from "../../../../components/custom/multi-select-piece-property";
+import { piecesHooks } from "../../../../features/pieces/lib/pieces-hooks";
+import { authenticationSession } from "../../../../lib/authentication-session";
+import { projectApi } from "../../../../lib/project-api";
 
 type ManagePiecesDialogProps = {
   onSuccess: () => void;
@@ -33,11 +33,11 @@ export const ManagePiecesDialog = React.memo(
   ({ onSuccess }: ManagePiecesDialogProps) => {
     const [open, setOpen] = useState(false);
     const { pieces: visiblePieces, isLoading: isLoadingVisiblePieces } =
-      piecesHooks.usePieces({ searchQuery: '', includeHidden: false });
+      piecesHooks.usePieces({ searchQuery: "", includeHidden: false });
     useEffect(() => {
       form.setValue(
-        'pieces',
-        (visiblePieces ?? []).map((p) => p.name),
+        "pieces",
+        (visiblePieces ?? []).map((p) => p.name)
       );
     }, [isLoadingVisiblePieces]);
     const form = useForm<{
@@ -46,7 +46,7 @@ export const ManagePiecesDialog = React.memo(
       resolver: typeboxResolver(
         Type.Object({
           pieces: Type.Array(Type.String()),
-        }),
+        })
       ),
       defaultValues: {
         pieces: (visiblePieces ?? []).map((p) => p.name),
@@ -55,7 +55,7 @@ export const ManagePiecesDialog = React.memo(
 
     const { toast } = useToast();
     const { pieces: allPieces, isLoading: isLoadingAllPieces } =
-      piecesHooks.usePieces({ searchQuery: '', includeHidden: true });
+      piecesHooks.usePieces({ searchQuery: "", includeHidden: true });
 
     const { mutate, isPending } = useMutation({
       mutationFn: () => {
@@ -69,8 +69,8 @@ export const ManagePiecesDialog = React.memo(
       onSuccess: () => {
         onSuccess();
         toast({
-          title: t('Success'),
-          description: t('Pieces list updated'),
+          title: t("Success"),
+          description: t("Pieces list updated"),
         });
         setOpen(false);
       },
@@ -80,15 +80,15 @@ export const ManagePiecesDialog = React.memo(
       <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
         <DialogTrigger asChild>
           <Button variant="default" className="flex gap-2 items-center">
-            {t('Manage Pieces')}
+            {t("Manage Pieces")}
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('Manage Pieces')}</DialogTitle>
+            <DialogTitle>{t("Manage Pieces")}</DialogTitle>
             <DialogDescription>
               {t(
-                'Choose which pieces you want to be available for your current project users',
+                "Choose which pieces you want to be available for your current project users"
               )}
             </DialogDescription>
           </DialogHeader>
@@ -101,9 +101,9 @@ export const ManagePiecesDialog = React.memo(
                 name="pieces"
                 render={({ field }) => (
                   <FormItem className="grid space-y-2">
-                    <Label htmlFor="pieces">{t('Pieces')}</Label>
+                    <Label htmlFor="pieces">{t("Pieces")}</Label>
                     <MultiSelectPieceProperty
-                      placeholder={t('Pieces')}
+                      placeholder={t("Pieces")}
                       options={
                         allPieces?.map((piece) => ({
                           value: piece.name,
@@ -124,14 +124,14 @@ export const ManagePiecesDialog = React.memo(
           </Form>
           <DialogFooter>
             <Button
-              variant={'outline'}
+              variant={"outline"}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
                 setOpen(false);
               }}
             >
-              {t('Cancel')}
+              {t("Cancel")}
             </Button>
             <Button
               disabled={isPending}
@@ -142,12 +142,12 @@ export const ManagePiecesDialog = React.memo(
                 form.handleSubmit(() => mutate())(e);
               }}
             >
-              {t('Save')}
+              {t("Save")}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     );
-  },
+  }
 );
-ManagePiecesDialog.displayName = 'ManagePiecesDialog';
+ManagePiecesDialog.displayName = "ManagePiecesDialog";

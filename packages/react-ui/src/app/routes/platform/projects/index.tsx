@@ -1,43 +1,43 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
-import { CheckIcon, Lock, Package, Pencil, Plus, Trash } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { t } from "i18next";
+import { CheckIcon, Lock, Package, Pencil, Plus, Trash } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import LockedFeatureGuard from '@/app/components/locked-feature-guard';
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import LockedFeatureGuard from "@/app/components/locked-feature-guard";
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   CURSOR_QUERY_PARAM,
   DataTable,
   LIMIT_QUERY_PARAM,
   RowDataWithActions,
   BulkAction,
-} from '@/components/ui/data-table';
-import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
+} from "@/components/ui/data-table";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useToast } from '@/components/ui/use-toast';
-import { EditProjectDialog } from '@/features/projects/components/edit-project-dialog';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { projectApi } from '@/lib/project-api';
-import { formatUtils, validationUtils } from '@/lib/utils';
-import { isNil, ProjectWithLimits } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
+import { EditProjectDialog } from "@/features/projects/components/edit-project-dialog";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { projectApi } from "@/lib/project-api";
+import { formatUtils, validationUtils } from "@/lib/utils";
+import { isNil, ProjectWithLimits } from "@activepieces/shared";
 
-import { NewProjectDialog } from './new-project-dialog';
+import { NewProjectDialog } from "./new-project-dialog";
 
 const columns: ColumnDef<RowDataWithActions<ProjectWithLimits>>[] = [
   {
-    accessorKey: 'displayName',
+    accessorKey: "displayName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Name')} />
+      <DataTableColumnHeader column={column} title={t("Name")} />
     ),
     cell: ({ row }) => {
       const locked = row.original.plan.locked;
@@ -51,69 +51,69 @@ const columns: ColumnDef<RowDataWithActions<ProjectWithLimits>>[] = [
     },
   },
   {
-    accessorKey: 'tasks',
+    accessorKey: "tasks",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Used Tasks')} />
+      <DataTableColumnHeader column={column} title={t("Used Tasks")} />
     ),
     cell: ({ row }) => {
       return (
         <div className="text-left">
-          {formatUtils.formatNumber(row.original.usage.tasks)} /{' '}
+          {formatUtils.formatNumber(row.original.usage.tasks)} /{" "}
           {!isNil(row.original.plan.tasks)
             ? formatUtils.formatNumber(row.original.plan.tasks)
-            : t('Unlimited')}
+            : t("Unlimited")}
         </div>
       );
     },
   },
   {
-    accessorKey: 'ai-tokens',
+    accessorKey: "ai-tokens",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Used AI Credits')} />
+      <DataTableColumnHeader column={column} title={t("Used AI Credits")} />
     ),
     cell: ({ row }) => {
       return (
         <div className="text-left">
-          {formatUtils.formatNumber(row.original.usage.aiCredits)} /{' '}
+          {formatUtils.formatNumber(row.original.usage.aiCredits)} /{" "}
           {!isNil(row.original.plan.aiCredits)
             ? formatUtils.formatNumber(row.original.plan.aiCredits)
-            : '-'}
+            : "-"}
         </div>
       );
     },
   },
   {
-    accessorKey: 'users',
+    accessorKey: "users",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Active Users')} />
+      <DataTableColumnHeader column={column} title={t("Active Users")} />
     ),
     cell: ({ row }) => {
       return (
         <div className="text-left">
-          {row.original.analytics.activeUsers} /{' '}
+          {row.original.analytics.activeUsers} /{" "}
           {row.original.analytics.totalUsers}
         </div>
       );
     },
   },
   {
-    accessorKey: 'flows',
+    accessorKey: "flows",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Active Flows')} />
+      <DataTableColumnHeader column={column} title={t("Active Flows")} />
     ),
     cell: ({ row }) => {
       return (
         <div className="text-left">
-          {row.original.analytics.activeFlows} /{' '}
+          {row.original.analytics.activeFlows} /{" "}
           {row.original.analytics.totalFlows}
         </div>
       );
     },
   },
   {
-    accessorKey: 'createdAt',
+    accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('Created')} />
+      <DataTableColumnHeader column={column} title={t("Created")} />
     ),
     cell: ({ row }) => {
       return (
@@ -124,14 +124,14 @@ const columns: ColumnDef<RowDataWithActions<ProjectWithLimits>>[] = [
     },
   },
   {
-    accessorKey: 'externalId',
+    accessorKey: "externalId",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('External ID')} />
+      <DataTableColumnHeader column={column} title={t("External ID")} />
     ),
     cell: ({ row }) => {
       const displayValue =
         isNil(row.original.externalId) || row.original.externalId?.length === 0
-          ? '-'
+          ? "-"
           : row.original.externalId;
       return <div className="text-left">{displayValue}</div>;
     },
@@ -150,12 +150,12 @@ export default function ProjectsPage() {
   const [searchParams] = useSearchParams();
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['projects', searchParams.toString()],
+    queryKey: ["projects", searchParams.toString()],
     staleTime: 0,
     queryFn: () => {
       const cursor = searchParams.get(CURSOR_QUERY_PARAM);
       const limit = searchParams.get(LIMIT_QUERY_PARAM);
-      const displayName = searchParams.get('displayName') ?? undefined;
+      const displayName = searchParams.get("displayName") ?? undefined;
       return projectApi.list({
         cursor: cursor ?? undefined,
         limit: limit ? parseInt(limit) : undefined,
@@ -168,7 +168,7 @@ export default function ProjectsPage() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editDialogInitialValues, setEditDialogInitialValues] =
     useState<any>(null);
-  const [editDialogProjectId, setEditDialogProjectId] = useState<string>('');
+  const [editDialogProjectId, setEditDialogProjectId] = useState<string>("");
 
   const bulkDeleteMutation = useMutation({
     mutationFn: async (ids: string[]) => {
@@ -179,7 +179,7 @@ export default function ProjectsPage() {
     },
     onError: (error) => {
       toast({
-        title: t('Error'),
+        title: t("Error"),
         description: errorToastMessage(error),
         duration: 3000,
       });
@@ -190,7 +190,7 @@ export default function ProjectsPage() {
     RowDataWithActions<ProjectWithLimits>
   >[] = [
     {
-      id: 'select',
+      id: "select",
       header: ({ table }) => {
         const selectableRows = table
           .getRowModel()
@@ -199,7 +199,7 @@ export default function ProjectsPage() {
           selectableRows.length > 0 &&
           selectableRows.every((row) => row.getIsSelected());
         const someSelectableSelected = selectableRows.some((row) =>
-          row.getIsSelected(),
+          row.getIsSelected()
         );
 
         return (
@@ -211,7 +211,7 @@ export default function ProjectsPage() {
 
               if (isChecked) {
                 const selectableProjects = selectableRows.map(
-                  (row) => row.original,
+                  (row) => row.original
                 );
                 const newSelectedRows = [
                   ...selectableProjects,
@@ -219,14 +219,13 @@ export default function ProjectsPage() {
                 ];
                 const uniqueRows = Array.from(
                   new Map(
-                    newSelectedRows.map((item) => [item.id, item]),
-                  ).values(),
+                    newSelectedRows.map((item) => [item.id, item])
+                  ).values()
                 );
                 setSelectedRows(uniqueRows);
               } else {
                 const filteredRows = selectedRows.filter(
-                  (row) =>
-                    !selectableRows.some((r) => r.original.id === row.id),
+                  (row) => !selectableRows.some((r) => r.original.id === row.id)
                 );
                 setSelectedRows(filteredRows);
               }
@@ -237,13 +236,13 @@ export default function ProjectsPage() {
       cell: ({ row }) => {
         const isCurrentProject = row.original.id === currentProject?.id;
         const isChecked = selectedRows.some(
-          (selectedRow) => selectedRow.id === row.original.id,
+          (selectedRow) => selectedRow.id === row.original.id
         );
 
         return (
           <Tooltip>
             <TooltipTrigger>
-              <div className={isCurrentProject ? 'cursor-not-allowed' : ''}>
+              <div className={isCurrentProject ? "cursor-not-allowed" : ""}>
                 <Checkbox
                   checked={isChecked}
                   disabled={isCurrentProject}
@@ -254,14 +253,14 @@ export default function ProjectsPage() {
                     let newSelectedRows = [...selectedRows];
                     if (isChecked) {
                       const exists = newSelectedRows.some(
-                        (selectedRow) => selectedRow.id === row.original.id,
+                        (selectedRow) => selectedRow.id === row.original.id
                       );
                       if (!exists) {
                         newSelectedRows.push(row.original);
                       }
                     } else {
                       newSelectedRows = newSelectedRows.filter(
-                        (selectedRow) => selectedRow.id !== row.original.id,
+                        (selectedRow) => selectedRow.id !== row.original.id
                       );
                     }
                     setSelectedRows(newSelectedRows);
@@ -273,14 +272,14 @@ export default function ProjectsPage() {
             {isCurrentProject && (
               <TooltipContent side="right">
                 {t(
-                  'Cannot delete active project, switch to another project first',
+                  "Cannot delete active project, switch to another project first"
                 )}
               </TooltipContent>
             )}
           </Tooltip>
         );
       },
-      accessorKey: 'select',
+      accessorKey: "select",
     },
     ...columns,
   ];
@@ -290,29 +289,29 @@ export default function ProjectsPage() {
       {
         render: (_, resetSelection) => {
           const canDeleteAny = selectedRows.some(
-            (row) => row.id !== currentProject?.id,
+            (row) => row.id !== currentProject?.id
           );
           return (
             <div onClick={(e) => e.stopPropagation()}>
               <ConfirmationDeleteDialog
-                title={t('Delete Projects')}
+                title={t("Delete Projects")}
                 message={t(
-                  'Are you sure you want to delete the selected projects?',
+                  "Are you sure you want to delete the selected projects?"
                 )}
-                entityName={t('Projects')}
+                entityName={t("Projects")}
                 mutationFn={async () => {
                   const deletableProjects = selectedRows.filter(
-                    (row) => row.id !== currentProject?.id,
+                    (row) => row.id !== currentProject?.id
                   );
                   await bulkDeleteMutation.mutateAsync(
-                    deletableProjects.map((row) => row.id),
+                    deletableProjects.map((row) => row.id)
                   );
                   resetSelection();
                   setSelectedRows([]);
                 }}
                 onError={(error) => {
                   toast({
-                    title: t('Error'),
+                    title: t("Error"),
                     description: errorToastMessage(error),
                     duration: 3000,
                   });
@@ -326,7 +325,7 @@ export default function ProjectsPage() {
                     disabled={!canDeleteAny}
                   >
                     <Trash className="mr-2 w-4" />
-                    {`${t('Delete')} (${selectedRows.length})`}
+                    {`${t("Delete")} (${selectedRows.length})`}
                   </Button>
                 )}
               </ConfirmationDeleteDialog>
@@ -335,18 +334,18 @@ export default function ProjectsPage() {
         },
       },
     ],
-    [selectedRows, currentProject, bulkDeleteMutation],
+    [selectedRows, currentProject, bulkDeleteMutation]
   );
 
   const errorToastMessage = (error: unknown): string | undefined => {
     if (validationUtils.isValidationError(error)) {
-      console.error(t('Validation error'), error);
+      console.error(t("Validation error"), error);
       switch (error.response?.data?.params?.message) {
-        case 'PROJECT_HAS_ENABLED_FLOWS':
-          return t('Project has enabled flows. Please disable them first.');
-        case 'ACTIVE_PROJECT':
+        case "PROJECT_HAS_ENABLED_FLOWS":
+          return t("Project has enabled flows. Please disable them first.");
+        case "ACTIVE_PROJECT":
           return t(
-            'This project is active. Please switch to another project first.',
+            "This project is active. Please switch to another project first."
           );
       }
       return undefined;
@@ -367,8 +366,8 @@ export default function ProjectsPage() {
                   e.preventDefault();
                   setEditDialogInitialValues({
                     projectName: row.displayName,
-                    tasks: row.plan?.tasks?.toString() ?? '',
-                    aiCredits: row.plan?.aiCredits?.toString() ?? '',
+                    tasks: row.plan?.tasks?.toString() ?? "",
+                    aiCredits: row.plan?.aiCredits?.toString() ?? "",
                   });
                   setEditDialogProjectId(row.id);
                   setEditDialogOpen(true);
@@ -377,7 +376,7 @@ export default function ProjectsPage() {
                 <Pencil className="size-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="bottom">{t('Edit project')}</TooltipContent>
+            <TooltipContent side="bottom">{t("Edit project")}</TooltipContent>
           </Tooltip>
         </div>
       );
@@ -388,16 +387,16 @@ export default function ProjectsPage() {
     <LockedFeatureGuard
       featureKey="PROJECTS"
       locked={!isEnabled}
-      lockTitle={t('Unlock Projects')}
+      lockTitle={t("Unlock Projects")}
       lockDescription={t(
-        'Orchestrate your automation teams across projects with their own flows, connections and usage quotas',
+        "Orchestrate your automation teams across projects with their own flows, connections and usage quotas"
       )}
       lockVideoUrl="https://cdn.activepieces.com/videos/showcase/projects.mp4"
     >
       <div className="flex flex-col w-full">
         <DashboardPageHeader
-          title={t('Projects')}
-          description={t('Manage your automation projects')}
+          title={t("Projects")}
+          description={t("Manage your automation projects")}
         >
           <NewProjectDialog onCreate={() => refetch()}>
             <Button
@@ -405,25 +404,25 @@ export default function ProjectsPage() {
               className="flex items-center justify-center gap-2"
             >
               <Plus className="size-4" />
-              {t('New Project')}
+              {t("New Project")}
             </Button>
           </NewProjectDialog>
         </DashboardPageHeader>
         <DataTable
-          emptyStateTextTitle={t('No projects found')}
+          emptyStateTextTitle={t("No projects found")}
           emptyStateTextDescription={t(
-            'Start by creating projects to manage your automation teams',
+            "Start by creating projects to manage your automation teams"
           )}
           emptyStateIcon={<Package className="size-14" />}
           onRowClick={async (project) => {
             await setCurrentProject(queryClient, project);
-            navigate('/');
+            navigate("/");
           }}
           filters={[
             {
-              type: 'input',
-              title: t('Name'),
-              accessorKey: 'displayName',
+              type: "input",
+              title: t("Name"),
+              accessorKey: "displayName",
               options: [],
               icon: CheckIcon,
             },

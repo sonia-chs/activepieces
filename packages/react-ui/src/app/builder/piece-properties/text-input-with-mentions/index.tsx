@@ -1,20 +1,20 @@
-import Document from '@tiptap/extension-document';
-import HardBreak from '@tiptap/extension-hard-break';
-import History from '@tiptap/extension-history';
-import Mention, { MentionNodeAttrs } from '@tiptap/extension-mention';
-import Paragraph from '@tiptap/extension-paragraph';
-import Placeholder from '@tiptap/extension-placeholder';
-import Text from '@tiptap/extension-text';
-import { useEditor, EditorContent } from '@tiptap/react';
+import Document from "@tiptap/extension-document";
+import HardBreak from "@tiptap/extension-hard-break";
+import History from "@tiptap/extension-history";
+import Mention, { MentionNodeAttrs } from "@tiptap/extension-mention";
+import Paragraph from "@tiptap/extension-paragraph";
+import Placeholder from "@tiptap/extension-placeholder";
+import Text from "@tiptap/extension-text";
+import { useEditor, EditorContent } from "@tiptap/react";
 
-import './tip-tap.css';
-import { stepsHooks } from '@/features/pieces/lib/steps-hooks';
-import { cn } from '@/lib/utils';
-import { flowStructureUtil, isNil } from '@activepieces/shared';
+import "./tip-tap.css";
+import { stepsHooks } from "@/features/pieces/lib/steps-hooks";
+import { cn } from "@/lib/utils";
+import { flowStructureUtil, isNil } from "@activepieces/shared";
 
-import { useBuilderStateContext } from '../../builder-hooks';
+import { useBuilderStateContext } from "../../builder-hooks";
 
-import { textMentionUtils } from './text-input-utils';
+import { textMentionUtils } from "./text-input-utils";
 
 type TextInputWithMentionsProps = {
   className?: string;
@@ -37,7 +37,7 @@ const extensions = (placeholder?: string) => {
     Text,
     Mention.configure({
       suggestion: {
-        char: '',
+        char: "",
       },
       deleteTriggerWithBackspace: true,
       renderHTML({ node }) {
@@ -51,12 +51,12 @@ const extensions = (placeholder?: string) => {
 
 function convertToText(value: unknown): string {
   if (isNil(value)) {
-    return '';
+    return "";
   }
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     return value;
   }
-  if (typeof value === 'number') {
+  if (typeof value === "number") {
     return value.toString();
   }
   return JSON.stringify(value);
@@ -70,7 +70,7 @@ export const TextInputWithMentions = ({
   placeholder,
 }: TextInputWithMentionsProps) => {
   const steps = useBuilderStateContext((state) =>
-    flowStructureUtil.getAllSteps(state.flowVersion.trigger),
+    flowStructureUtil.getAllSteps(state.flowVersion.trigger)
   );
   const stepsMetadata = stepsHooks
     .useStepsMetadata(steps)
@@ -85,14 +85,14 @@ export const TextInputWithMentions = ({
     });
 
   const setInsertMentionHandler = useBuilderStateContext(
-    (state) => state.setInsertMentionHandler,
+    (state) => state.setInsertMentionHandler
   );
 
   const insertMention = (propertyPath: string) => {
     const mentionNode = textMentionUtils.createMentionNodeFromText(
       `{{${propertyPath}}}`,
       steps,
-      stepsMetadata,
+      stepsMetadata
     );
     editor?.chain().focus().insertContent(mentionNode).run();
   };
@@ -100,22 +100,22 @@ export const TextInputWithMentions = ({
     editable: !disabled,
     extensions: extensions(placeholder),
     content: {
-      type: 'doc',
+      type: "doc",
       content: textMentionUtils.convertTextToTipTapJsonContent(
         convertToText(initialValue),
         steps,
-        stepsMetadata,
+        stepsMetadata
       ),
     },
     editorProps: {
       attributes: {
         class: cn(
           className ??
-            ' w-full rounded-sm border shadow-sm border-input bg-background px-3 min-h-9 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50',
+            " w-full rounded-sm border shadow-sm border-input bg-background px-3 min-h-9 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
           textMentionUtils.inputWithMentionsCssClass,
           {
-            'cursor-not-allowed opacity-50': disabled,
-          },
+            "cursor-not-allowed opacity-50": disabled,
+          }
         ),
       },
     },

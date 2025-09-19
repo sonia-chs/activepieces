@@ -1,11 +1,11 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Static, Type } from '@sinclair/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Static, Type } from "@sinclair/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -15,23 +15,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormDescription,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { api } from '@/lib/api';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
+import { api } from "@/lib/api";
 
 const formSchema = Type.Object({
   packageName: Type.String({
     minLength: 1,
-    errorMessage: t('The package name is required'),
+    errorMessage: t("The package name is required"),
   }),
 });
 
@@ -55,26 +55,26 @@ const AddNpmDialog = ({ children, onAdd }: AddNpmDialogProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       const { packageName } = form.getValues();
-      const response = await api.get<{ 'dist-tags': { latest: string } }>(
-        `https://registry.npmjs.org/${packageName}`,
+      const response = await api.get<{ "dist-tags": { latest: string } }>(
+        `https://registry.npmjs.org/${packageName}`
       );
       return {
         packageName,
-        packageVersion: response['dist-tags'].latest,
+        packageVersion: response["dist-tags"].latest,
       };
     },
     onSuccess: (response) => {
       onAdd(response);
       setOpen(false);
       toast({
-        title: t('Success'),
-        description: t('Package added successfully'),
+        title: t("Success"),
+        description: t("Package added successfully"),
         duration: 3000,
       });
     },
     onError: () => {
-      form.setError('root.serverError', {
-        message: t('Could not fetch package version'),
+      form.setError("root.serverError", {
+        message: t("Could not fetch package version"),
       });
     },
   });
@@ -84,9 +84,9 @@ const AddNpmDialog = ({ children, onAdd }: AddNpmDialogProps) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('Add NPM Package')}</DialogTitle>
+          <DialogTitle>{t("Add NPM Package")}</DialogTitle>
           <DialogDescription>
-            {t('Type the name of the npm package you want to add.')}
+            {t("Type the name of the npm package you want to add.")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -99,7 +99,7 @@ const AddNpmDialog = ({ children, onAdd }: AddNpmDialogProps) => {
               name="packageName"
               render={({ field }) => (
                 <FormItem>
-                  <Label htmlFor="packageName">{t('Package Name')}</Label>
+                  <Label htmlFor="packageName">{t("Package Name")}</Label>
                   <Input
                     {...field}
                     id="packageName"
@@ -112,7 +112,7 @@ const AddNpmDialog = ({ children, onAdd }: AddNpmDialogProps) => {
               )}
             />
             <FormDescription>
-              {t('The latest version will be fetched and added')}
+              {t("The latest version will be fetched and added")}
             </FormDescription>
             {form?.formState?.errors?.root?.serverError && (
               <FormMessage>
@@ -124,11 +124,11 @@ const AddNpmDialog = ({ children, onAdd }: AddNpmDialogProps) => {
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="outline">
-              {t('Cancel')}
+              {t("Cancel")}
             </Button>
           </DialogClose>
           <Button type="submit" loading={isPending} onClick={() => mutate()}>
-            {t('Add')}
+            {t("Add")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -136,5 +136,5 @@ const AddNpmDialog = ({ children, onAdd }: AddNpmDialogProps) => {
   );
 };
 
-AddNpmDialog.displayName = 'AddNpmDialog';
+AddNpmDialog.displayName = "AddNpmDialog";
 export { AddNpmDialog };

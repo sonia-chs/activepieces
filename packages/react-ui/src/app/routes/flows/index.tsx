@@ -1,5 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
 import {
   ChevronDown,
   History,
@@ -7,45 +7,45 @@ import {
   Plus,
   Upload,
   Workflow,
-} from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { useEmbedding } from '@/components/embed-provider';
-import { Button } from '@/components/ui/button';
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { useEmbedding } from "@/components/embed-provider";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/dropdown-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { RunsTable } from '@/features/flow-runs/components/runs-table';
-import { ImportFlowDialog } from '@/features/flows/components/import-flow-dialog';
-import { SelectFlowTemplateDialog } from '@/features/flows/components/select-flow-template-dialog';
-import { flowsApi } from '@/features/flows/lib/flows-api';
-import { folderIdParamName } from '@/features/folders/component/folder-filter-list';
-import { foldersApi } from '@/features/folders/lib/folders-api';
-import { issueHooks } from '@/features/issues/hooks/issue-hooks';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { cn, NEW_FLOW_QUERY_PARAM } from '@/lib/utils';
-import { Permission, PopulatedFlow } from '@activepieces/shared';
+} from "@/components/ui/tooltip";
+import { RunsTable } from "@/features/flow-runs/components/runs-table";
+import { ImportFlowDialog } from "@/features/flows/components/import-flow-dialog";
+import { SelectFlowTemplateDialog } from "@/features/flows/components/select-flow-template-dialog";
+import { flowsApi } from "@/features/flows/lib/flows-api";
+import { folderIdParamName } from "@/features/folders/component/folder-filter-list";
+import { foldersApi } from "@/features/folders/lib/folders-api";
+import { issueHooks } from "@/features/issues/hooks/issue-hooks";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { cn, NEW_FLOW_QUERY_PARAM } from "@/lib/utils";
+import { Permission, PopulatedFlow } from "@activepieces/shared";
 
-import { FlowsTable } from './flows-table';
-import { IssuesTable } from './issues-table';
+import { FlowsTable } from "./flows-table";
+import { IssuesTable } from "./issues-table";
 
 export enum FlowsPageTabs {
-  HISTORY = 'history',
-  ISSUES = 'issues',
-  FLOWS = 'flows',
+  HISTORY = "history",
+  ISSUES = "issues",
+  FLOWS = "flows",
 }
 
 const FlowsPage = () => {
@@ -55,9 +55,9 @@ const FlowsPage = () => {
   const navigate = useNavigate();
 
   const determineActiveTab = () => {
-    if (location.pathname.includes('/runs')) {
+    if (location.pathname.includes("/runs")) {
       return FlowsPageTabs.HISTORY;
-    } else if (location.pathname.includes('/issues')) {
+    } else if (location.pathname.includes("/issues")) {
       return FlowsPageTabs.ISSUES;
     } else {
       return FlowsPageTabs.FLOWS;
@@ -65,7 +65,7 @@ const FlowsPage = () => {
   };
 
   const [activeTab, setActiveTab] = useState<FlowsPageTabs>(
-    determineActiveTab(),
+    determineActiveTab()
   );
 
   useEffect(() => {
@@ -79,11 +79,11 @@ const FlowsPage = () => {
 
     let newPath = location.pathname;
     if (value === FlowsPageTabs.HISTORY) {
-      newPath = newPath.replace(/\/(flows|issues)$/, '/runs');
+      newPath = newPath.replace(/\/(flows|issues)$/, "/runs");
     } else if (value === FlowsPageTabs.ISSUES) {
-      newPath = newPath.replace(/\/(flows|runs)$/, '/issues');
+      newPath = newPath.replace(/\/(flows|runs)$/, "/issues");
     } else {
-      newPath = newPath.replace(/\/(runs|issues)$/, '/flows');
+      newPath = newPath.replace(/\/(runs|issues)$/, "/flows");
     }
 
     navigate(newPath);
@@ -93,9 +93,9 @@ const FlowsPage = () => {
     <div className="flex flex-col gap-4 w-full grow">
       <DashboardPageHeader
         tutorialTab="flows"
-        title={t('Flows')}
+        title={t("Flows")}
         description={t(
-          'Create and manage your flows, run history and run issues',
+          "Create and manage your flows, run history and run issues"
         )}
       >
         {activeTab === FlowsPageTabs.FLOWS && <CreateFlowDropdown />}
@@ -109,19 +109,19 @@ const FlowsPage = () => {
           <TabsList variant="outline">
             <TabsTrigger value={FlowsPageTabs.FLOWS} variant="outline">
               <Workflow className="h-4 w-4 mr-2" />
-              {t('Flows')}
+              {t("Flows")}
             </TabsTrigger>
             {checkAccess(Permission.READ_RUN) && (
               <TabsTrigger value={FlowsPageTabs.HISTORY} variant="outline">
                 <History className="h-4 w-4 mr-2" />
-                {t('Runs')}
+                {t("Runs")}
               </TabsTrigger>
             )}
             {checkAccess(Permission.READ_ISSUES) && (
               <TabsTrigger value={FlowsPageTabs.ISSUES} variant="outline">
                 <CircleAlert className="h-4 w-4 mr-2" />
                 <span className="flex items-center gap-2">
-                  {t('Issues')}
+                  {t("Issues")}
                   {showIssuesNotification && (
                     <span className="ml-1 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
                   )}
@@ -150,14 +150,14 @@ export { FlowsPage };
 
 type CreateFlowDropdownProps = {
   refetch?: () => void;
-  variant?: 'default' | 'small';
+  variant?: "default" | "small";
   className?: string;
   folderId?: string;
 };
 
 export const CreateFlowDropdown = ({
   refetch,
-  variant = 'default',
+  variant = "default",
   className,
   folderId,
 }: CreateFlowDropdownProps) => {
@@ -175,12 +175,12 @@ export const CreateFlowDropdown = ({
     mutationFn: async () => {
       const effectiveFolderId = folderId ?? searchParams.get(folderIdParamName);
       const folder =
-        effectiveFolderId && effectiveFolderId !== 'NULL'
+        effectiveFolderId && effectiveFolderId !== "NULL"
           ? await foldersApi.get(effectiveFolderId)
           : undefined;
       const flow = await flowsApi.create({
         projectId: authenticationSession.getProjectId()!,
-        displayName: t('Untitled'),
+        displayName: t("Untitled"),
         folderName: folder?.displayName,
       });
       return flow;
@@ -202,24 +202,24 @@ export const CreateFlowDropdown = ({
             >
               <Button
                 disabled={!doesUserHavePermissionToWriteFlow}
-                variant={variant === 'small' ? 'ghost' : 'default'}
-                size={variant === 'small' ? 'icon' : 'default'}
+                variant={variant === "small" ? "ghost" : "default"}
+                size={variant === "small" ? "icon" : "default"}
                 loading={isCreateFlowPending}
                 onClick={(e) => e.stopPropagation()}
               >
-                {variant === 'small' ? (
+                {variant === "small" ? (
                   <Plus className="h-4 w-4" />
                 ) : (
                   <>
-                    <span>{t('New Flow')}</span>
+                    <span>{t("New Flow")}</span>
                     <ChevronDown className="h-4 w-4 ml-2 " />
                   </>
                 )}
               </Button>
             </DropdownMenuTrigger>
           </TooltipTrigger>
-          <TooltipContent side={variant === 'small' ? 'right' : 'bottom'}>
-            {t('New flow')}
+          <TooltipContent side={variant === "small" ? "right" : "bottom"}>
+            {t("New flow")}
           </TooltipContent>
         </Tooltip>
         <DropdownMenuContent>
@@ -231,7 +231,7 @@ export const CreateFlowDropdown = ({
             disabled={isCreateFlowPending}
           >
             <Plus className="h-4 w-4 me-2" />
-            <span>{t('From scratch')}</span>
+            <span>{t("From scratch")}</span>
           </DropdownMenuItem>
           <SelectFlowTemplateDialog>
             <DropdownMenuItem
@@ -239,7 +239,7 @@ export const CreateFlowDropdown = ({
               disabled={isCreateFlowPending}
             >
               <Workflow className="h-4 w-4 me-2" />
-              <span>{t('Use a template')}</span>
+              <span>{t("Use a template")}</span>
             </DropdownMenuItem>
           </SelectFlowTemplateDialog>
 
@@ -256,7 +256,7 @@ export const CreateFlowDropdown = ({
                 disabled={!doesUserHavePermissionToWriteFlow}
               >
                 <Upload className="h-4 w-4 me-2" />
-                {t('From local file')}
+                {t("From local file")}
               </DropdownMenuItem>
             </ImportFlowDialog>
           )}

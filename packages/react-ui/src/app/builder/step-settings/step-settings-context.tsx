@@ -1,4 +1,4 @@
-import { TObject, Type } from '@sinclair/typebox';
+import { TObject, Type } from "@sinclair/typebox";
 import {
   createContext,
   ReactNode,
@@ -6,31 +6,31 @@ import {
   useContext,
   useRef,
   useState,
-} from 'react';
+} from "react";
 
 import {
   PieceMetadataModel,
   PiecePropertyMap,
-} from '@activepieces/pieces-framework';
-import { FlowAction, setAtPath, FlowTrigger } from '@activepieces/shared';
+} from "@activepieces/pieces-framework";
+import { FlowAction, setAtPath, FlowTrigger } from "@activepieces/shared";
 
-import { formUtils } from '../../../features/pieces/lib/form-utils';
+import { formUtils } from "../../../features/pieces/lib/form-utils";
 
-const numberReplacement = 'anyOf[0]items';
-const stringReplacement = 'properties.';
+const numberReplacement = "anyOf[0]items";
+const stringReplacement = "properties.";
 const createUpdatedSchemaKey = (propertyKey: string) => {
   return propertyKey
-    .split('.')
+    .split(".")
     .map((part) => {
-      if (part === '') {
-        return ''; // Keep empty parts intact (for consecutive dots)
+      if (part === "") {
+        return ""; // Keep empty parts intact (for consecutive dots)
       } else if (!isNaN(Number(part))) {
         return numberReplacement;
       } else {
         return `${stringReplacement}${part}`;
       }
     })
-    .join('.');
+    .join(".");
 };
 
 export type StepSettingsContextState = {
@@ -47,7 +47,7 @@ export type StepSettingsProviderProps = {
 };
 
 const StepSettingsContext = createContext<StepSettingsContextState | undefined>(
-  undefined,
+  undefined
 );
 
 export const StepSettingsProvider = ({
@@ -56,7 +56,7 @@ export const StepSettingsProvider = ({
   children,
 }: StepSettingsProviderProps) => {
   const [formSchema, setFormSchema] = useState<TObject<any>>(
-    Type.Object(Type.Any()),
+    Type.Object(Type.Any())
   );
   const formSchemaRef = useRef<boolean>(false);
 
@@ -64,7 +64,7 @@ export const StepSettingsProvider = ({
     const schema = formUtils.buildPieceSchema(
       selectedStep.type,
       selectedStep.settings.actionName ?? selectedStep.settings.triggerName,
-      pieceModel ?? null,
+      pieceModel ?? null
     );
     formSchemaRef.current = true;
     setFormSchema(schema as TObject<any>);
@@ -80,7 +80,7 @@ export const StepSettingsProvider = ({
         return currentSchema;
       });
     },
-    [],
+    []
   );
 
   return (
@@ -101,7 +101,7 @@ export const useStepSettingsContext = () => {
   const context = useContext(StepSettingsContext);
   if (context === undefined) {
     throw new Error(
-      'useStepSettingsContext must be used within a PieceSettingsProvider',
+      "useStepSettingsContext must be used within a PieceSettingsProvider"
     );
   }
   return context;

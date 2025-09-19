@@ -1,11 +1,11 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -13,18 +13,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
-import { tablesApi } from '../lib/tables-api';
+import { tablesApi } from "../lib/tables-api";
 
 type RenameTableDialogProps = {
   tableName: string;
@@ -44,8 +44,8 @@ const RenameTableDialog = ({
     },
     resolver: zodResolver(
       z.object({
-        name: z.string().min(1, { message: t('Name is required') }),
-      }),
+        name: z.string().min(1, { message: t("Name is required") }),
+      })
     ),
   });
   const [showRenameTableDialog, setShowRenameTableDialog] = useState(false);
@@ -56,9 +56,9 @@ const RenameTableDialog = ({
       setShowRenameTableDialog(false);
       onRename();
       toast({
-        title: t('Table renamed'),
-        description: `${tableName} ${t('renamed to')} ${form.getValues(
-          'name',
+        title: t("Table renamed"),
+        description: `${tableName} ${t("renamed to")} ${form.getValues(
+          "name"
         )}`,
       });
     },
@@ -76,7 +76,7 @@ const RenameTableDialog = ({
           <form onSubmit={form.handleSubmit((data) => renameTable(data.name))}>
             <DialogHeader>
               <DialogTitle>
-                {t('Rename')} {tableName}
+                {t("Rename")} {tableName}
               </DialogTitle>
             </DialogHeader>
             <div className="mb-4">
@@ -86,7 +86,7 @@ const RenameTableDialog = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input {...field} placeholder={t('Table name')} />
+                      <Input {...field} placeholder={t("Table name")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -96,12 +96,12 @@ const RenameTableDialog = ({
             <div className="flex justify-end gap-2">
               <DialogClose asChild>
                 <Button variant="outline" type="button">
-                  {t('Cancel')}
+                  {t("Cancel")}
                 </Button>
               </DialogClose>
 
               <Button type="submit" loading={isRenamingTable}>
-                {t('Confirm')}
+                {t("Confirm")}
               </Button>
             </div>
           </form>
@@ -111,6 +111,6 @@ const RenameTableDialog = ({
   );
 };
 
-RenameTableDialog.displayName = 'RenameTableDialog';
+RenameTableDialog.displayName = "RenameTableDialog";
 
 export default RenameTableDialog;

@@ -11,6 +11,6 @@ const DataTableToolbar = (params: DataTableToolbarProps) => {
     </div>
   );
 };
-DataTableToolbar.displayName = 'DataTableToolbar';
+DataTableToolbar.displayName = "DataTableToolbar";
 
 export { DataTableToolbar };

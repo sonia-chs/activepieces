@@ -1,28 +1,28 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import * as React from 'react';
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { cn } from '@/lib/utils';
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
-import { Button, ButtonProps } from '../../button';
+import { Button, ButtonProps } from "../../button";
 
-import MessageLoading from './message-loading';
+import MessageLoading from "./message-loading";
 
 // ChatBubble
-const chatBubbleVariant = cva('flex gap-2 w-full items-start relative group', {
+const chatBubbleVariant = cva("flex gap-2 w-full items-start relative group", {
   variants: {
     variant: {
-      received: 'self-start',
-      sent: 'self-end flex-row-reverse',
+      received: "self-start",
+      sent: "self-end flex-row-reverse",
     },
     layout: {
-      default: '',
-      ai: 'max-w-full w-full items-center',
+      default: "",
+      ai: "max-w-full w-full items-center",
     },
   },
   defaultVariants: {
-    variant: 'received',
-    layout: 'default',
+    variant: "received",
+    layout: "default",
   },
 });
 
@@ -35,23 +35,23 @@ const ChatBubble = React.forwardRef<HTMLDivElement, ChatBubbleProps>(
     <div
       className={cn(
         chatBubbleVariant({ variant, layout, className }),
-        'relative group',
+        "relative group"
       )}
       ref={ref}
       {...props}
     >
       {React.Children.map(children, (child) =>
-        React.isValidElement(child) && typeof child.type !== 'string'
+        React.isValidElement(child) && typeof child.type !== "string"
           ? React.cloneElement(child, {
               variant,
               layout,
             } as React.ComponentProps<typeof child.type>)
-          : child,
+          : child
       )}
     </div>
-  ),
+  )
 );
-ChatBubble.displayName = 'ChatBubble';
+ChatBubble.displayName = "ChatBubble";
 
 // ChatBubbleAvatar
 interface ChatBubbleAvatarProps {
@@ -69,27 +69,27 @@ const ChatBubbleAvatar: React.FC<ChatBubbleAvatarProps> = ({
     <AvatarImage
       src={src}
       alt="Avatar"
-      className={cn('aspect-square p-2', className)}
+      className={cn("aspect-square p-2", className)}
     />
     <AvatarFallback className="bg-background border">{fallback}</AvatarFallback>
   </Avatar>
 );
 
 // ChatBubbleMessage
-const chatBubbleMessageVariants = cva('px-1', {
+const chatBubbleMessageVariants = cva("px-1", {
   variants: {
     variant: {
-      received: 'bg-background text-foreground rounded-3xl py-2',
-      sent: 'bg-accent text-accent-foreground rounded-3xl py-3 px-5',
+      received: "bg-background text-foreground rounded-3xl py-2",
+      sent: "bg-accent text-accent-foreground rounded-3xl py-3 px-5",
     },
     layout: {
-      default: '',
-      ai: 'border-t w-full rounded-none bg-transparent',
+      default: "",
+      ai: "border-t w-full rounded-none bg-transparent",
     },
   },
   defaultVariants: {
-    variant: 'received',
-    layout: 'default',
+    variant: "received",
+    layout: "default",
   },
 });
 
@@ -105,12 +105,12 @@ const ChatBubbleMessage = React.forwardRef<
 >(
   (
     { className, variant, layout, isLoading = false, children, ...props },
-    ref,
+    ref
   ) => (
     <div
       className={cn(
         chatBubbleMessageVariants({ variant, layout, className }),
-        'break-words max-w-full whitespace-pre-wrap overflow-x-auto',
+        "break-words max-w-full whitespace-pre-wrap overflow-x-auto"
       )}
       ref={ref}
       {...props}
@@ -123,9 +123,9 @@ const ChatBubbleMessage = React.forwardRef<
         children
       )}
     </div>
-  ),
+  )
 );
-ChatBubbleMessage.displayName = 'ChatBubbleMessage';
+ChatBubbleMessage.displayName = "ChatBubbleMessage";
 
 // ChatBubbleAction
 type ChatBubbleActionProps = ButtonProps & {
@@ -136,8 +136,8 @@ const ChatBubbleAction: React.FC<ChatBubbleActionProps> = ({
   icon,
   onClick,
   className,
-  variant = 'ghost',
-  size = 'icon',
+  variant = "ghost",
+  size = "icon",
   ...props
 }) => (
   <Button

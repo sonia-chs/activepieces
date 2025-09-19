@@ -1,26 +1,26 @@
-import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { cn } from '@/lib/utils';
-import { Permission } from '@activepieces/shared';
+} from "@/components/ui/popover";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { cn } from "@/lib/utils";
+import { Permission } from "@activepieces/shared";
 
-import { ClientField } from '../lib/store/ap-tables-client-state';
-import { FieldHeaderContext, tablesUtils } from '../lib/utils';
+import { ClientField } from "../lib/store/ap-tables-client-state";
+import { FieldHeaderContext, tablesUtils } from "../lib/utils";
 
 import ApFieldActionMenuItemRenderer, {
   FieldActionType,
-} from './field-action-menu-item-renderer';
+} from "./field-action-menu-item-renderer";
 
 type ApFieldHeaderProps = {
   field: ClientField & { index: number };
@@ -30,7 +30,7 @@ export function ApFieldHeader({ field }: ApFieldHeaderProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [popoverContent, setPopoverContent] = useState<React.ReactNode>(null);
   const userHasTableWritePermission = useAuthorization().checkAccess(
-    Permission.WRITE_TABLE,
+    Permission.WRITE_TABLE
   );
   const actions = userHasTableWritePermission
     ? [FieldActionType.RENAME, FieldActionType.DELETE]
@@ -49,9 +49,9 @@ export function ApFieldHeader({ field }: ApFieldHeaderProps) {
         <DropdownMenuTrigger asChild>
           <div
             className={cn(
-              'h-full w-full flex items-center justify-between gap-2 py-2.5 px-3 bg-muted/50  font-normal',
-              'hover:bg-muted cursor-pointer',
-              'data-[state=open]:bg-muted',
+              "h-full w-full flex items-center justify-between gap-2 py-2.5 px-3 bg-muted/50  font-normal",
+              "hover:bg-muted cursor-pointer",
+              "data-[state=open]:bg-muted"
             )}
           >
             <div className="flex items-center gap-2">

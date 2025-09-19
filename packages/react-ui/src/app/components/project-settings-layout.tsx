@@ -1,8 +1,8 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
-import { isNil } from '@activepieces/shared';
+import { isNil } from "@activepieces/shared";
 
-import { authenticationSession } from '../../lib/authentication-session';
+import { authenticationSession } from "../../lib/authentication-session";
 
 export default function ProjectSettingsLayout({
   children,

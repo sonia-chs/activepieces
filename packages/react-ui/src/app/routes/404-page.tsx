@@ -1,9 +1,9 @@
-import { t } from 'i18next';
-import { LucideIcon, SearchX } from 'lucide-react';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { t } from "i18next";
+import { LucideIcon, SearchX } from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 interface NotFoundPageProps {
   title?: string;
@@ -14,10 +14,10 @@ interface NotFoundPageProps {
 }
 
 const NotFoundPage: React.FC<NotFoundPageProps> = ({
-  title = 'Oops! Page Not Found',
+  title = "Oops! Page Not Found",
   description = "The page you're looking for isn't here. Want to try going back home?",
   showHomeButton = true,
-  buttonText = 'Go Home',
+  buttonText = "Go Home",
   icon: Icon = SearchX,
 }) => {
   return (
@@ -35,7 +35,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({
         </p>
         {showHomeButton && (
           <Link to="/">
-            <Button size="lg" variant={'default'}>
+            <Button size="lg" variant={"default"}>
               {t(buttonText)}
             </Button>
           </Link>

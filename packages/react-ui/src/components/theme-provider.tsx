@@ -55,32 +55,29 @@ export function ThemeProvider({
     const resolvedTheme = theme === 'system' ? 'light' : theme;
     root.classList.remove('light', 'dark');
     document.title = branding.websiteName;
-    document.documentElement.style.setProperty(
-      '--primary',
-      colorsUtils.hexToHslString(branding.colors.primary.default),
-    );
+    document.documentElement.style.setProperty('--primary', '211 100% 50%');
 
     setFavicon(branding.logos.favIconUrl);
     switch (resolvedTheme) {
       case 'light': {
         document.documentElement.style.setProperty(
           '--primary-100',
-          colorsUtils.hexToHslString(branding.colors.primary.light),
+          '211 95% 85%',
         );
         document.documentElement.style.setProperty(
           '--primary-300',
-          colorsUtils.hexToHslString(branding.colors.primary.dark),
+          '211 95% 35%',
         );
         break;
       }
       case 'dark': {
         document.documentElement.style.setProperty(
           '--primary-100',
-          colorsUtils.hexToHslString(branding.colors.primary.dark),
+          '211 95% 35%',
         );
         document.documentElement.style.setProperty(
           '--primary-300',
-          colorsUtils.hexToHslString(branding.colors.primary.light),
+          '211 95% 85%',
         );
         break;
       }

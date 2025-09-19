@@ -1,31 +1,31 @@
-import { VariantProps, cva } from 'class-variance-authority';
-import React from 'react';
+import { VariantProps, cva } from "class-variance-authority";
+import React from "react";
 
-import ImageWithFallback from '@/components/ui/image-with-fallback';
-import { Skeleton } from '@/components/ui/skeleton';
+import ImageWithFallback from "@/components/ui/image-with-fallback";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-const pieceIconVariants = cva('flex items-center justify-center   ', {
+const pieceIconVariants = cva("flex items-center justify-center   ", {
   variants: {
     circle: {
-      true: 'rounded-full  p-2',
-      false: 'dark:rounded-[2px]',
+      true: "rounded-full  p-2",
+      false: "dark:rounded-[2px]",
     },
     size: {
-      xxl: 'size-[64px] p-4',
-      xl: 'size-[48px]',
-      lg: 'size-[40px]',
-      md: 'size-[36px]',
-      sm: 'size-[25px]',
-      xs: 'size-[18px]',
+      xxl: "size-[64px] p-4",
+      xl: "size-[48px]",
+      lg: "size-[40px]",
+      md: "size-[36px]",
+      sm: "size-[25px]",
+      xs: "size-[18px]",
     },
     border: {
-      true: 'border border-solid',
+      true: "border border-solid",
     },
   },
   defaultVariants: {},
@@ -68,8 +68,8 @@ const PieceIcon = React.memo(
         ) : null}
       </Tooltip>
     );
-  },
+  }
 );
 
-PieceIcon.displayName = 'PieceIcon';
+PieceIcon.displayName = "PieceIcon";
 export { PieceIcon };

@@ -1,16 +1,16 @@
-import { Static, Type } from '@sinclair/typebox';
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Static, Type } from "@sinclair/typebox";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { SecretTextProperty } from '@activepieces/pieces-framework';
-import { UpsertSecretTextRequest } from '@activepieces/shared';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { SecretTextProperty } from "@activepieces/pieces-framework";
+import { UpsertSecretTextRequest } from "@activepieces/shared";
 
 type SecretTextConnectionSettingsProps = {
   authProperty: SecretTextProperty<boolean>;
@@ -38,8 +38,8 @@ const SecretTextConnectionSettings = React.memo(
         )}
       ></FormField>
     );
-  },
+  }
 );
 
-SecretTextConnectionSettings.displayName = 'SecretTextConnectionSettings';
+SecretTextConnectionSettings.displayName = "SecretTextConnectionSettings";
 export { SecretTextConnectionSettings };

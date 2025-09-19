@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/order */
 import {
   DefaultErrorFunction,
   SetErrorFunction,

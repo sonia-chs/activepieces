@@ -1,25 +1,25 @@
-import { ApMarkdown } from '@/components/custom/markdown';
-import ImageWithFallback from '@/components/ui/image-with-fallback';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton, SkeletonList } from '@/components/ui/skeleton';
+import { ApMarkdown } from "@/components/custom/markdown";
+import ImageWithFallback from "@/components/ui/image-with-fallback";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton, SkeletonList } from "@/components/ui/skeleton";
 import {
   AgentTaskStatus,
   ContentBlockType,
   isNil,
   MarkdownVariant,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { AgentToolBlock } from '../agent-tool-block';
-import { agentHooks, agentRunHooks } from '../lib/agent-hooks';
+import { AgentToolBlock } from "../agent-tool-block";
+import { agentHooks, agentRunHooks } from "../lib/agent-hooks";
 
-import { AgentPromptBlock } from './agent-prompt-block';
+import { AgentPromptBlock } from "./agent-prompt-block";
 
 type AgentTimelineProps = {
   className?: string;
   agentRunId: string | null | undefined;
 };
 
-const AgentTimeline = ({ agentRunId, className = '' }: AgentTimelineProps) => {
+const AgentTimeline = ({ agentRunId, className = "" }: AgentTimelineProps) => {
   const { data: agentRun } = agentRunHooks.useGet(agentRunId);
 
   const { data: agent } = agentHooks.useGet(agentRun?.agentId);
@@ -45,7 +45,7 @@ const AgentTimeline = ({ agentRunId, className = '' }: AgentTimelineProps) => {
   }
   return (
     <div className={`h-full ${className}`}>
-      {agentRun.prompt !== '' && <AgentPromptBlock prompt={agentRun.prompt} />}
+      {agentRun.prompt !== "" && <AgentPromptBlock prompt={agentRun.prompt} />}
       <div className="flex items-center gap-3 mt-6">
         <ImageWithFallback
           src={agent?.profilePictureUrl}

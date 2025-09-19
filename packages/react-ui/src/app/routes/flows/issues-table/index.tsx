@@ -1,25 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Check, CheckCircle, CheckIcon } from 'lucide-react';
-import { useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useEffectOnce } from 'react-use';
+import { useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Check, CheckCircle, CheckIcon } from "lucide-react";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useEffectOnce } from "react-use";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { Button } from '@/components/ui/button';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { Button } from "@/components/ui/button";
 import {
   DataTable,
   LIMIT_QUERY_PARAM,
   CURSOR_QUERY_PARAM,
-} from '@/components/ui/data-table';
-import { toast } from '@/components/ui/use-toast';
-import { issuesApi } from '@/features/issues/api/issues-api';
-import { issueHooks } from '@/features/issues/hooks/issue-hooks';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { IssueStatus, Permission } from '@activepieces/shared';
+} from "@/components/ui/data-table";
+import { toast } from "@/components/ui/use-toast";
+import { issuesApi } from "@/features/issues/api/issues-api";
+import { issueHooks } from "@/features/issues/hooks/issue-hooks";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { IssueStatus, Permission } from "@activepieces/shared";
 
-import { issuesTableColumns } from './columns';
+import { issuesTableColumns } from "./columns";
 
 export function IssuesTable() {
   const { refetch } = issueHooks.useIssuesNotification();
@@ -28,13 +28,13 @@ export function IssuesTable() {
   const projectId = authenticationSession.getProjectId()!;
   const currentSearchParams = searchParams.toString();
 
-  const statusValues = searchParams.getAll('status');
+  const statusValues = searchParams.getAll("status");
   const hasStatusFilter = statusValues.length > 0;
 
   useEffectOnce(() => {
     if (!hasStatusFilter) {
       const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.append('status', IssueStatus.UNRESOLVED);
+      newSearchParams.append("status", IssueStatus.UNRESOLVED);
       setSearchParams(newSearchParams);
     }
   });
@@ -42,32 +42,32 @@ export function IssuesTable() {
   const filters = useMemo(
     () => [
       {
-        type: 'select',
-        id: 'status',
-        title: t('Status'),
-        accessorKey: 'status',
+        type: "select",
+        id: "status",
+        title: t("Status"),
+        accessorKey: "status",
         options: [
           {
-            label: t('Unresolved'),
+            label: t("Unresolved"),
             value: IssueStatus.UNRESOLVED,
           },
           {
-            label: t('Resolved'),
+            label: t("Resolved"),
             value: IssueStatus.RESOLVED,
           },
           {
-            label: t('Archived'),
+            label: t("Archived"),
             value: IssueStatus.ARCHIVED,
           },
         ],
         icon: CheckIcon,
       } as const,
     ],
-    [],
+    []
   );
 
   const { data, isLoading } = useQuery({
-    queryKey: ['issues', currentSearchParams, projectId],
+    queryKey: ["issues", currentSearchParams, projectId],
     staleTime: 0,
     gcTime: 0,
     enabled: true,
@@ -90,13 +90,13 @@ export function IssuesTable() {
 
   const handleMarkAsArchived = async (
     flowDisplayName: string,
-    issueId: string,
+    issueId: string
   ) => {
     await issuesApi.archive(issueId);
     refetch();
     toast({
-      title: t('Success'),
-      description: t('Issues in {flowDisplayName} is marked as archived.', {
+      title: t("Success"),
+      description: t("Issues in {flowDisplayName} is marked as archived.", {
         flowDisplayName,
       }),
       duration: 3000,
@@ -104,15 +104,15 @@ export function IssuesTable() {
   };
   const { checkAccess } = useAuthorization();
   const userHasPermissionToMarkAsArchived = checkAccess(
-    Permission.WRITE_ISSUES,
+    Permission.WRITE_ISSUES
   );
 
   return (
     <div className="flex-col w-full">
       <DataTable
-        emptyStateTextTitle={t('No issues found')}
+        emptyStateTextTitle={t("No issues found")}
         emptyStateTextDescription={t(
-          'All your workflows are running smoothly.',
+          "All your workflows are running smoothly."
         )}
         emptyStateIcon={<CheckCircle className="size-14" />}
         page={data}
@@ -130,7 +130,7 @@ export function IssuesTable() {
                     <Button
                       disabled={!userHasPermissionToMarkAsArchived}
                       className="gap-2"
-                      size={'sm'}
+                      size={"sm"}
                       onClick={(e) => {
                         selectedRows.forEach((row) => {
                           handleMarkAsArchived(row.flowDisplayName, row.id);
@@ -140,9 +140,9 @@ export function IssuesTable() {
                       }}
                     >
                       <Check className="size-3" />
-                      {t('Mark as Archived')}{' '}
+                      {t("Mark as Archived")}{" "}
                       {selectedRows.length === 0
-                        ? ''
+                        ? ""
                         : `(${selectedRows.length})`}
                     </Button>
                   </PermissionNeededTooltip>

@@ -1,42 +1,42 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
 import {
   CheckIcon,
   UserRoundPen,
   Clock2,
   Loader,
   ChevronDown,
-} from 'lucide-react';
-import { useParams } from 'react-router-dom';
+} from "lucide-react";
+import { useParams } from "react-router-dom";
 
-import { ApMarkdown } from '@/components/custom/markdown';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { LoadingScreen } from '@/components/ui/loading-screen';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { StatusIconWithText } from '@/components/ui/status-icon-with-text';
+} from "@/components/ui/dropdown-menu";
+import { LoadingScreen } from "@/components/ui/loading-screen";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { StatusIconWithText } from "@/components/ui/status-icon-with-text";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { todosApi } from '@/features/todos/lib/todos-api';
-import { userHooks } from '@/hooks/user-hooks';
-import { formatUtils } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { todosApi } from "@/features/todos/lib/todos-api";
+import { userHooks } from "@/hooks/user-hooks";
+import { formatUtils } from "@/lib/utils";
 import {
   isNil,
   STATUS_COLORS,
   UNRESOLVED_STATUS,
   StatusOption,
   MarkdownVariant,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
 function TodoTestingPage() {
   const { todoId } = useParams();
@@ -47,7 +47,7 @@ function TodoTestingPage() {
     data: task,
     refetch,
   } = useQuery({
-    queryKey: ['todo', todoId],
+    queryKey: ["todo", todoId],
     queryFn: async () => {
       if (!todoId) return null;
       return await todosApi.get(todoId);
@@ -76,7 +76,7 @@ function TodoTestingPage() {
       <div className="container mx-auto flex flex-col p-10">
         <div className="flex items-center mb-4">
           <Badge variant="outline" className="text-xs">
-            {t('Test Environment')}
+            {t("Test Environment")}
           </Badge>
         </div>
         <div className="flex items-center gap-2 mb-2">
@@ -92,15 +92,15 @@ function TodoTestingPage() {
           <div className="flex items-center gap-2">
             <UserRoundPen className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">
-              {t('Assigned to')}
+              {t("Assigned to")}
             </span>
             <span className="text-sm">
               {task.assignee && (
                 <Tooltip>
                   <TooltipTrigger>
                     <span className="text-sm font-medium">
-                      {task.assignee.firstName} {task.assignee.lastName}{' '}
-                      {task.assigneeId === currentUser?.id ? t('(Me)') : ''}
+                      {task.assignee.firstName} {task.assignee.lastName}{" "}
+                      {task.assigneeId === currentUser?.id ? t("(Me)") : ""}
                     </span>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -112,7 +112,7 @@ function TodoTestingPage() {
           </div>
           <span className="text-sm"> / </span>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">{t('Status')}</span>
+            <span className="text-sm text-muted-foreground">{t("Status")}</span>
             {(task.status.name === UNRESOLVED_STATUS.name ||
               task.status.continueFlow === false) && (
               <DropdownMenu>
@@ -170,7 +170,7 @@ function TodoTestingPage() {
           <ScrollArea className="h-full">
             <ApMarkdown
               className="break-words"
-              markdown={task.description ?? ''}
+              markdown={task.description ?? ""}
               variant={MarkdownVariant.BORDERLESS}
             />
           </ScrollArea>

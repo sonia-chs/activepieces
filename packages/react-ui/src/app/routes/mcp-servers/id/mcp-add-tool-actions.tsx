@@ -1,26 +1,26 @@
-import { t } from 'i18next';
-import { ChevronDown, Puzzle, Workflow } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { ChevronDown, Puzzle, Workflow } from "lucide-react";
+import { useState } from "react";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { Button } from '@/components/ui/button';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useAuthorization } from '@/hooks/authorization-hooks';
+} from "@/components/ui/dropdown-menu";
+import { useAuthorization } from "@/hooks/authorization-hooks";
 import {
   McpTool,
   McpToolType,
   Permission,
   McpWithTools,
   McpToolRequest,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { McpFlowDialog } from './mcp-flow-tool-dialog';
-import { McpPieceDialog } from './mcp-piece-tool-dialog';
+import { McpFlowDialog } from "./mcp-flow-tool-dialog";
+import { McpPieceDialog } from "./mcp-piece-tool-dialog";
 
 type McpAddToolDropdownProps = {
   mcp: McpWithTools;
@@ -51,7 +51,7 @@ export const McpAddToolDropdown = ({
           asChild
         >
           <Button disabled={!doesUserHavePermissionToWriteMcp} variant="basic">
-            <span>{t('Add tool')}</span>
+            <span>{t("Add tool")}</span>
             <ChevronDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -77,7 +77,7 @@ export const McpAddToolDropdown = ({
               }}
             >
               <Puzzle className="h-4 w-4 me-2" />
-              <span>{t('From piece')}</span>
+              <span>{t("From piece")}</span>
             </DropdownMenuItem>
           </McpPieceDialog>
           <McpFlowDialog
@@ -106,7 +106,7 @@ export const McpAddToolDropdown = ({
               }}
             >
               <Workflow className="h-4 w-4 me-2" />
-              <span>{t('From flow')}</span>
+              <span>{t("From flow")}</span>
             </DropdownMenuItem>
           </McpFlowDialog>
         </DropdownMenuContent>

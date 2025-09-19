@@ -1,16 +1,16 @@
-import { t } from 'i18next';
-import { Info } from 'lucide-react';
-import React, { useState } from 'react';
+import { t } from "i18next";
+import { Info } from "lucide-react";
+import React, { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   workerProps: Record<string, string>;
@@ -24,12 +24,12 @@ export const WorkerConfigsModal: React.FC<Props> = ({ workerProps }) => {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex items-center gap-2">
           <Info size={14} />
-          {t('Configs')}
+          {t("Configs")}
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-[600px] max-h-[80vh]">
         <DialogHeader>
-          <DialogTitle>{t('Environment Variables')}</DialogTitle>
+          <DialogTitle>{t("Environment Variables")}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 max-h-[60vh] overflow-y-auto">
           {Object.entries(workerProps ?? {}).map(([key, value]) => (

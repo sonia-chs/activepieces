@@ -1,10 +1,10 @@
-import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,25 +12,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { aiProviderApi } from '@/features/platform-admin/lib/ai-provider-api';
-import { flagsHooks } from '@/hooks/flags-hooks';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { aiProviderApi } from "@/features/platform-admin/lib/ai-provider-api";
+import { flagsHooks } from "@/hooks/flags-hooks";
 import {
   CreateAIProviderRequest,
   SupportedAIProvider,
-} from '@activepieces/common-ai';
+} from "@activepieces/common-ai";
 
-import { ApMarkdown } from '../../../../../../components/custom/markdown';
+import { ApMarkdown } from "../../../../../../components/custom/markdown";
 
 type UpsertAIProviderDialogProps = {
   provider: string;
@@ -54,9 +54,9 @@ export const UpsertAIProviderDialog = ({
     resolver: typeboxResolver(CreateAIProviderRequest),
     defaultValues: {
       provider,
-      apiKey: '',
+      apiKey: "",
       useAzureOpenAI: false,
-      resourceName: '',
+      resourceName: "",
     },
   });
 
@@ -69,9 +69,9 @@ export const UpsertAIProviderDialog = ({
     onSuccess: () => {
       form.reset({
         provider,
-        apiKey: '',
+        apiKey: "",
         useAzureOpenAI: false,
-        resourceName: '',
+        resourceName: "",
       });
       setOpen(false);
       refetch();
@@ -89,9 +89,9 @@ export const UpsertAIProviderDialog = ({
         if (!open) {
           form.reset({
             provider,
-            apiKey: '',
+            apiKey: "",
             useAzureOpenAI: false,
-            resourceName: '',
+            resourceName: "",
           });
         }
         setOpen(open);
@@ -101,7 +101,7 @@ export const UpsertAIProviderDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isConfigured ? t('Update AI Provider') : t('Enable AI Provider')} (
+            {isConfigured ? t("Update AI Provider") : t("Enable AI Provider")} (
             {providerMetadata.displayName})
           </DialogTitle>
         </DialogHeader>
@@ -120,13 +120,13 @@ export const UpsertAIProviderDialog = ({
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <Label className="text-sm font-medium">
-                      {t('Provider')}
+                      {t("Provider")}
                     </Label>
                     <FormControl>
                       <RadioGroup
-                        value={field.value ? 'azure' : 'openai'}
+                        value={field.value ? "azure" : "openai"}
                         onValueChange={(value) =>
-                          field.onChange(value === 'azure')
+                          field.onChange(value === "azure")
                         }
                         className="flex gap-4"
                       >
@@ -165,18 +165,18 @@ export const UpsertAIProviderDialog = ({
               />
             )}
 
-            {showAzureOpenAI && form.watch('useAzureOpenAI') && (
+            {showAzureOpenAI && form.watch("useAzureOpenAI") && (
               <FormField
                 name="resourceName"
                 render={({ field }) => (
                   <FormItem className="grid space-y-3">
-                    <Label htmlFor="resourceName">{t('Resource Name')}</Label>
+                    <Label htmlFor="resourceName">{t("Resource Name")}</Label>
                     <div className="flex gap-2 items-center justify-center">
                       <Input
                         {...field}
                         required
                         id="resourceName"
-                        placeholder={t('your-resource-name')}
+                        placeholder={t("your-resource-name")}
                         className="rounded-sm"
                       />
                     </div>
@@ -190,14 +190,14 @@ export const UpsertAIProviderDialog = ({
               name="apiKey"
               render={({ field }) => (
                 <FormItem className="grid space-y-3">
-                  <Label htmlFor="apiKey">{t('API Key')}</Label>
+                  <Label htmlFor="apiKey">{t("API Key")}</Label>
                   <div className="flex gap-2 items-center justify-center">
                     <Input
                       autoFocus
                       {...field}
                       required
                       id="apiKey"
-                      placeholder={t('sk_************************')}
+                      placeholder={t("sk_************************")}
                       className="rounded-sm"
                     />
                   </div>
@@ -215,14 +215,14 @@ export const UpsertAIProviderDialog = ({
         </Form>
         <DialogFooter>
           <Button
-            variant={'outline'}
+            variant={"outline"}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
               setOpen(false);
             }}
           >
-            {t('Cancel')}
+            {t("Cancel")}
           </Button>
           <Button
             disabled={!form.formState.isValid}
@@ -233,7 +233,7 @@ export const UpsertAIProviderDialog = ({
               mutate();
             }}
           >
-            {t('Save')}
+            {t("Save")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,29 +1,29 @@
-import { t } from 'i18next';
-import { useEffect, useRef, useState } from 'react';
+import { t } from "i18next";
+import { useEffect, useRef, useState } from "react";
 
-import { Calendar } from '@/components/ui/calendar';
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn, formatUtils } from '@/lib/utils';
+} from "@/components/ui/popover";
+import { cn, formatUtils } from "@/lib/utils";
 
-import { useCellContext } from './cell-context';
+import { useCellContext } from "./cell-context";
 
 function isValidDate(date: string) {
   return !isNaN(new Date(date).getTime());
 }
 function getFormattedDate(date: string) {
-  return isValidDate(date) ? formatUtils.formatDateOnly(new Date(date)) : '';
+  return isValidDate(date) ? formatUtils.formatDateOnly(new Date(date)) : "";
 }
 function DateEditor() {
   const { value, handleCellChange, setIsEditing, isEditing } = useCellContext();
   const [date, setDate] = useState<Date | undefined>(
-    isValidDate(value) ? new Date(value) : undefined,
+    isValidDate(value) ? new Date(value) : undefined
   );
   const [month, setMonth] = useState<Date | undefined>(
-    isValidDate(value) ? new Date(value) : undefined,
+    isValidDate(value) ? new Date(value) : undefined
   );
   const [inputValue, setInputValue] = useState(getFormattedDate(value));
   const handleSelect = (newDate: Date | undefined) => {
@@ -59,19 +59,19 @@ function DateEditor() {
         <PopoverTrigger asChild>
           <button
             className={cn(
-              'w-full h-full flex items-center justify-between gap-2',
-              'bg-background text-sm px-2',
-              'focus:outline-none',
+              "w-full h-full flex items-center justify-between gap-2",
+              "bg-background text-sm px-2",
+              "focus:outline-none",
               {
-                'border-2 border-primary': isEditing,
-                'border-transparent !bg-transparent': !isEditing,
-              },
+                "border-2 border-primary": isEditing,
+                "border-transparent !bg-transparent": !isEditing,
+              }
             )}
           >
             {isEditing && (
               <input
                 ref={inputRef}
-                placeholder={t('mm/dd/yyy')}
+                placeholder={t("mm/dd/yyy")}
                 value={inputValue}
                 type="text"
                 onClick={(e) => {
@@ -88,28 +88,28 @@ function DateEditor() {
                 }}
                 onBlur={(e) => {
                   if (!containerRef.current?.contains(e.target as Node)) {
-                    handleCellChange(date?.toISOString() ?? '');
+                    handleCellChange(date?.toISOString() ?? "");
                   }
                 }}
                 onKeyDown={(e) => {
                   e.stopPropagation();
-                  if (e.key === 'Enter') {
-                    handleCellChange(date?.toISOString() ?? '');
+                  if (e.key === "Enter") {
+                    handleCellChange(date?.toISOString() ?? "");
                     e.preventDefault();
                   }
-                  if (e.key === 'Escape') {
+                  if (e.key === "Escape") {
                     setIsEditing(false);
                     e.preventDefault();
                   }
                 }}
                 className={cn(
-                  'flex-1 h-full min-w-0',
-                  'border-none text-sm px-2',
-                  'focus:outline-none',
-                  'placeholder:text-muted-foreground',
+                  "flex-1 h-full min-w-0",
+                  "border-none text-sm px-2",
+                  "focus:outline-none",
+                  "placeholder:text-muted-foreground",
                   {
-                    'border-transparent !bg-transparent': !isEditing,
-                  },
+                    "border-transparent !bg-transparent": !isEditing,
+                  }
                 )}
                 autoComplete="off"
               />

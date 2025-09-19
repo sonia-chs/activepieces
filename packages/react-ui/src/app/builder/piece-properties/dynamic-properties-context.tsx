@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback, useMemo } from 'react';
+import { createContext, useState, useCallback, useMemo } from "react";
 
 export const DynamicPropertiesContext = createContext<{
   propertiesNamesStillLoading: string[];
@@ -22,7 +22,7 @@ export const DynamicPropertiesProvider = ({
 
   const propertyLoadingFinished = useCallback((propertyName: string) => {
     setPropertiesNamesStillLoading((prev) =>
-      prev.filter((name) => name !== propertyName),
+      prev.filter((name) => name !== propertyName)
     );
   }, []);
 
@@ -32,7 +32,7 @@ export const DynamicPropertiesProvider = ({
 
   const isLoadingDynamicProperties = useMemo(
     () => propertiesNamesStillLoading.length > 0,
-    [propertiesNamesStillLoading],
+    [propertiesNamesStillLoading]
   );
 
   const contextValue = useMemo(
@@ -47,7 +47,7 @@ export const DynamicPropertiesProvider = ({
       propertyLoadingFinished,
       propertyLoadingStarted,
       isLoadingDynamicProperties,
-    ],
+    ]
   );
 
   return (

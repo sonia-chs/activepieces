@@ -1,16 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Bot, Pencil, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
+import { Bot, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { platformApi } from '@/lib/platforms-api';
-import { isNil, CopilotProviderType } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { platformApi } from "@/lib/platforms-api";
+import { isNil, CopilotProviderType } from "@activepieces/shared";
 
-import { ConfigureProviderDialog } from './configure-provider-dialog';
+import { ConfigureProviderDialog } from "./configure-provider-dialog";
 
 const CopilotSetup = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -26,7 +26,7 @@ const CopilotSetup = () => {
             providers: {},
           },
         },
-        platformId,
+        platformId
       );
     },
     onSuccess: (response) => {
@@ -42,16 +42,16 @@ const CopilotSetup = () => {
     if (!isNil(providers[CopilotProviderType.OPENAI])) {
       return {
         type: CopilotProviderType.OPENAI,
-        name: 'OpenAI',
-        icon: 'https://cdn.activepieces.com/pieces/openai.png',
+        name: "OpenAI",
+        icon: "https://cdn.activepieces.com/pieces/openai.png",
       };
     }
 
     if (!isNil(providers[CopilotProviderType.AZURE_OPENAI])) {
       return {
         type: CopilotProviderType.AZURE_OPENAI,
-        name: 'Azure OpenAI',
-        icon: 'https://cdn.activepieces.com/pieces/azure.png',
+        name: "Azure OpenAI",
+        icon: "https://cdn.activepieces.com/pieces/azure.png",
       };
     }
 
@@ -72,30 +72,30 @@ const CopilotSetup = () => {
             <Bot className="size-8" />
           </div>
           <div className="flex flex-grow flex-col">
-            <div className="text-lg">{t('Activepieces Copilot')}</div>
+            <div className="text-lg">{t("Activepieces Copilot")}</div>
             <div className="text-sm text-muted-foreground">
               {configuredProvider
                 ? t(
-                    'Copilot is configured and ready to help your users build flows faster using AI.',
+                    "Copilot is configured and ready to help your users build flows faster using AI."
                   )
                 : t(
-                    'Configure Activepieces Copilot to help your users build flows faster using AI.',
+                    "Configure Activepieces Copilot to help your users build flows faster using AI."
                   )}
             </div>
           </div>
           <div className="flex flex-row justify-center items-center gap-2">
             <Button
-              variant={configuredProvider ? 'ghost' : 'basic'}
-              size={'sm'}
+              variant={configuredProvider ? "ghost" : "basic"}
+              size={"sm"}
               disabled={isDeleting}
               onClick={handleConfigure}
             >
-              {configuredProvider ? <Pencil className="size-4" /> : t('Enable')}
+              {configuredProvider ? <Pencil className="size-4" /> : t("Enable")}
             </Button>
             {configuredProvider && (
               <Button
                 variant="ghost"
-                size={'sm'}
+                size={"sm"}
                 onClick={() => {
                   deleteMutation();
                 }}
@@ -103,7 +103,7 @@ const CopilotSetup = () => {
                 className="text-destructive hover:text-destructive/90 hover:bg-destructive/10 flex items-center gap-2"
               >
                 <Trash2 className="size-4" />
-                {t('Remove')}
+                {t("Remove")}
               </Button>
             )}
           </div>
@@ -115,5 +115,5 @@ const CopilotSetup = () => {
   );
 };
 
-CopilotSetup.displayName = 'CopilotSetup';
+CopilotSetup.displayName = "CopilotSetup";
 export { CopilotSetup };

@@ -1,20 +1,20 @@
-import { ChevronRightIcon } from 'lucide-react';
-import { ComponentType, SVGProps } from 'react';
-import { useLocation } from 'react-router-dom';
+import { ChevronRightIcon } from "lucide-react";
+import { ComponentType, SVGProps } from "react";
+import { useLocation } from "react-router-dom";
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+} from "@/components/ui/collapsible";
 import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
-} from '@/components/ui/sidebar-shadcn';
+} from "@/components/ui/sidebar-shadcn";
 
-import { ApSidebarItem, SidebarItemType } from './ap-sidebar-item';
+import { ApSidebarItem, SidebarItemType } from "./ap-sidebar-item";
 
 export type SidebarGeneralItemType = SidebarItemType | SidebarGroupType;
 
@@ -23,7 +23,7 @@ export type SidebarGroupType = {
   label: string;
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
   items: SidebarItemType[];
-  type: 'group';
+  type: "group";
   open: boolean;
   setOpen: (open: boolean) => void;
   isActive?: (pathname: string) => boolean;
@@ -43,7 +43,7 @@ export function ApSidebareGroup(item: SidebarGroupType) {
             {item.icon && <item.icon className="size-4" />}
             <span>{item.label}</span>
             <ChevronRightIcon
-              className={`${item.open && 'rotate-90'} ml-auto duration-150`}
+              className={`${item.open && "rotate-90"} ml-auto duration-150`}
             />
           </SidebarMenuButton>
         </CollapsibleTrigger>
@@ -67,7 +67,7 @@ export function ApSidebareGroup(item: SidebarGroupType) {
                       />
                     </SidebarMenuButton>
                   </SidebarMenuSubItem>
-                ),
+                )
             )}
           </SidebarMenuSub>
         </CollapsibleContent>

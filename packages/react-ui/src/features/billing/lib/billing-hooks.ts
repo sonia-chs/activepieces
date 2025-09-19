@@ -1,26 +1,26 @@
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { useNavigate } from 'react-router-dom';
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
 
-import { INTERNAL_ERROR_TOAST, toast } from '@/components/ui/use-toast';
-import { api } from '@/lib/api';
-import { ListAICreditsUsageRequest } from '@activepieces/common-ai';
+import { INTERNAL_ERROR_TOAST, toast } from "@/components/ui/use-toast";
+import { api } from "@/lib/api";
+import { ListAICreditsUsageRequest } from "@activepieces/common-ai";
 import {
   CreateSubscriptionParams,
   ToggleAiCreditsOverageEnabledParams,
   SetAiCreditsOverageLimitParams,
   UpdateSubscriptionParams,
   StartTrialParams,
-} from '@activepieces/ee-shared';
-import { ApErrorParams, ErrorCode } from '@activepieces/shared';
+} from "@activepieces/ee-shared";
+import { ApErrorParams, ErrorCode } from "@activepieces/shared";
 
-import { platformBillingApi } from './api';
+import { platformBillingApi } from "./api";
 
 export const billingKeys = {
   platformSubscription: (platformId: string) =>
-    ['platform-billing-subscription', platformId] as const,
+    ["platform-billing-subscription", platformId] as const,
   aiCreditsUsage: (params: ListAICreditsUsageRequest) =>
-    ['platform-billing-ai-credits-usage', params] as const,
+    ["platform-billing-ai-credits-usage", params] as const,
 };
 
 export const billingMutations = {
@@ -28,7 +28,7 @@ export const billingMutations = {
     return useMutation({
       mutationFn: async () => {
         const portalLink = await platformBillingApi.getPortalLink();
-        window.open(portalLink, '_blank');
+        window.open(portalLink, "_blank");
       },
     });
   },
@@ -41,8 +41,8 @@ export const billingMutations = {
         setIsOpen(false);
         navigate(url);
         toast({
-          title: t('Success'),
-          description: t('Plan updated successfully'),
+          title: t("Success"),
+          description: t("Plan updated successfully"),
         });
       },
       onError: () => {
@@ -54,22 +54,22 @@ export const billingMutations = {
     return useMutation({
       mutationFn: async (params: CreateSubscriptionParams) => {
         const checkoutSessionURl = await platformBillingApi.createSubscription(
-          params,
+          params
         );
-        window.open(checkoutSessionURl, '_blank');
+        window.open(checkoutSessionURl, "_blank");
       },
       onSuccess: () => {
         setIsOpen(false);
         toast({
-          title: t('Success'),
-          description: t('Plan created successfully'),
+          title: t("Success"),
+          description: t("Plan created successfully"),
         });
       },
       onError: (error) => {
         toast({
-          title: t('Creating Subscription failed'),
+          title: t("Creating Subscription failed"),
           description: t(error.message),
-          variant: 'default',
+          variant: "default",
           duration: 5000,
         });
       },
@@ -84,8 +84,8 @@ export const billingMutations = {
           queryKey: billingKeys.platformSubscription(data.platformId),
         });
         toast({
-          title: t('Success'),
-          description: t('AI credit usage limit set successfully'),
+          title: t("Success"),
+          description: t("AI credit usage limit set successfully"),
         });
       },
       onError: (error) => {
@@ -93,18 +93,18 @@ export const billingMutations = {
           const apError = error.response?.data as ApErrorParams;
           if (apError.code === ErrorCode.VALIDATION) {
             toast({
-              title: t('Setting AI credit usage limit failed'),
+              title: t("Setting AI credit usage limit failed"),
               description: t(apError.params.message),
-              variant: 'default',
+              variant: "default",
               duration: 5000,
             });
             return;
           }
         }
         toast({
-          title: t('Setting AI credit usage limit failed'),
+          title: t("Setting AI credit usage limit failed"),
           description: t(error.message),
-          variant: 'default',
+          variant: "default",
           duration: 5000,
         });
       },
@@ -119,9 +119,9 @@ export const billingMutations = {
           const apError = error.response?.data as ApErrorParams;
           if (apError.code === ErrorCode.VALIDATION) {
             toast({
-              title: t('Starting trial failed'),
+              title: t("Starting trial failed"),
               description: t(apError.params.message),
-              variant: 'default',
+              variant: "default",
               duration: 5000,
             });
             return;
@@ -140,7 +140,7 @@ export const billingMutations = {
           queryKey: billingKeys.platformSubscription(data.platformId),
         });
         toast({
-          title: t('Success'),
+          title: t("Success"),
           description: t(`AI credits overage updated successfully`),
         });
       },
@@ -149,18 +149,18 @@ export const billingMutations = {
           const apError = error.response?.data as ApErrorParams;
           if (apError.code === ErrorCode.VALIDATION) {
             toast({
-              title: t('Setting AI credit usage limit failed'),
+              title: t("Setting AI credit usage limit failed"),
               description: t(apError.params.message),
-              variant: 'default',
+              variant: "default",
               duration: 5000,
             });
             return;
           }
         }
         toast({
-          title: t('Setting AI credit usage limit failed'),
+          title: t("Setting AI credit usage limit failed"),
           description: t(error.message),
-          variant: 'default',
+          variant: "default",
           duration: 5000,
         });
       },

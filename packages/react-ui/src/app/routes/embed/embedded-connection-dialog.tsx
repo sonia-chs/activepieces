@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-import { memoryRouter } from '@/app/router';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { cn, parentWindow } from '@/lib/utils';
+import { memoryRouter } from "@/app/router";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { cn, parentWindow } from "@/lib/utils";
 import {
   apId,
   AppConnectionWithoutSensitiveData,
   isNil,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 import {
   ActivepiecesClientConnectionNameIsInvalid,
   ActivepiecesClientConnectionPieceNotFound,
@@ -16,14 +16,14 @@ import {
   ActivepiecesClientShowConnectionIframe,
   ActivepiecesNewConnectionDialogClosed,
   NEW_CONNECTION_QUERY_PARAMS,
-} from 'ee-embed-sdk';
+} from "ee-embed-sdk";
 
-import { piecesHooks } from '../../../features/pieces/lib/pieces-hooks';
-import { CreateOrEditConnectionDialogContent } from '../../connections/create-edit-connection-dialog';
+import { piecesHooks } from "../../../features/pieces/lib/pieces-hooks";
+import { CreateOrEditConnectionDialogContent } from "../../connections/create-edit-connection-dialog";
 
 const extractIdFromQueryParams = () => {
   const connectionName = new URLSearchParams(
-    memoryRouter.state.location.search,
+    memoryRouter.state.location.search
   ).get(NEW_CONNECTION_QUERY_PARAMS.connectionName);
   return isNil(connectionName) || connectionName.length === 0
     ? apId()
@@ -62,10 +62,10 @@ const EmbeddedConnectionDialogContent = ({
     isLoading: isLoadingPiece,
     isSuccess,
   } = piecesHooks.usePiece({
-    name: pieceName ?? '',
+    name: pieceName ?? "",
   });
   const hideConnectionIframe = (
-    connection?: Pick<AppConnectionWithoutSensitiveData, 'id' | 'externalId'>,
+    connection?: Pick<AppConnectionWithoutSensitiveData, "id" | "externalId">
   ) => {
     postMessageToParent({
       type: ActivepiecesClientEventName.CLIENT_NEW_CONNECTION_DIALOG_CLOSED,
@@ -84,17 +84,17 @@ const EmbeddedConnectionDialogContent = ({
     event:
       | ActivepiecesNewConnectionDialogClosed
       | ActivepiecesClientConnectionNameIsInvalid
-      | ActivepiecesClientConnectionPieceNotFound,
+      | ActivepiecesClientConnectionPieceNotFound
   ) => {
-    parentWindow.postMessage(event, '*');
+    parentWindow.postMessage(event, "*");
   };
   useEffect(() => {
     const showConnectionIframeEvent: ActivepiecesClientShowConnectionIframe = {
       type: ActivepiecesClientEventName.CLIENT_SHOW_CONNECTION_IFRAME,
       data: {},
     };
-    parentWindow.postMessage(showConnectionIframeEvent, '*');
-    document.body.style.background = 'transparent';
+    parentWindow.postMessage(showConnectionIframeEvent, "*");
+    document.body.style.background = "transparent";
   }, []);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const EmbeddedConnectionDialogContent = ({
         type: ActivepiecesClientEventName.CLIENT_CONNECTION_PIECE_NOT_FOUND,
         data: {
           error: JSON.stringify({
-            isValid: 'false',
+            isValid: "false",
             error: `piece: ${pieceName} not found`,
           }),
         },
@@ -127,11 +127,11 @@ const EmbeddedConnectionDialogContent = ({
         showOverlay={false}
         onInteractOutside={(e) => e.preventDefault()}
         className={cn(
-          'max-h-[70vh]  min-w-[450px] max-w-[450px] lg:min-w-[650px] lg:max-w-[650px] overflow-y-auto',
+          "max-h-[70vh]  min-w-[450px] max-w-[450px] lg:min-w-[650px] lg:max-w-[650px] overflow-y-auto",
           {
-            '!bg-transparent !border-none focus:outline-none !border-transparent !shadow-none':
+            "!bg-transparent !border-none focus:outline-none !border-transparent !shadow-none":
               isLoadingPiece,
-          },
+          }
         )}
         withCloseButton={!isLoadingPiece}
       >

@@ -1,14 +1,14 @@
-import { ApMarkdown } from '@/components/custom/markdown';
-import { formatUtils } from '@/lib/utils';
-import { MarkdownVariant } from '@activepieces/shared';
+import { ApMarkdown } from "@/components/custom/markdown";
+import { formatUtils } from "@/lib/utils";
+import { MarkdownVariant } from "@activepieces/shared";
 
-import { ApAvatar } from '../../../../components/custom/ap-avatar';
+import { ApAvatar } from "../../../../components/custom/ap-avatar";
 
 export type ActivityItem = {
-  type: 'comment';
+  type: "comment";
   content: string;
   timestamp: Date;
-  authorType: 'user' | 'flow';
+  authorType: "user" | "flow";
   authorName: string;
   userEmail?: string;
   flowId?: string;

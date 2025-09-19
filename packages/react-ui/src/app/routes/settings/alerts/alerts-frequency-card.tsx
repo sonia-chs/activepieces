@@ -1,28 +1,28 @@
-import { BellIcon, EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
-import React from 'react';
+import { BellIcon, EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
+import React from "react";
 
-import { DashboardPageHeader } from '@/components/custom/dashboard-page-header';
+import { DashboardPageHeader } from "@/components/custom/dashboard-page-header";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { useToast } from '@/components/ui/use-toast';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { authenticationSession } from '@/lib/authentication-session';
-import { projectApi } from '@/lib/project-api';
+} from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { authenticationSession } from "@/lib/authentication-session";
+import { projectApi } from "@/lib/project-api";
 import {
   NotificationStatus,
   Permission,
   ProjectWithLimits,
-} from '@activepieces/shared';
+} from "@activepieces/shared";
 
-import { AlertOption } from './alert-option';
+import { AlertOption } from "./alert-option";
 
 const AlertFrequencyCard = React.memo(() => {
   const queryClient = useQueryClient();
@@ -45,8 +45,8 @@ const AlertFrequencyCard = React.memo(() => {
     },
     onSuccess: () => {
       toast({
-        title: t('Success'),
-        description: t('Your changes have been saved.'),
+        title: t("Success"),
+        description: t("Your changes have been saved."),
         duration: 3000,
       });
     },
@@ -61,44 +61,44 @@ const AlertFrequencyCard = React.memo(() => {
   return (
     <Card className="w-full">
       <DashboardPageHeader
-        title={t('Alerts')}
-        description={t('Manage alerts settings')}
+        title={t("Alerts")}
+        description={t("Manage alerts settings")}
       />
 
       <CardHeader className="pb-3">
-        <CardTitle className="text-xl">{t('Alerts')}</CardTitle>
+        <CardTitle className="text-xl">{t("Alerts")}</CardTitle>
         <CardDescription>
-          {t('Choose what you want to be notified about.')}
+          {t("Choose what you want to be notified about.")}
         </CardDescription>
         {writeAlertPermission === false && (
           <p>
-            <span className="text-destructive">*</span>{' '}
+            <span className="text-destructive">*</span>{" "}
             {t(
-              'Project and alert permissions are required to change this setting.',
+              "Project and alert permissions are required to change this setting."
             )}
           </p>
         )}
       </CardHeader>
       <CardContent className="grid gap-1">
         <AlertOption
-          title={t('Every Failed Run')}
-          description={t('Get an email alert when a flow fails.')}
+          title={t("Every Failed Run")}
+          description={t("Get an email alert when a flow fails.")}
           onClick={() => onChangeStatus(NotificationStatus.ALWAYS)}
           icon={<BellIcon className="mt-px size-5" />}
           isActive={project?.notifyStatus === NotificationStatus.ALWAYS}
           disabled={writeAlertPermission === false}
         />
         <AlertOption
-          title={t('First Seen')}
-          description={t('Get an email alert when a new issue created.')}
+          title={t("First Seen")}
+          description={t("Get an email alert when a new issue created.")}
           onClick={() => onChangeStatus(NotificationStatus.NEW_ISSUE)}
           icon={<EyeOpenIcon className="mt-px size-5" />}
           isActive={project?.notifyStatus === NotificationStatus.NEW_ISSUE}
           disabled={writeAlertPermission === false}
         />
         <AlertOption
-          title={t('Never')}
-          description={t('Turn off email notifications.')}
+          title={t("Never")}
+          description={t("Turn off email notifications.")}
           onClick={() => onChangeStatus(NotificationStatus.NEVER)}
           icon={<EyeNoneIcon className="mt-px size-5" />}
           isActive={project?.notifyStatus === NotificationStatus.NEVER}
@@ -109,5 +109,5 @@ const AlertFrequencyCard = React.memo(() => {
   );
 });
 
-AlertFrequencyCard.displayName = 'AlertFrequencyCard';
+AlertFrequencyCard.displayName = "AlertFrequencyCard";
 export { AlertFrequencyCard };

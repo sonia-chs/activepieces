@@ -1,17 +1,17 @@
-import { Column } from '@tanstack/react-table';
-import * as React from 'react';
-import { DateRange } from 'react-day-picker';
-import { useSearchParams } from 'react-router-dom';
+import { Column } from "@tanstack/react-table";
+import * as React from "react";
+import { DateRange } from "react-day-picker";
+import { useSearchParams } from "react-router-dom";
 
-import { DateTimePickerWithRange } from '../date-time-picker-range';
+import { DateTimePickerWithRange } from "../date-time-picker-range";
 
-import { DataTableInputPopover } from './data-table-input-popover';
-import { DataTableSelectPopover } from './data-table-select-popover';
+import { DataTableInputPopover } from "./data-table-input-popover";
+import { DataTableSelectPopover } from "./data-table-select-popover";
 
-import { CURSOR_QUERY_PARAM } from '.';
+import { CURSOR_QUERY_PARAM } from ".";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
-  type: 'select' | 'input' | 'date';
+  type: "select" | "input" | "date";
   column?: Column<TData, TValue>;
   title?: string;
   options: readonly {
@@ -45,19 +45,19 @@ export function DataTableFacetedFilter<TData, TValue>({
 
           if (Array.isArray(filterValue)) {
             filterValue.forEach((value) =>
-              newParams.append(column?.id as string, value),
+              newParams.append(column?.id as string, value)
             );
-          } else if (typeof filterValue === 'object' && filterValue !== null) {
+          } else if (typeof filterValue === "object" && filterValue !== null) {
             if (filterValue.from) {
               newParams.append(
                 `${column?.id}After`,
-                filterValue.from.toISOString(),
+                filterValue.from.toISOString()
               );
             }
             if (filterValue.to) {
               newParams.append(
                 `${column?.id}Before`,
-                filterValue.to.toISOString(),
+                filterValue.to.toISOString()
               );
             }
           } else {
@@ -66,25 +66,25 @@ export function DataTableFacetedFilter<TData, TValue>({
 
           return newParams;
         },
-        { replace: true },
+        { replace: true }
       );
 
       if (Array.isArray(filterValue)) {
         column?.setFilterValue(filterValue.length ? filterValue : undefined);
-      } else if (typeof filterValue === 'object' && filterValue !== null) {
+      } else if (typeof filterValue === "object" && filterValue !== null) {
         column?.setFilterValue(
-          filterValue.from || filterValue.to ? filterValue : undefined,
+          filterValue.from || filterValue.to ? filterValue : undefined
         );
       } else {
         column?.setFilterValue(filterValue ? filterValue : undefined);
       }
     },
-    [column, setSearchParams],
+    [column, setSearchParams]
   );
 
   switch (type) {
-    case 'input': {
-      const filterValue = searchParams.get(column?.id as string) || '';
+    case "input": {
+      const filterValue = searchParams.get(column?.id as string) || "";
       return (
         <DataTableInputPopover
           title={title}
@@ -93,7 +93,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         />
       );
     }
-    case 'select': {
+    case "select": {
       const filterValue = searchParams.getAll(column?.id as string) as string[];
       const selectedValues = new Set(filterValue);
       return (
@@ -106,7 +106,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         />
       );
     }
-    case 'date': {
+    case "date": {
       const from = searchParams.get(`${column?.id}After`);
       const to = searchParams.get(`${column?.id}Before`);
 

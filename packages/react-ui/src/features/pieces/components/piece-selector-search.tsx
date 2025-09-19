@@ -1,13 +1,13 @@
-import { t } from 'i18next';
-import { ArrowLeftIcon } from 'lucide-react';
+import { t } from "i18next";
+import { ArrowLeftIcon } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   PieceSelectorTabType,
   usePieceSelectorTabs,
-} from '@/features/pieces/lib/piece-selector-tabs-provider';
+} from "@/features/pieces/lib/piece-selector-tabs-provider";
 
-import { SearchInput } from '../../../components/ui/search-input';
+import { SearchInput } from "../../../components/ui/search-input";
 
 type PiecesSearchInputProps = {
   searchQuery: string;
@@ -43,12 +43,12 @@ const PiecesSearchInput = ({
         </Button>
       )}
       <SearchInput
-        placeholder={t('Search')}
+        placeholder={t("Search")}
         value={searchQuery}
         ref={searchInputRef}
         onChange={(e) => {
           onSearchChange(e);
-          if (e === '') {
+          if (e === "") {
             resetToPreviousValue();
           } else {
             setSelectedTab(PieceSelectorTabType.NONE);
@@ -58,5 +58,5 @@ const PiecesSearchInput = ({
     </div>
   );
 };
-PiecesSearchInput.displayName = 'PiecesSearchInput';
+PiecesSearchInput.displayName = "PiecesSearchInput";
 export { PiecesSearchInput };

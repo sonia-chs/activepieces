@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
 import {
   Card,
@@ -6,13 +6,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { LoadingSpinner } from '@/components/ui/spinner';
-import { InvitationCard } from '@/features/team/component/invitation-card';
-import { ProjectMemberCard } from '@/features/team/component/project-member-card';
-import { projectMembersHooks } from '@/features/team/lib/project-members-hooks';
-import { userInvitationsHooks } from '@/features/team/lib/user-invitations-hooks';
-import { ProjectMemberWithUser } from '@activepieces/ee-shared';
+} from "@/components/ui/card";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { InvitationCard } from "@/features/team/component/invitation-card";
+import { ProjectMemberCard } from "@/features/team/component/project-member-card";
+import { projectMembersHooks } from "@/features/team/lib/project-members-hooks";
+import { userInvitationsHooks } from "@/features/team/lib/user-invitations-hooks";
+import { ProjectMemberWithUser } from "@activepieces/ee-shared";
 
 export const TeamSettings = () => {
   const {
@@ -28,10 +28,10 @@ export const TeamSettings = () => {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
-            {t('Project Members')}
+            {t("Project Members")}
           </CardTitle>
           <CardDescription className="text-sm">
-            {t('Invite your team members to collaborate.')}
+            {t("Invite your team members to collaborate.")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -43,7 +43,7 @@ export const TeamSettings = () => {
             )}
             {projectMembers && projectMembers.length === 0 && (
               <div className="text-center text-muted-foreground py-8 text-sm">
-                {t('No members are added to this project.')}
+                {t("No members are added to this project.")}
               </div>
             )}
             <div className="space-y-3">
@@ -67,7 +67,7 @@ export const TeamSettings = () => {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
-            {t('Pending Invitations')}
+            {t("Pending Invitations")}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -79,7 +79,7 @@ export const TeamSettings = () => {
             )}
             {invitations && invitations.length === 0 && (
               <div className="text-center text-muted-foreground py-8 text-sm">
-                {t('No pending invitation.')}
+                {t("No pending invitation.")}
               </div>
             )}
             <div className="space-y-3">

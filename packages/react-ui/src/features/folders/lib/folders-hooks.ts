@@ -1,10 +1,10 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { authenticationSession } from '@/lib/authentication-session';
+import { authenticationSession } from "@/lib/authentication-session";
 
-import { foldersApi } from './folders-api';
+import { foldersApi } from "./folders-api";
 
-const folderListQueryKey = ['folders', authenticationSession.getProjectId()];
+const folderListQueryKey = ["folders", authenticationSession.getProjectId()];
 
 export const foldersHooks = {
   folderListQueryKey,
@@ -26,9 +26,9 @@ export const foldersHooks = {
   },
   useFolder: (folderId: string) => {
     return useQuery({
-      queryKey: ['folder', folderId],
+      queryKey: ["folder", folderId],
       queryFn: () => foldersApi.get(folderId),
-      enabled: folderId !== 'NULL',
+      enabled: folderId !== "NULL",
     });
   },
 };

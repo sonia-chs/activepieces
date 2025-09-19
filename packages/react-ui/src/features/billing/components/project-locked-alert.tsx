@@ -1,28 +1,28 @@
-import { t } from 'i18next';
-import { AlertCircle } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { t } from "i18next";
+import { AlertCircle } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { useManagePlanDialogStore } from '@/features/billing/components/upgrade-dialog/store';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { flagsHooks } from '@/hooks/flags-hooks';
-import { projectHooks } from '@/hooks/project-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { ApFlagId, Permission, PlatformRole } from '@activepieces/shared';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useManagePlanDialogStore } from "@/features/billing/components/upgrade-dialog/store";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { flagsHooks } from "@/hooks/flags-hooks";
+import { projectHooks } from "@/hooks/project-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { ApFlagId, Permission, PlatformRole } from "@activepieces/shared";
 
-import { Button } from '../../../components/ui/button';
+import { Button } from "../../../components/ui/button";
 
 export const ProjectLockedAlert = () => {
   const location = useLocation();
   const { project } = projectHooks.useCurrentProject();
   const { data: showBilling } = flagsHooks.useFlag<boolean>(
-    ApFlagId.SHOW_BILLING,
+    ApFlagId.SHOW_BILLING
   );
   const { checkAccess } = useAuthorization();
   const openDialog = useManagePlanDialogStore((state) => state.openDialog);
   const currentUser = userHooks.useCurrentUser();
   // CE doesn't have a plan
-  if (!project.plan?.locked || !location.pathname.startsWith('/project')) {
+  if (!project.plan?.locked || !location.pathname.startsWith("/project")) {
     return null;
   }
   const showContactAdmin =
@@ -40,25 +40,25 @@ export const ProjectLockedAlert = () => {
           <AlertDescription className="flex items-center justify-between">
             <div>
               {t(
-                'This project has been locked because your platform has reached the maximum number of allowed projects.',
-              )}{' '}
+                "This project has been locked because your platform has reached the maximum number of allowed projects."
+              )}{" "}
               <strong>
                 {t(
-                  'You will not be able to access paid features untill limits are increased.',
+                  "You will not be able to access paid features untill limits are increased."
                 )}
               </strong>
               <br />
               {showContactAdmin &&
                 t(
-                  'Please contact your platform admin to upgrade the plan and unlock this project.',
+                  "Please contact your platform admin to upgrade the plan and unlock this project."
                 )}
               {showAdminNote && (
                 <div>
-                  <span>{t('Please visit') + ' '}</span>
+                  <span>{t("Please visit") + " "}</span>
                   <Link to="/platform/projects" className="underline">
-                    {t('Platform Admin')}
-                  </Link>{' '}
-                  <span>{t('and increase the project limit.')}</span>
+                    {t("Platform Admin")}
+                  </Link>{" "}
+                  <span>{t("and increase the project limit.")}</span>
                 </div>
               )}
             </div>
@@ -71,7 +71,7 @@ export const ProjectLockedAlert = () => {
               className="!text-primary"
               onClick={() => openDialog()}
             >
-              {t('Upgrade Plan')}
+              {t("Upgrade Plan")}
             </Button>
           )}
         </div>

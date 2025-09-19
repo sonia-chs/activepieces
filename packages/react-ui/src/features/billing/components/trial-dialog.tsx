@@ -1,19 +1,19 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { PartyPopper } from 'lucide-react';
-import { useState } from 'react';
-import { useEffectOnce } from 'react-use';
+import { useQueryClient } from "@tanstack/react-query";
+import { t } from "i18next";
+import { PartyPopper } from "lucide-react";
+import { useState } from "react";
+import { useEffectOnce } from "react-use";
 
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { platformHooks } from '@/hooks/platform-hooks';
-import { userHooks } from '@/hooks/user-hooks';
-import { ApSubscriptionStatus, StripePlanName } from '@activepieces/ee-shared';
-import { isNil, PlatformRole } from '@activepieces/shared';
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { platformHooks } from "@/hooks/platform-hooks";
+import { userHooks } from "@/hooks/user-hooks";
+import { ApSubscriptionStatus, StripePlanName } from "@activepieces/ee-shared";
+import { isNil, PlatformRole } from "@activepieces/shared";
 
-import { billingMutations } from '../lib/billing-hooks';
+import { billingMutations } from "../lib/billing-hooks";
 
-import { useManagePlanDialogStore } from './upgrade-dialog/store';
+import { useManagePlanDialogStore } from "./upgrade-dialog/store";
 
 export const WelcomeTrialDialog = () => {
   const queryClient = useQueryClient();
@@ -34,8 +34,8 @@ export const WelcomeTrialDialog = () => {
     setIsOpen(false);
     queryClient.invalidateQueries({
       predicate: (query) =>
-        ['platform-billing-subscription', 'platform'].includes(
-          query.queryKey[0] as string,
+        ["platform-billing-subscription", "platform"].includes(
+          query.queryKey[0] as string
         ) && query.queryKey[1] === platform.id,
     });
   };
@@ -62,19 +62,19 @@ export const WelcomeTrialDialog = () => {
 
             <div className="space-y-4">
               <h1 className="text-2xl font-semibold text-foreground">
-                {t('Welcome To Your Free Trial!')}
+                {t("Welcome To Your Free Trial!")}
               </h1>
               <p className="text-sm text-muted-foreground">
-                {t("You're all set! Enjoy 14 days of full access for the")}{' '}
+                {t("You're all set! Enjoy 14 days of full access for the")}{" "}
                 <Button
                   variant="link"
                   onClick={handleSeePlans}
                   className="px-0"
                 >
-                  {t(trialPlan ?? '')}
-                </Button>{' '}
+                  {t(trialPlan ?? "")}
+                </Button>{" "}
                 {t(
-                  'plan — explore all features and make the most of your trial.',
+                  "plan — explore all features and make the most of your trial."
                 )}
               </p>
             </div>
@@ -85,7 +85,7 @@ export const WelcomeTrialDialog = () => {
               </Button>
 
               <Button variant="outline" onClick={handleSeePlans}>
-                {t('See Plans')}
+                {t("See Plans")}
               </Button>
             </div>
           </div>

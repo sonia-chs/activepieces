@@ -1,23 +1,23 @@
-import { t } from 'i18next';
-import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { t } from "i18next";
+import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 
-import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
-import { ConfirmationDeleteDialog } from '@/components/delete-dialog';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { PermissionNeededTooltip } from "@/components/custom/permission-needed-tooltip";
+import { ConfirmationDeleteDialog } from "@/components/delete-dialog";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useAuthorization } from '@/hooks/authorization-hooks';
-import { cn } from '@/lib/utils';
-import { FolderDto, Permission } from '@activepieces/shared';
+} from "@/components/ui/dropdown-menu";
+import { useAuthorization } from "@/hooks/authorization-hooks";
+import { cn } from "@/lib/utils";
+import { FolderDto, Permission } from "@activepieces/shared";
 
-import { foldersApi } from '../lib/folders-api';
+import { foldersApi } from "../lib/folders-api";
 
-import { RenameFolderDialog } from './rename-folder-dialog';
+import { RenameFolderDialog } from "./rename-folder-dialog";
 
 type FolderActionsProps = {
   folder: FolderDto;
@@ -46,14 +46,14 @@ export const FolderActions = ({
       {showFlowCount && (
         <span
           className={cn(
-            'text-muted-foreground !text-xs !font-semibold self-end transition-opacity duration-150',
-            buttonVariants({ size: 'icon', variant: 'ghost' }),
+            "text-muted-foreground !text-xs !font-semibold self-end transition-opacity duration-150",
+            buttonVariants({ size: "icon", variant: "ghost" }),
             {
-              'opacity-100 group-hover/item:opacity-0':
+              "opacity-100 group-hover/item:opacity-0":
                 hasOverlayBehavior && !isActionMenuOpen,
-              'opacity-0': hasOverlayBehavior && isActionMenuOpen,
-              'opacity-100': !hasOverlayBehavior,
-            },
+              "opacity-0": hasOverlayBehavior && isActionMenuOpen,
+              "opacity-100": !hasOverlayBehavior,
+            }
           )}
         >
           {folder.numberOfFlows}
@@ -67,14 +67,14 @@ export const FolderActions = ({
               variant="ghost"
               size="icon"
               className={cn(
-                'transition-opacity duration-150',
-                hasOverlayBehavior ? 'absolute inset-0' : '',
+                "transition-opacity duration-150",
+                hasOverlayBehavior ? "absolute inset-0" : "",
                 {
-                  'opacity-0 group-hover/item:opacity-100':
+                  "opacity-0 group-hover/item:opacity-100":
                     (hasOverlayBehavior && !isActionMenuOpen) ||
                     !hasOverlayBehavior,
-                  'opacity-100': hasOverlayBehavior && isActionMenuOpen,
-                },
+                  "opacity-100": hasOverlayBehavior && isActionMenuOpen,
+                }
               )}
             >
               <EllipsisVertical className="h-4 w-4" />
@@ -95,7 +95,7 @@ export const FolderActions = ({
                 >
                   <div className="flex flex-row gap-2 items-center">
                     <Pencil className="h-4 w-4" />
-                    <span>{t('Rename')}</span>
+                    <span>{t("Rename")}</span>
                   </div>
                 </DropdownMenuItem>
               </RenameFolderDialog>
@@ -105,11 +105,11 @@ export const FolderActions = ({
               hasPermission={userHasPermissionToUpdateFolders}
             >
               <ConfirmationDeleteDialog
-                title={t('Delete {folderName}', {
+                title={t("Delete {folderName}", {
                   folderName: folder.displayName,
                 })}
                 message={t(
-                  'If you delete this folder, we will keep its flows and move them to Uncategorized.',
+                  "If you delete this folder, we will keep its flows and move them to Uncategorized."
                 )}
                 mutationFn={async () => {
                   await foldersApi.delete(folder.id);
@@ -123,7 +123,7 @@ export const FolderActions = ({
                 >
                   <div className="flex flex-row gap-2 items-center">
                     <Trash2 className="h-4 w-4 text-destructive" />
-                    <span className="text-destructive">{t('Delete')}</span>
+                    <span className="text-destructive">{t("Delete")}</span>
                   </div>
                 </DropdownMenuItem>
               </ConfirmationDeleteDialog>

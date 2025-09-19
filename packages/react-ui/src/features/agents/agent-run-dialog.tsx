@@ -1,14 +1,14 @@
-import { t } from 'i18next';
+import { t } from "i18next";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog';
-import { AgentTimeline } from '@/features/agents/agent-timeline';
+} from "@/components/ui/dialog";
+import { AgentTimeline } from "@/features/agents/agent-timeline";
 
 type AgentRunDialogProps = {
   open: boolean;
@@ -25,7 +25,7 @@ function AgentRunDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-full max-w-[60rem] min-h-[65vh] max-h-[65vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle>{t('Agent Result')}</DialogTitle>
+          <DialogTitle>{t("Agent Result")}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col flex-1 min-h-0 overflow-y-auto">
           <AgentTimeline
@@ -35,7 +35,7 @@ function AgentRunDialog({
         </div>
         <DialogFooter className="flex justify-end mt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            {t('Close')}
+            {t("Close")}
           </Button>
         </DialogFooter>
       </DialogContent>
