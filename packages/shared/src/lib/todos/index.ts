@@ -77,6 +77,8 @@ export const Todo = Type.Object({
     ...BaseModelSchema,
     title: Type.String(),
     description: Type.String(),
+    image: Nullable(Type.String()),
+    pdf: Nullable(Type.String()),
     status: StatusOption,
     createdByUserId: Nullable(Type.String()),
     statusOptions: Type.Array(StatusOption),

@@ -51,6 +51,8 @@ export const TodoTimeline = ({
       authorName: todoUtils.getAuthorName(todo),
       userEmail: todo.createdByUser?.email,
       flowId: todo.flowId,
+      imageUrl: todo.image ?? undefined,
+      pdfUrl: todo.pdf ?? undefined,
     },
     ...(comments ?? []).map(formatComment),
   ]);
@@ -101,6 +103,8 @@ export const TodoTimeline = ({
               authorName: todoUtils.getAuthorName(todo),
               userEmail: todo.createdByUser?.email,
               flowId: todo.flowId,
+              imageUrl: todo.image ?? undefined,
+              pdfUrl: todo.pdf ?? undefined,
             }}
             showConnector={true}
           />

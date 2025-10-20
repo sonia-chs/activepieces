@@ -14,6 +14,18 @@ export const createTodoProps = {
       'These details will be displayed for the assignee. Add the full context so they can take proper action, You can also use markdown formatting.',
     required: false,
   }),
+  image: Property.LongText({
+    displayName: 'Image URL',
+    description:
+      'URL of an image to display in the todo. Must be a complete URL (http/https).',
+    required: false,
+  }),
+  pdf: Property.LongText({
+    displayName: 'PDF URL',
+    description:
+      'URL of a PDF file to display as a downloadable link. Must be a complete URL (http/https).',
+    required: false,
+  }),
   assigneeId: Property.Dropdown({
     displayName: 'Assignee',
     required: false,
@@ -78,6 +90,8 @@ type ApprovalParms = {
   propsValue: {
     title: string;
     description?: string;
+    image?: string;
+    pdf?: string;
     statusOptions: unknown[];
     assigneeId?: string;
   };
@@ -99,6 +113,8 @@ export async function sendTodoApproval(context: ApprovalParms, isTest: boolean) 
   const requestBody: CreateTodoRequestBody = {
     title: context.propsValue.title,
     description: context.propsValue.description ?? '',
+    image: context.propsValue.image ?? undefined,
+    pdf: context.propsValue.pdf ?? undefined,
     statusOptions: context.propsValue.statusOptions.map((option: any) => ({
       name: option.name,
       description: option.description,
