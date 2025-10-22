@@ -217,6 +217,7 @@ import { AddAgentsModule1748456786940 } from './migration/postgres/1748456786940
 import { AddTodoActivity1748525529096 } from './migration/postgres/1748525529096-AddTodoActivity'
 import { AddPlanNameOnPlatformPlan1748549003744 } from './migration/postgres/1748549003744-AddPlanNameOnPlatformPlan'
 import { AddCreatedByUserIdInTodo1748565250553 } from './migration/postgres/1748565250553-AddCreatedByUserIdInTodo'
+import { AddImageAndPdfToTodo1758972000000 } from './migration/postgres/1758972000000-AddImageAndPdfToTodo'
 import { AddTodoEnvironment1748573003639 } from './migration/postgres/1748573003639-AddTodoEnvironment'
 import { AIProviderRedactorPostgres1748871900624 } from './migration/postgres/1748871900624-AIProviderRedactorPostgres.ts'
 import { MigrateMcpFlowsToBeTools1748996336492 } from './migration/postgres/1748996336492-MigrateMcpFlowsToBeTools'
@@ -414,6 +415,7 @@ const getMigrations = (): (new () => MigrationInterface)[] => {
         ChangeManualTasksCommentsToTodoComments1742433144687,
         AddTodoActivity1748525529096,
         AddCreatedByUserIdInTodo1748565250553,
+        AddImageAndPdfToTodo1758972000000,
         AddTodoEnvironment1748573003639,
         DeprecateApproval1748648340742,
         AddMcpToolEntity1748352614033,
@@ -457,6 +459,7 @@ const getMigrations = (): (new () => MigrationInterface)[] => {
         AddTriggerNameToTriggerSource1757018269905,
         AddFlowIndexToTriggerSource1757555419075,
         AddIndexOnTriggerRun1757557714045,
+        AddImageAndPdfToTodo1758972000000,
     ]
 
     const edition = system.getEdition()

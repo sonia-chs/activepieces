@@ -147,6 +147,7 @@ import { RemoveAgentTestPromptSqlite1754863757450 } from './migration/sqlite/175
 import { RemoveAgentRelationToTablesSqlite1755954639833 } from './migration/sqlite/1755954639833-RemoveAgentRelationToTablesSqlite'
 import { AddTriggerNameToTriggerSourceSqlite1757018637559 } from './migration/sqlite/1757018637559-AddTriggerNameToTriggerSourceSqlite'
 import { AddIndexOnTriggerRunSqlite1757560231246 } from './migration/sqlite/1757560231246-AddIndexOnTriggerRunSqlite'
+import { AddImageAndPdfToTodoSqlite1758972000000 } from './migration/sqlite/1758972000000-AddImageAndPdfToTodoSqlite'
 
 const getSqliteDatabaseFilePath = (): string => {
     const apConfigDirectoryPath = system.getOrThrow(AppSystemProp.CONFIG_PATH)
@@ -310,6 +311,7 @@ const getMigrations = (): (new () => MigrationInterface)[] => {
         AddTriggerNameToTriggerSourceSqlite1757018637559,
         AddFlowIndexToTriggerSource1757555419075,
         AddIndexOnTriggerRunSqlite1757560231246,
+        AddImageAndPdfToTodoSqlite1758972000000,
     ]
     const edition = system.getEdition()
     if (edition !== ApEdition.COMMUNITY) {
